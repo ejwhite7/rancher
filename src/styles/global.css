@@ -187,7 +187,7 @@ h3 {
   min-width: 0;
 }
 .hero h1 {
-  font-size: min(90px, 12cqi);
+  font-size: min(76px, 9cqi);
   letter-spacing: -0.04em;
 }
 .headline-line {
