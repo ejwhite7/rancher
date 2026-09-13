@@ -52,7 +52,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
   await page
     .locator('[name="records"]')
     .fill("Project histories and internal documentation.");
-  await page.locator('[name="size"]').selectOption("501–1,000");
+  await page.locator('[name="size"]').selectOption("500–999");
   await page.locator(".consent input").check();
   await page.getByRole("button", { name: "Submit & book a call" }).click();
   await expect(page).toHaveURL("https://cal.com/growthcast/discovery");
@@ -193,7 +193,7 @@ test("server-rendered metadata, schema, social image, sitemap, and robots agree"
     `Sitemap: ${canonical}sitemap-index.xml`,
   );
   for (const asset of [
-    "/images/og-rancher.png",
+    "/images/og-rancher-work-hard.png",
     "/favicon-32.png",
     "/apple-touch-icon.png",
     "/site.webmanifest",
@@ -213,7 +213,7 @@ test("content and initial island markup are available without JavaScript", async
   const page = await context.newPage();
   await page.goto("http://127.0.0.1:4322/");
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
-    "Your business data.",
+    "Make Your Business Data",
   );
   await expect(page.locator("#estimate-low")).toHaveText("$383,083");
   await expect(page.locator("#intake button")).toBeDisabled();

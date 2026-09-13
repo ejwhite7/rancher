@@ -22,7 +22,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     name: "Automated persistence test",
     email: "test@example.com",
     company: "Example'); DROP TABLE rancher.partnership_submissions; --",
-    size: "20–100",
+    size: "20–49",
     history: "3–5 years",
     records: "Synthetic test data",
     recordTypes: ["Documents & files"],
@@ -52,11 +52,36 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
         ),
       );
     });
+    await sql.unsafe(
+      await readFile("db/migrations/003_company_size_referral.sql", "utf8"),
+    );
+    await sql.unsafe(
+      await readFile("db/migrations/003_company_size_referral.sql", "utf8"),
+    );
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
     const records =
       await sql`SELECT * FROM rancher.partnership_submissions WHERE id = ${id}`;
     expect(records).toHaveLength(1);
     expect(records[0].company).toBe(row.company);
+    expect(records[0].referral_bonus_usd).toBe(8000);
+    for (const [size, amount] of [
+      ["20–49", 8000],
+      ["50–199", 14000],
+      ["200–499", 28000],
+      ["500–999", 42000],
+      ["1,000–4,999", 54000],
+      ["5,000+", 75000],
+    ] as const) {
+      const caseId = randomUUID();
+      try {
+        await saveSubmission({ ...row, idempotencyKey: caseId, size });
+        const [saved] =
+          await sql`SELECT referral_bonus_usd FROM rancher.partnership_submissions WHERE id = ${caseId}`;
+        expect(saved.referral_bonus_usd).toBe(amount);
+      } finally {
+        await sql`DELETE FROM rancher.partnership_submissions WHERE id = ${caseId}`;
+      }
+    }
     expect(records[0].calculator_scenario.estimate.low).toBe(287313);
     expect(records[0].outreach_consent).toBe(true);
     expect(records[0].consent_prechecked).toBe(true);
@@ -85,7 +110,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     await page
       .getByLabel("Company", { exact: true })
       .fill("Synthetic test company");
-    await page.locator('[name="size"]').selectOption("20–100");
+    await page.locator('[name="size"]').selectOption("20–49");
     await page.locator('[name="history"]').selectOption("3–5 years");
     await page.getByLabel("Documents & files", { exact: true }).check();
     await page

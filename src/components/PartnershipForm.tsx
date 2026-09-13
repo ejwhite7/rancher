@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { useScenario } from "../lib/scenario";
-import { HISTORY_RANGES, RECORD_TYPES } from "../lib/submission";
+import { HISTORY_RANGES, RECORD_TYPES, TEAM_SIZES } from "../lib/submission";
 import { EMPLOYEES } from "../lib/estimate";
 export default function PartnershipForm() {
   const scenario = useScenario();
@@ -18,11 +18,7 @@ export default function PartnershipForm() {
     const { employees, years } = scenario;
     setSize(
       // The 200+ slider limit does not identify an actual team-size band.
-      employees === EMPLOYEES.max
-        ? ""
-        : employees <= 100
-          ? "20–100"
-          : "101–500",
+      employees === EMPLOYEES.max ? "" : employees < 50 ? "20–49" : "50–199",
     );
     setHistory(
       years <= 5
@@ -151,7 +147,7 @@ export default function PartnershipForm() {
             />
           </label>
           <label>
-            Team size
+            Company size (full-time employees)
             <select
               name="size"
               required
@@ -159,10 +155,9 @@ export default function PartnershipForm() {
               onChange={(event) => setSize(event.target.value)}
             >
               <option value="">Select range</option>
-              <option>20–100</option>
-              <option>101–500</option>
-              <option>501–1,000</option>
-              <option>1,001+</option>
+              {TEAM_SIZES.map((range) => (
+                <option key={range}>{range}</option>
+              ))}
             </select>
           </label>
           <label>

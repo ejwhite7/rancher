@@ -2,7 +2,14 @@ import { z } from "zod";
 
 export const CONSENT_TEXT =
   "I consent to outreach from Rancher about data licensing opportunities.";
-export const TEAM_SIZES = ["20–100", "101–500", "501–1,000", "1,001+"] as const;
+export const TEAM_SIZES = [
+  "20–49",
+  "50–199",
+  "200–499",
+  "500–999",
+  "1,000–4,999",
+  "5,000+",
+] as const;
 export const HISTORY_RANGES = [
   "3–5 years",
   "6–10 years",

@@ -6,7 +6,7 @@ const valid = {
   name: "Alex Morgan",
   email: "alex@example.com",
   company: "Example Company",
-  size: "20–100",
+  size: "20–49",
   history: "3–5 years",
   records: "Project histories",
   recordTypes: ["Documents & files", "Projects & knowledge"],
@@ -64,6 +64,8 @@ test("rejects missing fields, bad emails, unconsented requests, tampered scenari
   }
   for (const change of [
     { email: "invalid" },
+    { size: "20–100" },
+    { referralBonusUsd: 75000 },
     { name: "  " },
     { records: "  " },
     { recordTypes: [] },

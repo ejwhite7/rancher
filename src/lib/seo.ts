@@ -1,9 +1,9 @@
 import faqs from "../data/faqs.json";
-export const title = "Rancher — Your business data has a second harvest.";
+export const title = "Rancher — Make Your Business Data Work as Hard as You Do.";
 export const description =
-  "Rancher helps businesses explore licensing their operational data to AI labs. Turn everyday work into a new revenue opportunity, on your terms.";
+  "Make your business data work as hard as you do. Explore licensing operational records to AI labs and turn everyday work into a new revenue opportunity with Rancher.";
 export const imageAlt =
-  "Rancher — Your business data. A second harvest. An illustrated landscape of cultivated fields.";
+  "Rancher — Make Your Business Data Work as Hard as You Do. An illustrated landscape of cultivated fields.";
 
 export function isPublicSite(site: URL) {
   return (
@@ -56,7 +56,7 @@ export function structuredData(
       {
         "@type": "ImageObject",
         "@id": id("#primaryimage"),
-        url: new URL("/images/og-rancher.png", site).href,
+        url: new URL("/images/og-rancher-work-hard.png", site).href,
         width: 1200,
         height: 630,
         caption: imageAlt,

@@ -14,7 +14,7 @@ interface Props {
 const { title = defaultTitle, description = defaultDescription } = Astro.props;
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site);
-const image = new URL("/images/og-rancher.png", site);
+const image = new URL("/images/og-rancher-work-hard.png", site);
 const robots = isPublicSite(site)
   ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
   : "noindex, nofollow";
