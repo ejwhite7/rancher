@@ -1,0 +1,60 @@
+---
+import SiteLayout from "./SiteLayout.astro";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer.astro";
+import { legal } from "../data/legal";
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<SiteLayout title={`${title} | Rancher`} description={description}>
+  <Navigation homeLinks client:load />
+  <main id="main-content" class="legal-page">
+    <article class="wrap legal-content">
+      <a class="textlink" href="/">
+        ← Back to Rancher
+      </a>
+      <header class="legal-heading">
+        <h1>{title}</h1>
+        <p>
+          Last updated{" "}
+          <time datetime={legal.updated}>{legal.updatedLabel}</time>
+        </p>
+      </header>
+      <div class="legal-body">
+        <slot />
+      </div>
+      {legal.contactEmail && (
+        <section class="legal-body">
+          <h2>Contact</h2>
+          <p>
+            For questions about this page, contact {legal.operator} at{" "}
+            <a href={`mailto:${legal.contactEmail}`}>{legal.contactEmail}</a>.
+          </p>
+        </section>
+      )}
+      <nav class="legal-related" aria-label="Legal pages">
+        <a
+          href="/privacy-policy/"
+          aria-current={
+            Astro.url.pathname === "/privacy-policy/" ? "page" : undefined
+          }
+        >
+          Privacy Policy
+        </a>
+        <a
+          href="/terms-of-use/"
+          aria-current={
+            Astro.url.pathname === "/terms-of-use/" ? "page" : undefined
+          }
+        >
+          Terms of Use
+        </a>
+      </nav>
+    </article>
+  </main>
+  <Footer />
+</SiteLayout>

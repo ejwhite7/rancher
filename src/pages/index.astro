@@ -1,0 +1,30 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer.astro";
+import Hero from "../components/Hero.astro";
+import Intro from "../components/Intro.astro";
+import CalculatorSection from "../components/CalculatorSection.astro";
+import DataSection from "../components/DataSection.astro";
+import UseCases from "../components/UseCases.astro";
+import Process from "../components/Process.astro";
+import Protection from "../components/Protection.astro";
+import Faq from "../components/Faq.astro";
+import Contact from "../components/Contact.astro";
+---
+
+<SiteLayout>
+  <Navigation client:load />
+  <main id="main-content">
+    <Hero />
+    <Intro />
+    <CalculatorSection />
+    <DataSection />
+    <UseCases />
+    <Process />
+    <Protection />
+    <Faq />
+    <Contact />
+  </main>
+  <Footer />
+</SiteLayout>

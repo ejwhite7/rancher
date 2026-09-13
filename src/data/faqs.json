@@ -1,0 +1,26 @@
+[
+  {
+    "question": "What kinds of businesses are a fit?",
+    "answer": "Businesses with useful operational records and the authority to license them are a starting point. Rich workflows, well-organized history, and clear outcomes may be relevant. Fit is assessed against buyer needs; not every dataset will qualify."
+  },
+  {
+    "question": "How much could our data be worth?",
+    "answer": "There is no reliable one-size-fits-all estimate. Pricing depends on uniqueness, completeness, volume, licensing rights, preparation work, exclusivity, and demand. Any valuation should follow a dataset assessment and a specific commercial proposal. Revenue is not guaranteed."
+  },
+  {
+    "question": "Do we need to connect all our tools?",
+    "answer": "No unrestricted access should be necessary to begin the conversation. Start with a description of your systems and available records. If there is a fit, the scope and transfer method can be agreed before any data moves."
+  },
+  {
+    "question": "What about personal or confidential information?",
+    "answer": "Sensitive fields, third-party obligations, consent, and applicable laws must be reviewed before transfer. Some records may need to be excluded entirely. De-identification reduces privacy risk but does not eliminate it. Your legal and security teams should review the proposed arrangement."
+  },
+  {
+    "question": "Can we license the same data more than once?",
+    "answer": "Potentially, if your ownership rights and agreements permit non-exclusive licensing. Buyer demand and restrictions will vary. Repeat revenue should be treated as an opportunity, not a promise."
+  },
+  {
+    "question": "What will AI labs be allowed to do with it?",
+    "answer": "The signed license should specify the allowed purposes, such as model training or evaluation, and any restrictions on publication, redistribution, retention, or onward access. Those rights should be clear before delivery."
+  }
+]

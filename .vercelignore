@@ -1,0 +1,9 @@
+.git
+.firecrawl
+.env*
+!.env.example
+CONTINUITY.md
+test-results
+playwright-report
+tests
+docs

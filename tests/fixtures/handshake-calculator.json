@@ -1,0 +1,362 @@
+[
+  {
+    "employees": 20,
+    "years": 3,
+    "region": "USA",
+    "display": "$100,000 - $296,551"
+  },
+  {
+    "employees": 20,
+    "years": 3,
+    "region": "Canada",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 20,
+    "years": 3,
+    "region": "Europe",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 20,
+    "years": 3,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 20,
+    "years": 10,
+    "region": "USA",
+    "display": "$163,057 - $438,631"
+  },
+  {
+    "employees": 20,
+    "years": 10,
+    "region": "Canada",
+    "display": "$122,293 - $328,974"
+  },
+  {
+    "employees": 20,
+    "years": 10,
+    "region": "Europe",
+    "display": "$122,293 - $328,974"
+  },
+  {
+    "employees": 20,
+    "years": 10,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 20,
+    "years": 20,
+    "region": "USA",
+    "display": "$253,821 - $641,603"
+  },
+  {
+    "employees": 20,
+    "years": 20,
+    "region": "Canada",
+    "display": "$190,366 - $481,203"
+  },
+  {
+    "employees": 20,
+    "years": 20,
+    "region": "Europe",
+    "display": "$190,366 - $481,203"
+  },
+  {
+    "employees": 20,
+    "years": 20,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 35,
+    "years": 3,
+    "region": "USA",
+    "display": "$161,119 - $353,259"
+  },
+  {
+    "employees": 35,
+    "years": 3,
+    "region": "Canada",
+    "display": "$120,839 - $264,944"
+  },
+  {
+    "employees": 35,
+    "years": 3,
+    "region": "Europe",
+    "display": "$120,839 - $264,944"
+  },
+  {
+    "employees": 35,
+    "years": 3,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 35,
+    "years": 10,
+    "region": "USA",
+    "display": "$225,906 - $524,569"
+  },
+  {
+    "employees": 35,
+    "years": 10,
+    "region": "Canada",
+    "display": "$169,431 - $393,427"
+  },
+  {
+    "employees": 35,
+    "years": 10,
+    "region": "Europe",
+    "display": "$169,431 - $393,427"
+  },
+  {
+    "employees": 35,
+    "years": 10,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 35,
+    "years": 20,
+    "region": "USA",
+    "display": "$318,460 - $769,298"
+  },
+  {
+    "employees": 35,
+    "years": 20,
+    "region": "Canada",
+    "display": "$238,845 - $576,974"
+  },
+  {
+    "employees": 35,
+    "years": 20,
+    "region": "Europe",
+    "display": "$238,845 - $576,974"
+  },
+  {
+    "employees": 35,
+    "years": 20,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 50,
+    "years": 3,
+    "region": "USA",
+    "display": "$222,716 - $409,968"
+  },
+  {
+    "employees": 50,
+    "years": 3,
+    "region": "Canada",
+    "display": "$167,037 - $307,476"
+  },
+  {
+    "employees": 50,
+    "years": 3,
+    "region": "Europe",
+    "display": "$167,037 - $307,476"
+  },
+  {
+    "employees": 50,
+    "years": 3,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 50,
+    "years": 10,
+    "region": "USA",
+    "display": "$288,755 - $610,508"
+  },
+  {
+    "employees": 50,
+    "years": 10,
+    "region": "Canada",
+    "display": "$216,567 - $457,881"
+  },
+  {
+    "employees": 50,
+    "years": 10,
+    "region": "Europe",
+    "display": "$216,567 - $457,881"
+  },
+  {
+    "employees": 50,
+    "years": 10,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 50,
+    "years": 20,
+    "region": "USA",
+    "display": "$383,099 - $896,995"
+  },
+  {
+    "employees": 50,
+    "years": 20,
+    "region": "Canada",
+    "display": "$287,324 - $672,745"
+  },
+  {
+    "employees": 50,
+    "years": 20,
+    "region": "Europe",
+    "display": "$287,324 - $672,745"
+  },
+  {
+    "employees": 50,
+    "years": 20,
+    "region": "Other",
+    "display": "$114,930 - $269,099"
+  },
+  {
+    "employees": 100,
+    "years": 3,
+    "region": "USA",
+    "display": "$312,868 - $598,995"
+  },
+  {
+    "employees": 100,
+    "years": 3,
+    "region": "Canada",
+    "display": "$234,651 - $449,246"
+  },
+  {
+    "employees": 100,
+    "years": 3,
+    "region": "Europe",
+    "display": "$234,651 - $449,246"
+  },
+  {
+    "employees": 100,
+    "years": 3,
+    "region": "Other",
+    "display": "Up to $100,000"
+  },
+  {
+    "employees": 100,
+    "years": 10,
+    "region": "USA",
+    "display": "$383,083 - $896,969"
+  },
+  {
+    "employees": 100,
+    "years": 10,
+    "region": "Canada",
+    "display": "$287,313 - $672,727"
+  },
+  {
+    "employees": 100,
+    "years": 10,
+    "region": "Europe",
+    "display": "$287,313 - $672,727"
+  },
+  {
+    "employees": 100,
+    "years": 10,
+    "region": "Other",
+    "display": "$114,925 - $269,091"
+  },
+  {
+    "employees": 100,
+    "years": 20,
+    "region": "USA",
+    "display": "$483,392 - $1,322,646"
+  },
+  {
+    "employees": 100,
+    "years": 20,
+    "region": "Canada",
+    "display": "$362,544 - $991,985"
+  },
+  {
+    "employees": 100,
+    "years": 20,
+    "region": "Europe",
+    "display": "$362,544 - $991,985"
+  },
+  {
+    "employees": 100,
+    "years": 20,
+    "region": "Other",
+    "display": "$145,018 - $396,794"
+  },
+  {
+    "employees": 200,
+    "years": 3,
+    "region": "USA",
+    "display": "$493,171 - $977,050"
+  },
+  {
+    "employees": 200,
+    "years": 3,
+    "region": "Canada",
+    "display": "$369,879 - $732,788"
+  },
+  {
+    "employees": 200,
+    "years": 3,
+    "region": "Europe",
+    "display": "$369,879 - $732,788"
+  },
+  {
+    "employees": 200,
+    "years": 3,
+    "region": "Other",
+    "display": "$147,951 - $293,116"
+  },
+  {
+    "employees": 200,
+    "years": 10,
+    "region": "USA",
+    "display": "$571,739 - $1,469,892"
+  },
+  {
+    "employees": 200,
+    "years": 10,
+    "region": "Canada",
+    "display": "$428,804 - $1,102,419"
+  },
+  {
+    "employees": 200,
+    "years": 10,
+    "region": "Europe",
+    "display": "$428,804 - $1,102,419"
+  },
+  {
+    "employees": 200,
+    "years": 10,
+    "region": "Other",
+    "display": "$171,522 - $440,968"
+  },
+  {
+    "employees": 200,
+    "years": 20,
+    "region": "USA",
+    "display": "$683,978 - $2,173,950+"
+  },
+  {
+    "employees": 200,
+    "years": 20,
+    "region": "Canada",
+    "display": "$512,984 - $1,630,463+"
+  },
+  {
+    "employees": 200,
+    "years": 20,
+    "region": "Europe",
+    "display": "$512,984 - $1,630,463+"
+  },
+  {
+    "employees": 200,
+    "years": 20,
+    "region": "Other",
+    "display": "$205,194 - $652,186+"
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "employees": 20,
+    "yearsBand": "under_3",
+    "display": [
+      "$200K",
+      "$300K"
+    ]
+  },
+  {
+    "employees": 20,
+    "yearsBand": "3_to_7",
+    "display": [
+      "$300K",
+      "$400K"
+    ]
+  },
+  {
+    "employees": 20,
+    "yearsBand": "8_to_15",
+    "display": [
+      "$400K",
+      "$500K"
+    ]
+  },
+  {
+    "employees": 20,
+    "yearsBand": "15_plus",
+    "display": [
+      "$500K",
+      "$600K"
+    ]
+  },
+  {
+    "employees": 100,
+    "yearsBand": "under_3",
+    "display": [
+      "$400K",
+      "$600K"
+    ]
+  },
+  {
+    "employees": 100,
+    "yearsBand": "3_to_7",
+    "display": [
+      "$600K",
+      "$800K"
+    ]
+  },
+  {
+    "employees": 100,
+    "yearsBand": "8_to_15",
+    "display": [
+      "$800K",
+      "$1M"
+    ]
+  },
+  {
+    "employees": 100,
+    "yearsBand": "15_plus",
+    "display": [
+      "$1M",
+      "$1.2M"
+    ]
+  },
+  {
+    "employees": 250,
+    "yearsBand": "under_3",
+    "display": [
+      "$600K",
+      "$900K"
+    ]
+  },
+  {
+    "employees": 250,
+    "yearsBand": "3_to_7",
+    "display": [
+      "$900K",
+      "$1.2M"
+    ]
+  },
+  {
+    "employees": 250,
+    "yearsBand": "8_to_15",
+    "display": [
+      "$1.2M",
+      "$1.5M"
+    ]
+  },
+  {
+    "employees": 250,
+    "yearsBand": "15_plus",
+    "display": [
+      "$1.5M",
+      "$1.8M"
+    ]
+  },
+  {
+    "employees": 500,
+    "yearsBand": "under_3",
+    "display": [
+      "$800K",
+      "$1.2M"
+    ]
+  },
+  {
+    "employees": 500,
+    "yearsBand": "3_to_7",
+    "display": [
+      "$1.2M",
+      "$1.6M"
+    ]
+  },
+  {
+    "employees": 500,
+    "yearsBand": "8_to_15",
+    "display": [
+      "$1.6M",
+      "$2M"
+    ]
+  },
+  {
+    "employees": 500,
+    "yearsBand": "15_plus",
+    "display": [
+      "$2M",
+      "$2.4M"
+    ]
+  },
+  {
+    "employees": 1000,
+    "yearsBand": "under_3",
+    "display": [
+      "$1.2M",
+      "$1.8M"
+    ]
+  },
+  {
+    "employees": 1000,
+    "yearsBand": "3_to_7",
+    "display": [
+      "$1.8M",
+      "$2.4M"
+    ]
+  },
+  {
+    "employees": 1000,
+    "yearsBand": "8_to_15",
+    "display": [
+      "$2.4M",
+      "$3M"
+    ]
+  },
+  {
+    "employees": 1000,
+    "yearsBand": "15_plus",
+    "display": [
+      "$3M",
+      "$3.6M"
+    ]
+  }
+]
