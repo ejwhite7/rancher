@@ -99,7 +99,7 @@ test("tabs and site-information dialog retain keyboard interaction", async ({
   ).toBeFocused();
 });
 
-test("calculator is half width on desktop and layouts fit small screens", async ({
+test("calculator is compact on desktop and layouts fit small screens", async ({
   page,
 }) => {
   await page.goto("/");
@@ -113,7 +113,7 @@ test("calculator is half width on desktop and layouts fit small screens", async 
         parseFloat(style.paddingRight))
     );
   });
-  expect(ratio).toBeCloseTo(0.5, 2);
+  expect(ratio).toBeCloseTo(0.6, 2);
   await expect(page.locator("#use-cases details")).toHaveCount(0);
   await expect(page.locator("#use-cases .use-card")).toHaveCount(9);
   for (const width of [320, 375, 768, 1024, 1440]) {

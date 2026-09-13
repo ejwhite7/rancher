@@ -26,7 +26,7 @@ export default function Calculator() {
   return (
     <div className="calculator">
       <div className="estimate-heading">
-        Estimated payout range <span>USD · indicative benchmark</span>
+        Estimated payout range
       </div>
       <div className="estimate" aria-live="polite" aria-atomic="true">
         {estimate.belowFloor ? (

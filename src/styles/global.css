@@ -1245,9 +1245,9 @@ dialog .btn {
     font-size: 11px;
   }
 }
-/* Half the original content width on desktop, with room for stacked controls. */
+/* Compact, centered calculator with a single row of desktop region choices. */
 .calculator {
-  width: 50%;
+  width: 60%;
   margin-inline: auto;
   padding: 28px;
   container-type: inline-size;
@@ -1262,7 +1262,17 @@ dialog .btn {
   gap: 18px;
 }
 .calculator .country-options {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.calculator .country-options span {
+  padding: 12px 8px;
+  white-space: nowrap;
+}
+@media (max-width: 760px) {
+  .calculator .country-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .calculator .range-card,
 .calculator .country-card {
