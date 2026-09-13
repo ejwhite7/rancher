@@ -22,6 +22,7 @@ if (
 
 export default defineConfig({
   site: url.origin,
+  devToolbar: { enabled: false },
   adapter: vercel(),
   trailingSlash: "always",
   integrations: [react(), sitemap()],

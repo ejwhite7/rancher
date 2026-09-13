@@ -44,10 +44,11 @@ test("calculator updates reference scenarios and submits before redirecting", as
   await page.locator("#estimate-cta").click();
   await expect(page.locator("#calc-context")).toContainText("Canada");
   await expect(page.locator('[name="size"]')).toHaveValue("");
-  await expect(page.locator('[name="history"]')).toHaveValue("5+ years");
+  await expect(page.locator('[name="history"]')).toHaveValue("20+ years");
   await page.getByLabel("Your name").fill("Alex Morgan");
   await page.getByLabel("Work email").fill("alex@example.com");
   await page.getByLabel("Company", { exact: true }).fill("Example Company");
+  await page.getByLabel("Documents & files", { exact: true }).check();
   await page
     .locator('[name="records"]')
     .fill("Project histories and internal documentation.");

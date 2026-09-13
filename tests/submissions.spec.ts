@@ -9,6 +9,7 @@ const valid = {
   size: "20–100",
   history: "3–5 years",
   records: "Project histories",
+  recordTypes: ["Documents & files", "Projects & knowledge"],
   outreachConsent: true,
   website: "",
   scenario: { employees: 100, years: 10, country: "Canada" },
@@ -65,6 +66,10 @@ test("rejects missing fields, bad emails, unconsented requests, tampered scenari
     { email: "invalid" },
     { name: "  " },
     { records: "  " },
+    { recordTypes: [] },
+    { recordTypes: ["Unknown"] },
+    { history: "1–3 years" },
+    { history: "5+ years" },
     { outreachConsent: false },
     { website: "bot.example" },
     { scenario: { employees: 1000, years: 10, country: "USA" } },
@@ -164,6 +169,7 @@ test("form preserves entries on failure and reuses its retry key", async ({
   await page.getByLabel("Company", { exact: true }).fill(valid.company);
   await page.locator('[name="size"]').selectOption(valid.size);
   await page.locator('[name="history"]').selectOption(valid.history);
+  await page.getByLabel("Documents & files", { exact: true }).check();
   await page.locator('[name="records"]').fill(valid.records);
   for (let attempt = 0; attempt < 2; attempt++) {
     await page.getByRole("button", { name: "Submit & book a call" }).click();

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { useScenario } from "../lib/scenario";
+import { HISTORY_RANGES, RECORD_TYPES } from "../lib/submission";
 import { EMPLOYEES } from "../lib/estimate";
 export default function PartnershipForm() {
   const scenario = useScenario();
   const [size, setSize] = useState("");
   const [history, setHistory] = useState("");
+  const [recordTypes, setRecordTypes] = useState<string[]>([]);
   const [status, setStatus] = useState("");
   const [ready, setReady] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -23,7 +25,15 @@ export default function PartnershipForm() {
           : "101–500",
     );
     setHistory(
-      years <= 3 ? "1–3 years" : years <= 5 ? "3–5 years" : "5+ years",
+      years <= 5
+        ? "3–5 years"
+        : years <= 10
+          ? "6–10 years"
+          : years <= 15
+            ? "11–15 years"
+            : years < 20
+              ? "16–19 years"
+              : "20+ years",
     );
   }, [scenario]);
   async function submitRequest(event: SubmitEvent<HTMLFormElement>) {
@@ -38,6 +48,7 @@ export default function PartnershipForm() {
       company: String(fields.get("company") ?? "").trim(),
       size: String(fields.get("size") ?? ""),
       history: String(fields.get("history") ?? ""),
+      recordTypes: fields.getAll("recordTypes").map(String),
       records: String(fields.get("records") ?? "").trim(),
       outreachConsent: fields.get("outreach_consent") === "yes",
       website: String(fields.get("website") ?? ""),
@@ -163,19 +174,42 @@ export default function PartnershipForm() {
               onChange={(event) => setHistory(event.target.value)}
             >
               <option value="">Select range</option>
-              <option>Less than 1 year</option>
-              <option>1–3 years</option>
-              <option>3–5 years</option>
-              <option>5+ years</option>
-              <option>Not sure yet</option>
+              {HISTORY_RANGES.map((range) => (
+                <option key={range}>{range}</option>
+              ))}
             </select>
           </label>
+          <fieldset className="record-types full">
+            <legend>What types of records could be in scope?</legend>
+            <p>Select all that apply. Choose at least one.</p>
+            <div className="record-type-options">
+              {RECORD_TYPES.map((type, index) => (
+                <label key={type}>
+                  <input
+                    type="checkbox"
+                    name="recordTypes"
+                    value={type}
+                    checked={recordTypes.includes(type)}
+                    required={index === 0 && recordTypes.length === 0}
+                    onChange={(event) =>
+                      setRecordTypes((current) =>
+                        event.target.checked
+                          ? [...current, type]
+                          : current.filter((value) => value !== type),
+                      )
+                    }
+                  />
+                  <span>{type}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
           <label className="full">
-            What systems or records could be in scope?
+            Anything else to know?
             <textarea
               name="records"
               required
-              placeholder="e.g. Project histories, support tickets, internal documentation…"
+              placeholder="Share any additional context, or enter None."
               maxLength={2000}
             ></textarea>
           </label>

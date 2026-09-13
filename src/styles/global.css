@@ -1379,3 +1379,44 @@ button:disabled {
   height: 1px;
   overflow: hidden;
 }
+
+.record-types {
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  min-width: 0;
+}
+.record-types legend {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0 5px;
+}
+.record-types > p {
+  font-size: 11px;
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+.record-type-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.record-type-options label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-weight: 400;
+}
+.record-type-options input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--ink);
+}
+@media (max-width: 400px) {
+  .record-type-options {
+    grid-template-columns: 1fr;
+  }
+}

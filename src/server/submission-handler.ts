@@ -80,7 +80,12 @@ export async function handleSubmission(
         409,
       );
     // Log no form data, credentials, or database error detail.
-    console.error("submission_save_failed");
+    console.error(
+      "submission_save_failed",
+      error instanceof Error && "code" in error
+        ? String(error.code)
+        : "unknown",
+    );
     return json(
       {
         error:

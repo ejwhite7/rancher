@@ -17,13 +17,13 @@ Use Node.js 24 to match the deployment runtime. Development serves the site at h
 - `POSTGRES_URL`: server-side pooled Postgres connection provisioned by the Vercel Supabase integration. `DATABASE_URL` is accepted as an alternative. Never prefix credentials with `PUBLIC_` or expose them to the browser.
 - `BOOKING_URL`: HTTPS calendar URL. Initially `https://cal.com/growthcast/discovery`. The server reads it at request time. The browser receives it only after the database confirms the submission. No contact information is appended to this URL.
 
-After provisioning, the integration connects the database to production, preview, and development. All connected environments write to the same database; only use clearly marked test submissions when testing and remove them after verification. Local environment files, Vercel output, and research snapshots are ignored by Git.
+The Supabase integration provides the production database connection. Preview and development use a dedicated `rancher_form_writer` role with INSERT access and SELECT access only to id and request hash for retry detection. Its RLS policies apply only to that role. All connected environments write to the same database; only use clearly marked test submissions when testing and remove them after verification. Local environment files, Vercel output, and research snapshots are ignored by Git.
 
 ## Persistence
 
-`npm run db:migrate` applies the idempotent, transactional SQL migration in `db/migrations/001_partnership_submissions.sql`. Run it once before deploying an endpoint that needs the table. Migrations are not executed during ordinary builds, and no table creation runs on public requests.
+`npm run db:migrate` applies the idempotent, transactional SQL migration files in `db/migrations/` in filename order. Run it once before deploying an endpoint that needs the table, using an administrative connection (the limited preview/development role cannot migrate). Alternatively, apply the SQL files in order through the Supabase SQL editor. Migrations are not executed during ordinary builds, and no table creation runs on public requests.
 
-Records live in `rancher.partnership_submissions`: contact and company fields, selected data-history band, records description, outreach consent text and timestamp, the prechecked-checkbox disclosure, optional server-calculated estimate, and submission time. The schema is private, the table has RLS enabled with no public policies, and database credentials are available only to the server. There is no public endpoint for reading records.
+Records live in `rancher.partnership_submissions`: contact and company fields, selected data-history band, selected record types, additional context, outreach consent text and timestamp, the prechecked-checkbox disclosure, optional server-calculated estimate, and submission time. The schema is private, the table has RLS enabled with no public policies, and database credentials are available only to the server. There is no public endpoint for reading records.
 
 The endpoint validates all fields again on the server, checks request size and origin, and uses parameterized queries. A UUID idempotency key prevents duplicate records when a client retries the same submission. Reusing a key with different data is rejected. Failed validation, unavailable booking configuration, and failed database writes do not trigger a booking redirect. On error, the form preserves entries for retry.
 
@@ -31,7 +31,7 @@ To review submissions, use an authorized SQL client or Supabase SQL editor:
 
 ```sql
 SELECT id, created_at, name, email, company, team_size, data_history,
-       records_description, outreach_consent, consent_text, calculator_scenario
+       record_types, records_description, outreach_consent, consent_text, calculator_scenario
 FROM rancher.partnership_submissions
 ORDER BY created_at DESC;
 ```

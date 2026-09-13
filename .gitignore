@@ -11,3 +11,4 @@ playwright-report/
 .firecrawl/
 CONTINUITY.md
 .vercel
+supabase/.temp/

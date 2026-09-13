@@ -20,10 +20,10 @@ export async function saveSubmission(input: Submission): Promise<void> {
     : null;
   const rows = await sql`
     INSERT INTO rancher.partnership_submissions (
-      id, name, email, company, team_size, data_history, records_description,
+      id, name, email, company, team_size, data_history, records_description, record_types,
       outreach_consent, consent_text, calculator_scenario, request_hash
     ) VALUES (
-      ${id}, ${data.name}, ${data.email}, ${data.company}, ${data.size}, ${data.history}, ${data.records},
+      ${id}, ${data.name}, ${data.email}, ${data.company}, ${data.size}, ${data.history}, ${data.records}, ARRAY(SELECT jsonb_array_elements_text(${sql.typed(JSON.stringify(data.recordTypes), 25)}::jsonb)),
       ${data.outreachConsent}, ${CONSENT_TEXT}, ${scenario === null ? null : sql.json(scenario)}, ${hash}
     ) ON CONFLICT (id) DO NOTHING RETURNING id
   `;

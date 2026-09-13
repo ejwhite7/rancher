@@ -1,5 +1,5 @@
 import postgres from "postgres";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 const connection = process.env.POSTGRES_URL || process.env.DATABASE_URL;
 if (!connection)
   throw new Error(
@@ -12,15 +12,16 @@ const sql = postgres(connection, {
   ssl: ["localhost", "127.0.0.1", "[::1]"].includes(host) ? false : "require",
 });
 try {
-  const migration = await readFile(
-    new URL(
-      "../db/migrations/001_partnership_submissions.sql",
-      import.meta.url,
-    ),
-    "utf8",
-  );
+  const directory = new URL("../db/migrations/", import.meta.url);
+  const files = (await readdir(directory))
+    .filter((name) => name.endsWith(".sql"))
+    .sort();
   await sql.begin(async (transaction) => {
-    await transaction.unsafe(migration);
+    for (const file of files) {
+      await transaction.unsafe(
+        await readFile(new URL(file, directory), "utf8"),
+      );
+    }
   });
   console.log("Rancher submissions migration applied.");
 } finally {

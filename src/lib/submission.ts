@@ -4,11 +4,22 @@ export const CONSENT_TEXT =
   "I consent to outreach from Rancher about data licensing opportunities.";
 export const TEAM_SIZES = ["20–100", "101–500", "501–1,000", "1,001+"] as const;
 export const HISTORY_RANGES = [
-  "Less than 1 year",
-  "1–3 years",
   "3–5 years",
-  "5+ years",
-  "Not sure yet",
+  "6–10 years",
+  "11–15 years",
+  "16–19 years",
+  "20+ years",
+] as const;
+export const RECORD_TYPES = [
+  "Chat & messaging",
+  "Email & calendar",
+  "Documents & files",
+  "Projects & knowledge",
+  "CRM & sales",
+  "Customer support",
+  "Code & engineering",
+  "Finance & operations",
+  "Other",
 ] as const;
 export const submissionSchema = z
   .object({
@@ -21,10 +32,18 @@ export const submissionSchema = z
     company: z.string().trim().min(1, "Company is required.").max(180),
     size: z.enum(TEAM_SIZES),
     history: z.enum(HISTORY_RANGES),
+    recordTypes: z
+      .array(z.enum(RECORD_TYPES))
+      .min(1)
+      .max(RECORD_TYPES.length)
+      .refine(
+        (values) => new Set(values).size === values.length,
+        "Choose each record type only once.",
+      ),
     records: z
       .string()
       .trim()
-      .min(1, "Describe the systems or records in scope.")
+      .min(1, "Enter any additional details (or “None”).")
       .max(2000),
     outreachConsent: z.literal(true, {
       error: "Please consent to outreach before submitting.",
