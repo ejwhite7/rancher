@@ -1,6 +1,7 @@
 import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "./tests",
+  workers: process.env.RUN_DATABASE_TESTS === "1" ? 1 : undefined,
   use: {
     baseURL: "http://127.0.0.1:4322",
     viewport: { width: 1440, height: 1000 },

@@ -127,6 +127,6 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     );
   } finally {
     await sql`DELETE FROM rancher.partnership_submissions WHERE id = ${id} OR email = ${browserEmail}`;
-    await sql.end();
+    // The Playwright worker owns the shared database connection pool.
   }
 });

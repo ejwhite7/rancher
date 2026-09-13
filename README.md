@@ -52,6 +52,10 @@ The test suite uses a separate local development server on port 4322 so it does 
 
 The Vercel GitHub App must have access to `ejwhite7/rancher` for Git-based automatic deployments. The production branch is `main`.
 
+## External submission delivery
+
+New submissions are atomically queued in `rancher.webhook_outbox` and sent to Hookdeck by a protected Vercel cron job every minute. Configure `HOOKDECK_SOURCE_URL` and `CRON_SECRET` in production. See [webhook delivery](docs/webhook-delivery.md) for payload fields, retry behavior, monitoring, and replay instructions.
+
 ## Content and assets
 
 The calculator matches the audited Handshake AI benchmark for 20–200+ employees and 3–20+ years. See [the calculator audit](docs/calculator-audit.md) for regional factors and the Troveo comparison.
