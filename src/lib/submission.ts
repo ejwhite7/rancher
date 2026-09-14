@@ -36,6 +36,7 @@ export const submissionSchema = z
       .email("Enter a valid email address.")
       .max(180)
       .transform((value) => value.toLowerCase()),
+    title: z.string().trim().min(1, "Job title is required.").max(120),
     company: z.string().trim().min(1, "Company is required.").max(180),
     size: z.enum(TEAM_SIZES),
     history: z.enum(HISTORY_RANGES),

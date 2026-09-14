@@ -5,6 +5,7 @@ const valid = {
   idempotencyKey: "e6fb5cf8-f4c5-41aa-a3c8-34b3bb0789cb",
   name: "Alex Morgan",
   email: "alex@example.com",
+  title: "VP of Operations",
   company: "Example Company",
   size: "20–49",
   history: "3–5 years",
@@ -67,6 +68,7 @@ test("rejects missing fields, bad emails, unconsented requests, tampered scenari
     { size: "20–100" },
     { referralBonusUsd: 75000 },
     { name: "  " },
+    { title: "  " },
     { records: "  " },
     { recordTypes: [] },
     { recordTypes: ["Unknown"] },
@@ -168,6 +170,7 @@ test("form preserves entries on failure and reuses its retry key", async ({
   await expect(page.locator("#intake button")).toBeEnabled();
   await page.getByLabel("Your name").fill(valid.name);
   await page.getByLabel("Work email").fill(valid.email);
+  await page.getByLabel("Job title").fill(valid.title);
   await page.getByLabel("Company", { exact: true }).fill(valid.company);
   await page.locator('[name="size"]').selectOption(valid.size);
   await page.locator('[name="history"]').selectOption(valid.history);

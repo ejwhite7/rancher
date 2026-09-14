@@ -21,6 +21,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     idempotencyKey: id,
     name: "Automated persistence test",
     email: "test@example.com",
+    title: "VP of Operations",
     company: "Example'); DROP TABLE rancher.partnership_submissions; --",
     size: "20–49",
     history: "3–5 years",
@@ -52,12 +53,17 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
         ),
       );
     });
-    await sql.unsafe(
-      await readFile("db/migrations/003_company_size_referral.sql", "utf8"),
-    );
-    await sql.unsafe(
-      await readFile("db/migrations/003_company_size_referral.sql", "utf8"),
-    );
+    for (let run = 0; run < 2; run++) {
+      await sql.unsafe(
+        await readFile("db/migrations/003_company_size_referral.sql", "utf8"),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/004_submission_webhook_outbox.sql", "utf8"),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/005_job_title.sql", "utf8"),
+      );
+    }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
     const records =
       await sql`SELECT * FROM rancher.partnership_submissions WHERE id = ${id}`;
@@ -107,6 +113,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     await expect(page.locator("#intake button")).toBeEnabled();
     await page.getByLabel("Your name").fill("Automated browser test");
     await page.getByLabel("Work email").fill(browserEmail);
+    await page.getByLabel("Job title").fill("VP of Operations");
     await page
       .getByLabel("Company", { exact: true })
       .fill("Synthetic test company");
@@ -121,6 +128,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     const browserRows =
       await sql`SELECT * FROM rancher.partnership_submissions WHERE email = ${browserEmail}`;
     expect(browserRows).toHaveLength(1);
+    expect(browserRows[0].job_title).toBe("VP of Operations");
     expect(browserRows[0].record_types).toEqual(["Documents & files"]);
     expect(browserRows[0].records_description).toBe(
       "Synthetic browser persistence test",

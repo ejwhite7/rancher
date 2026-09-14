@@ -72,6 +72,7 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
     idempotencyKey: id,
     name: "Webhook test",
     email: "webhook@example.com",
+    title: "VP of Operations",
     company: "Synthetic webhook test",
     size: "20–49" as const,
     history: "3–5 years" as const,
@@ -103,6 +104,8 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
     const [event] =
       await sql`SELECT * FROM rancher.webhook_outbox WHERE id=${id}`;
     expect(event.payload.type).toBe("submission.created");
+    expect(event.payload.schema_version).toBe(2);
+    expect(event.payload.data.job_title).toBe("VP of Operations");
     expect(event.payload.data.referral_bonus_usd).toBe(8000);
     expect(event.payload.data.request_hash).toBeUndefined();
     expect(event.payload.id).toBe(id);

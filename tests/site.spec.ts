@@ -47,6 +47,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
   await expect(page.locator('[name="history"]')).toHaveValue("20+ years");
   await page.getByLabel("Your name").fill("Alex Morgan");
   await page.getByLabel("Work email").fill("alex@example.com");
+  await page.getByLabel("Job title").fill("VP of Operations");
   await page.getByLabel("Company", { exact: true }).fill("Example Company");
   await page.getByLabel("Documents & files", { exact: true }).check();
   await page
@@ -56,6 +57,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
   await page.locator(".consent input").check();
   await page.getByRole("button", { name: "Submit & book a call" }).click();
   await expect(page).toHaveURL("https://cal.com/growthcast/discovery");
+  expect(submitted?.title).toBe("VP of Operations");
   expect(submitted?.company).toBe("Example Company");
   expect(submitted?.outreachConsent).toBe(true);
   expect(submitted?.scenario).toEqual({

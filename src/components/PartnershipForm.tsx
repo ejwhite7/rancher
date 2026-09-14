@@ -41,6 +41,7 @@ export default function PartnershipForm() {
     const payload = {
       name: String(fields.get("name") ?? "").trim(),
       email: String(fields.get("email") ?? "").trim(),
+      title: String(fields.get("title") ?? "").trim(),
       company: String(fields.get("company") ?? "").trim(),
       size: String(fields.get("size") ?? ""),
       history: String(fields.get("history") ?? ""),
@@ -79,8 +80,12 @@ export default function PartnershipForm() {
         throw new Error(
           result.error || "We could not save your request. Please try again.",
         );
-      window.posthog?.identify(payload.email, { email: payload.email });
+      window.posthog?.identify(payload.email, {
+        email: payload.email,
+        job_title: payload.title,
+      });
       window.posthog?.capture("partnership_request_submitted", {
+        job_title: payload.title,
         team_size_range: payload.size,
         data_history_range: payload.history,
         calculator_scenario_used: payload.scenario !== null,
@@ -142,7 +147,17 @@ export default function PartnershipForm() {
               maxLength={180}
             />
           </label>
-          <label className="full">
+          <label>
+            Job title
+            <input
+              name="title"
+              autoComplete="organization-title"
+              placeholder="Your role"
+              required
+              maxLength={120}
+            />
+          </label>
+          <label>
             Company
             <input
               name="company"
