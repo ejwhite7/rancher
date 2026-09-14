@@ -1,0 +1,20 @@
+RANCHER ASSETS
+The mark is the exact path from the original navigation. PNGs have transparent backgrounds. Wordmark uses the navigation typography: Arial Bold, 26px, -1.2px letter spacing; SVG text retains font fallbacks.
+
+PLATFORM ARTWORK
+Original platform vector paths were extracted from the logo strips on the supplied Troveo reference, with page/card backgrounds removed. Sources:
+https://www.troveo.ai/company-data/systems-logos-1-v2.svg
+https://www.troveo.ai/company-data/systems-logos-2-v2.svg
+https://www.troveo.ai/company-data/systems-logos-3-v2.svg
+https://www.troveo.ai/company-data/systems-logos-4-v2.svg
+https://www.troveo.ai/company-data/systems-logos-5-v2.svg
+https://www.troveo.ai/company-data/systems-logos-6-v2.svg
+https://www.troveo.ai/company-data/systems-logos-7-v2.svg
+https://www.troveo.ai/company-data/systems-logos-8-v2.svg
+Marks belong to their respective owners. Review applicable brand permissions before launch. They indicate possible data sources, not partnerships or verified integrations.
+
+CALCULATOR
+Fictional demonstration model only; formula and assumptions are disclosed on the page. Location is captured for scoping and does not affect pricing. Form remains local-only. No external assets are requested by the page.
+
+VALIDATION
+Passed JavaScript execution and syntax checks; initial calculator range and nine boundary combinations; category tabs and mobile menu DOM behavior; unique IDs; internal anchors; exact header/footer SVG match. PNG logo and platform artwork visually reviewed. Full browser responsive-layout and native interaction testing unavailable because Playwright installation failed (EFBIG).
