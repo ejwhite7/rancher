@@ -17,6 +17,7 @@
     "@astrojs/vercel": "^11.0.10",
     "astro": "^7.3.2",
     "postgres": "^3.4.9",
+    "posthog-js": "^1.433.3",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "zod": "^4.6.4"

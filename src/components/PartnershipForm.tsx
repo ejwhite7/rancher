@@ -79,6 +79,11 @@ export default function PartnershipForm() {
         throw new Error(
           result.error || "We could not save your request. Please try again.",
         );
+      window.posthog?.capture("partnership_request_submitted", {
+        team_size_range: payload.size,
+        data_history_range: payload.history,
+        calculator_scenario_used: payload.scenario !== null,
+      });
       setStatus("Your request is saved. Opening the booking calendar…");
       window.location.assign(result.redirectUrl);
     } catch (error) {

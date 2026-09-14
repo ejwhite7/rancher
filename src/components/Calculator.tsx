@@ -16,6 +16,13 @@ export default function Calculator() {
   const [country, setCountry] = useState<Region>("USA");
   const estimate = calculateEstimate(employees, years, country);
   function buildBrief() {
+    window.posthog?.capture("partnership_explored", {
+      employee_count: employees === EMPLOYEES.max ? "200_plus" : employees,
+      history_years: years === YEARS.max ? "20_plus" : years,
+      company_region: country,
+      estimate_below_floor: estimate.belowFloor,
+      estimate_open_ended: estimate.openEnded,
+    });
     setScenario({
       employees,
       years,
