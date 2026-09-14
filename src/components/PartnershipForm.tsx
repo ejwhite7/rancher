@@ -79,6 +79,7 @@ export default function PartnershipForm() {
         throw new Error(
           result.error || "We could not save your request. Please try again.",
         );
+      window.posthog?.identify(payload.email, { email: payload.email });
       window.posthog?.capture("partnership_request_submitted", {
         team_size_range: payload.size,
         data_history_range: payload.history,
