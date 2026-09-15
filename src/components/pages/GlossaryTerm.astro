@@ -1,4 +1,5 @@
 ---
+import { PUBLIC_SITE } from "../../lib/site";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import Navigation from "../Navigation.astro";
 import Footer from "../Footer.astro";
@@ -27,7 +28,7 @@ const sections = [
   ["Example", term.example],
   ["Limitations and misconceptions", term.limitations],
 ] as const;
-const origin = new URL("https://www.gorancher.com");
+const origin = new URL(PUBLIC_SITE);
 const url = new URL(`/glossary/${document.uid}/`, origin).href;
 const schema = {
   "@context": "https://schema.org",
@@ -65,7 +66,6 @@ const schema = {
   description={term.meta_description}
   socialImage={term.social_image}
   glossarySchema={schema}
-  canonicalOrigin={origin}
 >
   <Navigation copy={content.navigation} homeLinks />
   <main id="main-content" class="glossary-page">

@@ -1,4 +1,5 @@
 ---
+import { PUBLIC_SITE } from "../../lib/site";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import Navigation from "../Navigation.astro";
 import Footer from "../Footer.astro";
@@ -16,7 +17,7 @@ interface Props {
 const { glossary, content, preview = false } = Astro.props;
 const { index, records, warnings } = glossary;
 const featured = resolveTerms(index.featured_terms, records);
-const origin = new URL("https://www.gorancher.com");
+const origin = new URL(PUBLIC_SITE);
 const schema = {
   "@context": "https://schema.org",
   "@type": "DefinedTermSet",
@@ -39,7 +40,6 @@ const schema = {
   description={index.meta_description}
   socialImage={index.social_image}
   glossarySchema={schema}
-  canonicalOrigin={origin}
 >
   <Navigation copy={content.navigation} homeLinks />
   <main id="main-content" class="glossary-page">

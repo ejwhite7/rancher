@@ -129,6 +129,12 @@ test("unpublish removes the term, its links, and sitemap immediately; unknown UI
   ).not.toContain("/glossary/data-licensing/");
   const related = await (await request.get("/glossary/data-ownership/")).text();
   expect(related).not.toContain('href="/glossary/data-licensing/"');
+  await request.post("http://127.0.0.1:4334/__test/state", { data: {} });
+  const republished = await (await request.get("/glossary-sitemap.xml")).text();
+  expect(republished).toContain(
+    "https://www.gorancher.com/glossary/data-licensing/",
+  );
+  expect(republished.match(/<loc>/g)).toHaveLength(61);
 });
 test("missing singleton and malformed content fail clearly; empty repository remains usable", async ({
   request,

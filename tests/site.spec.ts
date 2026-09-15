@@ -256,6 +256,13 @@ test("server-rendered metadata, schema, social image, sitemap, and robots agree"
   const { readFile } = await import("node:fs/promises");
   const sitemap = await readFile("dist/client/sitemap-0.xml", "utf8");
   expect(sitemap).toContain(`<loc>${canonical}</loc>`);
+  expect(sitemap).not.toContain("/slice-simulator/");
+  expect(sitemap).not.toContain("/preview/");
+  expect(sitemap).not.toContain("/glossary/");
+  const sitemapIndex = await readFile("dist/client/sitemap-index.xml", "utf8");
+  expect(sitemapIndex).toContain(
+    "https://www.gorancher.com/glossary-sitemap.xml",
+  );
   const robots = await request.get("/robots.txt");
   expect(await robots.text()).toContain(
     `Sitemap: ${canonical}sitemap-index.xml`,

@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 import vercel from "@astrojs/vercel";
 import sitemap from "@astrojs/sitemap";
 import { loadEnv } from "vite";
+import { PUBLIC_SITE, includeInStaticSitemap } from "./src/lib/site.ts";
 
 const env = loadEnv(process.env.NODE_ENV || "production", process.cwd(), "");
 const site = process.env.SITE_URL || env.SITE_URL || "http://localhost:4321";
@@ -21,13 +22,16 @@ if (
 }
 
 export default defineConfig({
-  site: url.origin,
+  site: PUBLIC_SITE,
   devToolbar: { enabled: false },
   adapter: vercel(),
   build: { inlineStylesheets: "always" },
   trailingSlash: "always",
   integrations: [
     react(),
-    sitemap({ customSitemaps: [new URL("/glossary-sitemap.xml", url).href] }),
+    sitemap({
+      filter: includeInStaticSitemap,
+      customSitemaps: [new URL("/glossary-sitemap.xml", PUBLIC_SITE).href],
+    }),
   ],
 });

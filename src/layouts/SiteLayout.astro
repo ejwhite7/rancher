@@ -6,6 +6,7 @@ const { homepage } = Astro.props.content || (await getSiteContent());
 const preview = Astro.props.preview || false;
 const repository = import.meta.env.PRISMIC_REPOSITORY_NAME;
 import PostHog from "../components/posthog.astro";
+import { canonicalUrl } from "../lib/site";
 import { isPublicSite, structuredData } from "../lib/seo";
 interface Props {
   content?: SiteContent;
@@ -22,7 +23,6 @@ interface Props {
     | {}
     | null;
   glossarySchema?: Record<string, unknown>;
-  canonicalOrigin?: URL;
 }
 const {
   title = homepage.meta_title,
@@ -30,10 +30,7 @@ const {
   faqs,
 } = Astro.props;
 const site = Astro.site!;
-const canonical = new URL(
-  Astro.url.pathname.replace(/^\/preview\/view/, "") || "/",
-  Astro.props.canonicalOrigin || site,
-);
+const canonical = canonicalUrl(Astro.url.pathname);
 const socialImage =
   Astro.props.socialImage && "url" in Astro.props.socialImage
     ? Astro.props.socialImage
@@ -41,7 +38,9 @@ const socialImage =
 const image = new URL(socialImage.url, site);
 const imageAlt = socialImage.alt || title;
 const robots =
-  !preview && isPublicSite(site)
+  !preview &&
+  isPublicSite(new URL(import.meta.env.SITE_URL || "http://localhost")) &&
+  (!import.meta.env.VERCEL_ENV || import.meta.env.VERCEL_ENV === "production")
     ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     : "noindex, nofollow";
 ---

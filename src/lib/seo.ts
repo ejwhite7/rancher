@@ -6,10 +6,7 @@ export const imageAlt =
   "Rancher — Make Your Business Data Work as Hard as You Do. An illustrated landscape of cultivated fields.";
 
 export function isPublicSite(site: URL) {
-  return (
-    !["localhost", "127.0.0.1", "[::1]"].includes(site.hostname) &&
-    !/\.(example|test|invalid|localhost)$/.test(site.hostname)
-  );
+  return site.origin === "https://www.gorancher.com";
 }
 
 export function structuredData(

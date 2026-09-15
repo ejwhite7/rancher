@@ -19,7 +19,7 @@ Published glossary routes render on demand through Astro/Vercel. Each request us
 
 The React search island receives only compact index records. All term links and definitions are in the initial HTML. Search covers names, aliases, and short definitions with exact/prefix/other ranking, category AND filtering, current-result letter anchors, clear filters, and a live result count. Query strings are not added to URLs. Without JavaScript, all terms and letter links remain usable.
 
-Canonical glossary URLs use the production origin `https://www.gorancher.com`. The sitemap index includes `/glossary-sitemap.xml`, whose contents come only from published documents. Unknown or unpublished UIDs return 404. Missing required singleton/content produces 503 rather than a misleading empty success page. A never-published glossary has an empty glossary sitemap until launch.
+All page canonicals, Open Graph URLs, structured-data URLs, and sitemap URLs use `https://www.gorancher.com`, including when rendered on staging or in preview. Staging and preview are marked noindex; staging robots.txt disallows crawling. The static sitemap automatically discovers Astro page routes on every build, excluding preview, simulator, API, and glossary routes. Glossary URLs appear only in the live Prismic sitemap, avoiding duplicate entries. The sitemap index includes `/glossary-sitemap.xml`, whose contents come only from published documents. Unknown or unpublished UIDs return 404. Missing required singleton/content produces 503 rather than a misleading empty success page. A never-published glossary has an empty glossary sitemap until launch.
 
 ## Preview
 
