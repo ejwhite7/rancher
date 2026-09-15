@@ -1,0 +1,208 @@
+{
+  "checked_at": "2026-09-15T22:59:01.080Z",
+  "deployment": "rancher-mr15vk5wp-b2b-saas.vercel.app",
+  "frontend_commit": "d4342af4f6ac609e30e646fe4a0ac5014e9f83fa",
+  "browser": [
+    {
+      "mode": "public",
+      "path": "/blog/",
+      "status": 404,
+      "body": "Page not found."
+    },
+    {
+      "mode": "public",
+      "path": "/blog/license-business-data-for-ai/",
+      "status": 404,
+      "body": "Article not found."
+    },
+    {
+      "mode": "public",
+      "path": "/blog-sitemap.xml",
+      "status": 200,
+      "body": "This XML file does not appear to have any style information associated with it. The document tree is shown below.\n\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"/>"
+    },
+    {
+      "mode": "preview",
+      "width": 1440,
+      "path": "/preview/view/blog/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "The Corral"
+      ],
+      "words": 224,
+      "tables": 0,
+      "canonical": "https://www.gorancher.com/blog/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": []
+    },
+    {
+      "mode": "preview",
+      "width": 1440,
+      "path": "/preview/view/blog/license-business-data-for-ai/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "How to license business data for AI"
+      ],
+      "words": 949,
+      "tables": 1,
+      "canonical": "https://www.gorancher.com/blog/license-business-data-for-ai/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": [
+        "https://rancher.cdn.prismic.io/rancher/Vsw7rZHXQc_z9AjW_corral-30193e28f0cc-worksheet.csv"
+      ]
+    },
+    {
+      "mode": "preview",
+      "width": 1440,
+      "path": "/preview/view/blog/ai-data-licensing-agreement-terms/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "12 terms to review in an AI data license"
+      ],
+      "words": 1018,
+      "tables": 1,
+      "canonical": "https://www.gorancher.com/blog/ai-data-licensing-agreement-terms/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": [
+        "https://rancher.cdn.prismic.io/rancher/woFnfZ6QZZ3iNCXv_corral-51fe51bae034-worksheet.csv"
+      ]
+    },
+    {
+      "mode": "preview",
+      "width": 1440,
+      "path": "/preview/view/blog/ai-data-card-template/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "A practical data-card template for AI buyers"
+      ],
+      "words": 1034,
+      "tables": 2,
+      "canonical": "https://www.gorancher.com/blog/ai-data-card-template/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": [
+        "https://rancher.cdn.prismic.io/rancher/JGyGsQSsaBPkkZkS_corral-dfac58489e65-worksheet.csv"
+      ]
+    },
+    {
+      "mode": "preview",
+      "width": 390,
+      "path": "/preview/view/blog/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "The Corral"
+      ],
+      "words": 224,
+      "tables": 0,
+      "canonical": "https://www.gorancher.com/blog/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": []
+    },
+    {
+      "mode": "preview",
+      "width": 390,
+      "path": "/preview/view/blog/license-business-data-for-ai/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "How to license business data for AI"
+      ],
+      "words": 949,
+      "tables": 1,
+      "canonical": "https://www.gorancher.com/blog/license-business-data-for-ai/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": [
+        "https://rancher.cdn.prismic.io/rancher/Vsw7rZHXQc_z9AjW_corral-30193e28f0cc-worksheet.csv"
+      ]
+    },
+    {
+      "mode": "preview",
+      "width": 390,
+      "path": "/preview/view/blog/ai-data-licensing-agreement-terms/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "12 terms to review in an AI data license"
+      ],
+      "words": 1018,
+      "tables": 1,
+      "canonical": "https://www.gorancher.com/blog/ai-data-licensing-agreement-terms/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": [
+        "https://rancher.cdn.prismic.io/rancher/woFnfZ6QZZ3iNCXv_corral-51fe51bae034-worksheet.csv"
+      ]
+    },
+    {
+      "mode": "preview",
+      "width": 390,
+      "path": "/preview/view/blog/ai-data-card-template/",
+      "status": 200,
+      "robots": "noindex, nofollow",
+      "cache": "private, no-store, max-age=0",
+      "h1": [
+        "A practical data-card template for AI buyers"
+      ],
+      "words": 1034,
+      "tables": 2,
+      "canonical": "https://www.gorancher.com/blog/ai-data-card-template/",
+      "overflow": false,
+      "brokenImages": [],
+      "downloads": [
+        "https://rancher.cdn.prismic.io/rancher/JGyGsQSsaBPkkZkS_corral-dfac58489e65-worksheet.csv"
+      ]
+    }
+  ],
+  "content": [
+    {
+      "key": "corral-04",
+      "textBlocksChecked": 65,
+      "downloadMatchesLocal": true,
+      "structuredData": true,
+      "anchors": true
+    },
+    {
+      "key": "corral-20",
+      "textBlocksChecked": 82,
+      "downloadMatchesLocal": true,
+      "structuredData": true,
+      "anchors": true
+    },
+    {
+      "key": "corral-01",
+      "textBlocksChecked": 42,
+      "downloadMatchesLocal": true,
+      "structuredData": true,
+      "anchors": true
+    },
+    {
+      "homepagePreviewDiscovery": true
+    },
+    {
+      "publicDiscoveryHidden": true
+    }
+  ],
+  "automated_tests": {
+    "passed": 50,
+    "skipped": 2
+  },
+  "human_approval": false,
+  "published": false
+}

@@ -244,7 +244,9 @@ for (const brief of manifest.articles) {
       },
       "asset-validation": {
         run: async ({ input }) => {
-          const files = await fs.readdir(input.assetDirectory);
+          const files = (await fs.readdir(input.assetDirectory)).filter(
+            (file) => file !== "manifest.json",
+          );
           const assets = [];
           for (const file of files) {
             const bytes = await fs.readFile(`${input.assetDirectory}/${file}`);

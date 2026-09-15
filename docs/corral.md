@@ -29,6 +29,7 @@ Research uses primary Copyright Office, ICO and NIST material with a source ledg
 node scripts/corral/prepare.mjs --start=YYYY-MM-DD
 node --env-file=.env.local scripts/corral/import.mjs
 node --env-file=.env.local scripts/corral/import.mjs --execute
+node scripts/corral/refresh-preview.mjs --execute
 node scripts/corral/activate-schedule.mjs
 ```
 
@@ -43,3 +44,5 @@ node scripts/corral/activate-schedule.mjs
 Reviewable article Markdown is in `content/corral/articles/`; Prismic document IDs are in `content/corral/reconciliation/documents.json`. Exact pending gate findings are in `content/corral/qa/` and `schedule-preflight.json`. Never set approval fields merely to make these reports pass.
 
 Cancel scheduled native releases through Prismic if approved content changes; update the package and repeat review before rescheduling. Code rollback does not unpublish CMS content. Preserve the prior deployment and `.prismic-migration/corral/` snapshots. Do not delete referenced assets. After launch, verify all newly live URLs, source/download links, sitemap and inquiry tracking; perform the plan’s day-1, day-7 and day-28 checks with actual publication dates.
+
+After draft imports or discovery updates, refresh the migration release with `refresh-preview.mjs --execute`, then start a **new** session using Prismic Preview → Staging. Existing preview tokens retain the earlier ref and can omit newly imported documents. Refreshing does not publish.
