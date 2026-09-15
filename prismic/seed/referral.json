@@ -3,18 +3,69 @@
   "form": {
     "id": "aqmtqhUAACsAVP5k",
     "type": "form",
-    "link_type": "Document"
+    "tags": [],
+    "lang": "en-us",
+    "slug": "have-someone-in-mind",
+    "first_publication_date": "2026-09-15T20:47:36+0000",
+    "last_publication_date": "2026-09-15T20:47:36+0000",
+    "uid": "referral",
+    "link_type": "Document",
+    "key": "6e93cc05-bf0f-456d-ada6-031efc73bafc",
+    "isBroken": false
   },
   "navigation": {
     "id": "aqltoBUAADEAU_-i",
     "type": "navigation",
-    "link_type": "Document"
+    "tags": [],
+    "lang": "en-us",
+    "slug": "navigation",
+    "first_publication_date": "2026-09-15T16:09:27+0000",
+    "last_publication_date": "2026-09-15T17:39:21+0000",
+    "link_type": "Document",
+    "key": "45c04e14-88e4-4091-93a0-dc3270058c55",
+    "isBroken": false
   },
   "footer": {
     "id": "aqlujBUAADEAVAKN",
     "type": "footer",
-    "link_type": "Document"
+    "tags": [],
+    "lang": "en-us",
+    "slug": "footer",
+    "first_publication_date": "2026-09-15T16:13:36+0000",
+    "last_publication_date": "2026-09-15T20:47:36+0000",
+    "link_type": "Document",
+    "key": "fb0755a7-7281-4782-9029-2fe01f377ada",
+    "isBroken": false
   },
   "meta_title": "Refer a Company | Rancher",
-  "meta_description": "Know a company with valuable data? Introduce them to Rancher and help them explore data licensing."
+  "meta_description": "Know a company with valuable data? Introduce them to Rancher and help them explore data licensing.",
+  "offer_heading": "Refer a company, get $4,000",
+  "offer_introduction": "Earn by helping companies monetize the data they already have.",
+  "requirements_heading": "What to know",
+  "steps_heading": "How it works",
+  "requirements": [
+    {
+      "text": "We’re looking for companies with 20+ employees & 3+ years in operation"
+    },
+    {
+      "text": "They determine exactly what is shared"
+    },
+    {
+      "text": "All data is scoped, de-identified, and confidential"
+    }
+  ],
+  "steps": [
+    {
+      "text": "You refer a company"
+    },
+    {
+      "text": "Our team directly reaches out within 1-2 days"
+    },
+    {
+      "text": "We scope their tools and agree to terms"
+    },
+    {
+      "text": "Your bonus is paid when their deal closes"
+    }
+  ]
 }

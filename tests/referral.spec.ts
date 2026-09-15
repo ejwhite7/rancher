@@ -196,6 +196,9 @@ test("referral retries safely, identifies only the referrer, tracks once after s
     },
   ]);
   await page.goto("/referral/");
+  await expect(
+    page.getByRole("button", { name: "Submit referral", exact: true }),
+  ).toBeEnabled();
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({
     path: test.info().outputPath("referral-desktop.png"),

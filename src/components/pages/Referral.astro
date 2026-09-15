@@ -28,6 +28,34 @@ const { referral, preview = false } = Astro.props;
       </nav>
       <div class="referral-layout">
         <ReferralForm copy={referral.form} preview={preview} client:load />
+        <article
+          class="referral-explainer"
+          aria-labelledby="referral-offer-heading"
+        >
+          <header>
+            <h1 id="referral-offer-heading">{referral.page.offer_heading}</h1>
+            <p>{referral.page.offer_introduction}</p>
+          </header>
+          <hr />
+          <section aria-labelledby="referral-requirements-heading">
+            <h2 id="referral-requirements-heading">
+              {referral.page.requirements_heading}
+            </h2>
+            <ul>
+              {referral.page.requirements.map((item) => (
+                <li>{item.text}</li>
+              ))}
+            </ul>
+          </section>
+          <section aria-labelledby="referral-steps-heading">
+            <h2 id="referral-steps-heading">{referral.page.steps_heading}</h2>
+            <ul>
+              {referral.page.steps.map((item) => (
+                <li>{item.text}</li>
+              ))}
+            </ul>
+          </section>
+        </article>
       </div>
     </div>
   </main>

@@ -2,7 +2,7 @@
 
 `/referral/` renders the Prismic `referral` singleton with shared Navigation and Footer relationships. Its linked repeatable `form` document has UID `referral`. Main holds heading, introduction, button and status copy; Referral holds the eight field labels and repeatable company-size/industry choices (`label`, `value`). Keep option values unique and at most 120 characters. All eight fields are required; personal emails are allowed.
 
-The page follows the supplied form layout: paired first/last names, full-width emails and selects, and a full-width submit button. On narrow screens names stack. The footer link is an editable Footer item. Astro automatically includes the published page route in the static sitemap and sets its production canonical. Prismic previews of either the page or its form resolve to `/preview/view/referral/`; submissions are disabled in preview.
+The page uses Rancher’s shared form styles, with the form on the left and an explainer on the right. The Referral singleton’s Explainer tab supplies the offer heading, introduction, eligibility heading/list, and process heading/list. On narrow screens the columns and paired names stack. The footer link is an editable Footer item. Astro automatically includes the published page route in the static sitemap and sets its production canonical. Prismic previews of either the page or its form resolve to `/preview/view/referral/`; submissions are disabled in preview.
 
 ## Submission flow
 

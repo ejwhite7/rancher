@@ -2,8 +2,6 @@
   "id": "referral",
   "label": "Referral",
   "repeatable": false,
-  "status": true,
-  "format": "custom",
   "json": {
     "Main": {
       "heading": {
@@ -48,6 +46,62 @@
           "label": "SEO description"
         }
       }
+    },
+    "Explainer": {
+      "offer_heading": {
+        "type": "Text",
+        "config": {
+          "label": "Referral offer heading"
+        }
+      },
+      "offer_introduction": {
+        "type": "Text",
+        "config": {
+          "label": "Referral offer introduction"
+        }
+      },
+      "requirements_heading": {
+        "type": "Text",
+        "config": {
+          "label": "Eligibility section heading"
+        }
+      },
+      "steps_heading": {
+        "type": "Text",
+        "config": {
+          "label": "Process section heading"
+        }
+      },
+      "requirements": {
+        "type": "Group",
+        "config": {
+          "label": "Eligibility and confidentiality points",
+          "fields": {
+            "text": {
+              "type": "Text",
+              "config": {
+                "label": "Item text"
+              }
+            }
+          }
+        }
+      },
+      "steps": {
+        "type": "Group",
+        "config": {
+          "label": "Referral process steps",
+          "fields": {
+            "text": {
+              "type": "Text",
+              "config": {
+                "label": "Item text"
+              }
+            }
+          }
+        }
+      }
     }
-  }
+  },
+  "status": true,
+  "format": "custom"
 }

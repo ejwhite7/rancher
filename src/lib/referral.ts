@@ -14,6 +14,12 @@ const relationship = (type: string) =>
   });
 export const referralSchema = z.object({
   heading: text,
+  offer_heading: text,
+  offer_introduction: text,
+  requirements_heading: text,
+  requirements: z.array(z.object({ text })).min(1),
+  steps_heading: text,
+  steps: z.array(z.object({ text })).min(1),
   meta_title: text,
   meta_description: text,
   form: relationship("form"),

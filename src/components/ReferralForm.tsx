@@ -83,10 +83,10 @@ export default function ReferralForm({
   }
   return (
     <section
-      className="referral-form-panel"
+      className="form referral-form-panel"
       aria-labelledby="referral-form-heading"
     >
-      <h1 id="referral-form-heading">{copy.title}</h1>
+      <h2 id="referral-form-heading">{copy.title}</h2>
       <p>{copy.description}</p>
       {sent ? (
         <p role="status" className="referral-success">
