@@ -68,6 +68,13 @@
         "link_type": "Web",
         "url": "#contact"
       }
+    },
+    {
+      "label": "Contact Us",
+      "link": {
+        "link_type": "Web",
+        "url": "/contact/"
+      }
     }
   ]
 }

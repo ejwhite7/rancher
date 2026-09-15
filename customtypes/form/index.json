@@ -54,6 +54,76 @@
           "label": "Email placeholder"
         }
       },
+      "no_javascript": {
+        "type": "Text",
+        "config": {
+          "label": "JavaScript requirement message"
+        }
+      },
+      "save_error": {
+        "type": "Text",
+        "config": {
+          "label": "Save failure message"
+        }
+      },
+      "success": {
+        "type": "Text",
+        "config": {
+          "label": "Submission success message"
+        }
+      },
+      "network_error": {
+        "type": "Text",
+        "config": {
+          "label": "Connection failure message"
+        }
+      },
+      "unknown_error": {
+        "type": "Text",
+        "config": {
+          "label": "Unexpected failure message"
+        }
+      },
+      "submitting_label": {
+        "type": "Text",
+        "config": {
+          "label": "Submitting button label"
+        }
+      },
+      "submit_label": {
+        "type": "Text",
+        "config": {
+          "label": "Submit button label"
+        }
+      }
+    },
+    "Contact": {
+      "message_label": {
+        "type": "Text",
+        "config": {
+          "label": "Message field label"
+        }
+      },
+      "message_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Message placeholder"
+        }
+      },
+      "privacy_notice": {
+        "type": "Text",
+        "config": {
+          "label": "Privacy notice"
+        }
+      },
+      "privacy_link_label": {
+        "type": "Text",
+        "config": {
+          "label": "Privacy policy link label"
+        }
+      }
+    },
+    "Partnership": {
       "job_title_label": {
         "type": "Text",
         "config": {
@@ -130,48 +200,6 @@
         "type": "Text",
         "config": {
           "label": "Outreach consent statement"
-        }
-      },
-      "no_javascript": {
-        "type": "Text",
-        "config": {
-          "label": "JavaScript requirement message"
-        }
-      },
-      "save_error": {
-        "type": "Text",
-        "config": {
-          "label": "Save failure message"
-        }
-      },
-      "success": {
-        "type": "Text",
-        "config": {
-          "label": "Submission success message"
-        }
-      },
-      "network_error": {
-        "type": "Text",
-        "config": {
-          "label": "Connection failure message"
-        }
-      },
-      "unknown_error": {
-        "type": "Text",
-        "config": {
-          "label": "Unexpected failure message"
-        }
-      },
-      "submitting_label": {
-        "type": "Text",
-        "config": {
-          "label": "Submitting button label"
-        }
-      },
-      "submit_label": {
-        "type": "Text",
-        "config": {
-          "label": "Submit button label"
         }
       }
     }

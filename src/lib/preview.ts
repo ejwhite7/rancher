@@ -13,11 +13,13 @@ export const previewHeaders = {
 };
 export function supportedPreviewPath(path: string): boolean {
   return (
-    ["/", "/privacy-policy/", "/terms-of-use/"].includes(path) ||
+    ["/", "/privacy-policy/", "/terms-of-use/", "/contact/"].includes(path) ||
     /^\/glossary\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(path)
   );
 }
 export const previewLinkResolver: LinkResolverFunction = (doc) => {
+  if (doc.type === "contact" || (doc.type === "form" && doc.uid === "contact"))
+    return "/contact/";
   if (doc.type === "glossary-index") return "/glossary/";
   if (
     doc.type === "glossary" &&

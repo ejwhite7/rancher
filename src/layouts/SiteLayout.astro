@@ -157,7 +157,9 @@ const robots =
         )
           return;
         if (
-          ["/", "/privacy-policy/", "/terms-of-use/"].includes(url.pathname) ||
+          ["/", "/privacy-policy/", "/terms-of-use/", "/contact/"].includes(
+            url.pathname,
+          ) ||
           /^\/glossary\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(url.pathname)
         ) {
           event.preventDefault();

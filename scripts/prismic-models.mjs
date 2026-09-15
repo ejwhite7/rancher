@@ -8,8 +8,9 @@ export const [
   navigationModel,
   legalModel,
   footerModel,
+  contactModel,
 ] = await Promise.all(
-  ["homepage", "form", "navigation", "legal", "footer"].map((id) =>
+  ["homepage", "form", "navigation", "legal", "footer", "contact"].map((id) =>
     json(`../customtypes/${id}/index.json`),
   ),
 );

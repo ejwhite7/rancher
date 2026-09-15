@@ -1,0 +1,14 @@
+---
+import Contact from "../components/pages/Contact.astro";
+import { fetchContact, contactSnapshot } from "../lib/contact";
+import { createPreviewClient } from "../lib/preview";
+const contact =
+  import.meta.env.PRISMIC_CONTENT_MODE === "snapshot"
+    ? await contactSnapshot()
+    : await fetchContact(
+        createPreviewClient(),
+        import.meta.env.PRISMIC_LOCALE || "en-us",
+      );
+---
+
+<Contact contact={contact} />

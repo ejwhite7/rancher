@@ -1,0 +1,21 @@
+{
+  "heading": "Contact Us",
+  "introduction": "Have a question about Rancher or data licensing? We\u2019d like to hear from you.",
+  "form": {
+    "id": "aql16xUAACwAVCIp",
+    "type": "form",
+    "link_type": "Document"
+  },
+  "navigation": {
+    "id": "aqltoBUAADEAU_-i",
+    "type": "navigation",
+    "link_type": "Document"
+  },
+  "footer": {
+    "id": "aqlujBUAADEAVAKN",
+    "type": "footer",
+    "link_type": "Document"
+  },
+  "meta_title": "Contact Us | Rancher",
+  "meta_description": "Get in touch with Rancher. Ask a question about data licensing, explore a partnership, or tell us how we can help."
+}

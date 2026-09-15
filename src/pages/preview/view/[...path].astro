@@ -32,6 +32,9 @@ if (!token || !validPreviewToken(token))
   });
 let content;
 let legal;
+let contact;
+import Contact from "../../../components/pages/Contact.astro";
+import { fetchContact } from "../../../lib/contact";
 let glossary;
 let glossaryDocument;
 import GlossaryIndex from "../../../components/pages/GlossaryIndex.astro";
@@ -61,6 +64,11 @@ try {
       glossaryDocument?.data || glossary.index,
       lang,
     );
+  } else if (path === "contact") {
+    contact = await fetchContact(
+      client,
+      import.meta.env.PRISMIC_LOCALE || "en-us",
+    );
   } else if (path) {
     legal = validateLegalContent((await client.getByUID("legal", path)).data);
     const [nav, footer] = await Promise.all([
@@ -81,7 +89,9 @@ try {
 }
 ---
 
-{glossary ? (
+{contact ? (
+  <Contact contact={contact} preview />
+) : glossary ? (
   glossaryDocument ? (
     <GlossaryTerm
       glossary={glossary}

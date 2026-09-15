@@ -1,0 +1,39 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Navigation from "../Navigation.astro";
+import Footer from "../Footer.astro";
+import ContactForm from "../ContactForm";
+import type { ContactContent } from "../../lib/contact";
+import "../../styles/contact.css";
+interface Props {
+  contact: ContactContent;
+  preview?: boolean;
+}
+const { contact, preview = false } = Astro.props;
+---
+
+<SiteLayout
+  content={contact.content}
+  title={contact.page.meta_title}
+  description={contact.page.meta_description}
+  preview={preview}
+>
+  <Navigation copy={contact.content.navigation} homeLinks />
+  <main id="main-content" class="contact-page">
+    <div class="wrap">
+      <nav class="contact-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{contact.page.heading}</span>
+      </nav>
+      <div class="contact-layout">
+        <header>
+          <h1>{contact.page.heading}</h1>
+          <p class="contact-introduction">{contact.page.introduction}</p>
+        </header>
+        <ContactForm copy={contact.form} preview={preview} client:load />
+      </div>
+    </div>
+  </main>
+  <Footer copy={contact.content.footer} />
+</SiteLayout>
