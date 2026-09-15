@@ -2,7 +2,7 @@
 
 60 original drafts: 28 baseline terms and 32 additions. All examples are fictional. No completed reviewer names or review dates have been asserted.
 
-Review in Prismic’s Migration Release, then use **Preview → Staging**. Make editorial changes in Prismic; the importer refuses unexpected overwrites.
+Review the current documents in Prismic, then use **Preview → Staging**. The original import was drafted; Prismic now exposes the entries as published, although completed review metadata remains unset. Make editorial changes in Prismic; the importer refuses unexpected overwrites.
 
 Before publication, complete qualified legal/privacy review for relevant entries and technical review for model-training concepts. Enter the actual reviewer’s public name, accurate role, and completed review date in each document. Confirm source support, jurisdiction, examples, rights caveats, and related terms.
 
@@ -10,7 +10,7 @@ The outline below contains the original draft copy for convenient review. Prismi
 
 ## AI agents
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmABBUAAC4AVE2G?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmABBUAAC4AVE2G?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** AI agents are systems that use observations and decisions to take actions toward a goal. Their capabilities and autonomy vary; tools, permissions, memory, stopping rules, and outcome checks shape what they can reliably accomplish.
 
@@ -46,7 +46,7 @@ Agents can misunderstand instructions, use stale information, or act incorrectly
 
 ## AI training data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_9xUAADIAVE1A?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_9xUAADIAVE1A?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** AI training data is the information used to adjust a model’s learned behavior or parameters. It can include text, images, actions, labels, or other signals; usefulness depends on the training objective, representation, quality, and permissions.
 
@@ -82,7 +82,7 @@ More data does not guarantee a better model. Repetition, errors, unrepresentativ
 
 ## Anonymization
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAiBUAAC4AVFBG?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAiBUAAC4AVFBG?s=published) · Category: rights-privacy-control
 
 **Short definition:** Anonymization aims to make information no longer attributable to identifiable people under the applicable standard. It is a demanding, context-dependent outcome; masking names or replacing them with tokens does not establish it.
 
@@ -118,7 +118,7 @@ No universal operation makes every dataset anonymous. Pseudonymization preserves
 
 ## Chain of rights
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAZRUAAC0AVE-M?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAZRUAAC0AVE-M?s=published) · Category: rights-privacy-control
 
 **Short definition:** A chain of rights is the documented sequence of permissions or transfers supporting a party’s authority to use and license material. It connects original creation and collection to the specific rights offered to a recipient.
 
@@ -154,7 +154,7 @@ A chain of contracts may still contain gaps, conflicting terms, or rights no par
 
 ## Computer-use agent
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql5nxUAADAAVDH8?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql5nxUAADAAVDH8?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** A computer-use agent is an AI system that pursues a task by interacting with software interfaces, such as clicking controls, entering text, and moving between applications. Its actions need permissions, feedback, and checks against the intended outcome.
 
@@ -194,7 +194,7 @@ Benchmark performance does not establish reliability on every business process. 
 
 ## Confidential business information
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAkBUAAC0AVFB2?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAkBUAAC0AVFB2?s=published) · Category: rights-privacy-control
 
 **Short definition:** Confidential business information is non-public information subject to duties or expectations of restricted access and use. It can include pricing, customer terms, processes, and commercial plans; some, but not all, may qualify as trade secrets.
 
@@ -230,7 +230,7 @@ A confidentiality label is not a complete legal analysis, and not all confidenti
 
 ## Content provenance (C2PA)
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAaRUAADAAVE-i?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAaRUAADAAVE-i?s=published) · Category: rights-privacy-control
 
 **Short definition:** C2PA is a technical standard for recording and verifying signed provenance information associated with digital content. It can help inspect a content history, but it does not establish that a claim is true or that all licensing rights are cleared.
 
@@ -266,7 +266,7 @@ C2PA validation is not a truth detector or a universal certification of copyrigh
 
 ## Cross-system context
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAuhUAAC0AVFDj?s=release&r=aqllIhUAAC8AU_Eu) · Category: business-data-workflows
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAuhUAAC0AVFDj?s=published) · Category: business-data-workflows
 
 **Short definition:** Cross-system context connects related information from different business applications so a task or outcome can be understood. It depends on reliable identities, timing, and field meanings; simply joining tables does not establish a correct relationship.
 
@@ -302,7 +302,7 @@ A join can multiply records, attach the wrong outcome, or introduce future infor
 
 ## Dark data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmApRUAAC4AVFCv?s=release&r=aqllIhUAAC8AU_Eu) · Category: business-data-workflows
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmApRUAAC4AVFCv?s=published) · Category: business-data-workflows
 
 **Short definition:** Dark data is information an organization collects or retains but does not meaningfully use for analysis or decisions. It may be overlooked, difficult to access, poorly documented, or retained without a clear current purpose.
 
@@ -338,7 +338,7 @@ Unused does not mean valuable, unrestricted, or training-ready. Retaining data i
 
 ## Data annotation
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAPxUAACwAVE7B?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAPxUAACwAVE7B?s=published) · Category: data-quality-preparation
 
 **Short definition:** Data annotation adds labels or other structured information to source data so a task can be learned or evaluated. Examples include classifying text, marking objects, identifying actions, or recording whether a workflow reached an intended outcome.
 
@@ -374,7 +374,7 @@ More labels do not necessarily mean better data. Inconsistent instructions, miss
 
 ## Data curation
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAQxUAACwAVE7Z?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAQxUAACwAVE7Z?s=published) · Category: data-quality-preparation
 
 **Short definition:** Data curation selects, organizes, documents, and maintains data for a defined use. It combines decisions about inclusion and context with quality checks; it is broader than simply cleaning errors or changing file formats.
 
@@ -410,7 +410,7 @@ Selection can introduce bias or remove difficult cases that matter in deployment
 
 ## Data deduplication
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAWBUAACsAVE9L?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAWBUAACsAVE9L?s=published) · Category: data-quality-preparation
 
 **Short definition:** Data deduplication identifies and removes or consolidates repeated records or content. Exact and near-duplicate detection require different methods, and repeated business events must be distinguished from accidental copies.
 
@@ -446,7 +446,7 @@ Aggressive similarity thresholds can delete valid examples, including rare cases
 
 ## Data exclusivity
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmADBUAAC8AVE2y?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmADBUAAC8AVE2y?s=published) · Category: licensing-economics
 
 **Short definition:** Data exclusivity restricts whether a provider can license the same data to other recipients. Its value and practical effect depend on which data, uses, markets, parties, and time periods the restriction covers.
 
@@ -482,7 +482,7 @@ Exclusive access is not a transfer of every underlying right and cannot create r
 
 ## Data leakage
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmACBUAACsAVE2c?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmACBUAACsAVE2c?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** In model assessment, data leakage occurs when training or evaluation uses information that would not legitimately be available for the intended prediction. It can inflate performance through overlap, future outcomes, or improper preprocessing.
 
@@ -518,7 +518,7 @@ Not every strong predictor is leakage; it may be legitimately available at decis
 
 ## Data licensing
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql5lhUAAC8AVDHn?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql5lhUAAC8AVDHn?s=published) · Category: licensing-economics
 
 **Short definition:** Data licensing is an agreement that permits specified uses of a dataset under defined conditions. It can address access, AI training, sharing, payment, duration, and restrictions without necessarily transferring the underlying rights.
 
@@ -558,7 +558,7 @@ Licensing does not guarantee demand, an acceptable price, recurring revenue, or 
 
 ## Data lineage
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAYBUAADAAVE91?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAYBUAADAAVE91?s=published) · Category: data-quality-preparation
 
 **Short definition:** Data lineage traces how data moves and changes between sources, processing steps, and outputs. It helps explain a derived value or dataset version and assess the impact of corrections, exclusions, or upstream changes.
 
@@ -594,7 +594,7 @@ A recorded pipeline can reproduce a mistake as consistently as a correct result.
 
 ## Data minimization
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAlBUAADAAVFCH?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAlBUAADAAVFCH?s=published) · Category: rights-privacy-control
 
 **Short definition:** Data minimization limits collection, use, or disclosure to information appropriate and necessary for a defined purpose. It asks which fields and records are needed before relying on later cleanup or access restrictions.
 
@@ -630,7 +630,7 @@ Minimization does not establish lawful processing or anonymity by itself. The mi
 
 ## Data monetization
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAEBUAACsAVE3G?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAEBUAACsAVE3G?s=published) · Category: licensing-economics
 
 **Short definition:** Data monetization is the creation of economic value from data, including internal improvements, data-enabled products, or licensing. Having a large archive does not by itself establish an external market or predictable revenue.
 
@@ -666,7 +666,7 @@ The same data may have very different value for different users. Public estimate
 
 ## Data ownership
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAFRUAADEAVE3d?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAFRUAADEAVE3d?s=published) · Category: licensing-economics
 
 **Short definition:** Data ownership is a shorthand for the rights and control a party has over information. Those rights can come from contracts, intellectual property, privacy rules, or other law; storing data does not establish unrestricted licensing authority.
 
@@ -702,7 +702,7 @@ There is no single worldwide rule that converts possession of a dataset into com
 
 ## Data provenance
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmARxUAAC8AVE7v?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmARxUAAC8AVE7v?s=published) · Category: data-quality-preparation
 
 **Short definition:** Data provenance records where data came from and the people, systems, or activities involved in producing it. It helps assess origin and trustworthiness, while separate rights documentation establishes what uses are authorized.
 
@@ -738,7 +738,7 @@ A recorded source can be incomplete or wrong. Technical signatures and metadata 
 
 ## Data quality
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAVBUAACsAVE8y?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAVBUAACsAVE8y?s=published) · Category: data-quality-preparation
 
 **Short definition:** Data quality is the degree to which data is reliable and fit for a particular use. Accuracy, completeness, consistency, timeliness, coverage, and valid interpretation can all matter; quality cannot be judged from file size alone.
 
@@ -774,7 +774,7 @@ No single score captures every quality dimension. Improving one property can red
 
 ## Data retention
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAoRUAACsAVFCl?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAoRUAACsAVFCl?s=published) · Category: rights-privacy-control
 
 **Short definition:** Data retention defines how long information is kept and what happens when that period or purpose ends. Source files, backups, derived datasets, logs, and model artifacts may need distinct treatment in a licensing agreement.
 
@@ -810,7 +810,7 @@ A calendar date alone does not prove deletion across every system. Conversely, i
 
 ## Dataset documentation
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAXBUAAC4AVE9h?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAXBUAAC4AVE9h?s=published) · Category: data-quality-preparation
 
 **Short definition:** Dataset documentation explains a dataset’s contents, origins, preparation, intended uses, limitations, and access conditions. It helps recipients interpret records correctly and assess suitability without relying on assumptions or an unexplained export.
 
@@ -846,7 +846,7 @@ Documentation can be outdated or incomplete. It is evidence to assess, not a cer
 
 ## Dataset valuation
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAJhUAADIAVE46?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAJhUAADIAVE46?s=published) · Category: licensing-economics
 
 **Short definition:** Dataset valuation is an assessment of a dataset’s economic value in a particular context. Utility, rights, quality, scarcity, preparation costs, and the terms of access can matter more than raw record count.
 
@@ -882,7 +882,7 @@ No universal per-record price applies across industries and uses. Economy-wide e
 
 ## De-identification
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql5mxUAAC0AVDHy?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql5mxUAAC0AVDHy?s=published) · Category: rights-privacy-control
 
 **Short definition:** De-identification is a process for reducing the association between data and identifiable people or organizations. It combines transformations and disclosure controls; removing names alone does not establish anonymity or eliminate re-identification risk.
 
@@ -922,7 +922,7 @@ Risk can change when additional datasets become available or when the audience e
 
 ## Egocentric video
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAKhUAAC4AVE5O?s=release&r=aqllIhUAAC8AU_Eu) · Category: video-robotics-physical-ai
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAKhUAAC4AVE5O?s=published) · Category: video-robotics-physical-ai
 
 **Short definition:** Egocentric video records activity from a participant’s viewpoint, often using a wearable camera. It can show hands, objects, and immediate task context, but camera placement and movement limit what the footage reveals.
 
@@ -958,7 +958,7 @@ Footage may omit key actions or contain motion blur and occlusion. It does not a
 
 ## Evaluation data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_-xUAAC8AVE1W?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_-xUAAC8AVE1W?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** Evaluation data is used to assess a model’s performance on defined tasks or conditions. It should support meaningful comparisons and avoid unintended overlap or information that makes the assessment easier than the real use case.
 
@@ -994,7 +994,7 @@ A high score supports conclusions only about the tested setting and criteria. Re
 
 ## Expert demonstrations
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_0hUAAC0AVEx3?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_0hUAAC0AVEx3?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** Expert demonstrations are examples of a skilled operator performing a task. They can show actions, context, and outcomes for imitation or evaluation, but expertise and success need evidence rather than being inferred from the demonstrator’s title.
 
@@ -1030,7 +1030,7 @@ Expert behavior in one setting may not generalize to another. Demonstrations can
 
 ## Fair use
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAbhUAACsAVE-_?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAbhUAACsAVE-_?s=published) · Category: rights-privacy-control
 
 **Short definition:** Fair use is a U.S. copyright doctrine that can permit certain uses without the copyright holder’s authorization. It requires a context-specific assessment of statutory factors and does not automatically authorize every use of material for AI.
 
@@ -1066,7 +1066,7 @@ Other jurisdictions have different exceptions and requirements. U.S. fair-use an
 
 ## Fine-tuning
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAABUAAC4AVE1t?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAABUAAC4AVE1t?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** Fine-tuning adapts a pre-trained model through additional training for a particular task, domain, or behavior. It changes learned parameters or additional trainable components and is distinct from simply supplying instructions or retrieving documents at runtime.
 
@@ -1102,7 +1102,7 @@ Fine-tuning does not guarantee factual accuracy or improvement across all tasks.
 
 ## Fine-tuning data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_1hUAAC0AVEyN?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_1hUAAC0AVEyN?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** Fine-tuning data is the dataset used to adapt an already trained model to a more specific task or behavior. Its format and examples depend on the training method, and it should remain appropriately separated from final evaluation data.
 
@@ -1138,7 +1138,7 @@ Small or biased datasets can teach narrow behavior or reinforce errors. More exa
 
 ## Indemnification
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAcxUAAC0AVE_W?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAcxUAAC0AVE_W?s=published) · Category: rights-privacy-control
 
 **Short definition:** Indemnification is a contractual allocation of responsibility for specified losses or claims. In a data license, the covered events, limits, exclusions, defense process, and party obligations determine what protection the clause actually provides.
 
@@ -1174,7 +1174,7 @@ Coverage may be narrower than the clause heading suggests, and recovery can depe
 
 ## Licensing scope
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAIRUAAC0AVE4j?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAIRUAAC0AVE4j?s=published) · Category: licensing-economics
 
 **Short definition:** Licensing scope is the full boundary of a data license: covered records, permitted activities, authorized parties, duration, geography, and other conditions. Clear scope connects commercial expectations to what the recipient can actually do.
 
@@ -1210,7 +1210,7 @@ Precise wording cannot create missing rights, and an apparently narrow dataset c
 
 ## Long-horizon task
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_2hUAAC4AVEym?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_2hUAAC4AVEym?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** A long-horizon task requires many connected decisions or actions before reaching its goal. Difficulty comes from dependencies, delayed feedback, and recovery needs—not only from elapsed time or the number of clicks.
 
@@ -1246,7 +1246,7 @@ Longer does not automatically mean more valuable for training. A trajectory may 
 
 ## Model weights
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_3hUAAC8AVEy6?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_3hUAAC8AVEy6?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** Model weights are learned numerical parameters that influence a model’s predictions or actions. Training adjusts them, while inference uses them; weights are distinct from the source dataset, although models can sometimes memorize aspects of training data.
 
@@ -1282,7 +1282,7 @@ Weights are not a simple database of training rows, but it is also unsafe to ass
 
 ## Multi-camera video
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmALhUAAC0AVE5n?s=release&r=aqllIhUAAC8AU_Eu) · Category: video-robotics-physical-ai
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmALhUAAC0AVE5n?s=published) · Category: video-robotics-physical-ai
 
 **Short definition:** Multi-camera video records a scene or activity from more than one camera. For joint analysis, synchronization, calibration, viewpoint coverage, and consistent event identity determine whether the recordings can be interpreted together.
 
@@ -1318,7 +1318,7 @@ More cameras do not automatically provide accurate three-dimensional reconstruct
 
 ## Non-exclusive licensing
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAHRUAADIAVE4M?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAHRUAADIAVE4M?s=published) · Category: licensing-economics
 
 **Short definition:** Non-exclusive licensing grants permission without reserving the covered rights to one recipient. A provider may retain the ability to grant other licenses, subject to the actual agreement and any pre-existing restrictions.
 
@@ -1354,7 +1354,7 @@ Non-exclusive permission cannot override rights the provider does not control. I
 
 ## Onward sharing
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAexUAADIAVFAE?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAexUAADIAVFAE?s=published) · Category: rights-privacy-control
 
 **Short definition:** Onward sharing is the transfer or disclosure of data by a recipient to another party. Affiliates, contractors, research partners, and downstream customers can introduce access and use questions beyond the original license.
 
@@ -1390,7 +1390,7 @@ Calling a transfer “internal” does not resolve whether a separate legal enti
 
 ## Operational data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAshUAAC0AVFDP?s=release&r=aqllIhUAAC8AU_Eu) · Category: business-data-workflows
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAshUAAC0AVFDP?s=published) · Category: business-data-workflows
 
 **Short definition:** Operational data is information produced while a business carries out its everyday activities. Orders, service events, inventory changes, and approvals can describe real processes, but their meaning depends on the systems and practices that created them.
 
@@ -1426,7 +1426,7 @@ Operational systems may omit unsuccessful attempts or work performed offline. Bu
 
 ## Outcome labels
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmATxUAACsAVE8b?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmATxUAACsAVE8b?s=published) · Category: data-quality-preparation
 
 **Short definition:** Outcome labels describe the result of an event, decision, or workflow under a defined rule. They can support training or evaluation, but labels such as “successful” need evidence, timing, and a clear distinction from intermediate statuses.
 
@@ -1462,7 +1462,7 @@ A measured outcome does not establish which action caused it. Missing follow-up,
 
 ## Permitted use
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAGRUAACsAVE31?s=release&r=aqllIhUAAC8AU_Eu) · Category: licensing-economics
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAGRUAACsAVE31?s=published) · Category: licensing-economics
 
 **Short definition:** Permitted use defines the activities a recipient is authorized to perform with licensed data. Analysis, model training, evaluation, redistribution, and use of derived artifacts can require different permissions in the agreement.
 
@@ -1498,7 +1498,7 @@ A stated purpose alone does not establish lawful collection, remove confidential
 
 ## Personally identifiable information (PII)
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAfxUAACsAVFAY?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAfxUAACsAVFAY?s=published) · Category: rights-privacy-control
 
 **Short definition:** Personally identifiable information, or PII, is information that can identify a person directly or through linkage with other information. Its boundaries depend on context and applicable rules, including how combinations of seemingly ordinary details can reveal identity.
 
@@ -1534,7 +1534,7 @@ A fixed list of sensitive column names is insufficient for every dataset. Inform
 
 ## Pseudonymization
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAgxUAAC4AVFAv?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAgxUAAC4AVFAv?s=published) · Category: rights-privacy-control
 
 **Short definition:** Pseudonymization replaces identifying information with substitutes while keeping a way to reconnect records using additional information. It can reduce exposure, but pseudonymized records can still be personal data and require protection.
 
@@ -1570,7 +1570,7 @@ Pseudonymized data is not automatically anonymous. Removing the mapping does not
 
 ## Re-identification risk
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAnRUAAC0AVFCb?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAnRUAAC0AVFCb?s=published) · Category: rights-privacy-control
 
 **Short definition:** Re-identification risk is the possibility of connecting transformed or apparently non-identifying records back to people or entities. It depends on remaining detail, outside information, recipient capabilities, and the conditions of access.
 
@@ -1606,7 +1606,7 @@ A failed identification attempt does not prove that no method could succeed. No 
 
 ## Redaction
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAmBUAAC0AVFCR?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAmBUAAC0AVFCR?s=published) · Category: rights-privacy-control
 
 **Short definition:** Redaction removes or obscures selected information before disclosure. Effective digital redaction must address underlying text, metadata, attachments, and alternate copies; covering visible text is not always enough to remove it.
 
@@ -1642,7 +1642,7 @@ A black rectangle drawn over text may leave the underlying text recoverable. Eve
 
 ## Reward hacking
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_4xUAAC8AVEzR?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_4xUAAC8AVEzR?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** Reward hacking occurs when an AI system achieves a high measured reward in a way that misses the intended objective. It exposes a gap between what designers want and what the reward or evaluation mechanism actually measures.
 
@@ -1678,7 +1678,7 @@ An unexpected strategy is not automatically reward hacking; it may be a valid al
 
 ## RL environment
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_5xUAACwAVEzn?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_5xUAACwAVEzn?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** A reinforcement learning environment is the setting an agent interacts with through actions and observations. It supplies state transitions and rewards or feedback, allowing behavior to be learned or evaluated over sequences of interaction.
 
@@ -1714,7 +1714,7 @@ A convenient environment may omit real constraints or contain exploitable scorin
 
 ## RLHF data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_6xUAAC4AVEz9?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_6xUAAC4AVEz9?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** RLHF data supplies human feedback used in reinforcement learning from human feedback. It often includes comparisons or rankings of model outputs, with instructions and context needed to understand what reviewers preferred and why.
 
@@ -1750,7 +1750,7 @@ Human preferences can be inconsistent, context-dependent, or biased. A learned r
 
 ## Sim-to-real gap
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAMhUAACwAVE59?s=release&r=aqllIhUAAC8AU_Eu) · Category: video-robotics-physical-ai
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAMhUAACwAVE59?s=published) · Category: video-robotics-physical-ai
 
 **Short definition:** The sim-to-real gap is the difference between conditions represented in a simulation and those encountered in the real world. Models or policies trained in simulation can fail when appearance, dynamics, sensors, or constraints differ.
 
@@ -1786,7 +1786,7 @@ A realistic-looking simulation can still have incorrect dynamics or missing edge
 
 ## Synthetic training data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_7xUAACwAVE0V?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_7xUAACwAVE0V?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** Synthetic training data is generated rather than directly recorded from the target real-world activity. It can come from models, simulations, or rules, and needs validation for usefulness, diversity, errors, privacy, and rights.
 
@@ -1822,7 +1822,7 @@ Generated data is not automatically anonymous, diverse, accurate, or free of thi
 
 ## System of record
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAqRUAACwAVFC5?s=release&r=aqllIhUAAC8AU_Eu) · Category: business-data-workflows
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAqRUAACwAVFC5?s=published) · Category: business-data-workflows
 
 **Short definition:** A system of record is the designated authoritative source for a particular kind of business information. An organization can have several systems of record, each responsible for different entities, fields, or processes.
 
@@ -1858,7 +1858,7 @@ Fictional example: A business uses its accounting platform as the authority for 
 
 ## Teleoperation
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmANhUAADAAVE6T?s=release&r=aqllIhUAAC8AU_Eu) · Category: video-robotics-physical-ai
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmANhUAADAAVE6T?s=published) · Category: video-robotics-physical-ai
 
 **Short definition:** Teleoperation is the control of a machine or robot by a human through an interface. Recorded observations and commands can provide demonstrations, but timing, hardware, control mappings, and outcome quality determine how those records can be used.
 
@@ -1894,7 +1894,7 @@ A demonstration from one robot may not transfer directly to another. Human corre
 
 ## Third-party data rights
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAjBUAAC8AVFBf?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAjBUAAC8AVFBf?s=published) · Category: rights-privacy-control
 
 **Short definition:** Third-party data rights are rights or permissions held by parties other than the business proposing a data license. Customer content, supplier material, licensed references, and individual privacy interests can limit what that business may grant.
 
@@ -1930,7 +1930,7 @@ A single record may involve multiple parties and overlapping obligations. Public
 
 ## Training-ready data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmASxUAADIAVE8F?s=release&r=aqllIhUAAC8AU_Eu) · Category: data-quality-preparation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmASxUAADIAVE8F?s=published) · Category: data-quality-preparation
 
 **Short definition:** Training-ready data has been prepared and checked for a specified model-training workflow. Readiness depends on the task, format, quality, documentation, and permissions; it is not a universal certification that any dataset can train any model.
 
@@ -1966,7 +1966,7 @@ There is no universal threshold for training readiness. Data can pass technical 
 
 ## Unstructured data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAvhUAACwAVFDu?s=release&r=aqllIhUAAC8AU_Eu) · Category: business-data-workflows
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAvhUAACwAVFDu?s=published) · Category: business-data-workflows
 
 **Short definition:** Unstructured data is information whose substantive content does not fit neatly into predefined table fields. Documents, free text, images, audio, and video can carry useful context, even when the files also have structured metadata.
 
@@ -2002,7 +2002,7 @@ The label does not guarantee richness, quality, or commercial value. Extraction 
 
 ## Verifier
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aql_8xUAADIAVE0s?s=release&r=aqllIhUAAC8AU_Eu) · Category: ai-training-agents-evaluation
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aql_8xUAADIAVE0s?s=published) · Category: ai-training-agents-evaluation
 
 **Short definition:** A verifier checks whether a result satisfies defined requirements. It may use rules, tests, environment state, or a model; the reliability of its checks determines what a passing result actually establishes.
 
@@ -2038,7 +2038,7 @@ A passing check proves only what the check can establish under its assumptions. 
 
 ## Voice & likeness rights
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAdxUAAC4AVE_s?s=release&r=aqllIhUAAC8AU_Eu) · Category: rights-privacy-control
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAdxUAAC4AVE_s?s=published) · Category: rights-privacy-control
 
 **Short definition:** Voice and likeness rights concern uses of a person’s recognizable voice, image, or identity. Applicable protections and permissions vary by jurisdiction and can be separate from copyright in the recording itself.
 
@@ -2072,7 +2072,7 @@ Consent wording, employment context, collective agreements, and local law can af
 
 ## Workflow data
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAthUAAC4AVFDY?s=release&r=aqllIhUAAC8AU_Eu) · Category: business-data-workflows
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAthUAAC4AVFDY?s=published) · Category: business-data-workflows
 
 **Short definition:** Workflow data describes how work is organized and performed, including tasks, handoffs, states, decisions, and outcomes. It may span several systems and can include both structured events and supporting documents or messages.
 
@@ -2108,7 +2108,7 @@ Logs can reflect the software’s design rather than every step of real work. Th
 
 ## Workflow trajectory
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmArhUAAC8AVFDE?s=release&r=aqllIhUAAC8AU_Eu) · Category: business-data-workflows
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmArhUAAC8AVFDE?s=published) · Category: business-data-workflows
 
 **Short definition:** A workflow trajectory is an ordered record of a particular task’s progression through states, actions, and outcomes. It captures one execution path, including branches or errors, rather than merely describing how a process is supposed to work.
 
@@ -2144,7 +2144,7 @@ Event order does not prove causation or reveal every reason for a decision. A tr
 
 ## World model
 
-[Open the Prismic draft](https://rancher.prismic.io/builder/pages/aqmAOxUAADEAVE6r?s=release&r=aqllIhUAAC8AU_Eu) · Category: video-robotics-physical-ai
+[Open in Prismic](https://rancher.prismic.io/builder/pages/aqmAOxUAADEAVE6r?s=published) · Category: video-robotics-physical-ai
 
 **Short definition:** A world model is a learned representation of an environment and how it may change. It can support prediction, planning, or simulated experience, but useful-looking predictions do not guarantee accurate physical behavior or reliable action outcomes.
 

@@ -105,6 +105,8 @@ const server = http.createServer(async (req, res) => {
       d.uid,
     ),
   );
+  const blankAlias = terms.find((d) => d.uid === "dark-data");
+  blankAlias.data.aliases = [{ alias: null }];
   if (!preview && state.unpublished)
     terms = terms.filter((d) => d.uid !== state.unpublished);
   if (preview)

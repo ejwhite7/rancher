@@ -125,7 +125,24 @@ export const glossaryTermSchema = z.object({
       ...GlossaryCategory[],
     ],
   ),
-  aliases: z.array(z.object({ alias: required })).default([]),
+  aliases: z.preprocess(
+    // Prismic can save an untouched optional Group as [{ alias: null }].
+    // Treat that editor placeholder as no alias, while validating entered values.
+    (value) =>
+      Array.isArray(value)
+        ? value.filter(
+            (row) =>
+              !(
+                row &&
+                typeof row === "object" &&
+                "alias" in row &&
+                (row.alias === null ||
+                  (typeof row.alias === "string" && !row.alias.trim()))
+              ),
+          )
+        : value,
+    z.array(z.object({ alias: required })).default([]),
+  ),
   how_it_works: body,
   licensing_relevance: body,
   example: body,

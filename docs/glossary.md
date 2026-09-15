@@ -1,5 +1,11 @@
 # Glossary implementation and release
 
+## Current rollout state (September 15, 2026)
+
+The frontend is deployed to staging. Prismic contains all 60 populated entries and the index. They were imported as drafts; during verification, Prismic’s public API began returning all 61 as published. No publication command was run by this implementation workflow. All 60 reviewer names and completed review dates remain unset, so publication acceptance still fails. Public glossary requests on the new frontend return 503 until that metadata is complete; previews render the content with editorial warnings. Main remains on the previous frontend pending the plan’s review and approval requirements.
+
+The Navigation draft adds a Glossary link. Verify its publication state when completing the release. The content owner must review the entries, supply actual review metadata, and approve the production rollout. If entries are already published, make and publish the reviewed corrections through Prismic before completing the production switch. Do not infer completed review from CMS publication alone.
+
 ## Content model and routes
 
 - `glossary-index`: singleton, `/glossary/`.

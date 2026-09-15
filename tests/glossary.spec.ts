@@ -49,6 +49,12 @@ test("publication metadata, invalid categories, malicious source links, and dupl
   const [draft] = await loadDrafts();
   const data = termData(draft, shared);
   expect(
+    glossaryTermSchema.parse({
+      ...data,
+      aliases: [{ alias: null }, { alias: " " }, { alias: "Valid alias" }],
+    }).aliases,
+  ).toEqual([{ alias: "Valid alias" }]);
+  expect(
     glossaryTermSchema.safeParse({ ...data, category: "invented" }).success,
   ).toBe(false);
   expect(
