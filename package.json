@@ -9,12 +9,20 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "playwright test",
-    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.mjs"
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.mjs",
+    "prismic:plan": "node --env-file-if-exists=.env.local scripts/prismic.mjs plan",
+    "prismic:push": "node --env-file-if-exists=.env.local scripts/prismic.mjs push",
+    "prismic:migrate": "node --env-file-if-exists=.env.local scripts/prismic.mjs migrate",
+    "prismic:verify": "node --env-file-if-exists=.env.local scripts/prismic.mjs verify",
+    "prismic:inspect": "node --env-file-if-exists=.env.local scripts/prismic.mjs inspect",
+    "prismic:publish": "node --env-file-if-exists=.env.local scripts/prismic.mjs publish"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",
     "@astrojs/sitemap": "^3.7.4",
     "@astrojs/vercel": "^11.0.10",
+    "@prismicio/client": "^7.22.0",
+    "@prismicio/custom-types-client": "^2.1.0",
     "animejs": "^4.3.0",
     "astro": "^7.3.2",
     "free-email-domains": "^1.11.14",

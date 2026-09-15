@@ -1,22 +1,23 @@
 ---
+import type { HomepageContent } from "../lib/content";
+import RichText from "./RichText.astro";
 import DataTabs from "./DataTabs";
+interface Props {
+  copy: HomepageContent["data_categories"];
+}
+const { copy } = Astro.props;
 ---
 
 <section class="section" id="data">
   <div class="wrap">
     <div class="section-head">
       <div>
-        <h2>
-          Ordinary records.
-          <br />
-          Extraordinary context.
-        </h2>
+        <RichText value={copy.heading} />
       </div>
     </div>
-    <DataTabs client:visible={{ rootMargin: "300px" }} />
-    <p class="under-note">
-      Examples of data to assess—not a request for unrestricted access.
-      Eligibility depends on your rights, sensitivity, quality, and buyer needs.
-    </p>
+    <DataTabs copy={copy} client:visible={{ rootMargin: "300px" }} />
+    <div class="under-note">
+      <RichText value={copy.note} />
+    </div>
   </div>
 </section>

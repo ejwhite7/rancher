@@ -1,18 +1,20 @@
 ---
+import type { HomepageContent } from "../lib/content";
+import RichText from "./RichText.astro";
 import Calculator from "./Calculator";
+interface Props {
+  copy: HomepageContent["calculator"];
+}
+const { copy } = Astro.props;
 ---
 
 <section class="section calculator-section" id="calculator">
   <div class="wrap">
     <div class="section-head calculator-heading">
       <div>
-        <h2>
-          What could your
-          <br />
-          data be worth?
-        </h2>
+        <RichText value={copy.heading} />
       </div>
     </div>
-    <Calculator client:load />
+    <Calculator copy={copy} client:load />
   </div>
 </section>

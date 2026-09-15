@@ -1,11 +1,17 @@
 ---
+import type { FooterContent } from "../lib/content";
+import RichText from "./RichText.astro";
+interface Props {
+  copy: FooterContent;
+}
+const { copy } = Astro.props;
 const homePath = Astro.url.pathname === "/" ? "" : "/";
 ---
 
 <footer class="footer h-card">
   <div class="wrap">
     <div class="footer-top">
-      <a href="/" class="brand p-name u-url" aria-label="Rancher home">
+      <a href="/" class="brand p-name u-url" aria-label={copy.brand_label}>
         <svg viewBox="0 0 32 34" fill="none" aria-hidden="true">
           <path
             d="M3 29V6l13-4 13 4v23M3 18l13-4 13 4M10 31V10m12 21V10M3 25l13-4 13 4"
@@ -14,39 +20,38 @@ const homePath = Astro.url.pathname === "/" ? "" : "/";
             stroke-linejoin="round"
           />
         </svg>
-        rancher
+        {copy.brand_name}
       </a>
     </div>
     <div class="footer-bottom">
       <span>
-        © {new Date().getFullYear()} Rancher. Cultivate what comes next.
+        © {new Date().getFullYear()} {copy.copyright}
       </span>
-      <nav aria-label="Footer">
-        <a href={`${homePath}#faq`}>FAQs</a>
-        <a href="/privacy-policy/">Privacy Policy</a>
-        <a href="/terms-of-use/">Terms of Use</a>
+      <nav aria-label={copy.nav_label}>
+        <a href={`${homePath}#faq`}>{copy.faq_label}</a>
+        <a href="/privacy-policy/">{copy.privacy_label}</a>
+        <a href="/terms-of-use/">{copy.terms_label}</a>
         <a href="#site-note" data-dialog="site-note">
-          Site information
+          {copy.information_label}
         </a>
-        <a href={`${homePath}#contact`}>Start a partnership ↗</a>
+        <a
+          href={
+            copy.cta_link.startsWith("#")
+              ? homePath + copy.cta_link
+              : copy.cta_link
+          }
+        >
+          {copy.cta_label}
+        </a>
       </nav>
     </div>
   </div>
 </footer>
 <dialog id="site-note" aria-labelledby="site-title">
-  <h2 id="site-title">About this webpage</h2>
-  <p>
-    This is a Rancher service website concept. Its service descriptions outline
-    a proposed offering, not verified operational capabilities or a binding
-    offer. No AI-lab relationships, earnings, customers, or certifications are
-    claimed.
-  </p>
-  <p>
-    The inquiry form saves your contact details and business summary so Rancher
-    can follow up. Any data partnership requires a separate written agreement.
-  </p>
+  <h2 id="site-title">{copy.dialog_heading}</h2>
+  <RichText value={copy.dialog_body} />
   <button class="btn" data-close>
-    Close
+    {copy.close_label}
   </button>
 </dialog>
 <script>

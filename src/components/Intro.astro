@@ -1,29 +1,22 @@
+---
+import type { HomepageContent } from "../lib/content";
+import RichText from "./RichText.astro";
+
+interface Props {
+  copy: HomepageContent["opportunity"];
+}
+const { copy } = Astro.props;
+---
+
 <section class="section intro" id="opportunity">
   <div class="wrap intro-grid">
     <div>
-      <div class="eyebrow">The opportunity</div>
-      <h2>
-        The next frontier of AI
-        <br />
-        is everyday expertise.
-      </h2>
+      <div class="eyebrow">{copy.eyebrow}</div>
+      <RichText value={copy.heading} />
     </div>
     <div>
-      <p class="lead">
-        The internet shows AI what people say.
-        <br />
-        Your workflows show it how work gets done.
-      </p>
-      <p>
-        A resolved support ticket. A project that moved from idea to delivery. A
-        decision with its context intact. These records can help AI labs train
-        and evaluate models on real business tasks.
-      </p>
-      <p>
-        Rancher helps you explore that opportunity: identify useful data,
-        prepare it responsibly, and structure a license that makes sense for
-        your business.
-      </p>
+      <RichText value={copy.lead} lead />
+      <RichText value={copy.body} />
     </div>
   </div>
 </section>

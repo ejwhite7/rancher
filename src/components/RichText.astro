@@ -1,0 +1,13 @@
+---
+import { richHtml, type RichText } from "../lib/content";
+interface Props {
+  value: RichText;
+  lead?: boolean;
+}
+const { value, lead = false } = Astro.props;
+const html = lead
+  ? richHtml(value).replace(/<p>/g, '<p class="lead">')
+  : richHtml(value);
+---
+
+<Fragment set:html={html} />

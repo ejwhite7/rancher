@@ -1,0 +1,80 @@
+{
+  "id": "legal",
+  "label": "Legal",
+  "repeatable": true,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "URL slug"
+        }
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Page title"
+        }
+      },
+      "description": {
+        "type": "Text",
+        "config": {
+          "label": "Meta description"
+        }
+      },
+      "body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Legal content",
+          "multi": "paragraph,heading2,heading3,strong,em,hyperlink,list-item,o-list-item"
+        }
+      },
+      "operator": {
+        "type": "Text",
+        "config": {
+          "label": "Legal operator"
+        }
+      },
+      "contact_email": {
+        "type": "Text",
+        "config": {
+          "label": "Contact email (optional)"
+        }
+      },
+      "updated": {
+        "type": "Date",
+        "config": {
+          "label": "Last updated"
+        }
+      },
+      "updated_label": {
+        "type": "Text",
+        "config": {
+          "label": "Last updated display label"
+        }
+      },
+      "navigation": {
+        "type": "Link",
+        "config": {
+          "label": "Site navigation",
+          "select": "document",
+          "customtypes": [
+            "navigation"
+          ]
+        }
+      },
+      "footer": {
+        "type": "Link",
+        "config": {
+          "label": "Site footer",
+          "select": "document",
+          "customtypes": [
+            "footer"
+          ]
+        }
+      }
+    }
+  }
+}

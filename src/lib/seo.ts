@@ -1,5 +1,5 @@
-import faqs from "../data/faqs.json";
-export const title = "Rancher — Make Your Business Data Work as Hard as You Do.";
+export const title =
+  "Rancher — Make Your Business Data Work as Hard as You Do.";
 export const description =
   "Make your business data work as hard as you do. Explore licensing operational records to AI labs and turn everyday work into a new revenue opportunity with Rancher.";
 export const imageAlt =
@@ -16,6 +16,13 @@ export function structuredData(
   site: URL,
   canonical: URL,
   page: { title: string; description: string } = { title, description },
+  faqs: { question: string; answer: string }[] = [],
+  socialImage = {
+    url: "/images/og-rancher-work-hard.png",
+    alt: imageAlt,
+    dimensions: { width: 1200, height: 630 },
+  },
+  siteDescription = description,
 ) {
   const isHome = canonical.pathname === "/";
   const id = (hash: string) => new URL(hash, site).href;
@@ -27,7 +34,7 @@ export function structuredData(
         "@id": id("#organization"),
         name: "Rancher",
         url: site.href,
-        description,
+        description: siteDescription,
         logo: {
           "@type": "ImageObject",
           url: new URL("/images/rancher-logo.png", site).href,
@@ -38,7 +45,7 @@ export function structuredData(
         "@id": id("#website"),
         name: "Rancher",
         url: site.href,
-        description,
+        description: siteDescription,
         inLanguage: "en-US",
         publisher: { "@id": id("#organization") },
       },
@@ -56,10 +63,10 @@ export function structuredData(
       {
         "@type": "ImageObject",
         "@id": id("#primaryimage"),
-        url: new URL("/images/og-rancher-work-hard.png", site).href,
-        width: 1200,
-        height: 630,
-        caption: imageAlt,
+        url: new URL(socialImage.url, site).href,
+        width: socialImage.dimensions.width,
+        height: socialImage.dimensions.height,
+        caption: socialImage.alt,
       },
       {
         "@type": "Service",

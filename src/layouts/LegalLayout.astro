@@ -1,17 +1,23 @@
 ---
+import { getFooterContent, getNavigationContent } from "../lib/prismic";
 import SiteLayout from "./SiteLayout.astro";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import { legal } from "../data/legal";
+import type { LegalContent } from "../lib/content";
 interface Props {
   title: string;
   description: string;
+  legal: LegalContent;
 }
-const { title, description } = Astro.props;
+const { title, description, legal } = Astro.props;
+const [navigation, footer] = await Promise.all([
+  getNavigationContent(legal.navigation.id),
+  getFooterContent(legal.footer.id),
+]);
 ---
 
 <SiteLayout title={`${title} | Rancher`} description={description}>
-  <Navigation homeLinks />
+  <Navigation copy={navigation} homeLinks />
   <main id="main-content" class="legal-page">
     <article class="wrap legal-content">
       <a class="textlink" href="/">
@@ -21,18 +27,18 @@ const { title, description } = Astro.props;
         <h1>{title}</h1>
         <p>
           Last updated{" "}
-          <time datetime={legal.updated}>{legal.updatedLabel}</time>
+          <time datetime={legal.updated}>{legal.updated_label}</time>
         </p>
       </header>
       <div class="legal-body">
         <slot />
       </div>
-      {legal.contactEmail && (
+      {legal.contact_email && (
         <section class="legal-body">
           <h2>Contact</h2>
           <p>
             For questions about this page, contact {legal.operator} at{" "}
-            <a href={`mailto:${legal.contactEmail}`}>{legal.contactEmail}</a>.
+            <a href={`mailto:${legal.contact_email}`}>{legal.contact_email}</a>.
           </p>
         </section>
       )}
@@ -56,5 +62,5 @@ const { title, description } = Astro.props;
       </nav>
     </article>
   </main>
-  <Footer />
+  <Footer copy={footer} />
 </SiteLayout>

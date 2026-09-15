@@ -1,0 +1,65 @@
+{
+  "id": "process",
+  "type": "SharedSlice",
+  "name": "How it works",
+  "description": "How it works section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "How it works",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Section label"
+          }
+        },
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading2,strong,em"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Introduction",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "Button label"
+          }
+        },
+        "cta_link": {
+          "type": "Link",
+          "config": {
+            "label": "Button destination",
+            "select": "web"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Step heading"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Step explanation"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "id": "homepage",
+  "label": "Homepage",
+  "repeatable": false,
+  "status": true,
+  "format": "page",
+  "json": {
+    "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Page name"
+        }
+      },
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "SEO title"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "SEO description"
+        }
+      },
+      "social_image": {
+        "type": "Image",
+        "config": {
+          "label": "Social sharing image",
+          "thumbnails": []
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Page sections",
+        "config": {
+          "choices": {
+            "hero": {
+              "type": "SharedSlice"
+            },
+            "opportunity": {
+              "type": "SharedSlice"
+            },
+            "calculator": {
+              "type": "SharedSlice"
+            },
+            "data_categories": {
+              "type": "SharedSlice"
+            },
+            "use_cases": {
+              "type": "SharedSlice"
+            },
+            "process": {
+              "type": "SharedSlice"
+            },
+            "protection": {
+              "type": "SharedSlice"
+            },
+            "faq": {
+              "type": "SharedSlice"
+            },
+            "contact": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      },
+      "navigation": {
+        "type": "Link",
+        "config": {
+          "label": "Site navigation",
+          "select": "document",
+          "customtypes": [
+            "navigation"
+          ]
+        }
+      },
+      "footer": {
+        "type": "Link",
+        "config": {
+          "label": "Site footer",
+          "select": "document",
+          "customtypes": [
+            "footer"
+          ]
+        }
+      }
+    }
+  }
+}

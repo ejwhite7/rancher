@@ -90,6 +90,17 @@ test("calculator updates reference scenarios and submits before redirecting", as
   });
   expect(submitted?.idempotencyKey).toMatch(/^[0-9a-f-]{36}$/);
   expect(posthogCalls).toContainEqual([
+    "capture",
+    "partnership_explored",
+    {
+      employee_count: "200_plus",
+      history_years: "20_plus",
+      company_region: "Canada",
+      estimate_below_floor: false,
+      estimate_open_ended: true,
+    },
+  ]);
+  expect(posthogCalls).toContainEqual([
     "identify",
     "alex@example.com",
     {

@@ -1,33 +1,33 @@
+---
+import type { HomepageContent } from "../lib/content";
+import RichText from "./RichText.astro";
+interface Props {
+  copy: HomepageContent["hero"];
+}
+const { copy } = Astro.props;
+---
+
 <section class="hero">
   <div class="wrap">
     <div class="hero-grid">
       <div class="hero-copy">
-        <h1>
-          <span class="headline-line">Make Your Business Data</span>
-          <span class="headline-line">
-            Work as Hard as <em>You Do.</em>
-          </span>
-        </h1>
-        <p>
-          Your team creates valuable knowledge every day. Rancher helps you turn
-          it into licensed datasets for AI labs—and a new revenue opportunity
-          for your business.
-        </p>
+        <RichText value={copy.heading} />
+        <RichText value={copy.description} />
         <div class="hero-actions">
-          <a class="btn" href="#contact">
-            Put your data to work{" "}
+          <a class="btn" href={copy.cta_link}>
+            {copy.cta_label}{" "}
             <span class="arrow" aria-hidden="true">
               ↗
             </span>
           </a>
-          <a class="textlink" href="#calculator">
-            Estimate your opportunity ↓
+          <a class="textlink" href={copy.secondary_link}>
+            {copy.secondary_label}
           </a>
         </div>
       </div>
       <div class="landscape">
         <svg viewBox="0 0 560 490" role="img" aria-labelledby="land-title">
-          <title id="land-title">An illustrated landscape of cultivated fields, connecting business data to new growth</title>
+          <title id="land-title">{copy.illustration_alt}</title>
           <defs>
             <linearGradient id="sky" x2="0" y2="1">
               <stop stop-color="#e8edda" />
@@ -101,29 +101,27 @@
           <path d="M176 453h214" stroke="#d8dfc9" />
         </svg>
         <div class="float-label label-top">
-          <span>Already in your business</span>
-          <b>Conversations. Decisions. Know-how.</b>
+          <span>{copy.source_label}</span>
+          <b>{copy.source_caption}</b>
         </div>
         <div class="float-label label-bottom">
-          <span>A new use for existing data</span>
+          <span>{copy.outcome_label}</span>
           <b>
-            <i></i>From everyday work → AI progress
+            <i></i>
+            {copy.outcome_caption}
           </b>
         </div>
       </div>
     </div>
     <div class="hero-foot">
-      <strong>Built around your business. Not the other way around.</strong>
+      <strong>{copy.trust_heading}</strong>
       <div>
-        <span>
-          <span class="tick">✓</span>You define the scope
-        </span>
-        <span>
-          <span class="tick">✓</span>You approve the terms
-        </span>
-        <span>
-          <span class="tick">✓</span>You retain ownership
-        </span>
+        {copy.items.map((item) => (
+          <span>
+            <span class="tick">✓</span>
+            {item.text}
+          </span>
+        ))}
       </div>
     </div>
   </div>

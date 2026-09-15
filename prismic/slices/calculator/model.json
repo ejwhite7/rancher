@@ -1,0 +1,111 @@
+{
+  "id": "calculator",
+  "type": "SharedSlice",
+  "name": "Opportunity calculator",
+  "description": "Opportunity calculator section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "Opportunity calculator",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading2,strong,em"
+          }
+        },
+        "estimate_label": {
+          "type": "Text",
+          "config": {
+            "label": "Result label"
+          }
+        },
+        "below_floor_label": {
+          "type": "Text",
+          "config": {
+            "label": "Low-range prefix"
+          }
+        },
+        "disclaimer": {
+          "type": "Text",
+          "config": {
+            "label": "Estimate disclaimer"
+          }
+        },
+        "employees_label": {
+          "type": "Text",
+          "config": {
+            "label": "Employee slider label"
+          }
+        },
+        "years_label": {
+          "type": "Text",
+          "config": {
+            "label": "History slider label"
+          }
+        },
+        "years_min_label": {
+          "type": "Text",
+          "config": {
+            "label": "Minimum history label"
+          }
+        },
+        "years_max_label": {
+          "type": "Text",
+          "config": {
+            "label": "Maximum history label"
+          }
+        },
+        "region_label": {
+          "type": "Text",
+          "config": {
+            "label": "Region selector label"
+          }
+        },
+        "usa_label": {
+          "type": "Text",
+          "config": {
+            "label": "USA option label"
+          }
+        },
+        "canada_label": {
+          "type": "Text",
+          "config": {
+            "label": "Canada option label"
+          }
+        },
+        "europe_label": {
+          "type": "Text",
+          "config": {
+            "label": "Europe option label"
+          }
+        },
+        "other_label": {
+          "type": "Text",
+          "config": {
+            "label": "Other region label"
+          }
+        },
+        "cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "Button label"
+          }
+        },
+        "cta_link": {
+          "type": "Link",
+          "config": {
+            "label": "Button destination",
+            "select": "web"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

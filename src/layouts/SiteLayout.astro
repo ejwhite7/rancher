@@ -1,21 +1,23 @@
 ---
 import "../styles/global.css";
+import { getSiteContent } from "../lib/prismic";
+const { homepage } = await getSiteContent();
 import PostHog from "../components/posthog.astro";
-import {
-  title as defaultTitle,
-  description as defaultDescription,
-  imageAlt,
-  isPublicSite,
-  structuredData,
-} from "../lib/seo";
+import { isPublicSite, structuredData } from "../lib/seo";
 interface Props {
   title?: string;
   description?: string;
+  faqs?: { question: string; answer: string }[];
 }
-const { title = defaultTitle, description = defaultDescription } = Astro.props;
+const {
+  title = homepage.meta_title,
+  description = homepage.meta_description,
+  faqs,
+} = Astro.props;
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site);
-const image = new URL("/images/og-rancher-work-hard.png", site);
+const image = new URL(homepage.social_image.url, site);
+const imageAlt = homepage.social_image.alt;
 const robots = isPublicSite(site)
   ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
   : "noindex, nofollow";
@@ -36,7 +38,12 @@ const robots = isPublicSite(site)
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
-    <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48" href="/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      sizes="16x16 32x32 48x48"
+      href="/favicon.ico"
+    />
     <link rel="icon" type="image/svg+xml" href="/images/rancher-logo.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -48,9 +55,14 @@ const robots = isPublicSite(site)
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={image} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:width"
+      content={String(homepage.social_image.dimensions.width)}
+    />
+    <meta
+      property="og:image:height"
+      content={String(homepage.social_image.dimensions.height)}
+    />
     <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -62,7 +74,14 @@ const robots = isPublicSite(site)
       is:inline
       type="application/ld+json"
       set:html={JSON.stringify(
-        structuredData(site, canonical, { title, description }),
+        structuredData(
+          site,
+          canonical,
+          { title, description },
+          faqs,
+          homepage.social_image,
+          homepage.meta_description,
+        ),
       ).replace(/</g, "\\u003c")}
     ></script>
   </head>

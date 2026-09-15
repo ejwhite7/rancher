@@ -1,0 +1,29 @@
+{
+  "brand_name": "rancher",
+  "brand_label": "Rancher home",
+  "copyright": "Rancher. Cultivate what comes next.",
+  "nav_label": "Footer",
+  "faq_label": "FAQs",
+  "privacy_label": "Privacy Policy",
+  "terms_label": "Terms of Use",
+  "information_label": "Site information",
+  "cta_label": "Start a partnership ↗",
+  "cta_link": {
+    "link_type": "Web",
+    "url": "#contact"
+  },
+  "dialog_heading": "About this webpage",
+  "dialog_body": [
+    {
+      "type": "paragraph",
+      "text": "This is a Rancher service website concept. Its service descriptions outline a proposed offering, not verified operational capabilities or a binding offer. No AI-lab relationships, earnings, customers, or certifications are claimed.",
+      "spans": []
+    },
+    {
+      "type": "paragraph",
+      "text": "The inquiry form saves your contact details and business summary so Rancher can follow up. Any data partnership requires a separate written agreement.",
+      "spans": []
+    }
+  ],
+  "close_label": "Close"
+}

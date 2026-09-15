@@ -12,3 +12,6 @@ playwright-report/
 CONTINUITY.md
 .vercel
 supabase/.temp/
+
+.prismic-migration/
+prismic/migration-plan.json

@@ -1,8 +1,9 @@
+import type { FormContent } from "../lib/content";
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { useScenario } from "../lib/scenario";
 import { HISTORY_RANGES, RECORD_TYPES, TEAM_SIZES } from "../lib/submission";
 import { EMPLOYEES } from "../lib/estimate";
-export default function PartnershipForm() {
+export default function PartnershipForm({ copy }: { copy: FormContent }) {
   const scenario = useScenario();
   const [size, setSize] = useState("");
   const [history, setHistory] = useState("");
@@ -82,9 +83,7 @@ export default function PartnershipForm() {
         typeof result.referralBonusUsd !== "number" ||
         typeof result.domain !== "string"
       )
-        throw new Error(
-          result.error || "We could not save your request. Please try again.",
-        );
+        throw new Error(result.error || copy.save_error);
       window.posthog?.identify(payload.email, {
         email: payload.email,
         domain: result.domain,
@@ -105,15 +104,15 @@ export default function PartnershipForm() {
         referral_bonus_usd: result.referralBonusUsd,
         calculator_scenario: payload.scenario,
       });
-      setStatus("Your request is saved. Opening the booking calendar…");
+      setStatus(copy.success);
       window.location.assign(result.redirectUrl);
     } catch (error) {
       setStatus(
         error instanceof TypeError
-          ? "Could not connect. Your entries are still here; please try again."
+          ? copy.network_error
           : error instanceof Error
             ? error.message
-            : "Please try again shortly.",
+            : copy.unknown_error,
       );
       pending.current = false;
       setSubmitting(false);
@@ -127,92 +126,90 @@ export default function PartnershipForm() {
         onSubmit={submitRequest}
         aria-busy={submitting}
       >
-        <h3>Explore a data partnership</h3>
+        <h3>{copy.title}</h3>
         <p id="calc-context" role="status">
           {scenario?.brief}
         </p>
-        <p>
-          Share your details, then choose a time to explore a data partnership.
-        </p>
+        <p>{copy.description}</p>
         <div className="form-honeypot" aria-hidden="true">
           <label>
-            Website
+            {copy.honeypot_label}
             <input name="website" autoComplete="off" tabIndex={-1} />
           </label>
         </div>
         <div className="form-grid">
           <label>
-            Your name
+            {copy.name_label}
             <input
               name="name"
               autoComplete="name"
-              placeholder="Alex Morgan"
+              placeholder={copy.name_placeholder}
               required
               maxLength={120}
             />
           </label>
           <label>
-            Work email
+            {copy.email_label}
             <input
               name="email"
               type="email"
               autoComplete="email"
-              placeholder="alex@company.com"
+              placeholder={copy.email_placeholder}
               required
               maxLength={180}
             />
           </label>
           <label>
-            Job title
+            {copy.job_title_label}
             <input
               name="title"
               autoComplete="organization-title"
-              placeholder="Your role"
+              placeholder={copy.job_title_placeholder}
               required
               maxLength={120}
             />
           </label>
           <label>
-            Company
+            {copy.company_label}
             <input
               name="company"
               autoComplete="organization"
-              placeholder="Company name"
+              placeholder={copy.company_placeholder}
               required
               maxLength={180}
             />
           </label>
           <label>
-            Company size (full-time employees)
+            {copy.size_label}
             <select
               name="size"
               required
               value={size}
               onChange={(event) => setSize(event.target.value)}
             >
-              <option value="">Select range</option>
+              <option value="">{copy.select_placeholder}</option>
               {TEAM_SIZES.map((range) => (
                 <option key={range}>{range}</option>
               ))}
             </select>
           </label>
           <label>
-            Available data history
+            {copy.history_label}
             <select
               name="history"
               required
               value={history}
               onChange={(event) => setHistory(event.target.value)}
             >
-              <option value="">Select range</option>
+              <option value="">{copy.select_placeholder}</option>
               {HISTORY_RANGES.map((range) => (
                 <option key={range}>{range}</option>
               ))}
             </select>
           </label>
           <fieldset className="record-types full">
-            <legend>What types of records could be in scope?</legend>
-            <p>Select all that apply. Choose at least one.</p>
+            <legend>{copy.records_label}</legend>
+            <p>{copy.records_hint}</p>
             <div className="record-type-options">
               {RECORD_TYPES.map((type, index) => (
                 <label key={type}>
@@ -236,10 +233,11 @@ export default function PartnershipForm() {
             </div>
           </fieldset>
           <label className="full">
-            Anything else to know? <span className="optional">Optional</span>
+            {copy.context_label}{" "}
+            <span className="optional">{copy.optional_label}</span>
             <textarea
               name="records"
-              placeholder="Share any additional context."
+              placeholder={copy.context_placeholder}
               maxLength={2000}
             ></textarea>
           </label>
@@ -252,13 +250,10 @@ export default function PartnershipForm() {
             defaultChecked
             required
           />
-          <span>
-            I consent to outreach from Rancher about data licensing
-            opportunities.
-          </span>
+          <span>{copy.consent}</span>
         </label>
         <button className="btn" type="submit" disabled={!ready || submitting}>
-          {submitting ? "Submitting…" : "Submit & book a call"}{" "}
+          {submitting ? copy.submitting_label : copy.submit_label}{" "}
           <span aria-hidden="true">↗</span>
         </button>
         <div
@@ -271,7 +266,7 @@ export default function PartnershipForm() {
         </div>
       </form>
       <noscript>
-        <p>Enable JavaScript to submit your request and book a call.</p>
+        <p>{copy.no_javascript}</p>
       </noscript>
     </>
   );

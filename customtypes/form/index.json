@@ -1,0 +1,179 @@
+{
+  "id": "form",
+  "label": "Form",
+  "repeatable": true,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Form identifier"
+        }
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Form heading"
+        }
+      },
+      "description": {
+        "type": "Text",
+        "config": {
+          "label": "Form introduction"
+        }
+      },
+      "honeypot_label": {
+        "type": "Text",
+        "config": {
+          "label": "Honeypot label"
+        }
+      },
+      "name_label": {
+        "type": "Text",
+        "config": {
+          "label": "Name field label"
+        }
+      },
+      "name_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Name placeholder"
+        }
+      },
+      "email_label": {
+        "type": "Text",
+        "config": {
+          "label": "Email field label"
+        }
+      },
+      "email_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Email placeholder"
+        }
+      },
+      "job_title_label": {
+        "type": "Text",
+        "config": {
+          "label": "Job title field label"
+        }
+      },
+      "job_title_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Job title placeholder"
+        }
+      },
+      "company_label": {
+        "type": "Text",
+        "config": {
+          "label": "Company field label"
+        }
+      },
+      "company_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Company placeholder"
+        }
+      },
+      "size_label": {
+        "type": "Text",
+        "config": {
+          "label": "Company size field label"
+        }
+      },
+      "select_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Select placeholder"
+        }
+      },
+      "history_label": {
+        "type": "Text",
+        "config": {
+          "label": "Data history field label"
+        }
+      },
+      "records_label": {
+        "type": "Text",
+        "config": {
+          "label": "Record types question"
+        }
+      },
+      "records_hint": {
+        "type": "Text",
+        "config": {
+          "label": "Record types help text"
+        }
+      },
+      "context_label": {
+        "type": "Text",
+        "config": {
+          "label": "Additional context field label"
+        }
+      },
+      "optional_label": {
+        "type": "Text",
+        "config": {
+          "label": "Optional field indicator"
+        }
+      },
+      "context_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Additional context placeholder"
+        }
+      },
+      "consent": {
+        "type": "Text",
+        "config": {
+          "label": "Outreach consent statement"
+        }
+      },
+      "no_javascript": {
+        "type": "Text",
+        "config": {
+          "label": "JavaScript requirement message"
+        }
+      },
+      "save_error": {
+        "type": "Text",
+        "config": {
+          "label": "Save failure message"
+        }
+      },
+      "success": {
+        "type": "Text",
+        "config": {
+          "label": "Submission success message"
+        }
+      },
+      "network_error": {
+        "type": "Text",
+        "config": {
+          "label": "Connection failure message"
+        }
+      },
+      "unknown_error": {
+        "type": "Text",
+        "config": {
+          "label": "Unexpected failure message"
+        }
+      },
+      "submitting_label": {
+        "type": "Text",
+        "config": {
+          "label": "Submitting button label"
+        }
+      },
+      "submit_label": {
+        "type": "Text",
+        "config": {
+          "label": "Submit button label"
+        }
+      }
+    }
+  }
+}

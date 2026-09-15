@@ -1,11 +1,12 @@
 # Rancher
 
-Astro with React islands, deployed to Vercel. The marketing and legal pages are prerendered; `/api/submissions/` runs as a serverless function and stores inquiries in Supabase PostgreSQL before directing the browser to the booking calendar.
+Astro with React islands, deployed to Vercel. The marketing and legal pages are prerendered from Prismic; `/api/submissions/` runs as a serverless function and stores inquiries in Supabase PostgreSQL before directing the browser to the booking calendar.
 
 ```sh
 npm ci
 npx vercel env pull .env.local --yes
 npm run db:migrate
+# Configure Prismic first (see docs/prismic.md).
 npm run dev
 ```
 
@@ -58,8 +59,10 @@ New submissions are atomically queued in `rancher.webhook_outbox` and sent to Ho
 
 ## Content and assets
 
+[Prismic setup and migration](docs/prismic.md) documents the existing Homepage singleton, linked Form custom type, separate Legal documents, original-content import, publishing webhook, and offline development mode. Production builds require published Prismic content. The Rancher import is complete. The Homepage uses nine ordered shared slices plus reusable Navigation and Footer singletons with descriptive fields and repeatable items. Use `npm run prismic:inspect` and `npm run prismic:verify` to inspect the repository and check published content.
+
 The calculator matches the audited Handshake AI benchmark for 20–200+ employees and 3–20+ years. See [the calculator audit](docs/calculator-audit.md) for regional factors and the Troveo comparison.
 
 `node scripts/generate-icons.mjs` regenerates the logo-based favicon, social image, and device icons. Asset provenance is in `ASSETS.md`.
 
-The Privacy Policy and Terms of Use describe submitted inquiries and calendar handoff. `src/data/legal.ts` contains the operator name and contact email; verified legal business/contact details remain to be supplied. [FTC consumer privacy guidance](https://www.ftc.gov/business-guidance/privacy-security/consumer-privacy) informed the policy's focus on actual processing.
+The Privacy Policy and Terms of Use describe submitted inquiries and calendar handoff. Each Legal document contains its operator name and contact email; verified legal business/contact details remain to be supplied. [FTC consumer privacy guidance](https://www.ftc.gov/business-guidance/privacy-security/consumer-privacy) informed the policy's focus on actual processing.

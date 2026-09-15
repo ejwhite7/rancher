@@ -1,25 +1,24 @@
 ---
-import faqs from "../data/faqs.json";
+import type { HomepageContent } from "../lib/content";
+import RichText from "./RichText.astro";
+
+interface Props {
+  copy: HomepageContent["faq"];
+}
+const { copy } = Astro.props;
 ---
 
 <section class="section faq" id="faq">
   <div class="wrap faq-grid">
     <div class="faq-intro">
-      <h2>
-        A little clarity
-        <br />
-        goes a long way.
-      </h2>
-      <p>
-        Data licensing is a commercial decision. Here’s what to consider before
-        taking the next step.
-      </p>
+      <RichText value={copy.heading} />
+      <RichText value={copy.description} />
     </div>
     <div>
-      {faqs.map(({ question, answer }, index) => (
+      {copy.items.map(({ question, answer }, index) => (
         <details open={index === 0}>
           <summary>{question}</summary>
-          <p>{answer}</p>
+          <RichText value={answer} />
         </details>
       ))}
     </div>

@@ -10,6 +10,9 @@ export default defineConfig({
     command: "npm run dev -- --host 127.0.0.1 --port 4322 --ignore-lock",
     env: {
       ASTRO_DEV_BACKGROUND: "1",
+      PRISMIC_CONTENT_MODE: process.env.PRISMIC_CONTENT_MODE || "snapshot",
+      PUBLIC_POSTHOG_PROJECT_TOKEN: "phc_test",
+      PUBLIC_POSTHOG_HOST: "https://posthog.test",
       BOOKING_URL: "https://cal.com/growthcast/discovery",
     },
     url: "http://127.0.0.1:4322",

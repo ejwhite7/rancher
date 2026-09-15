@@ -1,0 +1,98 @@
+{
+  "id": "use_cases",
+  "type": "SharedSlice",
+  "name": "Use cases",
+  "description": "Use cases section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "Use cases",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading2,strong,em"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Introduction",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "custom_eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Custom systems: section label"
+          }
+        },
+        "custom_title": {
+          "type": "Text",
+          "config": {
+            "label": "Custom systems: heading"
+          }
+        },
+        "custom_description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Custom systems: description",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "Custom systems: button label"
+          }
+        },
+        "cta_link": {
+          "type": "Link",
+          "config": {
+            "label": "Custom systems: button destination",
+            "select": "web"
+          }
+        },
+        "note": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Platform disclaimer",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Card heading"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Card description"
+          }
+        },
+        "platforms": {
+          "type": "Text",
+          "config": {
+            "label": "Platform names"
+          }
+        },
+        "image": {
+          "type": "Image",
+          "config": {
+            "label": "Platform logos",
+            "thumbnails": []
+          }
+        }
+      }
+    }
+  ]
+}

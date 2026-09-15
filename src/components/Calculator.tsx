@@ -1,3 +1,4 @@
+import type { CalculatorContent } from "../lib/content";
 import { useState, type CSSProperties } from "react";
 import { setScenario } from "../lib/scenario";
 import {
@@ -10,7 +11,7 @@ import {
   REGION_MULTIPLIERS,
   type Region,
 } from "../lib/estimate";
-export default function Calculator() {
+export default function Calculator({ copy }: { copy: CalculatorContent }) {
   const [employees, setEmployees] = useState(100);
   const [years, setYears] = useState(10);
   const [country, setCountry] = useState<Region>("USA");
@@ -32,13 +33,11 @@ export default function Calculator() {
   }
   return (
     <div className="calculator">
-      <div className="estimate-heading">
-        Estimated payout range
-      </div>
+      <div className="estimate-heading">{copy.estimate_label}</div>
       <div className="estimate" aria-live="polite" aria-atomic="true">
         {estimate.belowFloor ? (
           <>
-            <span className="range-dash">Up to</span>
+            <span className="range-dash">{copy.below_floor_label}</span>
             <span id="estimate-cap">{money.format(ESTIMATE_FLOOR)}</span>
           </>
         ) : (
@@ -52,13 +51,11 @@ export default function Calculator() {
           </>
         )}
       </div>
-      <p className="estimate-caption">
-        A starting point for a conversation. Not a quote or guaranteed earnings.
-      </p>
+      <p className="estimate-caption">{copy.disclaimer}</p>
       <div className="calc-controls">
         <div className="range-card">
           <label htmlFor="employees">
-            Number of employees{" "}
+            {copy.employees_label}{" "}
             <output id="employee-value" htmlFor="employees">
               {employees === EMPLOYEES.max ? "200+" : employees}
             </output>
@@ -84,7 +81,7 @@ export default function Calculator() {
         </div>
         <div className="range-card">
           <label htmlFor="years">
-            Years of available history{" "}
+            {copy.years_label}{" "}
             <output id="year-value" htmlFor="years">
               {years === 20 ? "20+" : years}
             </output>
@@ -104,12 +101,12 @@ export default function Calculator() {
             }
           />
           <div className="range-limits">
-            <span>3 years</span>
-            <span>20+ years</span>
+            <span>{copy.years_min_label}</span>
+            <span>{copy.years_max_label}</span>
           </div>
         </div>
         <fieldset className="country-card">
-          <legend>Company location</legend>
+          <legend>{copy.region_label}</legend>
           <div className="country-options">
             <label>
               <input
@@ -119,7 +116,7 @@ export default function Calculator() {
                 checked={country === "USA"}
                 onChange={() => setCountry("USA")}
               />
-              <span>USA</span>
+              <span>{copy.usa_label}</span>
             </label>
             <label>
               <input
@@ -129,7 +126,7 @@ export default function Calculator() {
                 checked={country === "Canada"}
                 onChange={() => setCountry("Canada")}
               />
-              <span>Canada</span>
+              <span>{copy.canada_label}</span>
             </label>
             <label>
               <input
@@ -139,7 +136,7 @@ export default function Calculator() {
                 checked={country === "Europe"}
                 onChange={() => setCountry("Europe")}
               />
-              <span>Europe</span>
+              <span>{copy.europe_label}</span>
             </label>
             <label>
               <input
@@ -149,13 +146,18 @@ export default function Calculator() {
                 checked={country === "Other"}
                 onChange={() => setCountry("Other")}
               />
-              <span>Other</span>
+              <span>{copy.other_label}</span>
             </label>
           </div>
         </fieldset>
       </div>
-      <a className="btn" id="estimate-cta" onClick={buildBrief} href="#contact">
-        Explore my partnership <span aria-hidden="true">↗</span>
+      <a
+        className="btn"
+        id="estimate-cta"
+        onClick={buildBrief}
+        href={copy.cta_link}
+      >
+        {copy.cta_label} <span aria-hidden="true">↗</span>
       </a>
     </div>
   );

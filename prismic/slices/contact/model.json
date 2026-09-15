@@ -1,0 +1,56 @@
+{
+  "id": "contact",
+  "type": "SharedSlice",
+  "name": "Contact and partnership form",
+  "description": "Contact and partnership form section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "Contact and partnership form",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Section label"
+          }
+        },
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading2,strong,em"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Introduction",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "note": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Privacy reassurance",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "form": {
+          "type": "Link",
+          "config": {
+            "label": "Partnership form",
+            "select": "document",
+            "customtypes": [
+              "form"
+            ]
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

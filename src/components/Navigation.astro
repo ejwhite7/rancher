@@ -1,14 +1,18 @@
 ---
+import type { NavigationContent } from "../lib/content";
 interface Props {
+  copy: NavigationContent;
   homeLinks?: boolean;
 }
-const { homeLinks = false } = Astro.props;
+const { copy, homeLinks = false } = Astro.props;
 const homePath = homeLinks ? "/" : "";
+const href = (value: string) =>
+  value.startsWith("#") ? homePath + value : value;
 ---
 
 <header class="header">
   <div class="wrap nav">
-    <a class="brand" href="/" aria-label="Rancher home">
+    <a class="brand" href="/" aria-label={copy.brand_label}>
       <svg viewBox="0 0 32 34" fill="none" aria-hidden="true">
         <path
           d="M3 29V6l13-4 13 4v23M3 18l13-4 13 4M10 31V10m12 21V10M3 25l13-4 13 4"
@@ -17,24 +21,23 @@ const homePath = homeLinks ? "/" : "";
           stroke-linejoin="round"
         />
       </svg>
-      rancher
+      {copy.brand_name}
     </a>
     <button
       type="button"
       class="menu"
-      aria-label="Toggle navigation"
+      aria-label={copy.menu_label}
       aria-controls="navigation"
       aria-expanded="false"
     >
       ☰
     </button>
-    <nav class="navlinks" id="navigation" aria-label="Main navigation">
-      <a href={`${homePath}#calculator`}>Calculator</a>
-      <a href={`${homePath}#use-cases`}>Use cases</a>
-      <a href={`${homePath}#how-it-works`}>How it works</a>
-      <a href={`${homePath}#protection`}>Your control</a>
-      <a href={`${homePath}#contact`} class="btn">
-        Explore a partnership <span aria-hidden="true">↗</span>
+    <nav class="navlinks" id="navigation" aria-label={copy.nav_label}>
+      {copy.items.map((item) => (
+        <a href={href(item.link)}>{item.label}</a>
+      ))}
+      <a href={href(copy.cta_link)} class="btn">
+        {copy.cta_label} <span aria-hidden="true">↗</span>
       </a>
     </nav>
   </div>

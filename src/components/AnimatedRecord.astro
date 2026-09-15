@@ -1,0 +1,36 @@
+---
+import { richText, type RichText } from "../lib/content";
+interface Props {
+  value: RichText;
+}
+const { value } = Astro.props;
+const line = value[0];
+const boundaries = [
+  ...new Set([
+    0,
+    line.text.length,
+    ...line.spans.flatMap((s) => [s.start, s.end]),
+  ]),
+].sort((a, b) => a - b);
+const parts = boundaries
+  .slice(0, -1)
+  .map((start, i) => ({
+    text: line.text.slice(start, boundaries[i + 1]),
+    marked: line.spans.some(
+      (s) =>
+        s.type === "strong" && s.start <= start && s.end >= boundaries[i + 1],
+    ),
+  }));
+---
+
+<p class="type-line" aria-label={richText(value)}>
+  {parts.map((part) =>
+    part.marked ? (
+      <mark>
+        <span data-type-text={part.text}>{part.text}</span>
+      </mark>
+    ) : (
+      <span data-type-text={part.text}>{part.text}</span>
+    ),
+  )}
+</p>

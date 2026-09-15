@@ -1,0 +1,102 @@
+{
+  "id": "hero",
+  "type": "SharedSlice",
+  "name": "Hero",
+  "description": "Hero section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "Hero",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Main headline",
+            "single": "heading1,strong,em"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Introduction",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "Primary button label"
+          }
+        },
+        "cta_link": {
+          "type": "Link",
+          "config": {
+            "label": "Primary button destination",
+            "select": "web"
+          }
+        },
+        "secondary_label": {
+          "type": "Text",
+          "config": {
+            "label": "Secondary link label"
+          }
+        },
+        "secondary_link": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary link destination",
+            "select": "web"
+          }
+        },
+        "illustration_alt": {
+          "type": "Text",
+          "config": {
+            "label": "Illustration description"
+          }
+        },
+        "source_label": {
+          "type": "Text",
+          "config": {
+            "label": "Illustration: source label"
+          }
+        },
+        "source_caption": {
+          "type": "Text",
+          "config": {
+            "label": "Illustration: source caption"
+          }
+        },
+        "outcome_label": {
+          "type": "Text",
+          "config": {
+            "label": "Illustration: outcome label"
+          }
+        },
+        "outcome_caption": {
+          "type": "Text",
+          "config": {
+            "label": "Illustration: outcome caption"
+          }
+        },
+        "trust_heading": {
+          "type": "Text",
+          "config": {
+            "label": "Reassurance heading"
+          }
+        }
+      },
+      "items": {
+        "text": {
+          "type": "Text",
+          "config": {
+            "label": "Reassurance point"
+          }
+        }
+      }
+    }
+  ]
+}

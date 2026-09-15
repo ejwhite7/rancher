@@ -1,0 +1,657 @@
+{
+  "title": "Home",
+  "meta_title": "Rancher — Make Your Business Data Work as Hard as You Do.",
+  "meta_description": "Make your business data work as hard as you do. Explore licensing operational records to AI labs and turn everyday work into a new revenue opportunity with Rancher.",
+  "social_image": {
+    "url": "/images/og-rancher-work-hard.png",
+    "alt": "Rancher — Make Your Business Data Work as Hard as You Do. An illustrated landscape of cultivated fields.",
+    "dimensions": {
+      "width": 1200,
+      "height": 630
+    }
+  },
+  "slices": [
+    {
+      "slice_type": "hero",
+      "variation": "default",
+      "primary": {
+        "heading": [
+          {
+            "type": "heading1",
+            "text": "Make Your Business Data\nWork as Hard as You Do.",
+            "spans": [
+              {
+                "type": "em",
+                "start": 40,
+                "end": 47
+              }
+            ]
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Your team creates valuable knowledge every day. Rancher helps you turn it into licensed datasets for AI labs—and a new revenue opportunity for your business.",
+            "spans": []
+          }
+        ],
+        "cta_label": "Put your data to work",
+        "cta_link": {
+          "link_type": "Web",
+          "url": "#contact"
+        },
+        "secondary_label": "Estimate your opportunity ↓",
+        "secondary_link": {
+          "link_type": "Web",
+          "url": "#calculator"
+        },
+        "illustration_alt": "An illustrated landscape of cultivated fields, connecting business data to new growth",
+        "source_label": "Already in your business",
+        "source_caption": "Conversations. Decisions. Know-how.",
+        "outcome_label": "A new use for existing data",
+        "outcome_caption": "From everyday work → AI progress",
+        "trust_heading": "Built around your business. Not the other way around."
+      },
+      "items": [
+        {
+          "text": "You define the scope"
+        },
+        {
+          "text": "You approve the terms"
+        },
+        {
+          "text": "You retain ownership"
+        }
+      ]
+    },
+    {
+      "slice_type": "opportunity",
+      "variation": "default",
+      "primary": {
+        "eyebrow": "The opportunity",
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "The next frontier of AI\nis everyday expertise.",
+            "spans": []
+          }
+        ],
+        "lead": [
+          {
+            "type": "paragraph",
+            "text": "The internet shows AI what people say.\nYour workflows show it how work gets done.",
+            "spans": []
+          }
+        ],
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A resolved support ticket. A project that moved from idea to delivery. A decision with its context intact. These records can help AI labs train and evaluate models on real business tasks.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Rancher helps you explore that opportunity: identify useful data, prepare it responsibly, and structure a license that makes sense for your business.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "calculator",
+      "variation": "default",
+      "primary": {
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "What could your\ndata be worth?",
+            "spans": []
+          }
+        ],
+        "estimate_label": "Estimated payout range",
+        "below_floor_label": "Up to",
+        "disclaimer": "A starting point for a conversation. Not a quote or guaranteed earnings.",
+        "employees_label": "Number of employees",
+        "years_label": "Years of available history",
+        "years_min_label": "3 years",
+        "years_max_label": "20+ years",
+        "region_label": "Company location",
+        "usa_label": "USA",
+        "canada_label": "Canada",
+        "europe_label": "Europe",
+        "other_label": "Other",
+        "cta_label": "Explore my partnership",
+        "cta_link": {
+          "link_type": "Web",
+          "url": "#contact"
+        }
+      },
+      "items": []
+    },
+    {
+      "slice_type": "data_categories",
+      "variation": "default",
+      "primary": {
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "Ordinary records.\nExtraordinary context.",
+            "spans": []
+          }
+        ],
+        "note": [
+          {
+            "type": "paragraph",
+            "text": "Examples of data to assess—not a request for unrestricted access. Eligibility depends on your rights, sensitivity, quality, and buyer needs.",
+            "spans": []
+          }
+        ],
+        "tabs_label": "Business data categories",
+        "signal_label": "THE POTENTIAL SIGNAL"
+      },
+      "items": [
+        {
+          "label": "Communication",
+          "title": "How your team works together.",
+          "description": "The conversations behind the outcome: how teams coordinate, navigate ambiguity, and move work forward.",
+          "examples": [
+            {
+              "type": "list-item",
+              "text": "Message threads",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Email exchanges",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Meeting transcripts",
+              "spans": []
+            }
+          ],
+          "signal": "Multi-step collaboration, decisions in context, and the path from question to resolution."
+        },
+        {
+          "label": "Knowledge & projects",
+          "title": "How ideas become finished work.",
+          "description": "The knowledge your business builds over time, from early drafts and research to project decisions and completed deliverables.",
+          "examples": [
+            {
+              "type": "list-item",
+              "text": "Internal documentation",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Project histories",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Task records",
+              "spans": []
+            }
+          ],
+          "signal": "Planning, reasoning, revision, and the sequence of actions behind a finished project."
+        },
+        {
+          "label": "Sales & support",
+          "title": "How relationships become outcomes.",
+          "description": "The records that connect a customer’s question or business need to the action your team took next.",
+          "examples": [
+            {
+              "type": "list-item",
+              "text": "Support tickets",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Opportunity histories",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Resolution notes",
+              "spans": []
+            }
+          ],
+          "signal": "Troubleshooting, customer intent, and decisions across a complete service or sales workflow."
+        },
+        {
+          "label": "Code & operations",
+          "title": "How your business builds and runs.",
+          "description": "Technical and operational records that capture how systems evolve, issues get resolved, and processes are executed.",
+          "examples": [
+            {
+              "type": "list-item",
+              "text": "Code & issue histories",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Operating procedures",
+              "spans": []
+            },
+            {
+              "type": "list-item",
+              "text": "Approval workflows",
+              "spans": []
+            }
+          ],
+          "signal": "Problem-solving across tools, process execution, and the context behind technical changes."
+        }
+      ]
+    },
+    {
+      "slice_type": "use_cases",
+      "variation": "default",
+      "primary": {
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "Every system holds\npart of your story.",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Explore the records behind everyday work—and the AI capabilities they could help train or evaluate.",
+            "spans": []
+          }
+        ],
+        "custom_eyebrow": "Your own ecosystem",
+        "custom_title": "Internal & custom systems",
+        "custom_description": [
+          {
+            "type": "paragraph",
+            "text": "Homegrown tools can hold distinctive workflows, specialized knowledge, and decisions that don’t exist anywhere else.",
+            "spans": []
+          }
+        ],
+        "cta_label": "Tell us about your stack",
+        "cta_link": {
+          "link_type": "Web",
+          "url": "#contact"
+        },
+        "note": [
+          {
+            "type": "paragraph",
+            "text": "Platforms shown are examples of potential data sources, not connected integrations, customers, or endorsements. All marks belong to their respective owners. Eligibility and licensing rights must be reviewed; use cases are illustrative.",
+            "spans": []
+          }
+        ]
+      },
+      "items": [
+        {
+          "title": "Chat & messaging",
+          "description": "Message threads, handoffs, and meeting context.",
+          "platforms": "Slack, Microsoft Teams, Google Chat, Zoom",
+          "image": {
+            "url": "/images/platforms-1.svg",
+            "alt": "Slack, Microsoft Teams, Google Chat, Zoom",
+            "dimensions": {
+              "width": 460,
+              "height": 30
+            }
+          }
+        },
+        {
+          "title": "Email & calendar",
+          "description": "Email exchanges, scheduling, and linked follow-ups.",
+          "platforms": "Gmail, Outlook, Google Calendar",
+          "image": {
+            "url": "/images/platforms-2.svg",
+            "alt": "Gmail, Outlook, Google Calendar",
+            "dimensions": {
+              "width": 460,
+              "height": 32
+            }
+          }
+        },
+        {
+          "title": "Documents & files",
+          "description": "Documents, versions, authorship, and related files.",
+          "platforms": "Google Drive, OneDrive, SharePoint, Dropbox",
+          "image": {
+            "url": "/images/platforms-3.svg",
+            "alt": "Google Drive, OneDrive, SharePoint, Dropbox",
+            "dimensions": {
+              "width": 460,
+              "height": 32
+            }
+          }
+        },
+        {
+          "title": "Work & knowledge",
+          "description": "Tasks, specifications, design iterations, and project histories.",
+          "platforms": "Jira, Linear, Asana, Monday.com, Notion, Figma",
+          "image": {
+            "url": "/images/platforms-4.svg",
+            "alt": "Jira, Linear, Asana, Monday.com, Notion, Figma",
+            "dimensions": {
+              "width": 460,
+              "height": 27
+            }
+          }
+        },
+        {
+          "title": "CRM, sales & support",
+          "description": "Opportunity histories, service conversations, and resolutions.",
+          "platforms": "Salesforce, HubSpot, Google Calendar, Intercom, Zendesk",
+          "image": {
+            "url": "/images/platforms-5.svg",
+            "alt": "Salesforce, HubSpot, Google Calendar, Intercom, Zendesk",
+            "dimensions": {
+              "width": 460,
+              "height": 30
+            }
+          }
+        },
+        {
+          "title": "Business platforms",
+          "description": "Operational tickets, approved workflows, and process records.",
+          "platforms": "ServiceNow, Workday, SAP, Microsoft Dynamics",
+          "image": {
+            "url": "/images/platforms-6.svg",
+            "alt": "ServiceNow, Workday, SAP, Microsoft Dynamics",
+            "dimensions": {
+              "width": 460,
+              "height": 26
+            }
+          }
+        },
+        {
+          "title": "Finance & operations",
+          "description": "Invoices, reconciliations, order histories, and ledgers.",
+          "platforms": "QuickBooks, Stripe, NetSuite, Pigment, Shopify",
+          "image": {
+            "url": "/images/platforms-7.svg",
+            "alt": "QuickBooks, Stripe, NetSuite, Pigment, Shopify",
+            "dimensions": {
+              "width": 460,
+              "height": 26
+            }
+          }
+        },
+        {
+          "title": "Data & code",
+          "description": "Repositories, issues, schemas, and documented changes.",
+          "platforms": "GitHub, Snowflake, Databricks, GitLab",
+          "image": {
+            "url": "/images/platforms-8.svg",
+            "alt": "GitHub, Snowflake, Databricks, GitLab",
+            "dimensions": {
+              "width": 460,
+              "height": 26
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slice_type": "process",
+      "variation": "default",
+      "primary": {
+        "eyebrow": "From discovery to delivery",
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "A clear path.\nNo leap of faith.",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "A hands-on partnership, with the scope and commercial terms agreed before any data is licensed.",
+            "spans": []
+          }
+        ],
+        "cta_label": "Explore your opportunity",
+        "cta_link": {
+          "link_type": "Web",
+          "url": "#contact"
+        }
+      },
+      "items": [
+        {
+          "title": "Find the opportunity",
+          "description": "Map your systems, data history, and licensing rights. Identify where your records could fit AI training or evaluation needs."
+        },
+        {
+          "title": "Set your boundaries",
+          "description": "Define what’s included, what stays out, permitted uses, and the commercial structure. Review the proposed license before moving forward."
+        },
+        {
+          "title": "Prepare with care",
+          "description": "Agree on a transfer method, remove or transform sensitive fields, and check dataset quality against the approved scope."
+        },
+        {
+          "title": "License. Earn. Repeat.",
+          "description": "Deliver under signed terms and receive payment as agreed. Explore future licenses or updates only where your agreement permits."
+        }
+      ]
+    },
+    {
+      "slice_type": "protection",
+      "variation": "default",
+      "primary": {
+        "eyebrow": "Your data. Your boundaries.",
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "Value shouldn’t come\nat the cost of control.",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Good data partnerships start with clear permissions. Build the scope, handling requirements, and buyer obligations into the agreement—not into an afterthought.",
+            "spans": []
+          }
+        ],
+        "checks": [
+          {
+            "text": "Choose eligible systems, date ranges, and exclusions."
+          },
+          {
+            "text": "Define de-identification and review requirements."
+          },
+          {
+            "text": "Specify permitted uses and onward-sharing restrictions."
+          },
+          {
+            "text": "Agree on retention, deletion, and payment terms."
+          }
+        ],
+        "demo_heading": "CONTEXT IN. IDENTIFIERS OUT.",
+        "source_label": "ILLUSTRATIVE SOURCE RECORD",
+        "source_record": [
+          {
+            "type": "paragraph",
+            "text": "Alex Chen resolved the renewal blocker for Acme Co. after the support handoff.",
+            "spans": [
+              {
+                "type": "strong",
+                "start": 0,
+                "end": 9
+              },
+              {
+                "type": "strong",
+                "start": 43,
+                "end": 51
+              }
+            ]
+          }
+        ],
+        "prepared_label": "ILLUSTRATIVE PREPARED RECORD",
+        "prepared_record": [
+          {
+            "type": "paragraph",
+            "text": "PERSON_01 resolved the renewal blocker for COMPANY_02 after the support handoff.",
+            "spans": [
+              {
+                "type": "strong",
+                "start": 0,
+                "end": 9
+              },
+              {
+                "type": "strong",
+                "start": 43,
+                "end": 53
+              }
+            ]
+          }
+        ]
+      },
+      "items": [
+        {
+          "title": "Ownership stays with you.",
+          "description": "A license grants defined usage rights. It doesn’t have to mean selling ownership of your underlying data."
+        },
+        {
+          "title": "No blanket permissions.",
+          "description": "Buyer access, exclusivity, and future uses belong in the terms you review and approve."
+        },
+        {
+          "title": "Fit before a forecast.",
+          "description": "Value depends on buyer demand, usable history, quality, and rights—not a universal price per record."
+        }
+      ]
+    },
+    {
+      "slice_type": "faq",
+      "variation": "default",
+      "primary": {
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "A little clarity\ngoes a long way.",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Data licensing is a commercial decision. Here’s what to consider before taking the next step.",
+            "spans": []
+          }
+        ]
+      },
+      "items": [
+        {
+          "question": "What kinds of businesses are a fit?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "text": "Businesses with useful operational records and the authority to license them are a starting point. Rich workflows, well-organized history, and clear outcomes may be relevant. Fit is assessed against buyer needs; not every dataset will qualify.",
+              "spans": []
+            }
+          ]
+        },
+        {
+          "question": "How much could our data be worth?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "text": "There is no reliable one-size-fits-all estimate. Pricing depends on uniqueness, completeness, volume, licensing rights, preparation work, exclusivity, and demand. Any valuation should follow a dataset assessment and a specific commercial proposal. Revenue is not guaranteed.",
+              "spans": []
+            }
+          ]
+        },
+        {
+          "question": "Do we need to connect all our tools?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "text": "No unrestricted access should be necessary to begin the conversation. Start with a description of your systems and available records. If there is a fit, the scope and transfer method can be agreed before any data moves.",
+              "spans": []
+            }
+          ]
+        },
+        {
+          "question": "What about personal or confidential information?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "text": "Sensitive fields, third-party obligations, consent, and applicable laws must be reviewed before transfer. Some records may need to be excluded entirely. De-identification reduces privacy risk but does not eliminate it. Your legal and security teams should review the proposed arrangement.",
+              "spans": []
+            }
+          ]
+        },
+        {
+          "question": "Can we license the same data more than once?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "text": "Potentially, if your ownership rights and agreements permit non-exclusive licensing. Buyer demand and restrictions will vary. Repeat revenue should be treated as an opportunity, not a promise.",
+              "spans": []
+            }
+          ]
+        },
+        {
+          "question": "What will AI labs be allowed to do with it?",
+          "answer": [
+            {
+              "type": "paragraph",
+              "text": "The signed license should specify the allowed purposes, such as model training or evaluation, and any restrictions on publication, redistribution, retention, or onward access. Those rights should be clear before delivery.",
+              "spans": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slice_type": "contact",
+      "variation": "default",
+      "primary": {
+        "eyebrow": "Let’s see what’s possible",
+        "heading": [
+          {
+            "type": "heading2",
+            "text": "You’ve built a business.\nLet’s uncover what\nelse it can grow.",
+            "spans": []
+          }
+        ],
+        "description": [
+          {
+            "type": "paragraph",
+            "text": "Start with the basics. Tell us about your business and data footprint, then book a conversation about the opportunity.",
+            "spans": []
+          }
+        ],
+        "note": [
+          {
+            "type": "paragraph",
+            "text": "No data uploads. No system credentials.\nJust a starting point for a better conversation.",
+            "spans": []
+          }
+        ],
+        "form": {
+          "link_type": "Document",
+          "id": "snapshot-form",
+          "type": "form",
+          "isBroken": false
+        }
+      },
+      "items": []
+    }
+  ],
+  "navigation": {
+    "link_type": "Document",
+    "id": "snapshot-navigation",
+    "type": "navigation",
+    "isBroken": false
+  },
+  "footer": {
+    "link_type": "Document",
+    "id": "snapshot-footer",
+    "type": "footer",
+    "isBroken": false
+  }
+}

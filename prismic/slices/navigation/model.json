@@ -1,0 +1,70 @@
+{
+  "id": "navigation",
+  "type": "SharedSlice",
+  "name": "Navigation",
+  "description": "Navigation section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "Navigation",
+      "imageUrl": "",
+      "primary": {
+        "brand_name": {
+          "type": "Text",
+          "config": {
+            "label": "Brand name"
+          }
+        },
+        "brand_label": {
+          "type": "Text",
+          "config": {
+            "label": "Home link accessibility label"
+          }
+        },
+        "menu_label": {
+          "type": "Text",
+          "config": {
+            "label": "Menu button accessibility label"
+          }
+        },
+        "nav_label": {
+          "type": "Text",
+          "config": {
+            "label": "Navigation accessibility label"
+          }
+        },
+        "cta_label": {
+          "type": "Text",
+          "config": {
+            "label": "Button label"
+          }
+        },
+        "cta_link": {
+          "type": "Link",
+          "config": {
+            "label": "Button destination",
+            "select": "web"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Link label"
+          }
+        },
+        "link": {
+          "type": "Link",
+          "config": {
+            "label": "Link destination",
+            "select": "web"
+          }
+        }
+      }
+    }
+  ]
+}

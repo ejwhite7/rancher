@@ -1,28 +1,24 @@
 ---
+import type { HomepageContent, FormContent } from "../lib/content";
+import RichText from "./RichText.astro";
 import PartnershipForm from "./PartnershipForm";
+interface Props {
+  copy: HomepageContent["contact"];
+  form: FormContent;
+}
+const { copy, form } = Astro.props;
 ---
 
 <section class="section" id="contact">
   <div class="wrap contact-grid">
     <div class="contact-copy">
-      <div class="eyebrow">Let’s see what’s possible</div>
-      <h2>
-        You’ve built a business.
-        <br />
-        Let’s uncover what
-        <br />
-        else it can grow.
-      </h2>
-      <p>
-        Start with the basics. Tell us about your business and data footprint,
-        then book a conversation about the opportunity.
-      </p>
-      <p class="mini">
-        No data uploads. No system credentials.
-        <br />
-        Just a starting point for a better conversation.
-      </p>
+      <div class="eyebrow">{copy.eyebrow}</div>
+      <RichText value={copy.heading} />
+      <RichText value={copy.description} />
+      <div class="mini">
+        <RichText value={copy.note} />
+      </div>
     </div>
-    <PartnershipForm client:idle />
+    <PartnershipForm copy={form} client:idle />
   </div>
 </section>

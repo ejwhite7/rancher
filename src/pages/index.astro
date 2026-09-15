@@ -1,4 +1,7 @@
 ---
+import { getSiteContent } from "../lib/prismic";
+const { homepage, form, navigation, footer } = await getSiteContent();
+import { richText } from "../lib/content";
 import SiteLayout from "../layouts/SiteLayout.astro";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
@@ -13,18 +16,37 @@ import Faq from "../components/Faq.astro";
 import Contact from "../components/Contact.astro";
 ---
 
-<SiteLayout>
-  <Navigation />
+<SiteLayout
+  title={homepage.meta_title}
+  description={homepage.meta_description}
+  faqs={homepage.faq.items.map((item) => ({
+    question: item.question,
+    answer: richText(item.answer),
+  }))}
+>
+  <Navigation copy={navigation} />
   <main id="main-content">
-    <Hero />
-    <Intro />
-    <CalculatorSection />
-    <DataSection />
-    <UseCases />
-    <Process />
-    <Protection />
-    <Faq />
-    <Contact />
+    {homepage.section_order.map((section) =>
+      section === "hero" ? (
+        <Hero copy={homepage.hero} />
+      ) : section === "opportunity" ? (
+        <Intro copy={homepage.opportunity} />
+      ) : section === "calculator" ? (
+        <CalculatorSection copy={homepage.calculator} />
+      ) : section === "data_categories" ? (
+        <DataSection copy={homepage.data_categories} />
+      ) : section === "use_cases" ? (
+        <UseCases copy={homepage.use_cases} />
+      ) : section === "process" ? (
+        <Process copy={homepage.process} />
+      ) : section === "protection" ? (
+        <Protection copy={homepage.protection} />
+      ) : section === "faq" ? (
+        <Faq copy={homepage.faq} />
+      ) : section === "contact" ? (
+        <Contact copy={homepage.contact} form={form} />
+      ) : null,
+    )}
   </main>
-  <Footer />
+  <Footer copy={footer} />
 </SiteLayout>

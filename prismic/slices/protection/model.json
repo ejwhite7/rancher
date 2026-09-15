@@ -1,0 +1,98 @@
+{
+  "id": "protection",
+  "type": "SharedSlice",
+  "name": "Data protection",
+  "description": "Data protection section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "Data protection",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Section label"
+          }
+        },
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading2,strong,em"
+          }
+        },
+        "description": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Introduction",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "checks": {
+          "type": "Group",
+          "config": {
+            "label": "Control checklist",
+            "fields": {
+              "text": {
+                "type": "Text",
+                "config": {
+                  "label": "Checklist point"
+                }
+              }
+            }
+          }
+        },
+        "demo_heading": {
+          "type": "Text",
+          "config": {
+            "label": "Illustration heading"
+          }
+        },
+        "source_label": {
+          "type": "Text",
+          "config": {
+            "label": "Source record label"
+          }
+        },
+        "source_record": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Source record (bold identifies sensitive text)",
+            "multi": "paragraph,strong"
+          }
+        },
+        "prepared_label": {
+          "type": "Text",
+          "config": {
+            "label": "Prepared record label"
+          }
+        },
+        "prepared_record": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Prepared record (bold identifies replacements)",
+            "multi": "paragraph,strong"
+          }
+        }
+      },
+      "items": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Principle heading"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Principle explanation"
+          }
+        }
+      }
+    }
+  ]
+}

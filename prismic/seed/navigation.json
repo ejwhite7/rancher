@@ -1,0 +1,41 @@
+{
+  "brand_name": "rancher",
+  "brand_label": "Rancher home",
+  "menu_label": "Toggle navigation",
+  "nav_label": "Main navigation",
+  "cta_label": "Explore a partnership",
+  "cta_link": {
+    "link_type": "Web",
+    "url": "#contact"
+  },
+  "items": [
+    {
+      "label": "Calculator",
+      "link": {
+        "link_type": "Web",
+        "url": "#calculator"
+      }
+    },
+    {
+      "label": "Use cases",
+      "link": {
+        "link_type": "Web",
+        "url": "#use-cases"
+      }
+    },
+    {
+      "label": "How it works",
+      "link": {
+        "link_type": "Web",
+        "url": "#how-it-works"
+      }
+    },
+    {
+      "label": "Your control",
+      "link": {
+        "link_type": "Web",
+        "url": "#protection"
+      }
+    }
+  ]
+}

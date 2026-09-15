@@ -1,0 +1,158 @@
+{
+  "title": "Privacy Policy",
+  "description": "How Rancher handles partnership inquiries, calculator scenarios, outreach consent, and calendar bookings.",
+  "body": [
+    {
+      "type": "paragraph",
+      "text": "This Privacy Policy explains how the Rancher website handles information when you browse, explore a calculator scenario, submit a partnership inquiry, or continue to a booking service. A separate written agreement governs any actual data-licensing partnership.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Information you provide",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "The inquiry form collects your name, work email, job title, company, team size, available data history, selected record types, additional context, and outreach consent. If you select a calculator scenario before submitting, we also record its employee count, years, region, and the indicative estimate calculated by our server.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "Using the calculator alone does not submit your scenario. Clicking “Submit & book a call” sends the completed inquiry to Rancher. Do not include credentials, sensitive business records, or personal information about other people in the description.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "How we use submissions",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "We store your inquiry to assess potential data-licensing opportunities, follow up about your request, and keep a record of your outreach preference. The record includes submission time and the consent wording shown on the form. The consent checkbox starts selected, and the form requires it to remain selected before an inquiry can be sent.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "Submitting an inquiry does not grant Rancher a license to your underlying business data or create a licensing commitment.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Storage and service providers",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "Vercel hosts the website and processes form requests. Submissions are stored in a Supabase-managed PostgreSQL database. Database credentials remain on the server, and the submission records are not available through a public browser database API. Authorized operators and service providers may access information as needed to operate and support the service.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "Submissions remain in the database until deleted. Rancher does not currently offer an account portal or an automatic deletion schedule through this website. You can request correction, deletion, or an end to outreach by replying to a Rancher communication you receive. Applicable law may provide additional rights concerning your information.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Submission delivery",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "We use Hookdeck to deliver inquiry details to our connected business tools for follow-up and partnership assessment. Delivery includes the fields you submit and internal company-size classification values. A private database queue retains events and delivery status so unsuccessful transfers can be retried. Hookdeck and connected tools may retain their own copies; deleting a website database record does not automatically remove those copies.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Calendar booking",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "After your inquiry is saved, the website redirects you to the configured calendar-booking service, initially Cal.com. Your form fields are not added to the booking URL. Information you enter on the booking site is handled under that service's privacy practices. Opening the calendar does not itself create a booking.",
+      "spans": [
+        {
+          "type": "hyperlink",
+          "data": {
+            "link_type": "Web",
+            "url": "https://cal.com/growthcast/discovery"
+          },
+          "start": 109,
+          "end": 116
+        }
+      ],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Technical information, cookies, and analytics",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "Hosting and network providers may process IP addresses, browser information, requested URLs, and request times to deliver and protect the site. Their handling of infrastructure logs depends on their services and configurations. Our submission record does not include your IP address or user-agent string.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "We use PostHog to understand site usage and measure inquiry conversions. When you successfully submit the inquiry form, we identify the analytics record using your work email and send the submitted name, email, email domain, job title, company, company size, data-history range, record types, optional additional context, outreach-consent status, calculator scenario, submission ID, and server-calculated referral amount to PostHog. The application does not set advertising cookies or save your form entries in local storage. Your browser may separately retain autofill information according to its settings. We do not sell inquiry information or use it for cross-context advertising.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Your choices and external links",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "You may browse and use the calculator without completing the inquiry form. You may edit your entries before submitting or choose not to submit. Following a link to another website takes you to a service governed by its own terms and privacy practices.",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Changes",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "We may update this policy as the website and its information practices change. The date above identifies the latest version. Nothing in this policy limits privacy rights that apply to you under law.",
+      "spans": [],
+      "direction": "ltr"
+    }
+  ],
+  "operator": "Rancher",
+  "contact_email": "",
+  "updated": "2026-09-14",
+  "updated_label": "September 14, 2026",
+  "navigation": {
+    "link_type": "Document",
+    "id": "snapshot-navigation",
+    "type": "navigation",
+    "isBroken": false
+  },
+  "footer": {
+    "link_type": "Document",
+    "id": "snapshot-footer",
+    "type": "footer",
+    "isBroken": false
+  }
+}

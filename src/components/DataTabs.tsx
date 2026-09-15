@@ -1,12 +1,11 @@
+import type { DataTabsContent } from "../lib/content";
 import { useRef, useState, type KeyboardEvent } from "react";
-import { datasets } from "../data/datasets";
-const labels = [
-  "Communication",
-  "Knowledge & projects",
-  "Sales & support",
-  "Code & operations",
-];
-export default function DataTabs() {
+export default function DataTabs({ copy }: { copy: DataTabsContent }) {
+  const datasets = copy.items.map((item) => ({
+    ...item,
+    chips: item.examples.map((example) => example.text),
+  }));
+  const labels = datasets.map((item) => item.label);
   const [active, setActive] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const data = datasets[active];
@@ -28,11 +27,7 @@ export default function DataTabs() {
   }
   return (
     <div className="data-layout">
-      <div
-        className="tabs"
-        role="tablist"
-        aria-label="Business data categories"
-      >
+      <div className="tabs" role="tablist" aria-label={copy.tabs_label}>
         {labels.map((label, index) => (
           <button
             type="button"
@@ -76,7 +71,7 @@ export default function DataTabs() {
           </div>
         </div>
         <div className="signal">
-          <span>THE POTENTIAL SIGNAL</span>
+          <span>{copy.signal_label}</span>
           <p id="data-signal">{data.signal}</p>
         </div>
       </div>

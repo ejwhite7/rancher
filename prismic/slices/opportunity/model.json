@@ -1,0 +1,46 @@
+{
+  "id": "opportunity",
+  "type": "SharedSlice",
+  "name": "The opportunity",
+  "description": "The opportunity section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "The opportunity",
+      "imageUrl": "",
+      "primary": {
+        "eyebrow": {
+          "type": "Text",
+          "config": {
+            "label": "Section label"
+          }
+        },
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading2,strong,em"
+          }
+        },
+        "lead": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Lead paragraph",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "body": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Explanation",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

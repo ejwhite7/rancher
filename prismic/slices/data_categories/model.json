@@ -1,0 +1,77 @@
+{
+  "id": "data_categories",
+  "type": "SharedSlice",
+  "name": "Data categories",
+  "description": "Data categories section of the Rancher homepage.",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "",
+      "version": "initial",
+      "description": "Data categories",
+      "imageUrl": "",
+      "primary": {
+        "heading": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Heading",
+            "single": "heading2,strong,em"
+          }
+        },
+        "note": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Eligibility note",
+            "multi": "paragraph,strong,em,hyperlink"
+          }
+        },
+        "tabs_label": {
+          "type": "Text",
+          "config": {
+            "label": "Tabs accessibility label"
+          }
+        },
+        "signal_label": {
+          "type": "Text",
+          "config": {
+            "label": "Signal panel label"
+          }
+        }
+      },
+      "items": {
+        "label": {
+          "type": "Text",
+          "config": {
+            "label": "Tab label"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Category heading"
+          }
+        },
+        "description": {
+          "type": "Text",
+          "config": {
+            "label": "Category description"
+          }
+        },
+        "examples": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Example record types",
+            "multi": "list-item"
+          }
+        },
+        "signal": {
+          "type": "Text",
+          "config": {
+            "label": "Potential signal"
+          }
+        }
+      }
+    }
+  ]
+}
