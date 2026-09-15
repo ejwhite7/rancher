@@ -1,0 +1,15 @@
+---
+import { previewLinkResolver } from "../lib/preview";
+import { asHTML } from "@prismicio/client";
+import { glossaryRich, type GlossaryIndex } from "../lib/glossary";
+interface Props {
+  value: GlossaryIndex["intro"];
+}
+---
+
+<div
+  class="glossary-prose"
+  set:html={asHTML(glossaryRich(Astro.props.value), {
+    linkResolver: previewLinkResolver,
+  })}
+/>

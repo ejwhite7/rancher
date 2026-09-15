@@ -152,3 +152,7 @@ npx prismic preview list --repo rancher --json
 Both branches read the same `rancher` repository, so publishing triggers both environments with the same published content. Deploy hooks rebuild the latest commit on their configured branch; they do not merge staging into main. Code changes still need to reach both branches. Draft previews do not need a publish or rebuild.
 
 References: [Prismic previews](https://prismic.io/docs/previews), [Prismic webhooks](https://prismic.io/docs/webhooks), [Vercel deploy hooks](https://vercel.com/docs/deploy-hooks).
+
+## Glossary
+
+The glossary uses the `glossary-index` singleton and repeatable `glossary` type, both linked to Navigation and Footer. See [Glossary implementation and release](glossary.md) for routes, preview behavior, safe import commands, publication review requirements, and rollback. Original drafts and source references are in [Glossary editorial review](glossary-editorial-review.md).

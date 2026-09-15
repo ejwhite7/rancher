@@ -1,0 +1,107 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Navigation from "../Navigation.astro";
+import Footer from "../Footer.astro";
+import GlossaryRichText from "../GlossaryRichText.astro";
+import GlossaryCTA from "../GlossaryCTA.astro";
+import GlossarySearch from "../GlossarySearch";
+import { resolveTerms, type GlossaryContent } from "../../lib/glossary";
+import type { SiteContent } from "../../lib/content";
+import "../../styles/glossary.css";
+interface Props {
+  glossary: GlossaryContent;
+  content: SiteContent;
+  preview?: boolean;
+}
+const { glossary, content, preview = false } = Astro.props;
+const { index, records, warnings } = glossary;
+const featured = resolveTerms(index.featured_terms, records);
+const origin = new URL("https://www.gorancher.com");
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": new URL("/glossary/", origin).href,
+  name: index.title[0].text,
+  description: index.meta_description,
+  url: new URL("/glossary/", origin).href,
+  hasDefinedTerm: records.map((r) => ({
+    "@type": "DefinedTerm",
+    name: r.term,
+    url: new URL(r.url, origin).href,
+  })),
+};
+---
+
+<SiteLayout
+  content={content}
+  preview={preview}
+  title={index.meta_title}
+  description={index.meta_description}
+  socialImage={index.social_image}
+  glossarySchema={schema}
+  canonicalOrigin={origin}
+>
+  <Navigation copy={content.navigation} homeLinks />
+  <main id="main-content" class="glossary-page">
+    <div class="wrap">
+      <nav aria-label="Breadcrumb" class="glossary-breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Glossary</span>
+      </nav>
+      <header class="glossary-heading">
+        <p class="eyebrow">The Rancher glossary</p>
+        <h1>{index.title[0].text}</h1>
+        <GlossaryRichText value={index.intro} />
+      </header>
+      {preview && warnings.length > 0 && (
+        <details class="glossary-review">
+          <summary>Editorial checks ({warnings.length})</summary>
+          <ul>
+            {warnings.map((w) => (
+              <li>{w}</li>
+            ))}
+          </ul>
+        </details>
+      )}
+      {featured.length > 0 && (
+        <section class="glossary-featured" aria-labelledby="featured-heading">
+          <h2 id="featured-heading">Start here</h2>
+          <ul>
+            {featured.map((term) => (
+              <li>
+                <a href={term.url}>
+                  {term.term}
+                  <span aria-hidden="true"> ↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      <GlossarySearch
+        records={records}
+        placeholder={index.search_placeholder || "Search glossary terms"}
+        emptyTitle={index.empty_state_title || "No matching terms"}
+        preview={preview}
+        client:load
+      >
+        <GlossaryRichText
+          value={
+            index.empty_state_body.length
+              ? index.empty_state_body
+              : [
+                  {
+                    type: "paragraph",
+                    text: "Try a different term or clear your filters.",
+                    spans: [],
+                  },
+                ]
+          }
+        />
+      </GlossarySearch>
+      <GlossaryCTA index={index} />
+    </div>
+  </main>
+  <Footer copy={content.footer} />
+</SiteLayout>

@@ -1,0 +1,215 @@
+{
+  "id": "glossary",
+  "label": "Glossary Term",
+  "repeatable": true,
+  "status": true,
+  "format": "page",
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "URL slug"
+        }
+      },
+      "term": {
+        "type": "Text",
+        "config": {
+          "label": "Term"
+        }
+      },
+      "short_definition": {
+        "type": "Text",
+        "config": {
+          "label": "Short definition"
+        }
+      },
+      "definition": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Definition",
+          "multi": "paragraph,hyperlink"
+        }
+      },
+      "category": {
+        "type": "Select",
+        "config": {
+          "label": "Primary category",
+          "options": [
+            "licensing-economics",
+            "rights-privacy-control",
+            "business-data-workflows",
+            "data-quality-preparation",
+            "ai-training-agents-evaluation",
+            "video-robotics-physical-ai"
+          ]
+        }
+      },
+      "aliases": {
+        "type": "Group",
+        "config": {
+          "label": "Search aliases",
+          "fields": {
+            "alias": {
+              "type": "Text",
+              "config": {
+                "label": "Alias"
+              }
+            }
+          }
+        }
+      },
+      "how_it_works": {
+        "type": "StructuredText",
+        "config": {
+          "label": "How it works",
+          "multi": "paragraph,heading3,heading4,list-item,o-list-item,strong,em,hyperlink"
+        }
+      },
+      "licensing_relevance": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Why it matters for licensing",
+          "multi": "paragraph,heading3,heading4,list-item,o-list-item,strong,em,hyperlink"
+        }
+      },
+      "example": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Fictional example",
+          "multi": "paragraph,heading3,heading4,list-item,o-list-item,strong,em,hyperlink"
+        }
+      },
+      "limitations": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Limitations and misconceptions",
+          "multi": "paragraph,heading3,heading4,list-item,o-list-item,strong,em,hyperlink"
+        }
+      },
+      "review_questions": {
+        "type": "Group",
+        "config": {
+          "label": "Questions to ask",
+          "fields": {
+            "question": {
+              "type": "Text",
+              "config": {
+                "label": "Review question"
+              }
+            }
+          }
+        }
+      },
+      "related_terms": {
+        "type": "Group",
+        "config": {
+          "label": "Related terms (three to five)",
+          "fields": {
+            "term": {
+              "type": "Link",
+              "config": {
+                "label": "Related term",
+                "select": "document",
+                "customtypes": [
+                  "glossary"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "sources": {
+        "type": "Group",
+        "config": {
+          "label": "Sources",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Source title"
+              }
+            },
+            "url": {
+              "type": "Link",
+              "config": {
+                "label": "Source URL",
+                "select": "web"
+              }
+            },
+            "accessed_on": {
+              "type": "Date",
+              "config": {
+                "label": "Date accessed"
+              }
+            }
+          }
+        }
+      },
+      "reviewer_name": {
+        "type": "Text",
+        "config": {
+          "label": "Reviewer public name (completed review only)"
+        }
+      },
+      "reviewer_role": {
+        "type": "Text",
+        "config": {
+          "label": "Reviewer role"
+        }
+      },
+      "last_reviewed": {
+        "type": "Date",
+        "config": {
+          "label": "Completed review date"
+        }
+      },
+      "show_cta": {
+        "type": "Boolean",
+        "config": {
+          "label": "Show shared contact invitation",
+          "default_value": false
+        }
+      },
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "SEO title"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "SEO description"
+        }
+      },
+      "social_image": {
+        "type": "Image",
+        "config": {
+          "label": "Social sharing image",
+          "thumbnails": []
+        }
+      },
+      "navigation": {
+        "type": "Link",
+        "config": {
+          "label": "Site navigation",
+          "select": "document",
+          "customtypes": [
+            "navigation"
+          ]
+        }
+      },
+      "footer": {
+        "type": "Link",
+        "config": {
+          "label": "Site footer",
+          "select": "document",
+          "customtypes": [
+            "footer"
+          ]
+        }
+      }
+    }
+  }
+}

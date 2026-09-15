@@ -5,6 +5,7 @@ import {
   previewHeaders,
   previewLinkResolver,
   validPreviewToken,
+  supportedPreviewPath,
 } from "../../lib/preview";
 export const prerender = false;
 export const GET: APIRoute = async ({ url, cookies, redirect }) => {
@@ -40,7 +41,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
       defaultURL: "/",
       linkResolver: previewLinkResolver,
     });
-    if (!["/", "/privacy-policy/", "/terms-of-use/"].includes(path))
+    if (!supportedPreviewPath(path))
       throw new Error("Unsupported preview path.");
     cookies.set(PREVIEW_COOKIE, token, {
       path: "/",

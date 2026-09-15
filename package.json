@@ -15,7 +15,12 @@
     "prismic:migrate": "node --env-file-if-exists=.env.local scripts/prismic.mjs migrate",
     "prismic:verify": "node --env-file-if-exists=.env.local scripts/prismic.mjs verify",
     "prismic:inspect": "node --env-file-if-exists=.env.local scripts/prismic.mjs inspect",
-    "prismic:publish": "node --env-file-if-exists=.env.local scripts/prismic.mjs publish"
+    "prismic:publish": "node --env-file-if-exists=.env.local scripts/prismic.mjs publish",
+    "glossary:validate": "node scripts/glossary-content.mjs --complete",
+    "glossary:plan": "node --env-file-if-exists=.env.local scripts/glossary-import.mjs plan",
+    "glossary:import": "node --env-file-if-exists=.env.local scripts/glossary-import.mjs import",
+    "test:glossary": "GLOSSARY_FIXTURE_TESTS=1 playwright test --config=playwright.glossary.config.ts",
+    "glossary:verify": "node --env-file-if-exists=.env.local scripts/glossary-verify.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",

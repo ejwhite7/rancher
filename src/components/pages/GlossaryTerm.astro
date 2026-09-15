@@ -1,0 +1,171 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Navigation from "../Navigation.astro";
+import Footer from "../Footer.astro";
+import GlossaryRichText from "../GlossaryRichText.astro";
+import GlossaryCTA from "../GlossaryCTA.astro";
+import {
+  glossaryCategories,
+  resolveTerms,
+  isReviewed,
+  type GlossaryContent,
+  type GlossaryDocument,
+} from "../../lib/glossary";
+import type { SiteContent } from "../../lib/content";
+import "../../styles/glossary.css";
+interface Props {
+  glossary: GlossaryContent;
+  document: GlossaryDocument;
+  content: SiteContent;
+  preview?: boolean;
+}
+const { glossary, document, content, preview = false } = Astro.props;
+const term = document.data;
+const related = resolveTerms(term.related_terms, glossary.records, document.id);
+const sections = [
+  ["How it works", term.how_it_works],
+  ["Why it matters for licensing", term.licensing_relevance],
+  ["Example", term.example],
+  ["Limitations and misconceptions", term.limitations],
+] as const;
+const origin = new URL("https://www.gorancher.com");
+const url = new URL(`/glossary/${document.uid}/`, origin).href;
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "DefinedTerm",
+      "@id": url,
+      name: term.term,
+      description: term.short_definition,
+      url,
+      inDefinedTermSet: new URL("/glossary/", origin).href,
+      alternateName: term.aliases.map((a) => a.alias),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: origin.href },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Glossary",
+          item: new URL("/glossary/", origin).href,
+        },
+        { "@type": "ListItem", position: 3, name: term.term, item: url },
+      ],
+    },
+  ],
+};
+---
+
+<SiteLayout
+  content={content}
+  preview={preview}
+  title={term.meta_title}
+  description={term.meta_description}
+  socialImage={term.social_image}
+  glossarySchema={schema}
+  canonicalOrigin={origin}
+>
+  <Navigation copy={content.navigation} homeLinks />
+  <main id="main-content" class="glossary-page">
+    <article class="wrap glossary-article">
+      <nav aria-label="Breadcrumb" class="glossary-breadcrumb">
+        <a href="/">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/glossary/">Glossary</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">{term.term}</span>
+      </nav>
+      <header class="glossary-heading">
+        <p class="eyebrow">{glossaryCategories[term.category]}</p>
+        <h1>{term.term}</h1>
+        <GlossaryRichText value={term.definition} />
+        {term.aliases.length > 0 && (
+          <p class="glossary-aliases">
+            Also known as: {term.aliases.map((a) => a.alias).join(", ")}
+          </p>
+        )}
+        {isReviewed(term) ? (
+          <p class="glossary-byline">
+            Reviewed by {term.reviewer_name}
+            {term.reviewer_role && `, ${term.reviewer_role}`} ·{" "}
+            <time datetime={term.last_reviewed!}>
+              {new Date(`${term.last_reviewed}T12:00:00Z`).toLocaleDateString(
+                "en-US",
+                {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC",
+                },
+              )}
+            </time>
+          </p>
+        ) : (
+          preview && (
+            <p class="glossary-review">
+              Draft — awaiting completed editorial review.
+            </p>
+          )
+        )}
+      </header>
+      {sections.map(([heading, value]) => (
+        <section class="glossary-section">
+          <h2>{heading}</h2>
+          <GlossaryRichText value={value} />
+        </section>
+      ))}
+      {term.review_questions.length > 0 && (
+        <section class="glossary-section">
+          <h2>Questions to ask</h2>
+          <ul>
+            {term.review_questions.map(({ question }) => (
+              <li>{question}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {related.length > 0 && (
+        <nav class="glossary-section" aria-labelledby="related-heading">
+          <h2 id="related-heading">Related terms</h2>
+          <ul class="glossary-related">
+            {related.map((r) => (
+              <li>
+                <a href={r.url} data-glossary-related>
+                  {r.term}
+                </a>
+                <p>{r.short_definition}</p>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+      <section class="glossary-section glossary-sources">
+        <h2>Sources</h2>
+        <ul>
+          {term.sources.map((s) => (
+            <li>
+              <a href={s.url.url} rel="noopener noreferrer">
+                {s.label}
+              </a>
+              {s.accessed_on && (
+                <span>
+                  {" "}
+                  · Accessed{" "}
+                  <time datetime={s.accessed_on}>{s.accessed_on}</time>
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+      {term.show_cta && <GlossaryCTA index={glossary.index} />}
+      <a href="/glossary/" class="textlink">
+        ← Browse all glossary terms
+      </a>
+    </article>
+  </main>
+  <Footer copy={content.footer} />
+</SiteLayout>

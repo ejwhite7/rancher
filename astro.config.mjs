@@ -26,5 +26,8 @@ export default defineConfig({
   adapter: vercel(),
   build: { inlineStylesheets: "always" },
   trailingSlash: "always",
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    sitemap({ customSitemaps: [new URL("/glossary-sitemap.xml", url).href] }),
+  ],
 });

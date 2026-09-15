@@ -13,6 +13,16 @@ interface Props {
   title?: string;
   description?: string;
   faqs?: { question: string; answer: string }[];
+  socialImage?:
+    | {
+        url: string;
+        alt?: string | null;
+        dimensions: { width: number; height: number };
+      }
+    | {}
+    | null;
+  glossarySchema?: Record<string, unknown>;
+  canonicalOrigin?: URL;
 }
 const {
   title = homepage.meta_title,
@@ -22,10 +32,14 @@ const {
 const site = Astro.site!;
 const canonical = new URL(
   Astro.url.pathname.replace(/^\/preview\/view/, "") || "/",
-  site,
+  Astro.props.canonicalOrigin || site,
 );
-const image = new URL(homepage.social_image.url, site);
-const imageAlt = homepage.social_image.alt;
+const socialImage =
+  Astro.props.socialImage && "url" in Astro.props.socialImage
+    ? Astro.props.socialImage
+    : homepage.social_image;
+const image = new URL(socialImage.url, site);
+const imageAlt = socialImage.alt || title;
 const robots =
   !preview && isPublicSite(site)
     ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
@@ -66,11 +80,11 @@ const robots =
     <meta property="og:image" content={image} />
     <meta
       property="og:image:width"
-      content={String(homepage.social_image.dimensions.width)}
+      content={String(socialImage.dimensions.width)}
     />
     <meta
       property="og:image:height"
-      content={String(homepage.social_image.dimensions.height)}
+      content={String(socialImage.dimensions.height)}
     />
     <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
@@ -79,6 +93,16 @@ const robots =
     <meta name="twitter:image" content={image} />
     <meta name="twitter:image:alt" content={imageAlt} />
     <PostHog />
+    {Astro.props.glossarySchema && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(Astro.props.glossarySchema).replace(
+          /</g,
+          "\\u003c",
+        )}
+      ></script>
+    )}
     {repository && (
       <script
         is:inline
@@ -96,7 +120,7 @@ const robots =
           canonical,
           { title, description },
           faqs,
-          homepage.social_image,
+          { ...socialImage, alt: imageAlt },
           homepage.meta_description,
         ),
       ).replace(/</g, "\\u003c")}
@@ -136,7 +160,8 @@ const robots =
         )
           return;
         if (
-          ["/", "/privacy-policy/", "/terms-of-use/"].includes(url.pathname)
+          ["/", "/privacy-policy/", "/terms-of-use/"].includes(url.pathname) ||
+          /^\/glossary\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(url.pathname)
         ) {
           event.preventDefault();
           location.assign(

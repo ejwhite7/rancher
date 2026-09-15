@@ -1,0 +1,127 @@
+{
+  "id": "glossary-index",
+  "label": "Glossary Index",
+  "repeatable": false,
+  "status": true,
+  "format": "page",
+  "json": {
+    "Main": {
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Page heading",
+          "single": "heading1"
+        }
+      },
+      "intro": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Introduction",
+          "multi": "paragraph,hyperlink"
+        }
+      },
+      "search_placeholder": {
+        "type": "Text",
+        "config": {
+          "label": "Search placeholder"
+        }
+      },
+      "empty_state_title": {
+        "type": "Text",
+        "config": {
+          "label": "No results heading"
+        }
+      },
+      "empty_state_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "No results guidance",
+          "multi": "paragraph,hyperlink"
+        }
+      },
+      "featured_terms": {
+        "type": "Group",
+        "config": {
+          "label": "Featured terms (up to six)",
+          "fields": {
+            "term": {
+              "type": "Link",
+              "config": {
+                "label": "Featured term",
+                "select": "document",
+                "customtypes": [
+                  "glossary"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "cta_heading": {
+        "type": "Text",
+        "config": {
+          "label": "Contact invitation heading"
+        }
+      },
+      "cta_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Contact invitation copy",
+          "multi": "paragraph,hyperlink"
+        }
+      },
+      "cta_label": {
+        "type": "Text",
+        "config": {
+          "label": "Contact button label"
+        }
+      },
+      "cta_link": {
+        "type": "Link",
+        "config": {
+          "label": "Contact destination",
+          "select": "web"
+        }
+      },
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "SEO title"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "SEO description"
+        }
+      },
+      "social_image": {
+        "type": "Image",
+        "config": {
+          "label": "Social sharing image",
+          "thumbnails": []
+        }
+      },
+      "navigation": {
+        "type": "Link",
+        "config": {
+          "label": "Site navigation",
+          "select": "document",
+          "customtypes": [
+            "navigation"
+          ]
+        }
+      },
+      "footer": {
+        "type": "Link",
+        "config": {
+          "label": "Site footer",
+          "select": "document",
+          "customtypes": [
+            "footer"
+          ]
+        }
+      }
+    }
+  }
+}

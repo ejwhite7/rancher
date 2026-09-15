@@ -1,0 +1,33 @@
+---
+export const prerender = false;
+import GlossaryIndex from "../../components/pages/GlossaryIndex.astro";
+import {
+  createGlossaryClient,
+  fetchGlossary,
+  glossarySiteContent,
+  glossaryHeaders,
+} from "../../lib/glossary";
+for (const [k, v] of Object.entries(glossaryHeaders))
+  Astro.response.headers.set(k, v);
+let glossary, content;
+try {
+  const client = createGlossaryClient();
+  const lang = import.meta.env.PRISMIC_LOCALE || "en-us";
+  glossary = await fetchGlossary(client, { lang });
+  content = await glossarySiteContent(client, glossary.index, lang);
+} catch {
+  return new Response(
+    "The glossary is not available yet. Please try again later.",
+    {
+      status: 503,
+      headers: {
+        ...glossaryHeaders,
+        "X-Robots-Tag": "noindex",
+        "Retry-After": "300",
+      },
+    },
+  );
+}
+---
+
+<GlossaryIndex glossary={glossary} content={content} />

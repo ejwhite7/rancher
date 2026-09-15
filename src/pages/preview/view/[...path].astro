@@ -14,11 +14,12 @@ import {
   PREVIEW_COOKIE,
   previewHeaders,
   validPreviewToken,
+  supportedPreviewPath,
 } from "../../../lib/preview";
 for (const [k, v] of Object.entries(previewHeaders))
   Astro.response.headers.set(k, v);
 const path = Astro.params.path || "";
-if (!["", "privacy-policy", "terms-of-use"].includes(path))
+if (!supportedPreviewPath(path ? `/${path}/` : "/"))
   return new Response("Preview page not found.", {
     status: 404,
     headers: previewHeaders,
@@ -31,13 +32,36 @@ if (!token || !validPreviewToken(token))
   });
 let content;
 let legal;
+let glossary;
+let glossaryDocument;
+import GlossaryIndex from "../../../components/pages/GlossaryIndex.astro";
+import GlossaryTerm from "../../../components/pages/GlossaryTerm.astro";
+import { fetchGlossary, glossarySiteContent } from "../../../lib/glossary";
 try {
   const client = createPreviewClient(token);
   content = await fetchSiteContent(
     client,
     import.meta.env.PRISMIC_LOCALE || "en-us",
   );
-  if (path) {
+  if (path === "glossary" || path.startsWith("glossary/")) {
+    const lang = import.meta.env.PRISMIC_LOCALE || "en-us";
+    glossary = await fetchGlossary(client, { preview: true, lang });
+    if (path !== "glossary") {
+      glossaryDocument = glossary.documents.find(
+        (doc) => doc.uid === path.slice("glossary/".length),
+      );
+      if (!glossaryDocument)
+        return new Response("Glossary preview term not found.", {
+          status: 404,
+          headers: previewHeaders,
+        });
+    }
+    content = await glossarySiteContent(
+      client,
+      glossaryDocument?.data || glossary.index,
+      lang,
+    );
+  } else if (path) {
     legal = validateLegalContent((await client.getByUID("legal", path)).data);
     const [nav, footer] = await Promise.all([
       client.getByID(legal.navigation.id),
@@ -57,7 +81,18 @@ try {
 }
 ---
 
-{legal ? (
+{glossary ? (
+  glossaryDocument ? (
+    <GlossaryTerm
+      glossary={glossary}
+      document={glossaryDocument}
+      content={content}
+      preview
+    />
+  ) : (
+    <GlossaryIndex glossary={glossary} content={content} preview />
+  )
+) : legal ? (
   <LegalLayout
     title={legal.title}
     description={legal.description}

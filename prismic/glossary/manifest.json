@@ -1,0 +1,362 @@
+[
+  {
+    "source": "B",
+    "term": "Chain of rights",
+    "uid": "chain-of-rights",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "B",
+    "term": "Computer-use agent",
+    "uid": "computer-use-agent",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "Content provenance (C2PA)",
+    "uid": "content-provenance-c2pa",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "B",
+    "term": "Dark data",
+    "uid": "dark-data",
+    "category": "business-data-workflows"
+  },
+  {
+    "source": "B",
+    "term": "Data annotation",
+    "uid": "data-annotation",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "B",
+    "term": "Data curation",
+    "uid": "data-curation",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "B",
+    "term": "Data exclusivity",
+    "uid": "data-exclusivity",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "B",
+    "term": "Data provenance",
+    "uid": "data-provenance",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "B",
+    "term": "Egocentric video",
+    "uid": "egocentric-video",
+    "category": "video-robotics-physical-ai"
+  },
+  {
+    "source": "B",
+    "term": "Expert demonstrations",
+    "uid": "expert-demonstrations",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "Fair use",
+    "uid": "fair-use",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "B",
+    "term": "Fine-tuning data",
+    "uid": "fine-tuning-data",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "Indemnification",
+    "uid": "indemnification",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "B",
+    "term": "Long-horizon task",
+    "uid": "long-horizon-task",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "Model weights",
+    "uid": "model-weights",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "Multi-camera video",
+    "uid": "multi-camera-video",
+    "category": "video-robotics-physical-ai"
+  },
+  {
+    "source": "B",
+    "term": "Reward hacking",
+    "uid": "reward-hacking",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "RL environment",
+    "uid": "rl-environment",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "RLHF data",
+    "uid": "rlhf-data",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "Sim-to-real gap",
+    "uid": "sim-to-real-gap",
+    "category": "video-robotics-physical-ai"
+  },
+  {
+    "source": "B",
+    "term": "Synthetic training data",
+    "uid": "synthetic-training-data",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "System of record",
+    "uid": "system-of-record",
+    "category": "business-data-workflows"
+  },
+  {
+    "source": "B",
+    "term": "Teleoperation",
+    "uid": "teleoperation",
+    "category": "video-robotics-physical-ai"
+  },
+  {
+    "source": "B",
+    "term": "Training-ready data",
+    "uid": "training-ready-data",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "B",
+    "term": "Verifier",
+    "uid": "verifier",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "B",
+    "term": "Voice & likeness rights",
+    "uid": "voice-likeness-rights",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "B",
+    "term": "Workflow trajectory",
+    "uid": "workflow-trajectory",
+    "category": "business-data-workflows"
+  },
+  {
+    "source": "B",
+    "term": "World model",
+    "uid": "world-model",
+    "category": "video-robotics-physical-ai"
+  },
+  {
+    "source": "A",
+    "term": "Data licensing",
+    "uid": "data-licensing",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "A",
+    "term": "Data monetization",
+    "uid": "data-monetization",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "A",
+    "term": "Data ownership",
+    "uid": "data-ownership",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "A",
+    "term": "Permitted use",
+    "uid": "permitted-use",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "A",
+    "term": "Non-exclusive licensing",
+    "uid": "non-exclusive-licensing",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "A",
+    "term": "Licensing scope",
+    "uid": "licensing-scope",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "A",
+    "term": "Dataset valuation",
+    "uid": "dataset-valuation",
+    "category": "licensing-economics"
+  },
+  {
+    "source": "A",
+    "term": "Onward sharing",
+    "uid": "onward-sharing",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Operational data",
+    "uid": "operational-data",
+    "category": "business-data-workflows"
+  },
+  {
+    "source": "A",
+    "term": "Workflow data",
+    "uid": "workflow-data",
+    "category": "business-data-workflows"
+  },
+  {
+    "source": "A",
+    "term": "Cross-system context",
+    "uid": "cross-system-context",
+    "category": "business-data-workflows"
+  },
+  {
+    "source": "A",
+    "term": "Outcome labels",
+    "uid": "outcome-labels",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "A",
+    "term": "Unstructured data",
+    "uid": "unstructured-data",
+    "category": "business-data-workflows"
+  },
+  {
+    "source": "A",
+    "term": "Personally identifiable information (PII)",
+    "uid": "personally-identifiable-information",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "De-identification",
+    "uid": "de-identification",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Pseudonymization",
+    "uid": "pseudonymization",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Anonymization",
+    "uid": "anonymization",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Third-party data rights",
+    "uid": "third-party-data-rights",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Confidential business information",
+    "uid": "confidential-business-information",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Data minimization",
+    "uid": "data-minimization",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Redaction",
+    "uid": "redaction",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Re-identification risk",
+    "uid": "re-identification-risk",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Data retention",
+    "uid": "data-retention",
+    "category": "rights-privacy-control"
+  },
+  {
+    "source": "A",
+    "term": "Data quality",
+    "uid": "data-quality",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "A",
+    "term": "Data deduplication",
+    "uid": "data-deduplication",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "A",
+    "term": "Dataset documentation",
+    "uid": "dataset-documentation",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "A",
+    "term": "Data lineage",
+    "uid": "data-lineage",
+    "category": "data-quality-preparation"
+  },
+  {
+    "source": "A",
+    "term": "AI training data",
+    "uid": "ai-training-data",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "A",
+    "term": "Evaluation data",
+    "uid": "evaluation-data",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "A",
+    "term": "Fine-tuning",
+    "uid": "fine-tuning",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "A",
+    "term": "AI agents",
+    "uid": "ai-agents",
+    "category": "ai-training-agents-evaluation"
+  },
+  {
+    "source": "A",
+    "term": "Data leakage",
+    "uid": "data-leakage",
+    "category": "ai-training-agents-evaluation"
+  }
+]

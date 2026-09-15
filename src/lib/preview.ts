@@ -11,11 +11,27 @@ export const previewHeaders = {
   "X-Robots-Tag": "noindex, nofollow",
   "Referrer-Policy": "no-referrer",
 };
-export const previewLinkResolver: LinkResolverFunction = (doc) =>
-  doc.type === "legal" &&
-  ["privacy-policy", "terms-of-use"].includes(doc.uid || "")
-    ? `/${doc.uid}/`
-    : "/";
+export function supportedPreviewPath(path: string): boolean {
+  return (
+    ["/", "/privacy-policy/", "/terms-of-use/"].includes(path) ||
+    /^\/glossary\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(path)
+  );
+}
+export const previewLinkResolver: LinkResolverFunction = (doc) => {
+  if (doc.type === "glossary-index") return "/glossary/";
+  if (
+    doc.type === "glossary" &&
+    doc.uid &&
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.uid)
+  )
+    return `/glossary/${doc.uid}/`;
+  if (
+    doc.type === "legal" &&
+    ["privacy-policy", "terms-of-use"].includes(doc.uid || "")
+  )
+    return `/${doc.uid}/`;
+  return "/";
+};
 export function createPreviewClient(token?: string): Client {
   const repository = import.meta.env.PRISMIC_REPOSITORY_NAME;
   if (!repository)

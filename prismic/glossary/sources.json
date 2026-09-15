@@ -1,0 +1,122 @@
+{
+  "cdla": {
+    "label": "Linux Foundation \u2014 Community Data License Agreement, Permissive 2.0",
+    "url": "https://cdla.dev/permissive-2-0/"
+  },
+  "wipo-license": {
+    "label": "WIPO \u2014 Assignment and licensing of intellectual property",
+    "url": "https://www.wipo.int/en/web/business/assignment-licensing"
+  },
+  "wipo-secret": {
+    "label": "WIPO \u2014 Trade secret protection",
+    "url": "https://www.wipo.int/en/web/trade-secrets/protection"
+  },
+  "oecd-sharing": {
+    "label": "OECD \u2014 Enhancing Access to and Sharing of Data",
+    "url": "https://www.oecd.org/en/publications/enhancing-access-to-and-sharing-of-data_276aaca8-en.html"
+  },
+  "oecd-value": {
+    "label": "OECD \u2014 Measuring the Value of Data and Data Flows",
+    "url": "https://www.oecd.org/en/publications/measuring-the-value-of-data-and-data-flows_923230a6-en.html"
+  },
+  "nist-deid": {
+    "label": "NIST SP 800-188 \u2014 De-Identifying Government Datasets",
+    "url": "https://csrc.nist.gov/pubs/sp/800/188/final"
+  },
+  "nist-pii": {
+    "label": "NIST SP 800-122 \u2014 Protecting the Confidentiality of Personally Identifiable Information",
+    "url": "https://csrc.nist.gov/pubs/sp/800/122/final"
+  },
+  "gdpr": {
+    "label": "EU GDPR \u2014 Articles 4\u20136 and Recital 26",
+    "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng"
+  },
+  "fair-use": {
+    "label": "U.S. Copyright Office \u2014 Fair Use Index and four-factor framework",
+    "url": "https://www.copyright.gov/fair-use/"
+  },
+  "replicas": {
+    "label": "U.S. Copyright Office \u2014 Copyright and Artificial Intelligence, Part 1: Digital Replicas",
+    "url": "https://www.copyright.gov/ai/Copyright-and-Artificial-Intelligence-Part-1-Digital-Replicas-Report.pdf"
+  },
+  "prov": {
+    "label": "W3C \u2014 PROV Overview",
+    "url": "https://www.w3.org/TR/prov-overview/"
+  },
+  "c2pa": {
+    "label": "C2PA \u2014 Technical Specification",
+    "url": "https://spec.c2pa.org/specifications/specifications/2.1/specs/C2PA_Specification.html"
+  },
+  "osworld": {
+    "label": "Xie et al. \u2014 OSWorld: Benchmarking Multimodal Agents for Open-Ended Tasks in Real Computer Environments",
+    "url": "https://arxiv.org/abs/2404.07972"
+  },
+  "rlhf": {
+    "label": "Ouyang et al. \u2014 Training Language Models to Follow Instructions with Human Feedback",
+    "url": "https://arxiv.org/abs/2203.02155"
+  },
+  "datasheets": {
+    "label": "Gebru et al. \u2014 Datasheets for Datasets",
+    "url": "https://arxiv.org/abs/1803.09010"
+  },
+  "dedup": {
+    "label": "Lee et al. \u2014 Deduplicating Training Data Makes Language Models Better",
+    "url": "https://arxiv.org/abs/2107.06499"
+  },
+  "simtoreal": {
+    "label": "Tobin et al. \u2014 Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World",
+    "url": "https://arxiv.org/abs/1703.06907"
+  },
+  "aloha": {
+    "label": "Zhao et al. \u2014 Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware",
+    "url": "https://arxiv.org/abs/2304.13705"
+  },
+  "world-model": {
+    "label": "Ha and Schmidhuber \u2014 World Models",
+    "url": "https://arxiv.org/abs/1803.10122"
+  },
+  "ml-glossary": {
+    "label": "Google Developers \u2014 Machine Learning Glossary",
+    "url": "https://developers.google.com/machine-learning/glossary"
+  },
+  "gym": {
+    "label": "Farama Foundation \u2014 Gymnasium Environment API",
+    "url": "https://gymnasium.farama.org/api/env/"
+  },
+  "ego4d": {
+    "label": "Ego4D \u2014 Dataset documentation",
+    "url": "https://ego4d-data.org/docs/"
+  },
+  "egoexo": {
+    "label": "Ego-Exo4D \u2014 Paired egocentric and exocentric video dataset",
+    "url": "https://ego-exo4d-data.org/"
+  },
+  "gaming": {
+    "label": "DeepMind \u2014 Specification gaming: the flip side of AI ingenuity",
+    "url": "https://deepmind.google/discover/blog/specification-gaming-the-flip-side-of-ai-ingenuity/"
+  },
+  "leakage": {
+    "label": "Kapoor and Narayanan \u2014 Leakage and the Reproducibility Crisis in Machine-Learning-Based Science",
+    "url": "https://arxiv.org/abs/2207.07048"
+  },
+  "dark": {
+    "label": "IBM \u2014 Dark data",
+    "url": "https://www.ibm.com/think/topics/dark-data"
+  },
+  "record": {
+    "label": "IBM \u2014 System of record",
+    "url": "https://www.ibm.com/think/topics/system-of-record"
+  },
+  "unstructured": {
+    "label": "IBM \u2014 Unstructured data",
+    "url": "https://www.ibm.com/think/topics/unstructured-data"
+  },
+  "xes": {
+    "label": "IEEE Task Force on Process Mining \u2014 XES Standard",
+    "url": "https://www.tf-pm.org/resources/xes-standard"
+  },
+  "indemnify": {
+    "label": "Cornell Legal Information Institute \u2014 Indemnify",
+    "url": "https://www.law.cornell.edu/wex/indemnify"
+  }
+}

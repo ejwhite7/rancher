@@ -1,0 +1,47 @@
+---
+export const prerender = false;
+import GlossaryTerm from "../../components/pages/GlossaryTerm.astro";
+import {
+  createGlossaryClient,
+  fetchGlossary,
+  glossarySiteContent,
+  glossaryHeaders,
+  glossaryUID,
+} from "../../lib/glossary";
+for (const [k, v] of Object.entries(glossaryHeaders))
+  Astro.response.headers.set(k, v);
+const uid = Astro.params.uid || "";
+const notFound = new Response("Glossary term not found.", {
+  status: 404,
+  headers: { ...glossaryHeaders, "X-Robots-Tag": "noindex" },
+});
+if (!glossaryUID.test(uid)) return notFound;
+let glossary, content, document;
+try {
+  const client = createGlossaryClient();
+  const lang = import.meta.env.PRISMIC_LOCALE || "en-us";
+  // Check identity first: unknown or unpublished terms stay real 404s even before launch.
+  try {
+    await client.getByUID("glossary", uid, { lang });
+  } catch (error) {
+    if (error instanceof Error && error.name === "NotFoundError")
+      return notFound;
+    throw error;
+  }
+  glossary = await fetchGlossary(client, { lang });
+  document = glossary.documents.find((d) => d.uid === uid);
+  if (!document) return notFound;
+  content = await glossarySiteContent(client, document.data, lang);
+} catch {
+  return new Response("This glossary entry is temporarily unavailable.", {
+    status: 503,
+    headers: {
+      ...glossaryHeaders,
+      "X-Robots-Tag": "noindex",
+      "Retry-After": "300",
+    },
+  });
+}
+---
+
+<GlossaryTerm glossary={glossary} document={document} content={content} />

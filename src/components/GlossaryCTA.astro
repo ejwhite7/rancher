@@ -1,0 +1,18 @@
+---
+import { glossaryCTA, type GlossaryIndex } from "../lib/glossary";
+import GlossaryRichText from "./GlossaryRichText.astro";
+interface Props {
+  index: GlossaryIndex;
+}
+const cta = glossaryCTA(Astro.props.index);
+---
+
+{cta && (
+  <section class="glossary-cta">
+    <h2>{cta.heading}</h2>
+    <GlossaryRichText value={cta.body} />
+    <a class="btn" href={cta.url} data-glossary-cta>
+      {cta.label}
+    </a>
+  </section>
+)}
