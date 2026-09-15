@@ -7,7 +7,7 @@ const preview = Astro.props.preview || false;
 const repository = import.meta.env.PRISMIC_REPOSITORY_NAME;
 import PostHog from "../components/posthog.astro";
 import { canonicalUrl } from "../lib/site";
-import { isPublicSite, structuredData } from "../lib/seo";
+import { structuredData } from "../lib/seo";
 interface Props {
   content?: SiteContent;
   preview?: boolean;
@@ -38,9 +38,7 @@ const socialImage =
 const image = new URL(socialImage.url, site);
 const imageAlt = socialImage.alt || title;
 const robots =
-  !preview &&
-  isPublicSite(new URL(import.meta.env.SITE_URL || "http://localhost")) &&
-  (!import.meta.env.VERCEL_ENV || import.meta.env.VERCEL_ENV === "production")
+  !preview && import.meta.env.PUBLIC_SITE_INDEXABLE
     ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     : "noindex, nofollow";
 ---

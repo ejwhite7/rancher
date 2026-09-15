@@ -15,3 +15,12 @@ export function includeInStaticSitemap(url: string) {
     new URL(url).pathname,
   );
 }
+
+export function isIndexableDeployment(
+  environment: string | undefined,
+  site: URL,
+) {
+  return environment
+    ? environment === "production"
+    : site.origin === PUBLIC_SITE;
+}

@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import { canonicalUrl, includeInStaticSitemap } from "../src/lib/site";
+import {
+  canonicalUrl,
+  includeInStaticSitemap,
+  isIndexableDeployment,
+} from "../src/lib/site";
 import { isPublicSite } from "../src/lib/seo";
 
 test("canonicals normalize public and preview paths without campaign parameters", () => {
@@ -46,4 +50,14 @@ test("static sitemap discovers page routes while excluding utilities and live gl
       false,
     );
   }
+});
+
+test("deployment indexing is resolved at build time independently of private runtime env", () => {
+  const local = new URL("http://localhost:4321");
+  const publicSite = new URL("https://www.gorancher.com");
+  expect(isIndexableDeployment("production", local)).toBe(true);
+  expect(isIndexableDeployment("preview", publicSite)).toBe(false);
+  expect(isIndexableDeployment("development", publicSite)).toBe(false);
+  expect(isIndexableDeployment(undefined, local)).toBe(false);
+  expect(isIndexableDeployment(undefined, publicSite)).toBe(true);
 });
