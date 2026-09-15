@@ -76,35 +76,15 @@ const isDevelopment = import.meta.env.DEV;
         (e.__SV = 1));
     })(document, window.posthog || []);
     // POSTHOG_BROWSER_SNIPPET_END
-    const initializePostHog = () => {
-      if (typeof window.posthog?.init !== "function") return;
-      window.posthog.init(projectToken, {
-        api_host: host,
-        defaults: "2026-01-30",
-        autocapture: false,
-        capture_exceptions: false,
-        disable_session_recording: true,
-        disable_conversations: true,
-        advanced_disable_flags: true,
-        __preview_deferred_init_extensions: true,
-        tracing_headers: [window.location.hostname],
-      });
-    };
-    let postHogStarted = false;
-    const startPostHog = () => {
-      if (postHogStarted) return;
-      postHogStarted = true;
-      initializePostHog();
-      window.removeEventListener("pointerdown", startPostHog);
-      window.removeEventListener("keydown", startPostHog);
-    };
-    window.addEventListener("pointerdown", startPostHog, {
-      once: true,
-      passive: true,
-    });
-    window.addEventListener("keydown", startPostHog, { once: true });
-    window.addEventListener("load", () => setTimeout(startPostHog, 5000), {
-      once: true,
+    window.posthog.init(projectToken, {
+      api_host: host,
+      defaults: "2026-01-30",
+      capture_exceptions: {
+        capture_unhandled_errors: true,
+        capture_unhandled_rejections: true,
+        capture_console_errors: false,
+      },
+      tracing_headers: [window.location.hostname],
     });
   }
 </script>
