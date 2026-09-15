@@ -1,0 +1,114 @@
+{
+  "title": "Have someone in mind?",
+  "description": "Earn by helping companies monetize the data they already have",
+  "referrer_first_name_label": "Your first name",
+  "referrer_last_name_label": "Your last name",
+  "referrer_email_label": "Your email",
+  "referral_first_name_label": "Referral first name",
+  "referral_last_name_label": "Referral last name",
+  "referral_email_label": "Referral email",
+  "referral_company_size_label": "Company size",
+  "referral_industry_label": "Industry",
+  "honeypot_label": "Website",
+  "submit_label": "Submit referral",
+  "submitting_label": "Submitting\u2026",
+  "success": "Thanks for the introduction. Your referral has been received.",
+  "save_error": "We couldn\u2019t send your referral. Your entries are still here; please try again.",
+  "no_javascript": "Enable JavaScript to submit your referral.",
+  "company_size_options": [
+    {
+      "label": "1\u201319",
+      "value": "1\u201319"
+    },
+    {
+      "label": "20\u201349",
+      "value": "20\u201349"
+    },
+    {
+      "label": "50\u2013199",
+      "value": "50\u2013199"
+    },
+    {
+      "label": "200\u2013499",
+      "value": "200\u2013499"
+    },
+    {
+      "label": "500\u2013999",
+      "value": "500\u2013999"
+    },
+    {
+      "label": "1,000\u20134,999",
+      "value": "1,000\u20134,999"
+    },
+    {
+      "label": "5,000+",
+      "value": "5,000+"
+    },
+    {
+      "label": "Not sure",
+      "value": "Not sure"
+    }
+  ],
+  "industry_options": [
+    {
+      "label": "Agriculture",
+      "value": "Agriculture"
+    },
+    {
+      "label": "Construction",
+      "value": "Construction"
+    },
+    {
+      "label": "Education",
+      "value": "Education"
+    },
+    {
+      "label": "Energy and utilities",
+      "value": "Energy and utilities"
+    },
+    {
+      "label": "Financial services",
+      "value": "Financial services"
+    },
+    {
+      "label": "Healthcare",
+      "value": "Healthcare"
+    },
+    {
+      "label": "Hospitality",
+      "value": "Hospitality"
+    },
+    {
+      "label": "Manufacturing",
+      "value": "Manufacturing"
+    },
+    {
+      "label": "Professional services",
+      "value": "Professional services"
+    },
+    {
+      "label": "Real estate",
+      "value": "Real estate"
+    },
+    {
+      "label": "Retail and e-commerce",
+      "value": "Retail and e-commerce"
+    },
+    {
+      "label": "Technology",
+      "value": "Technology"
+    },
+    {
+      "label": "Transportation and logistics",
+      "value": "Transportation and logistics"
+    },
+    {
+      "label": "Other",
+      "value": "Other"
+    },
+    {
+      "label": "Not sure",
+      "value": "Not sure"
+    }
+  ]
+}

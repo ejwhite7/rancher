@@ -92,6 +92,7 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
       });
     await sql.begin(async (tx) => {
       await tx.unsafe(await readFile("db/tests/contact_webhooks.sql", "utf8"));
+      await tx.unsafe(await readFile("db/tests/referral_webhooks.sql", "utf8"));
     });
     await expect(
       sql.begin(async (tx) => {

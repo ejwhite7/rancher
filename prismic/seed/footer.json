@@ -3,15 +3,6 @@
   "brand_label": "Rancher home",
   "copyright": "Rancher. Cultivate what comes next.",
   "nav_label": "Footer",
-  "faq_label": "FAQs",
-  "privacy_label": "Privacy Policy",
-  "terms_label": "Terms of Use",
-  "information_label": "Site information",
-  "cta_label": "Start a partnership \u2197",
-  "cta_link": {
-    "link_type": "Web",
-    "url": "#contact"
-  },
   "dialog_heading": "About this webpage",
   "dialog_body": [
     {
@@ -28,23 +19,26 @@
   "close_label": "Close",
   "items": [
     {
-      "label": "FAQs",
-      "link": {
-        "link_type": "Web",
-        "url": "#faq"
-      }
-    },
-    {
       "label": "Glossary",
       "link": {
         "link_type": "Web",
-        "url": "/glossary/"
+        "key": "7fe92e19-a681-4265-a3ef-7881f8c594ef",
+        "url": "/glossary"
+      }
+    },
+    {
+      "label": "FAQs",
+      "link": {
+        "link_type": "Web",
+        "key": "e1e065ae-91f5-4151-9d41-e08958f3d810",
+        "url": "#faq"
       }
     },
     {
       "label": "Privacy Policy",
       "link": {
         "link_type": "Web",
+        "key": "deafa5a7-3242-487b-b8cd-3a2ad0a30e28",
         "url": "/privacy-policy/"
       }
     },
@@ -52,6 +46,7 @@
       "label": "Terms of Use",
       "link": {
         "link_type": "Web",
+        "key": "3f4210fd-e846-4bf1-8f23-832fd8cbaaad",
         "url": "/terms-of-use/"
       }
     },
@@ -59,6 +54,7 @@
       "label": "Site information",
       "link": {
         "link_type": "Web",
+        "key": "fdcbc7a8-4c18-46b3-bfa1-828388f2de36",
         "url": "#site-note"
       }
     },
@@ -66,6 +62,7 @@
       "label": "Start a partnership \u2197",
       "link": {
         "link_type": "Web",
+        "key": "5cd61a20-58f1-4091-9d76-49d0e7f0a23a",
         "url": "#contact"
       }
     },
@@ -73,8 +70,26 @@
       "label": "Contact Us",
       "link": {
         "link_type": "Web",
+        "key": "eedd5766-254a-4601-89d7-53110cf3be39",
         "url": "/contact/"
       }
+    },
+    {
+      "label": "Referral",
+      "link": {
+        "link_type": "Web",
+        "url": "/referral/"
+      }
     }
-  ]
+  ],
+  "faq_label": "FAQs",
+  "privacy_label": "Privacy Policy",
+  "terms_label": "Terms of Use",
+  "information_label": "Site information",
+  "cta_label": "Start a partnership \u2197",
+  "cta_link": {
+    "link_type": "Web",
+    "key": "32596f37-f724-473a-8fed-d300cac884e7",
+    "url": "#contact"
+  }
 }

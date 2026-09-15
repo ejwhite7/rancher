@@ -1,0 +1,20 @@
+{
+  "heading": "Referral",
+  "form": {
+    "id": "aqmtqhUAACsAVP5k",
+    "type": "form",
+    "link_type": "Document"
+  },
+  "navigation": {
+    "id": "aqltoBUAADEAU_-i",
+    "type": "navigation",
+    "link_type": "Document"
+  },
+  "footer": {
+    "id": "aqlujBUAADEAVAKN",
+    "type": "footer",
+    "link_type": "Document"
+  },
+  "meta_title": "Refer a Company | Rancher",
+  "meta_description": "Know a company with valuable data? Introduce them to Rancher and help them explore data licensing."
+}

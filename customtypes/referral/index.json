@@ -1,0 +1,53 @@
+{
+  "id": "referral",
+  "label": "Referral",
+  "repeatable": false,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "heading": {
+        "type": "Text",
+        "config": {
+          "label": "Page heading"
+        }
+      },
+      "form": {
+        "type": "Link",
+        "config": {
+          "label": "Referral form",
+          "select": "document",
+          "customtypes": ["form"]
+        }
+      },
+      "navigation": {
+        "type": "Link",
+        "config": {
+          "label": "Site navigation",
+          "select": "document",
+          "customtypes": ["navigation"]
+        }
+      },
+      "footer": {
+        "type": "Link",
+        "config": {
+          "label": "Site footer",
+          "select": "document",
+          "customtypes": ["footer"]
+        }
+      },
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "SEO title"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "SEO description"
+        }
+      }
+    }
+  }
+}

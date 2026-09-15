@@ -1,0 +1,14 @@
+---
+import Referral from "../components/pages/Referral.astro";
+import { fetchReferral, referralSnapshot } from "../lib/referral";
+import { createPreviewClient } from "../lib/preview";
+const referral =
+  import.meta.env.PRISMIC_CONTENT_MODE === "snapshot"
+    ? await referralSnapshot()
+    : await fetchReferral(
+        createPreviewClient(),
+        import.meta.env.PRISMIC_LOCALE || "en-us",
+      );
+---
+
+<Referral referral={referral} />

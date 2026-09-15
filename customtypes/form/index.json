@@ -2,8 +2,6 @@
   "id": "form",
   "label": "Form",
   "repeatable": true,
-  "status": true,
-  "format": "custom",
   "json": {
     "Main": {
       "uid": {
@@ -202,6 +200,98 @@
           "label": "Outreach consent statement"
         }
       }
+    },
+    "Referral": {
+      "referrer_first_name_label": {
+        "type": "Text",
+        "config": {
+          "label": "Your first name field label"
+        }
+      },
+      "referrer_last_name_label": {
+        "type": "Text",
+        "config": {
+          "label": "Your last name field label"
+        }
+      },
+      "referrer_email_label": {
+        "type": "Text",
+        "config": {
+          "label": "Your email field label"
+        }
+      },
+      "referral_first_name_label": {
+        "type": "Text",
+        "config": {
+          "label": "Referral first name field label"
+        }
+      },
+      "referral_last_name_label": {
+        "type": "Text",
+        "config": {
+          "label": "Referral last name field label"
+        }
+      },
+      "referral_email_label": {
+        "type": "Text",
+        "config": {
+          "label": "Referral email field label"
+        }
+      },
+      "referral_company_size_label": {
+        "type": "Text",
+        "config": {
+          "label": "Company size field label"
+        }
+      },
+      "referral_industry_label": {
+        "type": "Text",
+        "config": {
+          "label": "Industry field label"
+        }
+      },
+      "company_size_options": {
+        "type": "Group",
+        "config": {
+          "label": "Company size choices",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Option label"
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "Submitted value (maximum 120 characters)"
+              }
+            }
+          }
+        }
+      },
+      "industry_options": {
+        "type": "Group",
+        "config": {
+          "label": "Industry choices",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Option label"
+              }
+            },
+            "value": {
+              "type": "Text",
+              "config": {
+                "label": "Submitted value (maximum 120 characters)"
+              }
+            }
+          }
+        }
+      }
     }
-  }
+  },
+  "status": true,
+  "format": "custom"
 }

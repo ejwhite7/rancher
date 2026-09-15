@@ -31,3 +31,40 @@ test("contact transformation maps the message without writing partnership or con
     }),
   ).toThrow("Invalid Rancher contact submission");
 });
+
+test("referral transformation targets the referred person and preserves referrer attribution without granting consent", async () => {
+  const code = await readFile("hookdeck/referral-attio.js", "utf8");
+  const sample = JSON.parse(
+    await readFile("hookdeck/referral-sample.json", "utf8"),
+  );
+  let transform: any;
+  runInNewContext(code, {
+    addHandler: (_event: string, handler: unknown) => {
+      transform = handler;
+    },
+  });
+  for (const body of [sample.body, JSON.stringify(sample.body)]) {
+    const output = JSON.parse(JSON.stringify(transform({ headers: {}, body })));
+    expect(output.query).toBe("matching_attribute=email_addresses");
+    expect(output.body.data.values).toEqual({
+      email_addresses: ["referred@example.org"],
+      name: [{ full_name: "Test Referral" }],
+      rancher_submission_id: sample.body.id,
+      domain: "example.org",
+      company_size: "50–199",
+      additional_context:
+        "Rancher referral\nReferred by: Test Referrer <referrer@example.com>\nReferral: Test Referral <referred@example.org>\nCompany size: 50–199\nIndustry: Technology",
+    });
+  }
+  expect(() =>
+    transform({ body: { ...sample.body, type: "contact.submission.created" } }),
+  ).toThrow("Invalid Rancher referral submission");
+  expect(() =>
+    transform({
+      body: {
+        ...sample.body,
+        data: { ...sample.body.data, referrer_email: "" },
+      },
+    }),
+  ).toThrow("Invalid Rancher referral submission");
+});

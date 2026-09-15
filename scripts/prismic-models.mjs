@@ -9,10 +9,17 @@ export const [
   legalModel,
   footerModel,
   contactModel,
+  referralModel,
 ] = await Promise.all(
-  ["homepage", "form", "navigation", "legal", "footer", "contact"].map((id) =>
-    json(`../customtypes/${id}/index.json`),
-  ),
+  [
+    "homepage",
+    "form",
+    "navigation",
+    "legal",
+    "footer",
+    "contact",
+    "referral",
+  ].map((id) => json(`../customtypes/${id}/index.json`)),
 );
 export const sliceModels = await Promise.all(
   Object.keys(homepageModel.json.Main.slices.config.choices).map((id) =>

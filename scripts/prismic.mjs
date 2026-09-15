@@ -7,6 +7,7 @@ import {
   navigationModel,
   footerModel,
   contactModel,
+  referralModel,
   legalModel,
   sliceModels,
 } from "./prismic-models.mjs";
@@ -36,6 +37,7 @@ if (command === "plan") {
           navigationModel,
           footerModel,
           contactModel,
+          referralModel,
           await json("customtypes/legal/index.json"),
         ],
         slices: sliceModels,
@@ -148,6 +150,7 @@ if (command === "plan") {
         navigationModel,
         footerModel,
         contactModel,
+        referralModel,
         legalModel,
       ]) {
         if (models.some((m) => m.id === model.id))

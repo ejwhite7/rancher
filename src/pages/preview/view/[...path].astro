@@ -32,6 +32,9 @@ if (!token || !validPreviewToken(token))
   });
 let content;
 let legal;
+let referral;
+import Referral from "../../../components/pages/Referral.astro";
+import { fetchReferral } from "../../../lib/referral";
 let contact;
 import Contact from "../../../components/pages/Contact.astro";
 import { fetchContact } from "../../../lib/contact";
@@ -64,6 +67,11 @@ try {
       glossaryDocument?.data || glossary.index,
       lang,
     );
+  } else if (path === "referral") {
+    referral = await fetchReferral(
+      client,
+      import.meta.env.PRISMIC_LOCALE || "en-us",
+    );
   } else if (path === "contact") {
     contact = await fetchContact(
       client,
@@ -89,7 +97,9 @@ try {
 }
 ---
 
-{contact ? (
+{referral ? (
+  <Referral referral={referral} preview />
+) : contact ? (
   <Contact contact={contact} preview />
 ) : glossary ? (
   glossaryDocument ? (

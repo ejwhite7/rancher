@@ -1,0 +1,23 @@
+[
+  {
+    "type": "filter",
+    "body": {
+      "type": "referral.submission.created"
+    }
+  },
+  {
+    "type": "deduplicate",
+    "window": 60000
+  },
+  {
+    "type": "transform",
+    "transformation_id": "trs_4vYqv1B0lftCCO"
+  },
+  {
+    "type": "retry",
+    "count": 5,
+    "interval": 30000,
+    "response_status_codes": null,
+    "strategy": "exponential"
+  }
+]
