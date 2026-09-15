@@ -1,4 +1,6 @@
 import { submissionSchema, type Submission } from "../lib/submission";
+import { emailDomain, isFreeOrDisposableEmail } from "./email-domain";
+import { REFERRAL_BONUS_USD } from "./referral";
 import { SubmissionConflict } from "./submissions";
 
 type Dependencies = {
@@ -57,6 +59,9 @@ export async function handleSubmission(
       { error: "Please complete every required field with valid information." },
       400,
     );
+  if (isFreeOrDisposableEmail(validated.data.email))
+    return json({ error: "Enter your work email address." }, 400);
+  const domain = emailDomain(validated.data.email);
   let booking: URL;
   try {
     booking = new URL(dependencies.bookingUrl() || "");
@@ -72,7 +77,14 @@ export async function handleSubmission(
   }
   try {
     await dependencies.save(validated.data);
-    return json({ redirectUrl: booking.href }, 201);
+    return json(
+      {
+        redirectUrl: booking.href,
+        referralBonusUsd: REFERRAL_BONUS_USD[validated.data.size],
+        domain,
+      },
+      201,
+    );
   } catch (error) {
     if (error instanceof SubmissionConflict)
       return json(

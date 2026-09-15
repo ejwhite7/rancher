@@ -8,7 +8,7 @@ The worker claims up to ten events per invocation with `FOR UPDATE SKIP LOCKED`,
 
 Both the JSON event `id` and the `Idempotency-Key`/`X-Rancher-Event-Id` headers use the submission UUID. Delivery is at least once: if acceptance occurs immediately before a database acknowledgement fails, the event can be resent. Configure downstream consumers to deduplicate using this stable ID. Configure routing, destination authentication, retry rules, and notifications inside Hookdeck for onward delivery.
 
-The version-2 JSON envelope contains `id`, `type`, `schema_version`, `created_at`, and `data`. Data contains submission ID, name, email, job title, company, company size, data history, record types, additional context, consent fields, calculator scenario, and the internal `referral_bonus_usd`. It excludes the request hash and honeypot. The source URL, credentials, payloads, and response bodies are not logged by the worker. The outbox uses RLS with no public policies; it is accessible only through authorized database roles.
+The version-3 JSON envelope contains `id`, `type`, `schema_version`, `created_at`, and `data`. Data contains submission ID, name, email, normalized email domain, job title, company, company size, data history, record types, additional context, consent fields, calculator scenario, and the internal `referral_bonus_usd`. It excludes the request hash and honeypot. The source URL, credentials, payloads, and response bodies are not logged by the worker. The outbox uses RLS with no public policies; it is accessible only through authorized database roles.
 
 ## Inspect delivery status
 
@@ -37,4 +37,4 @@ WHERE id = 'REPLACE-WITH-EVENT-UUID' AND status = 'failed';
 
 The next cron run sends it with the same event ID. Use Hookdeck's replay controls for downstream failures after successful ingestion.
 
-Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `005_job_title.sql` with an administrative database connection before deploying the application and worker.
+Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `006_submission_domain.sql` with an administrative database connection before deploying the application and worker.

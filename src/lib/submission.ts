@@ -48,11 +48,7 @@ export const submissionSchema = z
         (values) => new Set(values).size === values.length,
         "Choose each record type only once.",
       ),
-    records: z
-      .string()
-      .trim()
-      .min(1, "Enter any additional details (or “None”).")
-      .max(2000),
+    records: z.string().trim().max(2000).optional().default(""),
     outreachConsent: z.literal(true, {
       error: "Please consent to outreach before submitting.",
     }),

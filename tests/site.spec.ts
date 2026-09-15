@@ -5,6 +5,19 @@ test("calculator updates reference scenarios and submits before redirecting", as
   page,
 }) => {
   let submitted: Record<string, any> | undefined;
+  const posthogCalls: unknown[][] = [];
+  page.on("console", (message) => {
+    if (!message.text().startsWith("__POSTHOG__")) return;
+    posthogCalls.push(JSON.parse(message.text().slice("__POSTHOG__".length)));
+  });
+  await page.addInitScript(() => {
+    const record = (...args: unknown[]) =>
+      console.log(`__POSTHOG__${JSON.stringify(args)}`);
+    (window as any).posthog = {
+      identify: (...args: unknown[]) => record("identify", ...args),
+      capture: (...args: unknown[]) => record("capture", ...args),
+    };
+  });
   await page.route("**/api/submissions/", async (route) => {
     submitted = route.request().postDataJSON();
     await route.fulfill({
@@ -12,6 +25,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
       contentType: "application/json",
       body: JSON.stringify({
         redirectUrl: "https://cal.com/growthcast/discovery",
+        referralBonusUsd: 75000,
+        domain: "example.com",
       }),
     });
   });
@@ -21,6 +36,14 @@ test("calculator updates reference scenarios and submits before redirecting", as
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
+  await page.evaluate(() => {
+    const record = (...args: unknown[]) =>
+      console.log(`__POSTHOG__${JSON.stringify(args)}`);
+    (window as any).posthog = {
+      identify: (...args: unknown[]) => record("identify", ...args),
+      capture: (...args: unknown[]) => record("capture", ...args),
+    };
+  });
   await expect(page.locator("#intake button")).toBeEnabled();
   await expect(page.locator("#estimate-low")).toHaveText("$383,083");
   for (const row of handshakeCases) {
@@ -66,6 +89,38 @@ test("calculator updates reference scenarios and submits before redirecting", as
     country: "Canada",
   });
   expect(submitted?.idempotencyKey).toMatch(/^[0-9a-f-]{36}$/);
+  expect(posthogCalls).toContainEqual([
+    "identify",
+    "alex@example.com",
+    {
+      email: "alex@example.com",
+      domain: "example.com",
+      job_title: "VP of Operations",
+    },
+  ]);
+  expect(posthogCalls).toContainEqual([
+    "capture",
+    "partnership_request_submitted",
+    expect.objectContaining({
+      submission_id: submitted?.idempotencyKey,
+      name: "Alex Morgan",
+      email: "alex@example.com",
+      domain: "example.com",
+      job_title: "VP of Operations",
+      company: "Example Company",
+      company_size: "500–999",
+      data_history: "20+ years",
+      record_types: ["Documents & files"],
+      additional_context: "Project histories and internal documentation.",
+      outreach_consent: true,
+      referral_bonus_usd: 75000,
+      calculator_scenario: {
+        employees: 200,
+        years: 20,
+        country: "Canada",
+      },
+    }),
+  ]);
   expect(range).toContain("$");
   expect(errors).toEqual([]);
 });

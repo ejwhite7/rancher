@@ -30,7 +30,7 @@ const request = (data: unknown, headers: Record<string, string> = {}) =>
 test("accepts valid submissions only after persistence resolves", async () => {
   let resolveSave!: () => void;
   let saved = false;
-  const response = handleSubmission(request(valid), {
+  const response = handleSubmission(request({ ...valid, records: undefined }), {
     bookingUrl: () => booking,
     save: async () => {
       await new Promise<void>((resolve) => {
@@ -45,7 +45,11 @@ test("accepts valid submissions only after persistence resolves", async () => {
   const result = await response;
   expect(saved).toBe(true);
   expect(result.status).toBe(201);
-  expect(await result.json()).toEqual({ redirectUrl: booking });
+  expect(await result.json()).toEqual({
+    redirectUrl: booking,
+    referralBonusUsd: 8000,
+    domain: "example.com",
+  });
 });
 
 test("rejects missing fields, bad emails, unconsented requests, tampered scenarios, and honeypots", async () => {
@@ -56,7 +60,9 @@ test("rejects missing fields, bad emails, unconsented requests, tampered scenari
       writes++;
     },
   };
-  for (const key of Object.keys(valid).filter((key) => key !== "website")) {
+  for (const key of Object.keys(valid).filter(
+    (key) => key !== "website" && key !== "records",
+  )) {
     const data = { ...valid } as Record<string, unknown>;
     delete data[key];
     expect((await handleSubmission(request(data), dependencies)).status).toBe(
@@ -65,11 +71,16 @@ test("rejects missing fields, bad emails, unconsented requests, tampered scenari
   }
   for (const change of [
     { email: "invalid" },
+    { email: "person@gmail.com" },
+    { email: "person@yahoo.com" },
+    { email: "person@aol.com" },
+    { email: "person@icloud.com" },
+    { email: "person@hey.com" },
+    { email: "person@mailinator.com" },
     { size: "20–100" },
     { referralBonusUsd: 75000 },
     { name: "  " },
     { title: "  " },
-    { records: "  " },
     { recordTypes: [] },
     { recordTypes: ["Unknown"] },
     { history: "1–3 years" },

@@ -76,19 +76,34 @@ export default function PartnershipForm() {
         }),
       });
       const result = await response.json();
-      if (!response.ok || typeof result.redirectUrl !== "string")
+      if (
+        !response.ok ||
+        typeof result.redirectUrl !== "string" ||
+        typeof result.referralBonusUsd !== "number" ||
+        typeof result.domain !== "string"
+      )
         throw new Error(
           result.error || "We could not save your request. Please try again.",
         );
       window.posthog?.identify(payload.email, {
         email: payload.email,
+        domain: result.domain,
         job_title: payload.title,
       });
       window.posthog?.capture("partnership_request_submitted", {
+        submission_id: submissionKey.current.key,
+        name: payload.name,
+        email: payload.email,
+        domain: result.domain,
         job_title: payload.title,
-        team_size_range: payload.size,
-        data_history_range: payload.history,
-        calculator_scenario_used: payload.scenario !== null,
+        company: payload.company,
+        company_size: payload.size,
+        data_history: payload.history,
+        record_types: payload.recordTypes,
+        additional_context: payload.records,
+        outreach_consent: payload.outreachConsent,
+        referral_bonus_usd: result.referralBonusUsd,
+        calculator_scenario: payload.scenario,
       });
       setStatus("Your request is saved. Opening the booking calendar…");
       window.location.assign(result.redirectUrl);
@@ -221,11 +236,10 @@ export default function PartnershipForm() {
             </div>
           </fieldset>
           <label className="full">
-            Anything else to know?
+            Anything else to know? <span className="optional">Optional</span>
             <textarea
               name="records"
-              required
-              placeholder="Share any additional context, or enter None."
+              placeholder="Share any additional context."
               maxLength={2000}
             ></textarea>
           </label>
