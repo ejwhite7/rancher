@@ -37,8 +37,8 @@
               <path d="M19 276 279 144 548 275 287 429Z" />
             </clipPath>
           </defs>
-          <circle cx="302" cy="224" r="196" fill="url(#sky)" />
-          <circle cx="380" cy="118" r="34" fill="#d9e69f" />
+          <circle class="farm-sky" cx="302" cy="224" r="196" fill="url(#sky)" />
+          <circle class="field-sun" cx="380" cy="118" r="34" fill="#d9e69f" />
           <path
             d="M51 165h57m-43 10h74m274-19h61"
             stroke="#c9d4bc"
@@ -64,7 +64,12 @@
               stroke-width="1"
             />
           </g>
-          <g fill="#416b48" stroke="#416b48" stroke-linecap="round">
+          <g
+            class="field-plants"
+            fill="#416b48"
+            stroke="#416b48"
+            stroke-linecap="round"
+          >
             <path
               d="M354 185v-35m0 24q-17-1-17-16 17 1 17 16m0-10q16 0 17-15-16 0-17 15M391 204v-35m0 24q-17-1-17-16 17 1 17 16m0-10q16 0 17-15-16 0-17 15M429 223v-35m0 24q-17-1-17-16 17 1 17 16m0-10q16 0 17-15-16 0-17 15"
               stroke-width="2"
@@ -123,3 +128,87 @@
     </div>
   </div>
 </section>
+
+<script>
+  import { createTimeline, animate } from "animejs";
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll<HTMLElement>(".landscape").forEach((landscape) => {
+    const sun = landscape.querySelector<SVGElement>(".field-sun");
+    const plants = landscape.querySelector<SVGGElement>(".field-plants");
+    const sky = landscape.querySelector<SVGElement>(".farm-sky");
+    if (!sun || !plants || !sky || reduceMotion.matches) return;
+
+    plants.style.transformBox = "fill-box";
+    plants.style.transformOrigin = "center bottom";
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+
+        createTimeline({ loop: true })
+          .add(
+            sun,
+            {
+              translateY: [105, 0],
+              opacity: [0.35, 1],
+              duration: 2600,
+              ease: "inOutSine",
+            },
+            0,
+          )
+          .add(sky, { opacity: [0.55, 1], duration: 2200, ease: "outQuad" }, 0)
+          .add(
+            plants,
+            {
+              scaleY: [0.08, 1],
+              opacity: [0.45, 1],
+              duration: 3000,
+              ease: "outElastic(1, .55)",
+            },
+            550,
+          )
+          .add(
+            plants,
+            {
+              rotate: [-0.8, 0.8],
+              duration: 1450,
+              alternate: true,
+              loop: 2,
+              ease: "inOutSine",
+            },
+            3550,
+          )
+          .add(
+            sun,
+            {
+              translateY: 105,
+              opacity: 0.3,
+              duration: 2800,
+              ease: "inOutSine",
+            },
+            5700,
+          )
+          .add(sky, { opacity: 0.55, duration: 2400, ease: "inOutSine" }, 5900)
+          .add({}, { duration: 650 }, 8500);
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(landscape);
+  });
+
+  reduceMotion.addEventListener("change", ({ matches }) => {
+    if (matches) {
+      animate(".field-sun, .field-plants, .farm-sky", {
+        translateY: 0,
+        scaleY: 1,
+        rotate: 0,
+        opacity: 1,
+        duration: 0,
+      });
+    }
+  });
+</script>

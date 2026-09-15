@@ -27,9 +27,24 @@
         </div>
         <div class="demo-card">
           <small>ILLUSTRATIVE SOURCE RECORD</small>
-          <p>
-            <mark>Alex Chen</mark> resolved the renewal blocker for{" "}
-            <mark>Acme Co.</mark> after the support handoff.
+          <p
+            class="type-line"
+            aria-label="Alex Chen resolved the renewal blocker for Acme Co. after the support handoff."
+          >
+            <mark>
+              <span data-type-text="Alex Chen">Alex Chen</span>
+            </mark>
+            <span data-type-text=" resolved the renewal blocker for ">
+              {" "}
+              resolved the renewal blocker for{" "}
+            </span>
+            <mark>
+              <span data-type-text="Acme Co.">Acme Co.</span>
+            </mark>
+            <span data-type-text=" after the support handoff.">
+              {" "}
+              after the support handoff.
+            </span>
           </p>
         </div>
         <div class="connector" aria-hidden="true">
@@ -37,9 +52,24 @@
         </div>
         <div class="demo-card safe">
           <small>ILLUSTRATIVE PREPARED RECORD</small>
-          <p>
-            <mark>PERSON_01</mark> resolved the renewal blocker for{" "}
-            <mark>COMPANY_02</mark> after the support handoff.
+          <p
+            class="type-line"
+            aria-label="PERSON_01 resolved the renewal blocker for COMPANY_02 after the support handoff."
+          >
+            <mark>
+              <span data-type-text="PERSON_01">PERSON_01</span>
+            </mark>
+            <span data-type-text=" resolved the renewal blocker for ">
+              {" "}
+              resolved the renewal blocker for{" "}
+            </span>
+            <mark>
+              <span data-type-text="COMPANY_02">COMPANY_02</span>
+            </mark>
+            <span data-type-text=" after the support handoff.">
+              {" "}
+              after the support handoff.
+            </span>
           </p>
         </div>
       </div>
@@ -69,3 +99,56 @@
     </div>
   </div>
 </section>
+
+<script>
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll<HTMLElement>(".privacy-demo").forEach((demo) => {
+    const lines = Array.from(demo.querySelectorAll<HTMLElement>(".type-line"));
+    if (!lines.length || reduceMotion.matches) return;
+
+    const segments = lines.map((line) =>
+      Array.from(line.querySelectorAll<HTMLElement>("[data-type-text]")),
+    );
+    const totals = segments.map((parts) =>
+      parts.reduce(
+        (sum, part) => sum + (part.dataset.typeText?.length ?? 0),
+        0,
+      ),
+    );
+
+    const render = (progress: number) => {
+      segments.forEach((parts, lineIndex) => {
+        let remaining = Math.floor(totals[lineIndex] * progress);
+        parts.forEach((part) => {
+          const text = part.dataset.typeText ?? "";
+          const visible = Math.min(text.length, Math.max(0, remaining));
+          part.textContent = text.slice(0, visible);
+          remaining -= text.length;
+        });
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+        render(0);
+        lines.forEach((line) => line.classList.add("is-typing"));
+
+        const start = performance.now();
+        const duration = 3300;
+        const tick = (now: number) => {
+          const progress = Math.min(1, (now - start) / duration);
+          render(progress);
+          if (progress < 1) requestAnimationFrame(tick);
+          else lines.forEach((line) => line.classList.remove("is-typing"));
+        };
+        requestAnimationFrame(tick);
+      },
+      { threshold: 0.45 },
+    );
+
+    observer.observe(demo);
+  });
+</script>

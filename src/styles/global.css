@@ -1,6 +1,6 @@
 :root {
   --ink: #193e34;
-  --muted: #657068;
+  --muted: #536059;
   --paper: #f7f6ee;
   --line: #d9dfd3;
   --lime: #d8ee8a;
@@ -232,6 +232,11 @@ h3 {
   height: auto;
   overflow: visible;
 }
+.field-sun,
+.field-plants,
+.farm-sky {
+  will-change: transform, opacity;
+}
 .float-label {
   position: absolute;
   background: var(--white);
@@ -352,7 +357,7 @@ h3 {
 }
 .tab .num {
   font-size: 10px;
-  color: #849178;
+  color: #5f6b59;
 }
 .tab .next {
   margin-left: auto;
@@ -519,6 +524,21 @@ h3 {
 .demo-card.safe mark {
   background: #e7efce;
   color: #526b36;
+}
+.type-line.is-typing::after {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 2px;
+  background: currentColor;
+  vertical-align: -0.12em;
+  animation: typing-caret 0.65s steps(1, end) infinite;
+}
+@keyframes typing-caret {
+  50% {
+    opacity: 0;
+  }
 }
 .connector {
   text-align: center;

@@ -1,6 +1,6 @@
 ---
 import SiteLayout from "./SiteLayout.astro";
-import Navigation from "../components/Navigation";
+import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 import { legal } from "../data/legal";
 interface Props {
@@ -11,7 +11,7 @@ const { title, description } = Astro.props;
 ---
 
 <SiteLayout title={`${title} | Rancher`} description={description}>
-  <Navigation homeLinks client:load />
+  <Navigation homeLinks />
   <main id="main-content" class="legal-page">
     <article class="wrap legal-content">
       <a class="textlink" href="/">

@@ -15,6 +15,7 @@
     "@astrojs/react": "^6.0.5",
     "@astrojs/sitemap": "^3.7.4",
     "@astrojs/vercel": "^11.0.10",
+    "animejs": "^4.3.0",
     "astro": "^7.3.2",
     "free-email-domains": "^1.11.14",
     "postgres": "^3.4.9",

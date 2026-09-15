@@ -24,6 +24,7 @@ export default defineConfig({
   site: url.origin,
   devToolbar: { enabled: false },
   adapter: vercel(),
+  build: { inlineStylesheets: "always" },
   trailingSlash: "always",
   integrations: [react(), sitemap()],
 });

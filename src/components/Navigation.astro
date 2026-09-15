@@ -1,0 +1,70 @@
+---
+interface Props {
+  homeLinks?: boolean;
+}
+const { homeLinks = false } = Astro.props;
+const homePath = homeLinks ? "/" : "";
+---
+
+<header class="header">
+  <div class="wrap nav">
+    <a class="brand" href="/" aria-label="Rancher home">
+      <svg viewBox="0 0 32 34" fill="none" aria-hidden="true">
+        <path
+          d="M3 29V6l13-4 13 4v23M3 18l13-4 13 4M10 31V10m12 21V10M3 25l13-4 13 4"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linejoin="round"
+        />
+      </svg>
+      rancher
+    </a>
+    <button
+      type="button"
+      class="menu"
+      aria-label="Toggle navigation"
+      aria-controls="navigation"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+    <nav class="navlinks" id="navigation" aria-label="Main navigation">
+      <a href={`${homePath}#calculator`}>Calculator</a>
+      <a href={`${homePath}#use-cases`}>Use cases</a>
+      <a href={`${homePath}#how-it-works`}>How it works</a>
+      <a href={`${homePath}#protection`}>Your control</a>
+      <a href={`${homePath}#contact`} class="btn">
+        Explore a partnership <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".header").forEach((header) => {
+    const button = header.querySelector<HTMLButtonElement>(".menu");
+    const nav = header.querySelector<HTMLElement>(".navlinks");
+    if (!button || !nav) return;
+
+    const close = (restoreFocus = false) => {
+      nav.classList.remove("open");
+      button.setAttribute("aria-expanded", "false");
+      if (restoreFocus) button.focus();
+    };
+
+    button.addEventListener("click", () => {
+      const opening = button.getAttribute("aria-expanded") !== "true";
+      nav.classList.toggle("open", opening);
+      button.setAttribute("aria-expanded", String(opening));
+    });
+    nav.addEventListener("click", () => close());
+    document.addEventListener("keydown", (event) => {
+      if (
+        event.key === "Escape" &&
+        button.getAttribute("aria-expanded") === "true"
+      ) {
+        close(true);
+      }
+    });
+  });
+</script>

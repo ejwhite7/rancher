@@ -1,6 +1,6 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
-import Navigation from "../components/Navigation";
+import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
 import Hero from "../components/Hero.astro";
 import Intro from "../components/Intro.astro";
@@ -14,7 +14,7 @@ import Contact from "../components/Contact.astro";
 ---
 
 <SiteLayout>
-  <Navigation client:load />
+  <Navigation />
   <main id="main-content">
     <Hero />
     <Intro />
