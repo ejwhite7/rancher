@@ -1,0 +1,100 @@
+---
+export const prerender = false;
+import "../../styles/global.css";
+import { z } from "zod";
+import PageSections from "../../components/PageSections.astro";
+import {
+  parseHomepage,
+  parseForm,
+  sectionSchemas,
+  SECTION_ORDER,
+  type HomepageContent,
+} from "../../lib/content";
+import homeSeed from "../../../prismic/seed/homepage.json";
+import formSeed from "../../../prismic/seed/form.json";
+import { previewHeaders } from "../../lib/preview";
+for (const [k, v] of Object.entries(previewHeaders))
+  Astro.response.headers.set(k, v);
+if (Astro.request.method !== "POST")
+  return new Response("Use the Slice Simulator to render slices.", {
+    status: 405,
+    headers: previewHeaders,
+  });
+const raw = await Astro.request.text();
+if (raw.length > 250000)
+  return new Response("Slice payload too large.", {
+    status: 413,
+    headers: previewHeaders,
+  });
+let pages: HomepageContent[] = [];
+const base = parseHomepage(homeSeed);
+const form = parseForm(formSeed);
+try {
+  const slices = z
+    .array(
+      z.object({
+        slice_type: z.enum(SECTION_ORDER),
+        variation: z.literal("default"),
+        primary: z.record(z.string(), z.unknown()),
+        items: z.array(z.record(z.string(), z.unknown())),
+      }),
+    )
+    .max(30)
+    .parse(JSON.parse(raw));
+  pages = slices.map((slice) => ({
+    ...base,
+    section_order: [slice.slice_type],
+    [slice.slice_type]: sectionSchemas[slice.slice_type].parse({
+      ...slice.primary,
+      items: slice.items,
+    }),
+  }));
+} catch {
+  return new Response("Complete the required fields to preview this slice.", {
+    status: 400,
+    headers: previewHeaders,
+  });
+}
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Slice preview</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 0;
+      }
+      [data-slice-zone] > div {
+        display: flow-root;
+      }
+    </style>
+  </head>
+  <body>
+    <div data-slice-zone>
+      {pages.map((homepage) => (
+        <div>
+          <PageSections homepage={homepage} form={form} />
+        </div>
+      ))}
+    </div>
+    <script is:inline>
+      document.addEventListener("click", (event) => {
+        if (event.target.closest("a")) event.preventDefault();
+      });
+      document.addEventListener(
+        "submit",
+        (event) => {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        },
+        true,
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+---
+export const prerender = false;
+import { previewHeaders } from "../../lib/preview";
+for (const [k, v] of Object.entries(previewHeaders))
+  Astro.response.headers.set(k, v);
+Astro.response.headers.set(
+  "Content-Security-Policy",
+  "frame-ancestors 'self' https://prismic.io https://*.prismic.io http://localhost:9999",
+);
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Rancher Slice Simulator</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+      }
+      iframe {
+        display: block;
+        border: 0;
+        width: 100%;
+        height: 0;
+      }
+      #message {
+        padding: 24px;
+        font: 16px system-ui;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="message">
+      Slice Simulator is ready. Open a page in Prismic to preview its slices.
+    </p>
+    <iframe id="rendered-slices" title="Rendered slices"></iframe>
+    <script>
+      import {
+        SimulatorAPI,
+        ClientRequestType,
+        type SliceZoneSize,
+      } from "@prismicio/simulator";
+      const frame =
+        document.querySelector<HTMLIFrameElement>("#rendered-slices")!;
+      const message = document.querySelector<HTMLElement>("#message")!;
+      let observer: ResizeObserver | undefined;
+      let version = 0;
+      let api: SimulatorAPI;
+      const size = () => {
+        const root = frame.contentDocument?.querySelector("[data-slice-zone]");
+        if (!root) return;
+        const rect = root.getBoundingClientRect();
+        frame.style.height = `${rect.height}px`;
+        if (api.options.sliceZoneSizeAPI)
+          void api
+            .setSliceZoneSize({ rect: rect.toJSON() } as SliceZoneSize)
+            .catch(() => {});
+      };
+      api = new SimulatorAPI({
+        [ClientRequestType.SetSliceZone]: async (req, res) => {
+          const current = ++version;
+          const response = await fetch("/slice-simulator/render/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(req.data),
+          });
+          if (current !== version) return res.success();
+          if (!response.ok) {
+            message.textContent = await response.text();
+            message.hidden = false;
+            return res.error("Slice content could not be rendered.", 400);
+          }
+          const html = await response.text();
+          await new Promise<void>((resolve) => {
+            frame.onload = () => {
+              observer?.disconnect();
+              const root =
+                frame.contentDocument?.querySelector("[data-slice-zone]");
+              if (root) {
+                observer = new ResizeObserver(size);
+                observer.observe(root);
+              }
+              size();
+              resolve();
+            };
+            frame.srcdoc = html;
+          });
+          message.hidden = true;
+          return res.success();
+        },
+        [ClientRequestType.ScrollToSlice]: (req, res) => {
+          const slice =
+            frame.contentDocument?.querySelector("[data-slice-zone]")?.children[
+              req.data.sliceIndex
+            ];
+          if (!slice) return res.error("Slice not found.", 400);
+          window.scrollTo({
+            top: frame.offsetTop + slice.getBoundingClientRect().top,
+            behavior: req.data.behavior,
+          });
+          return res.success();
+        },
+      });
+      void api.ready();
+    </script>
+  </body>
+</html>

@@ -1,52 +1,7 @@
 ---
+import Homepage from "../components/pages/Homepage.astro";
 import { getSiteContent } from "../lib/prismic";
-const { homepage, form, navigation, footer } = await getSiteContent();
-import { richText } from "../lib/content";
-import SiteLayout from "../layouts/SiteLayout.astro";
-import Navigation from "../components/Navigation.astro";
-import Footer from "../components/Footer.astro";
-import Hero from "../components/Hero.astro";
-import Intro from "../components/Intro.astro";
-import CalculatorSection from "../components/CalculatorSection.astro";
-import DataSection from "../components/DataSection.astro";
-import UseCases from "../components/UseCases.astro";
-import Process from "../components/Process.astro";
-import Protection from "../components/Protection.astro";
-import Faq from "../components/Faq.astro";
-import Contact from "../components/Contact.astro";
+const content = await getSiteContent();
 ---
 
-<SiteLayout
-  title={homepage.meta_title}
-  description={homepage.meta_description}
-  faqs={homepage.faq.items.map((item) => ({
-    question: item.question,
-    answer: richText(item.answer),
-  }))}
->
-  <Navigation copy={navigation} />
-  <main id="main-content">
-    {homepage.section_order.map((section) =>
-      section === "hero" ? (
-        <Hero copy={homepage.hero} />
-      ) : section === "opportunity" ? (
-        <Intro copy={homepage.opportunity} />
-      ) : section === "calculator" ? (
-        <CalculatorSection copy={homepage.calculator} />
-      ) : section === "data_categories" ? (
-        <DataSection copy={homepage.data_categories} />
-      ) : section === "use_cases" ? (
-        <UseCases copy={homepage.use_cases} />
-      ) : section === "process" ? (
-        <Process copy={homepage.process} />
-      ) : section === "protection" ? (
-        <Protection copy={homepage.protection} />
-      ) : section === "faq" ? (
-        <Faq copy={homepage.faq} />
-      ) : section === "contact" ? (
-        <Contact copy={homepage.contact} form={form} />
-      ) : null,
-    )}
-  </main>
-  <Footer copy={footer} />
-</SiteLayout>
+<Homepage content={content} />

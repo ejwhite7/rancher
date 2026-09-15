@@ -104,10 +104,51 @@ npm run build      # Fetches published content from Rancher
 npm test           # Isolated server uses original-content snapshots and dummy analytics
 ```
 
-For offline development, explicitly set `PRISMIC_CONTENT_MODE=snapshot`. Production defaults to `prismic` and fails on missing or incomplete content rather than silently falling back. Legal pages fetch their own published `legal` documents by UID. Draft previews are not part of this implementation.
+For offline development, explicitly set `PRISMIC_CONTENT_MODE=snapshot`. Production defaults to `prismic` and fails on missing or incomplete content rather than silently falling back. Legal pages fetch their own published `legal` documents by UID. Full-website previews and the slice simulator use the uncached server routes described below.
 
 Set `PRISMIC_REPOSITORY_NAME=rancher`, `PRISMIC_LOCALE=en-us` and `PRISMIC_CONTENT_MODE=prismic` in Vercel's deployment environments before deploying these changes. Preserve the existing submission, booking and PostHog variables.
 
-For automatic rebuilds, create a production-branch deploy hook in **Vercel Project Settings → Git → Deploy Hooks** and add its private URL to a Prismic webhook for publication/unpublication. Each publish then rebuilds Astro; a failed build leaves the previous successful deployment in place. Deploying the frontend changes and configuring the deploy hook are separate from publishing the CMS documents.
+## Preview configuration
 
-References: [Prismic CLI](https://prismic.io/docs/cli), [client API](https://prismic.io/docs/technical-reference/prismicio-client/v7), [migration guide](https://prismic.io/docs/migration).
+Both environments expose the same routes:
+
+| Environment | Full-website preview                     | Slice simulator                                  |
+| ----------- | ---------------------------------------- | ------------------------------------------------ |
+| Staging     | `https://staging.gorancher.com/preview/` | `https://staging.gorancher.com/slice-simulator/` |
+| Production  | `https://www.gorancher.com/preview/`     | `https://www.gorancher.com/slice-simulator/`     |
+
+These are separate features. The repository has a preview entry for each environment, but only **one active simulator URL**. Use the production simulator in Prismic so editor thumbnails are not blocked by staging's Vercel login. The staging simulator remains available to signed-in testers.
+
+Open a document in Prismic and click **Preview**, then choose Staging or Production. Prismic supplies the token and document ID automatically. Visiting `/preview/` directly displays a readiness message, not a draft. A successful callback starts a host-only preview cookie and redirects to `/preview/view/` or `/preview/view/<legal-slug>/`. Navigation, footer, form, and page queries all use that session's ref. Follow site links to remain in the preview; use **Exit preview** to return to published content. An expired ref reports an error instead of falling back to published content.
+
+Published pages stay prerendered. Preview routes use fresh clients per request, `private, no-store` responses, and noindex headers; draft refs never enter the published build cache. The Prismic toolbar is included in the shared layout.
+
+The Astro simulator implements Prismic's official `@prismicio/simulator` messaging protocol. It renders the same nine Astro section components and React islands through `/slice-simulator/render/`. It supports repeated live updates, measures slice height, and disables links and form submission within thumbnails. Required fields must be filled before a slice can render. This is a custom Astro integration; it does not install a Next.js/Nuxt Slice Machine adapter or change the repository builder.
+
+CLI configuration (already applied):
+
+```sh
+npx prismic preview add https://staging.gorancher.com/preview/ --name Staging --repo rancher
+npx prismic preview add https://www.gorancher.com/preview/ --name Production --repo rancher
+npx prismic preview set-simulator https://www.gorancher.com --repo rancher
+npx prismic preview list --repo rancher --json
+```
+
+## Redeploy staging and production on publish
+
+1. Open [Rancher → Settings → Git in Vercel](https://vercel.com/b2b-saas/rancher/settings/git), then **Deploy Hooks**.
+2. Create these two hooks and copy their generated URLs:
+
+   | Hook name            | Git branch | Deployment              |
+   | -------------------- | ---------- | ----------------------- |
+   | Prismic — Staging    | `staging`  | `staging.gorancher.com` |
+   | Prismic — Production | `main`     | `www.gorancher.com`     |
+
+3. In [Rancher Prismic](https://rancher.prismic.io/), open **Settings → Webhooks**. Add a webhook for each Vercel URL, with matching names.
+4. Enable **A document is published** and **A document is unpublished** for both webhooks. Leave unrelated release/tag events off. No custom authorization header or webhook secret is required for Vercel deploy-hook URLs. Keep the generated URLs private.
+5. Confirm these settings exist for both Production and Preview scoped to `staging`: `PRISMIC_REPOSITORY_NAME=rancher`, `PRISMIC_LOCALE=en-us`, and `PRISMIC_CONTENT_MODE=prismic`. These are configured. Preserve each environment's `SITE_URL`, PostHog, booking, and database settings.
+6. Publish a change. Check **Prismic → Webhooks → Logs**, then **Vercel → Deployments** for two successful builds, one on each branch. Content becomes visible on each public site after its build finishes. A failed build leaves the last successful deployment serving.
+
+Both branches read the same `rancher` repository, so publishing triggers both environments with the same published content. Deploy hooks rebuild the latest commit on their configured branch; they do not merge staging into main. Code changes still need to reach both branches. Draft previews do not need a publish or rebuild.
+
+References: [Prismic previews](https://prismic.io/docs/previews), [Prismic webhooks](https://prismic.io/docs/webhooks), [Vercel deploy hooks](https://vercel.com/docs/deploy-hooks).

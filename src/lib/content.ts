@@ -97,7 +97,7 @@ const footerRelationship = z.object({
   link_type: z.literal("Document"),
   isBroken: z.literal(false).optional(),
 });
-const sectionSchemas = {
+export const sectionSchemas = {
   hero: z.object({
     heading: title,
     description: body,

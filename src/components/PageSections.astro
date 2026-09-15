@@ -1,0 +1,39 @@
+---
+import type { HomepageContent, FormContent } from "../lib/content";
+interface Props {
+  homepage: HomepageContent;
+  form: FormContent;
+}
+const { homepage, form } = Astro.props;
+import Hero from "./Hero.astro";
+import Intro from "./Intro.astro";
+import CalculatorSection from "./CalculatorSection.astro";
+import DataSection from "./DataSection.astro";
+import UseCases from "./UseCases.astro";
+import Process from "./Process.astro";
+import Protection from "./Protection.astro";
+import Faq from "./Faq.astro";
+import Contact from "./Contact.astro";
+---
+
+{homepage.section_order.map((section) =>
+  section === "hero" ? (
+    <Hero copy={homepage.hero} />
+  ) : section === "opportunity" ? (
+    <Intro copy={homepage.opportunity} />
+  ) : section === "calculator" ? (
+    <CalculatorSection copy={homepage.calculator} />
+  ) : section === "data_categories" ? (
+    <DataSection copy={homepage.data_categories} />
+  ) : section === "use_cases" ? (
+    <UseCases copy={homepage.use_cases} />
+  ) : section === "process" ? (
+    <Process copy={homepage.process} />
+  ) : section === "protection" ? (
+    <Protection copy={homepage.protection} />
+  ) : section === "faq" ? (
+    <Faq copy={homepage.faq} />
+  ) : section === "contact" ? (
+    <Contact copy={homepage.contact} form={form} />
+  ) : null,
+)}

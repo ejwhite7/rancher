@@ -1,10 +1,15 @@
 ---
 import "../styles/global.css";
 import { getSiteContent } from "../lib/prismic";
-const { homepage } = await getSiteContent();
+import type { SiteContent } from "../lib/content";
+const { homepage } = Astro.props.content || (await getSiteContent());
+const preview = Astro.props.preview || false;
+const repository = import.meta.env.PRISMIC_REPOSITORY_NAME;
 import PostHog from "../components/posthog.astro";
 import { isPublicSite, structuredData } from "../lib/seo";
 interface Props {
+  content?: SiteContent;
+  preview?: boolean;
   title?: string;
   description?: string;
   faqs?: { question: string; answer: string }[];
@@ -15,12 +20,16 @@ const {
   faqs,
 } = Astro.props;
 const site = Astro.site!;
-const canonical = new URL(Astro.url.pathname, site);
+const canonical = new URL(
+  Astro.url.pathname.replace(/^\/preview\/view/, "") || "/",
+  site,
+);
 const image = new URL(homepage.social_image.url, site);
 const imageAlt = homepage.social_image.alt;
-const robots = isPublicSite(site)
-  ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
-  : "noindex, nofollow";
+const robots =
+  !preview && isPublicSite(site)
+    ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    : "noindex, nofollow";
 ---
 
 <!doctype html>
@@ -70,6 +79,14 @@ const robots = isPublicSite(site)
     <meta name="twitter:image" content={image} />
     <meta name="twitter:image:alt" content={imageAlt} />
     <PostHog />
+    {repository && (
+      <script
+        is:inline
+        async
+        defer
+        src={`https://static.cdn.prismic.io/prismic.js?new=true&repo=${repository}`}
+      ></script>
+    )}
     <script
       is:inline
       type="application/ld+json"
@@ -89,6 +106,44 @@ const robots = isPublicSite(site)
     <a class="skip-link" href="#main-content">
       Skip to content
     </a>
+    {preview && (
+      <aside class="preview-notice">
+        Draft preview · <a href="/preview/exit/">Exit preview</a>
+      </aside>
+    )}
     <slot />
+    {preview && <script is:inline>
+      document.addEventListener("click", (event) => {
+        const anchor =
+          event.target instanceof Element
+            ? event.target.closest("a[href]")
+            : null;
+        if (
+          !anchor ||
+          event.defaultPrevented ||
+          event.ctrlKey ||
+          event.metaKey ||
+          event.shiftKey ||
+          event.altKey ||
+          anchor.target ||
+          anchor.hasAttribute("download")
+        )
+          return;
+        const url = new URL(anchor.href, location.href);
+        if (
+          url.origin !== location.origin ||
+          url.pathname.startsWith("/preview/")
+        )
+          return;
+        if (
+          ["/", "/privacy-policy/", "/terms-of-use/"].includes(url.pathname)
+        ) {
+          event.preventDefault();
+          location.assign(
+            "/preview/view" + url.pathname + url.search + url.hash,
+          );
+        }
+      });
+    </script>}
   </body>
 </html>

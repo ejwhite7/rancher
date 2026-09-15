@@ -1,0 +1,72 @@
+---
+export const prerender = false;
+import { asHTML, type RichTextField } from "@prismicio/client";
+import Homepage from "../../../components/pages/Homepage.astro";
+import LegalLayout from "../../../layouts/LegalLayout.astro";
+import { fetchSiteContent } from "../../../lib/prismic";
+import {
+  validateLegalContent,
+  parseNavigation,
+  parseFooter,
+} from "../../../lib/content";
+import {
+  createPreviewClient,
+  PREVIEW_COOKIE,
+  previewHeaders,
+  validPreviewToken,
+} from "../../../lib/preview";
+for (const [k, v] of Object.entries(previewHeaders))
+  Astro.response.headers.set(k, v);
+const path = Astro.params.path || "";
+if (!["", "privacy-policy", "terms-of-use"].includes(path))
+  return new Response("Preview page not found.", {
+    status: 404,
+    headers: previewHeaders,
+  });
+const token = Astro.cookies.get(PREVIEW_COOKIE)?.value;
+if (!token || !validPreviewToken(token))
+  return new Response(null, {
+    status: 302,
+    headers: { ...previewHeaders, Location: path ? `/${path}/` : "/" },
+  });
+let content;
+let legal;
+try {
+  const client = createPreviewClient(token);
+  content = await fetchSiteContent(
+    client,
+    import.meta.env.PRISMIC_LOCALE || "en-us",
+  );
+  if (path) {
+    legal = validateLegalContent((await client.getByUID("legal", path)).data);
+    const [nav, footer] = await Promise.all([
+      client.getByID(legal.navigation.id),
+      client.getByID(legal.footer.id),
+    ]);
+    content = {
+      ...content,
+      navigation: parseNavigation(nav.data),
+      footer: parseFooter(footer.data),
+    };
+  }
+} catch {
+  return new Response(
+    "This preview has expired or contains incomplete content. Return to Prismic and open a new preview, or exit at /preview/exit/.",
+    { status: 400, headers: previewHeaders },
+  );
+}
+---
+
+{legal ? (
+  <LegalLayout
+    title={legal.title}
+    description={legal.description}
+    legal={legal}
+    content={content}
+    preview
+  >
+    <Fragment set:html={asHTML(legal.body as RichTextField)} />
+  </LegalLayout>
+) : (
+  <Homepage content={content} preview />
+)}

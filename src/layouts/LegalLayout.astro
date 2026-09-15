@@ -3,20 +3,29 @@ import { getFooterContent, getNavigationContent } from "../lib/prismic";
 import SiteLayout from "./SiteLayout.astro";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import type { LegalContent } from "../lib/content";
+import type { LegalContent, SiteContent } from "../lib/content";
 interface Props {
   title: string;
   description: string;
   legal: LegalContent;
+  content?: SiteContent;
+  preview?: boolean;
 }
-const { title, description, legal } = Astro.props;
+const { title, description, legal, content, preview = false } = Astro.props;
 const [navigation, footer] = await Promise.all([
-  getNavigationContent(legal.navigation.id),
-  getFooterContent(legal.footer.id),
+  content
+    ? Promise.resolve(content.navigation)
+    : getNavigationContent(legal.navigation.id),
+  content ? Promise.resolve(content.footer) : getFooterContent(legal.footer.id),
 ]);
 ---
 
-<SiteLayout title={`${title} | Rancher`} description={description}>
+<SiteLayout
+  content={content}
+  preview={preview}
+  title={`${title} | Rancher`}
+  description={description}
+>
   <Navigation copy={navigation} homeLinks />
   <main id="main-content" class="legal-page">
     <article class="wrap legal-content">
