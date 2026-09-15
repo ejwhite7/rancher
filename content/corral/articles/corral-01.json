@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "content_id": "corral-01",
+  "brief_id": "corral-01-brief-v1",
+  "brand": "rancher",
+  "profile_version": "1.0.0",
+  "policy_versions": {
+    "universal-editorial": "1.0.0",
+    "evidence": "1.0.0",
+    "search-discoverability": "1.0.0"
+  },
+  "title": "How to license business data for AI",
+  "description": "A practical sequence for checking rights, defining a usable dataset, and discussing a license without treating eligibility as a revenue guarantee.",
+  "slug": "license-business-data-for-ai",
+  "canonical_url": "https://www.gorancher.com/blog/license-business-data-for-ai/",
+  "body": "# How to license business data for AI\n\nA company may be able to license business data for AI when it can establish authority over the proposed material, manage confidentiality and privacy obligations, and find a buyer whose intended use fits the agreed scope. Begin with a metadata inventory and a rights review, not a bulk export. Neither possessing records nor completing preparation guarantees a transaction.\n\n## Start with a licensing question, not an export request\n\nLicensing gives another party specified permission to use defined material. It does not, by itself, mean selling the company or transferring every ownership interest in its systems. The proposed agreement needs to identify which records are covered, who can use them, for what purposes, and for how long. Avoid treating “our company data” as a complete description of those rights.\n\nA support system can contain employee contributions, customer text, attachments, third-party documents and operational metadata. Each category may have different restrictions. Start with a description of the categories and a list of unresolved questions. Do not send a buyer administrator credentials or an unrestricted account export just to find out whether there might be a fit.\n\n## Separate authority, privacy and buyer fit\n\nThree decisions need separate owners. Legal reviewers investigate authority and contractual restrictions. Privacy and security reviewers assess the information and proposed handling. A commercial owner asks whether the permitted, usable scope is interesting to a buyer. A positive answer to one question does not resolve the others.\n\nThe U.S. Copyright Office’s AI initiative separately examines copyrighted materials used in training and the copyrightability of generated outputs. Its materials provide context for the rights questions; they are not clearance for a particular company’s records. Applicable contracts and law need review for the actual transaction.\n\nThe UK Information Commissioner’s Office describes pseudonymisation as reducing risk without taking personal data outside data-protection law. Replacing names is therefore not a shortcut through the authority review. Jurisdiction, indirect identifiers, free text and potential linkage all belong in the assessment.\n\n## Prepare a metadata-only inventory\n\n- Name the source systems and the owner who can explain each one.\n- Describe record categories, approximate counts and historical coverage without including real records.\n- Identify whether actions can be linked to outcomes and where those links are incomplete.\n- List customer, employee, third-party and confidentiality restrictions for specialist review.\n- Identify likely exclusions, including credentials, privileged communications and sensitive attachments.\n\n## Define the smallest useful scope\n\nDescribe a bounded candidate dataset before deciding how to prepare it. For example, a fictional support-workflow proposal might cover issue categories, timestamped actions and resolution states, while excluding message bodies and attachments until further review. This example is a scoping exercise, not a claim that those fields are safe or sufficient for a buyer.\n\nPreparation can include checking provenance, identifying duplicates, documenting gaps and evaluating transformations. Establish who will validate each transformation and how exceptions will be handled. Removing sensitive material may also remove context that a buyer needs. Record that trade-off rather than calling every reduction an improvement.\n\n## A decision sequence before transfer\n\n| Gate | Evidence to prepare | Pause when |\n| --- | --- | --- |\n| Authority | A scoped description and identified agreements for legal review | The permitted use or underlying rights are unresolved |\n| Privacy and security | Exclusions, risk review and proposed handling controls | Sensitive information or transfer conditions remain unreviewed |\n| Utility | Documented fields, history, limitations and outcome linkage | The remaining scope cannot support the proposed use |\n| Commercial terms | A written proposal covering permitted use and payment conditions | There is no buyer fit or acceptable agreement |\n\n## Agree the commercial conditions explicitly\n\nA valuation discussion is not a payment commitment. Clarify who pays preparation costs, whether review or acceptance is required, when payment becomes due, and what happens if the parties cannot agree on a usable scope. Compare expected proceeds with costs and restrictions without assuming a market price for records you have not assessed.\n\nThe contract should address access, onward sharing, retention, deletion and remedies as well as fees. Ask separately what happens to source files, copies, evaluation results and trained artifacts. Do not assume deleting source records reverses their use in training. Obtain a technically specific answer from the proposed recipient and have counsel translate it into suitable obligations.\n\n## Choose a safe next step\n\nA useful first conversation can be limited to systems, categories, approximate history and known restrictions. Use a designated internal owner to collect unanswered questions and decide whether to proceed. A stop decision is a valid outcome when authority, safety, utility or economics cannot be established.\n\nNIST’s AI Risk Management Framework is intended for voluntary use. It offers a risk-management reference, not a certification that a proposed data license is acceptable. This article describes a decision process; it does not represent a verified Rancher operating procedure or promise that a dataset will qualify.\n\n## Sources\n\n- [U.S. Copyright Office — Copyright and Artificial Intelligence](https://www.copyright.gov/ai/)\n- [ICO — Pseudonymisation guidance (UK)](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/)\n- [NIST — AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)\n\n[Explore a data partnership](/contact/)",
+  "author": "Author pending confirmation",
+  "published_at": "2026-09-16T13:03:00.000Z",
+  "modified_at": "2026-09-16T13:03:00.000Z",
+  "claims": [
+    {
+      "claim_id": "corral-01-1",
+      "text": "The U.S. Copyright Office’s AI initiative separately examines copyrighted materials used in training and the copyrightability of generated outputs.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-RIGHTS"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    },
+    {
+      "claim_id": "corral-01-2",
+      "text": "The UK Information Commissioner’s Office describes pseudonymisation as reducing risk without taking personal data outside data-protection law.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    },
+    {
+      "claim_id": "corral-01-3",
+      "text": "NIST’s AI Risk Management Framework is intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/contact/",
+      "anchor": "Explore a data partnership",
+      "inventory_verified": true
+    }
+  ],
+  "media_requirements": [
+    {
+      "kind": "image",
+      "alt": "The Corral — How to license business data for AI"
+    }
+  ],
+  "qa_report_path": "content/corral/qa/corral-01.json",
+  "approval": null,
+  "content_sha256": "b029200b13a71e3b2febb99ffcdb111071ec0fcfa7d26af9355eb703e72b7082"
+}

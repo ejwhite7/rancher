@@ -1,0 +1,195 @@
+---
+import { asHTML, type RichTextField } from "@prismicio/client";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Navigation from "../Navigation.astro";
+import Footer from "../Footer.astro";
+import BlogBody from "../BlogBody.astro";
+import { readingMinutes, type BlogRecord } from "../../lib/blog";
+import type { SiteContent } from "../../lib/content";
+import { PUBLIC_SITE } from "../../lib/site";
+import "../../styles/blog.css";
+interface Props {
+  document: BlogRecord;
+  articles: BlogRecord[];
+  content: SiteContent;
+  preview?: boolean;
+}
+const { document, articles, content, preview = false } = Astro.props;
+const d = document.data,
+  title = d.title[0].text,
+  url = `${PUBLIC_SITE}/blog/${document.uid}/`;
+const related = d.related_articles.flatMap(({ article }) =>
+  articles.filter((doc) => doc.id === article.id),
+);
+const date = (value: string) =>
+  new Date(value).toLocaleDateString("en-US", {
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      headline: title,
+      description: d.excerpt,
+      mainEntityOfPage: url,
+      url,
+      image: [d.meta_image.url],
+      author: { "@type": "Person", name: d.author_name },
+      publisher: { "@type": "Organization", name: "Rancher", url: PUBLIC_SITE },
+      datePublished: d.published_at,
+      dateModified: d.updated_at || d.published_at,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: PUBLIC_SITE + "/",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "The Corral",
+          item: PUBLIC_SITE + "/blog/",
+        },
+        { "@type": "ListItem", position: 3, name: title, item: url },
+      ],
+    },
+  ],
+};
+---
+
+<SiteLayout
+  content={content}
+  title={d.meta_title}
+  description={d.meta_description}
+  socialImage={d.meta_image}
+  glossarySchema={schema}
+  preview={preview}
+  article={{
+    author: d.author_name,
+    published: d.published_at,
+    modified: d.updated_at || d.published_at,
+  }}
+>
+  <Navigation copy={content.navigation} homeLinks />
+  <main id="main-content" class="blog-page wrap">
+    <nav class="blog-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <a href="/blog/">The Corral</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{title}</span>
+    </nav>
+    <article class="blog-article">
+      <header>
+        <p class="blog-topic">{d.topic}</p>
+        <h1>{title}</h1>
+        <div
+          class="blog-answer"
+          set:html={asHTML(d.answer_summary as RichTextField)}
+        />
+        <p class="blog-byline">
+          By {d.author_name} ·{" "}
+          <time datetime={d.published_at}>{date(d.published_at)}</time> ·{" "}
+          {readingMinutes(d)} min read
+        </p>
+        {d.updated_at && d.updated_at !== d.published_at && (
+          <p class="blog-byline">
+            Updated <time datetime={d.updated_at}>{date(d.updated_at)}</time>
+          </p>
+        )}
+        {d.reviewer_name && (
+          <p class="blog-byline">
+            Reviewed by {d.reviewer_name}
+            {d.reviewer_role ? `, ${d.reviewer_role}` : ""}
+          </p>
+        )}
+        <img
+          class="blog-hero"
+          src={d.hero_image.url}
+          alt={d.hero_image.alt}
+          width={d.hero_image.dimensions.width}
+          height={d.hero_image.dimensions.height}
+        />
+      </header>
+      <nav class="blog-toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <ul>
+          {d.slices.map(
+            (s, i) =>
+              "heading" in s.primary &&
+              s.primary.heading && (
+                <li>
+                  <a href={`#section-${i + 1}`}>{s.primary.heading}</a>
+                </li>
+              ),
+          )}
+        </ul>
+      </nav>
+      <BlogBody
+        slices={d.slices}
+        liveIds={articles.map((a) => a.id)}
+        preview={preview}
+      />
+      <section class="blog-sources">
+        <h2>Sources</h2>
+        <ul>
+          {d.sources.map((s) => (
+            <li>
+              <a href={s.source_url.url}>{s.source_title}</a>
+              <span> · Accessed {s.accessed_on}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section class="blog-author">
+        <h2>About the author</h2>
+        <div set:html={asHTML(d.author_bio as RichTextField)} />
+      </section>
+      <p>
+        <a
+          class="btn"
+          href={d.cta_link.url}
+          data-corral-cta
+          data-article-uid={document.uid}
+        >
+          {d.cta_label}
+        </a>
+      </p>
+      {related.length > 0 && (
+        <section class="blog-related">
+          <h2>Related articles</h2>
+          <ul>
+            {related.map((doc) => (
+              <li>
+                <a href={`/blog/${doc.uid}/`}>{doc.data.title[0].text}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </article>
+  </main>
+  <Footer copy={content.footer} />
+  <script>
+    document
+      .querySelectorAll<HTMLAnchorElement>("[data-corral-cta]")
+      .forEach((link) =>
+        link.addEventListener("click", () => {
+          try {
+            window.posthog?.capture("corral_cta_clicked", {
+              article: location.pathname,
+              destination: link.getAttribute("href"),
+            });
+          } catch {}
+        }),
+      );
+  </script>
+</SiteLayout>

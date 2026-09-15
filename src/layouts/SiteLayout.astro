@@ -23,6 +23,7 @@ interface Props {
     | {}
     | null;
   glossarySchema?: Record<string, unknown>;
+  article?: { author: string; published: string; modified: string };
 }
 const {
   title = homepage.meta_title,
@@ -50,7 +51,7 @@ const robots =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Rancher" />
+    <meta name="author" content={Astro.props.article?.author || "Rancher"} />
     <meta name="application-name" content="Rancher" />
     <meta name="theme-color" content="#173f35" />
     <meta name="color-scheme" content="light" />
@@ -68,7 +69,23 @@ const robots =
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta property="og:type" content="website" />
+    <meta
+      property="og:type"
+      content={Astro.props.article ? "article" : "website"}
+    />
+    {Astro.props.article && (
+      <>
+        <meta
+          property="article:published_time"
+          content={Astro.props.article.published}
+        />
+        <meta
+          property="article:modified_time"
+          content={Astro.props.article.modified}
+        />
+        <meta property="article:author" content={Astro.props.article.author} />
+      </>
+    )}
     <meta property="og:site_name" content="Rancher" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
@@ -164,7 +181,9 @@ const robots =
             "/contact/",
             "/referral/",
           ].includes(url.pathname) ||
-          /^\/glossary\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(url.pathname)
+          /^\/(?:glossary|blog)\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(
+            url.pathname,
+          )
         ) {
           event.preventDefault();
           location.assign(

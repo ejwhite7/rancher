@@ -20,7 +20,7 @@ export function supportedPreviewPath(path: string): boolean {
       "/contact/",
       "/referral/",
     ].includes(path) ||
-    /^\/glossary\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(path)
+    /^\/(?:glossary|blog)\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?$/.test(path)
   );
 }
 export const previewLinkResolver: LinkResolverFunction = (doc) => {
@@ -31,6 +31,13 @@ export const previewLinkResolver: LinkResolverFunction = (doc) => {
     return "/referral/";
   if (doc.type === "contact" || (doc.type === "form" && doc.uid === "contact"))
     return "/contact/";
+  if (doc.type === "blog-index") return "/blog/";
+  if (
+    doc.type === "blog" &&
+    doc.uid &&
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(doc.uid)
+  )
+    return `/blog/${doc.uid}/`;
   if (doc.type === "glossary-index") return "/glossary/";
   if (
     doc.type === "glossary" &&

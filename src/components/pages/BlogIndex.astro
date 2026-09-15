@@ -1,0 +1,121 @@
+---
+import { asHTML, type RichTextField } from "@prismicio/client";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Navigation from "../Navigation.astro";
+import Footer from "../Footer.astro";
+import { blogTopics, type fetchBlog } from "../../lib/blog";
+import type { SiteContent } from "../../lib/content";
+import { PUBLIC_SITE } from "../../lib/site";
+import "../../styles/blog.css";
+interface Props {
+  blog: Awaited<ReturnType<typeof fetchBlog>>;
+  content: SiteContent;
+  preview?: boolean;
+}
+const { blog, content, preview = false } = Astro.props;
+const featured = blog.index.featured_articles.flatMap(({ article }) =>
+  blog.articles.filter((doc) => doc.id === article.id),
+);
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: blog.index.title,
+  url: PUBLIC_SITE + "/blog/",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: blog.articles.map((doc, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `${PUBLIC_SITE}/blog/${doc.uid}/`,
+      name: doc.data.title[0].text,
+    })),
+  },
+};
+---
+
+<SiteLayout
+  content={content}
+  title={blog.index.meta_title}
+  description={blog.index.meta_description}
+  socialImage={blog.index.meta_image}
+  glossarySchema={schema}
+  preview={preview}
+>
+  <Navigation copy={content.navigation} homeLinks />
+  <main id="main-content" class="blog-page wrap">
+    <nav class="blog-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{blog.index.title}</span>
+    </nav>
+    <header class="blog-index-heading">
+      <h1>{blog.index.title}</h1>
+      <div set:html={asHTML(blog.index.introduction as RichTextField)} />
+    </header>
+    {featured.length > 0 && (
+      <section>
+        <h2>{blog.index.featured_heading}</h2>
+        <div class="blog-cards">
+          {featured.map((doc) => (
+            <article>
+              <a href={`/blog/${doc.uid}/`}>
+                <img
+                  src={doc.data.hero_image.url}
+                  alt={doc.data.hero_image.alt}
+                  width={doc.data.hero_image.dimensions.width}
+                  height={doc.data.hero_image.dimensions.height}
+                />
+                <p class="blog-topic">{doc.data.topic}</p>
+                <h3>{doc.data.title[0].text}</h3>
+                <p>{doc.data.excerpt}</p>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    )}
+    <section class="blog-library">
+      <h2>{blog.index.library_heading}</h2>
+      <nav class="blog-topics" aria-label="Article topics">
+        {blogTopics
+          .filter((t) => blog.articles.some((d) => d.data.topic === t))
+          .map((topic) => (
+            <a href={`#topic-${blogTopics.indexOf(topic)}`}>{topic}</a>
+          ))}
+      </nav>
+      {!blog.articles.length && <p>{blog.index.empty_state}</p>}
+      {blogTopics.map((topic, i) => {
+        const docs = blog.articles.filter((d) => d.data.topic === topic);
+        return (
+          docs.length > 0 && (
+            <section id={`topic-${i}`}>
+              <h3>{topic}</h3>
+              <div class="blog-cards">
+                {docs.map((doc) => (
+                  <article>
+                    <a href={`/blog/${doc.uid}/`}>
+                      <h4>{doc.data.title[0].text}</h4>
+                      <p>{doc.data.excerpt}</p>
+                      <time datetime={doc.data.published_at}>
+                        {new Date(doc.data.published_at).toLocaleDateString(
+                          "en-US",
+                          {
+                            timeZone: "America/New_York",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          },
+                        )}
+                      </time>
+                    </a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )
+        );
+      })}
+    </section>
+  </main>
+  <Footer copy={content.footer} />
+</SiteLayout>

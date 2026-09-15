@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "report_id": "qa-corral-01-b029200b13a7",
+  "content_id": "corral-01",
+  "article_sha256": "b029200b13a71e3b2febb99ffcdb111071ec0fcfa7d26af9355eb703e72b7082",
+  "profile": {
+    "id": "rancher",
+    "version": "1.0.0"
+  },
+  "policies": {
+    "universal-editorial": "1.0.0",
+    "evidence": "1.0.0",
+    "search-discoverability": "1.0.0"
+  },
+  "generated_at": "2026-09-15T22:49:17.241Z",
+  "validator_version": "1.0.0",
+  "result": "fail",
+  "validation_summary": {
+    "hard_failures": 1,
+    "configurable_failures": 1,
+    "advisories": 0
+  },
+  "findings": [
+    {
+      "finding_id": "b9eada6c786a5295",
+      "rule_id": "editorial.exact-hash-approval",
+      "rule_source": "policy",
+      "class": "hard",
+      "severity": "error",
+      "message": "Approval is absent or does not match the exact article hash.",
+      "contract_paths": [
+        "/approval/content_sha256"
+      ],
+      "remediation": "Obtain human approval for the exact canonical content hash."
+    },
+    {
+      "finding_id": "cae82d71e1bcd7f9",
+      "rule_id": "profile.allowed-author",
+      "rule_source": "profile",
+      "class": "configurable",
+      "severity": "error",
+      "message": "Author Author pending confirmation is not allowed by the profile.",
+      "contract_paths": [
+        "/author"
+      ],
+      "remediation": "Choose an allowed profile author."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+[
+  {
+    "key": "corral-01",
+    "id": "aqnJlhUAACwAVXo7",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 9,
+    "source_count": 3,
+    "unresolved_related_keys": [
+      "corral-02",
+      "corral-03",
+      "corral-08"
+    ]
+  },
+  {
+    "key": "corral-04",
+    "id": "aqnKBRUAACsAVXwk",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 9,
+    "source_count": 2,
+    "unresolved_related_keys": [
+      "corral-02",
+      "corral-05",
+      "corral-14"
+    ]
+  },
+  {
+    "key": "corral-20",
+    "id": "aqnKDRUAAC0AVXxN",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 10,
+    "source_count": 2,
+    "unresolved_related_keys": [
+      "corral-16",
+      "corral-17"
+    ]
+  },
+  {
+    "key": "blog-index",
+    "id": "aqnKZhUAADAAVX4E",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "navigation",
+    "id": "aqltoBUAADEAU_-i",
+    "state": [
+      "release",
+      "published"
+    ],
+    "reconciled": true,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "footer",
+    "id": "aqlujBUAADEAVAKN",
+    "state": [
+      "release",
+      "published"
+    ],
+    "reconciled": true,
+    "unresolved_related_keys": []
+  }
+]

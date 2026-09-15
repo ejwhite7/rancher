@@ -1,0 +1,28 @@
+{
+  "profile_id": "rancher",
+  "version": "1.0.0",
+  "extends_policies": {
+    "universal-editorial": "1.0.0",
+    "evidence": "1.0.0",
+    "search-discoverability": "1.0.0"
+  },
+  "length": {
+    "target_words": {
+      "minimum": 500,
+      "maximum": 2000
+    },
+    "enforcement": "configurable"
+  },
+  "publishing": {
+    "adapter": "prismic-corral",
+    "authors": [],
+    "approval_required": true,
+    "default_action": "dry-run",
+    "link_rules": {
+      "minimum_internal": 0,
+      "minimum_external": 1,
+      "maximum_external": 12
+    }
+  },
+  "notes": "Author list stays empty until human confirmation. Related future articles resolve only after publication; no inventory verification is fabricated."
+}

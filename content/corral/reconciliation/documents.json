@@ -1,0 +1,22 @@
+{
+  "corral-01": {
+    "id": "aqnJlhUAACwAVXo7",
+    "type": "blog",
+    "uid": "license-business-data-for-ai"
+  },
+  "corral-04": {
+    "id": "aqnKBRUAACsAVXwk",
+    "type": "blog",
+    "uid": "ai-data-licensing-agreement-terms"
+  },
+  "corral-20": {
+    "id": "aqnKDRUAAC0AVXxN",
+    "type": "blog",
+    "uid": "ai-data-card-template"
+  },
+  "blog-index": {
+    "id": "aqnKZhUAADAAVX4E",
+    "type": "blog-index",
+    "uid": null
+  }
+}

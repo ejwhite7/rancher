@@ -15,3 +15,6 @@ supabase/.temp/
 
 .prismic-migration/
 prismic/migration-plan.json
+
+# Resumable local Content Engine execution checkpoints
+content/corral/runs/

@@ -42,7 +42,10 @@ export default defineConfig({
     react(),
     sitemap({
       filter: includeInStaticSitemap,
-      customSitemaps: [new URL("/glossary-sitemap.xml", PUBLIC_SITE).href],
+      customSitemaps: [
+        new URL("/glossary-sitemap.xml", PUBLIC_SITE).href,
+        new URL("/blog-sitemap.xml", PUBLIC_SITE).href,
+      ],
     }),
   ],
 });

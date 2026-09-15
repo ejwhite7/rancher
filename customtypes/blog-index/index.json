@@ -1,0 +1,102 @@
+{
+  "id": "blog-index",
+  "label": "The Corral",
+  "repeatable": false,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Page title"
+        }
+      },
+      "introduction": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Introduction",
+          "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+        }
+      },
+      "featured_heading": {
+        "type": "Text",
+        "config": {
+          "label": "Featured section heading"
+        }
+      },
+      "library_heading": {
+        "type": "Text",
+        "config": {
+          "label": "Library section heading"
+        }
+      },
+      "empty_state": {
+        "type": "Text",
+        "config": {
+          "label": "Empty library message"
+        }
+      },
+      "featured_articles": {
+        "type": "Group",
+        "config": {
+          "label": "Featured articles",
+          "fields": {
+            "article": {
+              "type": "Link",
+              "config": {
+                "label": "Article",
+                "select": "document",
+                "customtypes": [
+                  "blog"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "navigation": {
+        "type": "Link",
+        "config": {
+          "label": "Site navigation",
+          "select": "document",
+          "customtypes": [
+            "navigation"
+          ]
+        }
+      },
+      "footer": {
+        "type": "Link",
+        "config": {
+          "label": "Site footer",
+          "select": "document",
+          "customtypes": [
+            "footer"
+          ]
+        }
+      }
+    },
+    "SEO": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Search and social title"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Search and social description"
+        }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Social sharing image (1200 \u00d7 630)",
+          "constraint": {},
+          "thumbnails": []
+        }
+      }
+    }
+  }
+}

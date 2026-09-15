@@ -1,0 +1,10 @@
+{
+  "content_key": "corral-01",
+  "content_sha256": "b029200b13a71e3b2febb99ffcdb111071ec0fcfa7d26af9355eb703e72b7082",
+  "editorial": null,
+  "specialist": null,
+  "required_roles": "Commercial lead + counsel",
+  "source_review": "Primary-source research recorded separately; specialist review pending",
+  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; transaction-specific interpretations and operational advice require the assigned human review",
+  "cms_payload_sha256": "d9aedde56ddd88eac64249cd17256445612a5109d741c8502e9484b691b27fb6"
+}

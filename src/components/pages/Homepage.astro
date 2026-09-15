@@ -10,6 +10,7 @@ import { richText } from "../../lib/content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import Navigation from "../Navigation.astro";
 import Footer from "../Footer.astro";
+import CorralEntry from "../CorralEntry.astro";
 import PageSections from "../PageSections.astro";
 ---
 
@@ -26,6 +27,7 @@ import PageSections from "../PageSections.astro";
   <Navigation copy={navigation} />
   <main id="main-content">
     <PageSections homepage={homepage} form={form} />
+    <CorralEntry preview={preview} />
   </main>
   <Footer copy={footer} />
 </SiteLayout>

@@ -1,0 +1,37 @@
+---
+export const prerender = false;
+import { NotFoundError } from "@prismicio/client";
+import BlogArticle from "../../components/pages/BlogArticle.astro";
+import {
+  createBlogClient,
+  fetchBlog,
+  blogSiteContent,
+  blogHeaders,
+  blogUID,
+} from "../../lib/blog";
+const missing = () =>
+  new Response("Article not found.", {
+    status: 404,
+    headers: { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" },
+  });
+if (!Astro.params.uid || !blogUID.test(Astro.params.uid)) return missing();
+let blog, content, document;
+try {
+  const client = createBlogClient();
+  blog = await fetchBlog(client);
+  document = blog.articles.find((d) => d.uid === Astro.params.uid);
+  if (!document) return missing();
+  content = await blogSiteContent(client, document.data);
+} catch (error) {
+  return error instanceof NotFoundError
+    ? missing()
+    : new Response("Article temporarily unavailable.", {
+        status: 503,
+        headers: { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" },
+      });
+}
+for (const [k, v] of Object.entries(blogHeaders))
+  Astro.response.headers.set(k, v);
+---
+
+<BlogArticle document={document} articles={blog.articles} content={content} />

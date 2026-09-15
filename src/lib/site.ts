@@ -11,7 +11,7 @@ export function canonicalUrl(path: string) {
 
 export function includeInStaticSitemap(url: string) {
   // Glossary URLs belong exclusively to the live Prismic sitemap.
-  return !/^\/(?:preview|slice-simulator|api|glossary)(?:\/|$)/.test(
+  return !/^\/(?:preview|slice-simulator|api|glossary|blog)(?:\/|$)/.test(
     new URL(url).pathname,
   );
 }

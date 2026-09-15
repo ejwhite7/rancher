@@ -30,6 +30,11 @@ if (!token || !validPreviewToken(token))
     status: 302,
     headers: { ...previewHeaders, Location: path ? `/${path}/` : "/" },
   });
+import BlogIndex from "../../../components/pages/BlogIndex.astro";
+import BlogArticle from "../../../components/pages/BlogArticle.astro";
+import { fetchBlog, blogSiteContent } from "../../../lib/blog";
+let blog;
+let blogDocument;
 let content;
 let legal;
 let referral;
@@ -49,7 +54,18 @@ try {
     client,
     import.meta.env.PRISMIC_LOCALE || "en-us",
   );
-  if (path === "glossary" || path.startsWith("glossary/")) {
+  if (path === "blog" || path.startsWith("blog/")) {
+    blog = await fetchBlog(client, true);
+    if (path !== "blog") {
+      blogDocument = blog.articles.find((d) => d.uid === path.slice(5));
+      if (!blogDocument)
+        return new Response("Article not found.", {
+          status: 404,
+          headers: previewHeaders,
+        });
+    }
+    content = await blogSiteContent(client, blogDocument?.data || blog.index);
+  } else if (path === "glossary" || path.startsWith("glossary/")) {
     const lang = import.meta.env.PRISMIC_LOCALE || "en-us";
     glossary = await fetchGlossary(client, { preview: true, lang });
     if (path !== "glossary") {
@@ -97,7 +113,18 @@ try {
 }
 ---
 
-{referral ? (
+{blog ? (
+  blogDocument ? (
+    <BlogArticle
+      document={blogDocument}
+      articles={blog.articles}
+      content={content}
+      preview
+    />
+  ) : (
+    <BlogIndex blog={blog} content={content} preview />
+  )
+) : referral ? (
   <Referral referral={referral} preview />
 ) : contact ? (
   <Contact contact={contact} preview />

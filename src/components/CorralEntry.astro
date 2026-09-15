@@ -1,0 +1,48 @@
+---
+import { NotFoundError, asHTML, type RichTextField } from "@prismicio/client";
+import { fetchBlog, createBlogClient } from "../lib/blog";
+import { createPreviewClient, PREVIEW_COOKIE } from "../lib/preview";
+const { preview = false } = Astro.props;
+let blog;
+if (import.meta.env.PRISMIC_CONTENT_MODE !== "snapshot") {
+  try {
+    blog = await fetchBlog(
+      preview
+        ? createPreviewClient(Astro.cookies.get(PREVIEW_COOKIE)?.value)
+        : createBlogClient(),
+      preview,
+    );
+  } catch (error) {
+    if (!(error instanceof NotFoundError))
+      console.error("corral_entry_unavailable");
+  }
+}
+---
+
+{blog && blog.articles.length > 0 && (
+  <section class="corral-entry">
+    <div class="wrap">
+      <h2>{blog.index.title}</h2>
+      <div set:html={asHTML(blog.index.introduction as RichTextField)} />
+      <a class="btn" href="/blog/">
+        {blog.index.library_heading}
+      </a>
+    </div>
+  </section>
+)}
+<style>
+  .corral-entry {
+    padding: 64px 0;
+    border-top: 1px solid var(--line);
+  }
+  .corral-entry h2 {
+    margin-bottom: 20px;
+  }
+  .corral-entry p {
+    max-width: 640px;
+    color: var(--muted);
+  }
+  .corral-entry .btn {
+    margin-top: 24px;
+  }
+</style>

@@ -1,0 +1,268 @@
+{
+  "excerpt": "A practical sequence for checking rights, defining a usable dataset, and discussing a license without treating eligibility as a revenue guarantee.",
+  "answer": "A company may be able to license business data for AI when it can establish authority over the proposed material, manage confidentiality and privacy obligations, and find a buyer whose intended use fits the agreed scope. Begin with a metadata inventory and a rights review, not a bulk export. Neither possessing records nor completing preparation guarantees a transaction.",
+  "slices": [
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Start with a licensing question, not an export request",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Licensing gives another party specified permission to use defined material. It does not, by itself, mean selling the company or transferring every ownership interest in its systems. The proposed agreement needs to identify which records are covered, who can use them, for what purposes, and for how long. Avoid treating “our company data” as a complete description of those rights.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "A support system can contain employee contributions, customer text, attachments, third-party documents and operational metadata. Each category may have different restrictions. Start with a description of the categories and a list of unresolved questions. Do not send a buyer administrator credentials or an unrestricted account export just to find out whether there might be a fit.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Separate authority, privacy and buyer fit",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Three decisions need separate owners. Legal reviewers investigate authority and contractual restrictions. Privacy and security reviewers assess the information and proposed handling. A commercial owner asks whether the permitted, usable scope is interesting to a buyer. A positive answer to one question does not resolve the others.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "The U.S. Copyright Office’s AI initiative separately examines copyrighted materials used in training and the copyrightability of generated outputs. Its materials provide context for the rights questions; they are not clearance for a particular company’s records. Applicable contracts and law need review for the actual transaction.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "The UK Information Commissioner’s Office describes pseudonymisation as reducing risk without taking personal data outside data-protection law. Replacing names is therefore not a shortcut through the authority review. Jurisdiction, indirect identifiers, free text and potential linkage all belong in the assessment.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "checklist",
+      "primary": {
+        "heading": "Prepare a metadata-only inventory"
+      },
+      "items": [
+        {
+          "text": "Name the source systems and the owner who can explain each one."
+        },
+        {
+          "text": "Describe record categories, approximate counts and historical coverage without including real records."
+        },
+        {
+          "text": "Identify whether actions can be linked to outcomes and where those links are incomplete."
+        },
+        {
+          "text": "List customer, employee, third-party and confidentiality restrictions for specialist review."
+        },
+        {
+          "text": "Identify likely exclusions, including credentials, privileged communications and sensitive attachments."
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Define the smallest useful scope",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Describe a bounded candidate dataset before deciding how to prepare it. For example, a fictional support-workflow proposal might cover issue categories, timestamped actions and resolution states, while excluding message bodies and attachments until further review. This example is a scoping exercise, not a claim that those fields are safe or sufficient for a buyer.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Preparation can include checking provenance, identifying duplicates, documenting gaps and evaluating transformations. Establish who will validate each transformation and how exceptions will be handled. Removing sensitive material may also remove context that a buyer needs. Record that trade-off rather than calling every reduction an improvement.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "A decision sequence before transfer",
+        "column_1": "Gate",
+        "column_2": "Evidence to prepare",
+        "column_3": "Pause when"
+      },
+      "items": [
+        {
+          "cell_1": "Authority",
+          "cell_2": "A scoped description and identified agreements for legal review",
+          "cell_3": "The permitted use or underlying rights are unresolved"
+        },
+        {
+          "cell_1": "Privacy and security",
+          "cell_2": "Exclusions, risk review and proposed handling controls",
+          "cell_3": "Sensitive information or transfer conditions remain unreviewed"
+        },
+        {
+          "cell_1": "Utility",
+          "cell_2": "Documented fields, history, limitations and outcome linkage",
+          "cell_3": "The remaining scope cannot support the proposed use"
+        },
+        {
+          "cell_1": "Commercial terms",
+          "cell_2": "A written proposal covering permitted use and payment conditions",
+          "cell_3": "There is no buyer fit or acceptable agreement"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Agree the commercial conditions explicitly",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A valuation discussion is not a payment commitment. Clarify who pays preparation costs, whether review or acceptance is required, when payment becomes due, and what happens if the parties cannot agree on a usable scope. Compare expected proceeds with costs and restrictions without assuming a market price for records you have not assessed.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "The contract should address access, onward sharing, retention, deletion and remedies as well as fees. Ask separately what happens to source files, copies, evaluation results and trained artifacts. Do not assume deleting source records reverses their use in training. Obtain a technically specific answer from the proposed recipient and have counsel translate it into suitable obligations.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Choose a safe next step",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A useful first conversation can be limited to systems, categories, approximate history and known restrictions. Use a designated internal owner to collect unanswered questions and decide whether to proceed. A stop decision is a valid outcome when authority, safety, utility or economics cannot be established.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "NIST’s AI Risk Management Framework is intended for voluntary use. It offers a risk-management reference, not a certification that a proposed data license is acceptable. This article describes a decision process; it does not represent a verified Rancher operating procedure or promise that a dataset will qualify.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    }
+  ],
+  "sources": [
+    {
+      "source_title": "U.S. Copyright Office — Copyright and Artificial Intelligence",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.copyright.gov/ai/"
+      },
+      "accessed_on": "2026-09-15"
+    },
+    {
+      "source_title": "ICO — Pseudonymisation guidance (UK)",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/"
+      },
+      "accessed_on": "2026-09-15"
+    },
+    {
+      "source_title": "NIST — AI Risk Management Framework",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+      },
+      "accessed_on": "2026-09-15"
+    }
+  ],
+  "download": {
+    "name": "Licensing gate worksheet",
+    "rows": [
+      [
+        "Gate",
+        "Internal owner",
+        "Evidence reference",
+        "Open question",
+        "Decision"
+      ],
+      [
+        "Authority",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Privacy and security",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Utility",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Commercial terms",
+        "",
+        "",
+        "",
+        ""
+      ]
+    ]
+  },
+  "diagram": [
+    "Inventory metadata",
+    "Review authority",
+    "Scope and assess risk",
+    "Evaluate utility",
+    "Agree written terms"
+  ],
+  "claims": [
+    {
+      "claim_id": "corral-01-1",
+      "text": "The U.S. Copyright Office’s AI initiative separately examines copyrighted materials used in training and the copyrightability of generated outputs.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-RIGHTS"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    },
+    {
+      "claim_id": "corral-01-2",
+      "text": "The UK Information Commissioner’s Office describes pseudonymisation as reducing risk without taking personal data outside data-protection law.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    },
+    {
+      "claim_id": "corral-01-3",
+      "text": "NIST’s AI Risk Management Framework is intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    }
+  ]
+}

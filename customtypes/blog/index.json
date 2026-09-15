@@ -1,0 +1,452 @@
+{
+  "id": "blog",
+  "label": "Blog",
+  "repeatable": true,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Article URL slug"
+        }
+      },
+      "content_key": {
+        "type": "Text",
+        "config": {
+          "label": "Stable content identifier"
+        }
+      },
+      "title": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Article title",
+          "multi": "heading1"
+        }
+      },
+      "excerpt": {
+        "type": "Text",
+        "config": {
+          "label": "Card summary"
+        }
+      },
+      "answer_summary": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Direct answer",
+          "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
+      "topic": {
+        "type": "Select",
+        "config": {
+          "label": "Topic",
+          "options": [
+            "Start here",
+            "Rights & control",
+            "Data use cases",
+            "Preparation & quality"
+          ]
+        }
+      },
+      "published_at": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Actual publication date"
+        }
+      },
+      "updated_at": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Meaningful editorial update date"
+        }
+      },
+      "author_name": {
+        "type": "Text",
+        "config": {
+          "label": "Author name"
+        }
+      },
+      "author_bio": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Author description",
+          "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+        }
+      },
+      "reviewer_name": {
+        "type": "Text",
+        "config": {
+          "label": "Reviewer name (only after review)"
+        }
+      },
+      "reviewer_role": {
+        "type": "Text",
+        "config": {
+          "label": "Reviewer role"
+        }
+      },
+      "hero_image": {
+        "type": "Image",
+        "config": {
+          "label": "Article hero",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Article body",
+        "config": {
+          "choices": {
+            "text_section": {
+              "type": "Slice",
+              "fieldset": "Text section",
+              "description": "Text section",
+              "display": "list",
+              "non-repeat": {
+                "heading": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Section heading"
+                  }
+                },
+                "body": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Section content",
+                    "multi": "paragraph,heading3,heading4,strong,em,hyperlink,list-item,o-list-item"
+                  }
+                }
+              },
+              "repeat": {}
+            },
+            "callout": {
+              "type": "Slice",
+              "fieldset": "Callout",
+              "description": "Callout",
+              "display": "list",
+              "non-repeat": {
+                "heading": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Callout heading"
+                  }
+                },
+                "body": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Callout content",
+                    "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+                  }
+                }
+              },
+              "repeat": {}
+            },
+            "comparison_table": {
+              "type": "Slice",
+              "fieldset": "Comparison table",
+              "description": "Comparison table",
+              "display": "list",
+              "non-repeat": {
+                "caption": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Table caption"
+                  }
+                },
+                "column_1": {
+                  "type": "Text",
+                  "config": {
+                    "label": "First column heading"
+                  }
+                },
+                "column_2": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Second column heading"
+                  }
+                },
+                "column_3": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Third column heading"
+                  }
+                }
+              },
+              "repeat": {
+                "cell_1": {
+                  "type": "Text",
+                  "config": {
+                    "label": "First column cell"
+                  }
+                },
+                "cell_2": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Second column cell"
+                  }
+                },
+                "cell_3": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Third column cell"
+                  }
+                }
+              }
+            },
+            "checklist": {
+              "type": "Slice",
+              "fieldset": "Checklist",
+              "description": "Checklist",
+              "display": "list",
+              "non-repeat": {
+                "heading": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Checklist heading"
+                  }
+                }
+              },
+              "repeat": {
+                "text": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Checklist item"
+                  }
+                }
+              }
+            },
+            "image_caption": {
+              "type": "Slice",
+              "fieldset": "Image with caption",
+              "description": "Image with caption",
+              "display": "list",
+              "non-repeat": {
+                "image": {
+                  "type": "Image",
+                  "config": {
+                    "label": "Image or diagram",
+                    "constraint": {},
+                    "thumbnails": []
+                  }
+                },
+                "caption": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Visible caption"
+                  }
+                }
+              },
+              "repeat": {}
+            },
+            "downloadable_asset": {
+              "type": "Slice",
+              "fieldset": "Download",
+              "description": "Download",
+              "display": "list",
+              "non-repeat": {
+                "heading": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Asset heading"
+                  }
+                },
+                "description": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Asset instructions",
+                    "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+                  }
+                },
+                "asset": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Download file",
+                    "select": "media"
+                  }
+                },
+                "link_label": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Download link label"
+                  }
+                }
+              },
+              "repeat": {}
+            },
+            "faq": {
+              "type": "Slice",
+              "fieldset": "Questions and answers",
+              "description": "Questions and answers",
+              "display": "list",
+              "non-repeat": {
+                "heading": {
+                  "type": "Text",
+                  "config": {
+                    "label": "FAQ heading"
+                  }
+                }
+              },
+              "repeat": {
+                "question": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Question"
+                  }
+                },
+                "answer": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "Answer",
+                    "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+                  }
+                }
+              }
+            },
+            "article_cta": {
+              "type": "Slice",
+              "fieldset": "Article CTA",
+              "description": "Article CTA",
+              "display": "list",
+              "non-repeat": {
+                "heading": {
+                  "type": "Text",
+                  "config": {
+                    "label": "CTA heading"
+                  }
+                },
+                "body": {
+                  "type": "StructuredText",
+                  "config": {
+                    "label": "CTA explanation",
+                    "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+                  }
+                },
+                "label": {
+                  "type": "Text",
+                  "config": {
+                    "label": "Link label"
+                  }
+                },
+                "link": {
+                  "type": "Link",
+                  "config": {
+                    "label": "Link destination",
+                    "select": "web"
+                  }
+                }
+              },
+              "repeat": {}
+            }
+          }
+        }
+      }
+    },
+    "References": {
+      "sources": {
+        "type": "Group",
+        "config": {
+          "label": "Sources",
+          "fields": {
+            "source_title": {
+              "type": "Text",
+              "config": {
+                "label": "Source title"
+              }
+            },
+            "source_url": {
+              "type": "Link",
+              "config": {
+                "label": "Source URL",
+                "select": "web"
+              }
+            },
+            "accessed_on": {
+              "type": "Date",
+              "config": {
+                "label": "Source accessed date"
+              }
+            }
+          }
+        }
+      },
+      "related_articles": {
+        "type": "Group",
+        "config": {
+          "label": "Related articles",
+          "fields": {
+            "article": {
+              "type": "Link",
+              "config": {
+                "label": "Related article",
+                "select": "document",
+                "customtypes": [
+                  "blog"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "cta_label": {
+        "type": "Text",
+        "config": {
+          "label": "Next step label"
+        }
+      },
+      "cta_link": {
+        "type": "Link",
+        "config": {
+          "label": "Next step link",
+          "select": "web"
+        }
+      }
+    },
+    "Site": {
+      "navigation": {
+        "type": "Link",
+        "config": {
+          "label": "Site navigation",
+          "select": "document",
+          "customtypes": [
+            "navigation"
+          ]
+        }
+      },
+      "footer": {
+        "type": "Link",
+        "config": {
+          "label": "Site footer",
+          "select": "document",
+          "customtypes": [
+            "footer"
+          ]
+        }
+      }
+    },
+    "SEO": {
+      "meta_title": {
+        "type": "Text",
+        "config": {
+          "label": "Search and social title"
+        }
+      },
+      "meta_description": {
+        "type": "Text",
+        "config": {
+          "label": "Search and social description"
+        }
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Social sharing image (1200 \u00d7 630)",
+          "constraint": {},
+          "thumbnails": []
+        }
+      }
+    }
+  }
+}

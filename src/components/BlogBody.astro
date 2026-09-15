@@ -1,0 +1,103 @@
+---
+import { asHTML, type RichTextField } from "@prismicio/client";
+import type { BlogArticle } from "../lib/blog";
+import { blogLink } from "../lib/blog";
+interface Props {
+  slices: BlogArticle["slices"];
+  liveIds: string[];
+  preview?: boolean;
+}
+const { slices, liveIds, preview = false } = Astro.props;
+const rich = (value: unknown) =>
+  asHTML(value as RichTextField, {
+    linkResolver: (doc) =>
+      liveIds.includes(doc.id) || preview ? blogLink(doc) : "/blog/",
+  });
+---
+
+{slices.map((slice, index) => (
+  <section
+    id={`section-${index + 1}`}
+    class={`blog-block blog-${slice.slice_type}`}
+  >
+    {slice.slice_type === "text_section" || slice.slice_type === "callout" ? (
+      <>
+        {slice.primary.heading && <h2>{slice.primary.heading}</h2>}
+        <div set:html={rich(slice.primary.body)} />
+      </>
+    ) : slice.slice_type === "comparison_table" ? (
+      <div
+        class="blog-table-scroll"
+        tabindex="0"
+        role="region"
+        aria-label={slice.primary.caption}
+      >
+        <table>
+          <caption>{slice.primary.caption}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{slice.primary.column_1}</th>
+              <th scope="col">{slice.primary.column_2}</th>
+              <th scope="col">{slice.primary.column_3}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {slice.items.map((row) => (
+              <tr>
+                <th scope="row">{row.cell_1}</th>
+                <td>{row.cell_2}</td>
+                <td>{row.cell_3}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : slice.slice_type === "checklist" ? (
+      <>
+        <h2>{slice.primary.heading}</h2>
+        <ul>
+          {slice.items.map((item) => (
+            <li>{item.text}</li>
+          ))}
+        </ul>
+      </>
+    ) : slice.slice_type === "image_caption" ? (
+      <figure>
+        <img
+          src={slice.primary.image.url}
+          alt={slice.primary.image.alt}
+          width={slice.primary.image.dimensions.width}
+          height={slice.primary.image.dimensions.height}
+          loading="lazy"
+        />
+        <figcaption>{slice.primary.caption}</figcaption>
+      </figure>
+    ) : slice.slice_type === "downloadable_asset" ? (
+      <>
+        <h2>{slice.primary.heading}</h2>
+        <div set:html={rich(slice.primary.description)} />
+        <a class="blog-download" href={slice.primary.asset.url} download>
+          {slice.primary.link_label}
+        </a>
+      </>
+    ) : slice.slice_type === "faq" ? (
+      <>
+        <h2>{slice.primary.heading}</h2>
+        {slice.items.map((item) => (
+          <div>
+            <h3>{item.question}</h3>
+            <div set:html={rich(item.answer)} />
+          </div>
+        ))}
+      </>
+    ) : slice.slice_type === "article_cta" ? (
+      <>
+        <h2>{slice.primary.heading}</h2>
+        <div set:html={rich(slice.primary.body)} />
+        <a class="btn" href={slice.primary.link.url} data-corral-cta>
+          {slice.primary.label}
+        </a>
+      </>
+    ) : null}
+  </section>
+))}

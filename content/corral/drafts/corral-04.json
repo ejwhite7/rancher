@@ -1,0 +1,331 @@
+{
+  "excerpt": "Twelve subjects to put on the agenda when counsel and commercial owners review an AI data licensing proposal.",
+  "answer": "Review an AI data license as a set of permissions, restrictions and measurable obligations. Identify the material and permitted uses, then examine recipients, security, retention, fees and remedies together. This term-review table is a discussion aid for counsel, not a contract template or a conclusion that a proposed use is lawful.",
+  "slices": [
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Describe the deal before debating individual clauses",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Write a short statement of the proposed transaction in ordinary language: the supplying entity, intended recipient, covered records, allowed use and expected commercial exchange. If those five points are ambiguous, individual clauses can appear precise while referring to different assumptions. Keep the dataset version and exclusions attached to that statement.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Separate the authority to provide material from the buyer’s contractual permission to use it. A license from your company cannot resolve rights your company does not hold. The U.S. Copyright Office’s AI materials are useful background on training and copyright; they do not establish ownership or permission for your dataset. Ask counsel which underlying agreements and jurisdictions govern the proposed scope.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "Twelve terms to review with counsel",
+        "column_1": "Term",
+        "column_2": "Question to resolve",
+        "column_3": "Evidence or operational detail"
+      },
+      "items": [
+        {
+          "cell_1": "Parties",
+          "cell_2": "Who grants rights and which legal entity receives them?",
+          "cell_3": "Entity names, authority to sign and affiliate access"
+        },
+        {
+          "cell_1": "Scope",
+          "cell_2": "Which records and versions are included or excluded?",
+          "cell_3": "Dataset inventory, dates, fields and exclusion schedule"
+        },
+        {
+          "cell_1": "Rights",
+          "cell_2": "What authority supports the grant?",
+          "cell_3": "Relevant agreements, assignments and third-party restrictions"
+        },
+        {
+          "cell_1": "Permitted purposes",
+          "cell_2": "Are training, evaluation and other uses distinguished?",
+          "cell_3": "Specific use definitions and controls for each purpose"
+        },
+        {
+          "cell_1": "Exclusivity",
+          "cell_2": "Which uses, territories and periods restrict other deals?",
+          "cell_3": "A precise boundary and a record of existing obligations"
+        },
+        {
+          "cell_1": "Onward sharing",
+          "cell_2": "Can recipients share with vendors, affiliates or others?",
+          "cell_3": "Approved recipient classes and corresponding obligations"
+        },
+        {
+          "cell_1": "Security",
+          "cell_2": "What controls and evidence apply before and after transfer?",
+          "cell_3": "Access, transfer, logging and incident procedures"
+        },
+        {
+          "cell_1": "Retention",
+          "cell_2": "How long can each category of material be kept?",
+          "cell_3": "Retention schedule and treatment of backups"
+        },
+        {
+          "cell_1": "Deletion",
+          "cell_2": "Which copies can be removed and how is completion shown?",
+          "cell_3": "Deletion scope, exceptions and confirmation process"
+        },
+        {
+          "cell_1": "Derived artifacts",
+          "cell_2": "What happens to trained artifacts and other outputs?",
+          "cell_3": "Technical description of artifacts, permitted retention and use"
+        },
+        {
+          "cell_1": "Fees",
+          "cell_2": "What triggers payment and who bears preparation costs?",
+          "cell_3": "Acceptance conditions, milestones, deductions and disputes"
+        },
+        {
+          "cell_1": "Remedies",
+          "cell_2": "What happens after breach, termination or disagreement?",
+          "cell_3": "Escalation, suspension, enforcement and survival provisions"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Make permitted use testable",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Broad phrases such as “AI purposes” leave substantial room for disagreement. A proposed use might involve training, fine-tuning, held-out evaluation or another activity. Ask the recipient to describe the actual workflow and which people or services receive the material. Counsel can then assess whether the permissions and controls align.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "For a fictional evaluation-only arrangement, the business question is whether the records can also enter model-development systems. A label saying “evaluation” does not answer that question. Discuss separation, access and evidence of compliance. The correct controls depend on the actual workflow, not this hypothetical example.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Do not collapse retention, deletion and model behavior",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Source files, backups, intermediate datasets, logs, model checkpoints and evaluation reports are not the same object. Ask for a category-by-category account of what is retained, who controls it, and what can be removed. If a recipient offers a deletion promise, clarify its scope and exceptions before relying on it.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "A requirement to delete supplied files should not be read as a guarantee that an already trained model forgets their contents. Ask for technical evidence about any broader claim and legal advice about the wording. Avoid promising your own customers a result that the recipient cannot demonstrate.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "callout",
+      "primary": {
+        "heading": "Privacy review remains separate",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "The ICO’s UK guidance distinguishes pseudonymisation from anonymisation and explains that pseudonymised information remains personal data. Contract language and removal of names do not eliminate the need to examine applicable privacy obligations. The guidance is jurisdiction-specific and currently marked as under review.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Connect acceptance and payment conditions",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Specify whether a fee is due on signing, delivery, acceptance or another event. Ask who decides whether delivery meets the agreed criteria, how objections are documented, and what happens if preparation reveals that the usable scope is smaller than expected. Keep the decision criteria tied to the versioned dataset description.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Also consider the interaction between fees and restrictions. A proposal with limited payment certainty and broad exclusivity may have a different cost to the business from a narrowly scoped non-exclusive proposal. This is a commercial question for the actual deal; no generic table can determine an appropriate fee or allocation of risk.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "checklist",
+      "primary": {
+        "heading": "Prepare for the review meeting"
+      },
+      "items": [
+        {
+          "text": "Bring a metadata inventory and a list of material explicitly excluded from the proposal."
+        },
+        {
+          "text": "Identify existing licenses, confidentiality commitments and unresolved rights questions."
+        },
+        {
+          "text": "Ask the recipient for a plain-language account of its intended uses and retained artifacts."
+        },
+        {
+          "text": "Assign owners to security, privacy, technical, finance and legal questions."
+        },
+        {
+          "text": "Record unresolved terms and avoid transferring records while required decisions remain open."
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Keep the review record with the dataset version",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Save the final scope, approval record and executed terms together with the dataset version identifier. If later refreshes add fields, records, recipients or purposes, revisit the relevant questions instead of treating the first review as unlimited permission. The table is useful only when it points to the evidence and decisions for the actual transaction.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    }
+  ],
+  "sources": [
+    {
+      "source_title": "U.S. Copyright Office — Copyright and Artificial Intelligence",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.copyright.gov/ai/"
+      },
+      "accessed_on": "2026-09-15"
+    },
+    {
+      "source_title": "ICO — Pseudonymisation guidance (UK)",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/"
+      },
+      "accessed_on": "2026-09-15"
+    }
+  ],
+  "download": {
+    "name": "Licensing term review worksheet",
+    "rows": [
+      [
+        "Term",
+        "Proposed position",
+        "Reviewer",
+        "Open issue",
+        "Resolution"
+      ],
+      [
+        "Parties",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Scope",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Rights",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Permitted purposes",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Exclusivity",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Onward sharing",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Security",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Retention",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Deletion",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Derived artifacts",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Fees",
+        "",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Remedies",
+        "",
+        "",
+        "",
+        ""
+      ]
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "corral-04-1",
+      "text": "The ICO’s UK guidance distinguishes pseudonymisation from anonymisation and explains that pseudonymised information remains personal data.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    }
+  ]
+}

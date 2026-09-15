@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "brief_id": "corral-01-brief-v1",
+  "records": [
+    {
+      "evidence_id": "EV-RIGHTS",
+      "canonical_url": "https://www.copyright.gov/ai/",
+      "title": "Copyright and Artificial Intelligence | U.S. Copyright Office",
+      "source_owner": "U.S. Copyright Office",
+      "source_type": "government",
+      "retrieved_at": "2026-09-15T22:02:12.961882Z",
+      "factual_summary": "The Copyright Office publishes its AI work in separate parts, including training and copyrightability.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "6117c54790e190929928313deaef0a7c1860d67cca834a69def9d52f6e0ea098",
+      "verification_notes": "Read during source research. This verifies the attributed source statement, not legal suitability or specialist approval of the article.",
+      "supported_claim_ids": [
+        "corral-01-1"
+      ]
+    },
+    {
+      "evidence_id": "EV-PRIVACY",
+      "canonical_url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/",
+      "title": "Pseudonymisation | ICO",
+      "source_owner": "Information Commissioner’s Office",
+      "source_type": "regulator",
+      "retrieved_at": "2026-09-15T22:02:10.475820Z",
+      "factual_summary": "UK guidance states that pseudonymisation reduces risk but does not remove personal data from data-protection law; the guidance is under review.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "0c8bd28abb36ed7a256897a8264a8f6612b80d559bac545362f18c5726d4a712",
+      "verification_notes": "Read during source research. This verifies the attributed source statement, not legal suitability or specialist approval of the article.",
+      "supported_claim_ids": [
+        "corral-01-2"
+      ]
+    },
+    {
+      "evidence_id": "EV-QUALITY",
+      "canonical_url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "title": "AI Risk Management Framework - NIST",
+      "source_owner": "National Institute of Standards and Technology",
+      "source_type": "standards_body",
+      "retrieved_at": "2026-09-15T22:02:11.806919Z",
+      "factual_summary": "The AI RMF is intended for voluntary use to help incorporate trustworthiness considerations into AI work.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "c3a3c524dd9e7c8ee5316e2d76d35fb6e969453ca7a9ab9077d62b1a82e8a7cb",
+      "verification_notes": "Read during source research. This verifies the attributed source statement, not legal suitability or specialist approval of the article.",
+      "supported_claim_ids": [
+        "corral-01-3"
+      ]
+    }
+  ]
+}

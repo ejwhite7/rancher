@@ -1,0 +1,369 @@
+{
+  "excerpt": "Use a blank data card and a clearly fictional example to document provenance, limitations, permissions and intended uses.",
+  "answer": "A data card is a structured description of a dataset and the conditions for evaluating or using it. Record its origin, version, scope, transformations, exclusions, limitations, split policy and permitted uses. The card supports review; it is not proof of ownership, consent, anonymity, quality or commercial availability.",
+  "slices": [
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Document the decision a buyer needs to make",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A buyer needs to understand what the records represent, what is missing and what uses are permitted before deciding whether evaluation makes sense. A table of column names alone cannot establish that. Organize the card around questions that can be answered with evidence, and name an owner for unresolved items.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "NIST’s AI Risk Management Framework is a voluntary reference for incorporating trustworthiness considerations into AI work. The template here is an original practical aid, not an official NIST form or a claim of compliance. Adapt it to the actual dataset, buyer requirements and specialist advice.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "A practical data-card structure",
+        "column_1": "Section",
+        "column_2": "What to record",
+        "column_3": "Evidence to reference"
+      },
+      "items": [
+        {
+          "cell_1": "Identity and origin",
+          "cell_2": "Dataset name, version, owner and source systems",
+          "cell_3": "Inventory and version record"
+        },
+        {
+          "cell_1": "Authority and allowed uses",
+          "cell_2": "Reviewed scope of permissions and unresolved limits",
+          "cell_3": "Applicable agreements and approval record"
+        },
+        {
+          "cell_1": "Coverage and history",
+          "cell_2": "Dates, categories, inclusion rules and known gaps",
+          "cell_3": "Collection history and field definitions"
+        },
+        {
+          "cell_1": "Transformations",
+          "cell_2": "Filtering, joining, pseudonymisation and other changes",
+          "cell_3": "Versioned transformation record and validation"
+        },
+        {
+          "cell_1": "Exclusions",
+          "cell_2": "Removed records, fields and attachments, with reasons",
+          "cell_3": "Approved exclusion list"
+        },
+        {
+          "cell_1": "Quality and limitations",
+          "cell_2": "Missingness, duplicates, label reliability and known biases",
+          "cell_3": "Checks, results, exceptions and review owner"
+        },
+        {
+          "cell_1": "Split policy",
+          "cell_2": "Training/evaluation separation and leakage controls",
+          "cell_3": "Split definition, grouping keys and overlap checks"
+        },
+        {
+          "cell_1": "Handling and contact",
+          "cell_2": "Access, transfer, retention and responsible contact",
+          "cell_3": "Agreed controls and named accountable owner"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Use the blank template before discussing a sample",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "The downloadable CSV contains prompts and empty response fields. Keep sensitive material out of the card: describe a category rather than attaching records, include an evidence reference rather than credentials, and use an accountable contact rather than an unrestricted system login. Record “unknown” where a fact has not been established.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "For each answer, include an evidence location, responsible role and review state. A concise, bounded answer is more useful than a confident claim with no supporting record. If permissions have not been reviewed, say so explicitly; do not turn “not yet checked” into “unrestricted.”",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "callout",
+      "primary": {
+        "heading": "Fictional example only",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "The example below is invented for explanation. It is not a Rancher customer, available dataset, completed assessment or statement of licensing eligibility. It contains no real customer records.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "Fictional filled example",
+        "column_1": "Field",
+        "column_2": "Illustrative entry",
+        "column_3": "Limit that still needs review"
+      },
+      "items": [
+        {
+          "cell_1": "Dataset identity",
+          "cell_2": "Fictional Support Events v0.1",
+          "cell_3": "Training use is not approved"
+        },
+        {
+          "cell_1": "Origin",
+          "cell_2": "Invented issue and resolution events from Fictional Company A",
+          "cell_3": "No real system or integration is represented"
+        },
+        {
+          "cell_1": "Coverage",
+          "cell_2": "Fictional cases CASE-001 through CASE-006",
+          "cell_3": "Small invented sample; no claim of representativeness"
+        },
+        {
+          "cell_1": "Transformations",
+          "cell_2": "Invented names replaced by stable fictional actor IDs",
+          "cell_3": "This demonstrates linkage, not validated anonymisation"
+        },
+        {
+          "cell_1": "Exclusions",
+          "cell_2": "Message text and attachments omitted",
+          "cell_3": "Omission can remove relevant context"
+        },
+        {
+          "cell_1": "Outcomes",
+          "cell_2": "Resolved, reopened or unresolved as stated in the fictional events",
+          "cell_3": "A status is not proof that the customer’s problem was solved"
+        },
+        {
+          "cell_1": "Split policy",
+          "cell_2": "Keep events for each fictional case in a single split",
+          "cell_3": "Production grouping and leakage tests remain unspecified"
+        },
+        {
+          "cell_1": "Allowed use",
+          "cell_2": "Review this illustration only",
+          "cell_3": "No underlying operational dataset is offered"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Preserve the difference between evidence and interpretation",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A field named “resolved” might record an agent action, an automated close rule or a confirmed customer outcome. State which interpretation is supported by the source and which remains an assumption. Similarly, an event timestamp might reflect creation, update or ingestion. The card should define those meanings rather than leave a buyer to guess.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Describe known missingness and selection effects. If the proposed scope contains only completed cases, a buyer should not infer that it represents unresolved work. If attachments were removed, explain which parts of the workflow can no longer be reconstructed. These limitations may affect suitability even when the remaining records are internally consistent.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Treat transformations as reviewable changes",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "List transformations in order, with their purpose, version and validation evidence. A stable replacement ID may preserve joins while creating linkage risks across records. The ICO’s UK guidance explains that pseudonymisation does not make personal data anonymous. Do not mark a privacy field “safe” merely because direct names were removed.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Document who reviewed the residual risk for the intended recipients and context. A card can point to that assessment without including the sensitive information it discusses. Keep technical validation, legal authority and permitted-use decisions separate so that a later change can be routed to the right owner.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "checklist",
+      "primary": {
+        "heading": "Check the card before sharing it"
+      },
+      "items": [
+        {
+          "text": "Confirm that the version matches the proposed dataset and its exclusions."
+        },
+        {
+          "text": "Separate verified facts, illustrative examples and open questions."
+        },
+        {
+          "text": "Check that permission descriptions match reviewed agreements rather than assumptions."
+        },
+        {
+          "text": "Describe outcome definitions, gaps and limitations in reader-facing language."
+        },
+        {
+          "text": "Record split boundaries and unresolved contamination risks."
+        },
+        {
+          "text": "Use a metadata-only card until the appropriate transfer conditions are agreed."
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Update the card when a meaningful fact changes",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A new export date alone is not evidence of new editorial or specialist review. Update the card when its scope, transformations, permissions, limitations or supporting checks change, and preserve the previous version. Ask reviewers to assess the changed facts rather than silently copying an earlier approval to a materially different package.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    }
+  ],
+  "sources": [
+    {
+      "source_title": "NIST — AI Risk Management Framework",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+      },
+      "accessed_on": "2026-09-15"
+    },
+    {
+      "source_title": "ICO — Pseudonymisation guidance (UK)",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/"
+      },
+      "accessed_on": "2026-09-15"
+    }
+  ],
+  "download": {
+    "name": "Blank data-card template",
+    "rows": [
+      [
+        "Section",
+        "Response",
+        "Evidence reference",
+        "Owner",
+        "Review state"
+      ],
+      [
+        "Dataset identity and version",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Origin and source systems",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Authority and allowed uses",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Coverage and collection history",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Transformations and validation",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Exclusions",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Quality checks and limitations",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Training/evaluation split policy",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Access and transfer conditions",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Retention and deletion limits",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ],
+      [
+        "Responsible contact",
+        "",
+        "",
+        "",
+        "Not reviewed"
+      ]
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "corral-20-1",
+      "text": "NIST’s AI Risk Management Framework is a voluntary reference for incorporating trustworthiness considerations into AI work.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    },
+    {
+      "claim_id": "corral-20-2",
+      "text": "The ICO’s UK guidance explains that pseudonymisation does not make personal data anonymous.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attribution to the named source; jurisdiction and applicability require specialist review."
+    }
+  ]
+}
