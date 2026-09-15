@@ -82,7 +82,7 @@ const server = http.createServer(async (req, res) => {
   }
   const ref = url.searchParams.get("ref");
   const preview = ref === "draft-ref";
-  const query = url.searchParams.get("q") || "";
+  const query = url.searchParams.getAll("q").join(" ");
   const page = Number(url.searchParams.get("page") || 1);
   const size = Number(url.searchParams.get("pageSize") || 20);
   requests.push({ ref, query, page, size });

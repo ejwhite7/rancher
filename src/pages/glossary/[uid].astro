@@ -1,5 +1,6 @@
 ---
 export const prerender = false;
+import { NotFoundError } from "@prismicio/client";
 import GlossaryTerm from "../../components/pages/GlossaryTerm.astro";
 import {
   createGlossaryClient,
@@ -24,8 +25,7 @@ try {
   try {
     await client.getByUID("glossary", uid, { lang });
   } catch (error) {
-    if (error instanceof Error && error.name === "NotFoundError")
-      return notFound;
+    if (error instanceof NotFoundError) return notFound;
     throw error;
   }
   glossary = await fetchGlossary(client, { lang });

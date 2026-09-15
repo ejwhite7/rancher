@@ -137,6 +137,9 @@ test("missing singleton and malformed content fail clearly; empty repository rem
     data: { missingIndex: true },
   });
   expect((await request.get("/glossary/")).status()).toBe(503);
+  const missingSitemap = await request.get("/glossary-sitemap.xml");
+  expect(missingSitemap.status()).toBe(200);
+  expect(await missingSitemap.text()).not.toContain("<loc>");
   await request.post("http://127.0.0.1:4334/__test/state", {
     data: { malformed: true },
   });

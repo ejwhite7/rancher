@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { NotFoundError } from "@prismicio/client";
 import {
   createGlossaryClient,
   fetchGlossary,
@@ -21,7 +22,7 @@ export const GET: APIRoute = async () => {
     );
   } catch (error) {
     // Before the first release there are no glossary routes to advertise.
-    if (error instanceof Error && error.name === "NotFoundError")
+    if (error instanceof NotFoundError)
       return new Response(
         '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>',
         { headers },
