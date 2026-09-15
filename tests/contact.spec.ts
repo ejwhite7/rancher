@@ -108,6 +108,18 @@ test("contact form retains entries on error, retries safely, confirms success an
     "href",
     "https://www.gorancher.com/contact/",
   );
+  await page.evaluate(() => {
+    const events: unknown[] = [];
+    Object.assign(window, {
+      contactAnalytics: events,
+      posthog: {
+        identify: (id: string, properties: Record<string, unknown>) =>
+          events.push({ method: "identify", id, properties }),
+        capture: (event: string, properties: Record<string, unknown>) =>
+          events.push({ method: "capture", event, properties }),
+      },
+    });
+  });
   await page.getByLabel("Name", { exact: true }).fill(input.name);
   await page.getByLabel("Email", { exact: true }).fill(input.email);
   await page
@@ -115,6 +127,9 @@ test("contact form retains entries on error, retries safely, confirms success an
     .fill(input.message);
   await page.getByRole("button", { name: "Send message", exact: true }).click();
   await expect(page.getByRole("alert")).toContainText("try again");
+  expect(await page.evaluate(() => (window as any).contactAnalytics)).toEqual(
+    [],
+  );
   await expect(
     page.getByLabel("How can we help?", { exact: true }),
   ).toHaveValue(input.message);
@@ -123,6 +138,18 @@ test("contact form retains entries on error, retries safely, confirms success an
     "message has been received",
   );
   expect(bodies[0].idempotencyKey).toBe(bodies[1].idempotencyKey);
+  expect(await page.evaluate(() => (window as any).contactAnalytics)).toEqual([
+    {
+      method: "identify",
+      id: input.email,
+      properties: { email: input.email, name: input.name, domain: "gmail.com" },
+    },
+    {
+      method: "capture",
+      event: "contact_form_submitted",
+      properties: { form: "contact", submission_id: bodies[1].idempotencyKey },
+    },
+  ]);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/contact/");
   expect(
@@ -137,4 +164,36 @@ test("contact form retains entries on error, retries safely, confirms success an
     path: test.info().outputPath("contact-desktop.png"),
     fullPage: true,
   });
+});
+
+test("analytics errors never turn a saved contact enquiry into a failed form", async ({
+  page,
+}) => {
+  await page.route("**/api/contact/", (route) =>
+    route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: JSON.stringify({ saved: true }),
+    }),
+  );
+  await page.goto("/contact/");
+  await page.evaluate(() => {
+    window.posthog = {
+      identify: () => {
+        throw Error("analytics unavailable");
+      },
+      capture: () => {
+        throw Error("analytics unavailable");
+      },
+    };
+  });
+  await page.getByLabel("Name", { exact: true }).fill(input.name);
+  await page.getByLabel("Email", { exact: true }).fill(input.email);
+  await page
+    .getByLabel("How can we help?", { exact: true })
+    .fill(input.message);
+  await page.getByRole("button", { name: "Send message", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText(
+    "message has been received",
+  );
 });

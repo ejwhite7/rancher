@@ -44,7 +44,25 @@ export default function ContactForm({
       if (!response.ok || (await response.json()).saved !== true)
         throw Error("Could not save message");
       setSent(true);
-      window.posthog?.capture("contact_form_submitted", { form: "contact" });
+      const email = payload.email.toLowerCase();
+      // Analytics must never turn a saved enquiry into a failed submission.
+      try {
+        window.posthog?.identify(email, {
+          email,
+          name: payload.name,
+          domain: email.split("@")[1],
+        });
+      } catch {
+        /* Keep the confirmation visible if analytics is unavailable. */
+      }
+      try {
+        window.posthog?.capture("contact_form_submitted", {
+          form: "contact",
+          submission_id: submission.current.key,
+        });
+      } catch {
+        /* Delivery was already confirmed by the server. */
+      }
     } catch {
       setError(copy.save_error);
     } finally {

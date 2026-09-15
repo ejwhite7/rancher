@@ -1,0 +1,22 @@
+[
+  {
+    "type": "filter",
+    "body": {
+      "type": "contact.submission.created"
+    }
+  },
+  {
+    "type": "deduplicate",
+    "window": 60000
+  },
+  {
+    "type": "transform",
+    "transformation_id": "trs_bkVeya698fKz0Q"
+  },
+  {
+    "type": "retry",
+    "count": 5,
+    "interval": 30000,
+    "strategy": "exponential"
+  }
+]

@@ -90,6 +90,9 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
         for (const file of files)
           await tx.unsafe(await readFile(`db/migrations/${file}`, "utf8"));
       });
+    await sql.begin(async (tx) => {
+      await tx.unsafe(await readFile("db/tests/contact_webhooks.sql", "utf8"));
+    });
     await expect(
       sql.begin(async (tx) => {
         await tx`INSERT INTO rancher.partnership_submissions (id,name,email,company,team_size,data_history,records_description,outreach_consent,consent_text,request_hash)
