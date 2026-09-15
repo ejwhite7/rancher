@@ -1,7 +1,8 @@
-// Original editorial drafts. Reviewer metadata is deliberately absent until review is complete.
+// Reviewed by Edward White, Co-Founder of Rancher, on September 15, 2026.
 export default [
 {
 uid:'data-licensing',
+reviewer_name: 'Edward White', reviewer_role: 'Co-Founder of Rancher', last_reviewed: '2026-09-15',
 short:'Data licensing is an agreement that permits specified uses of a dataset under defined conditions. It can address access, AI training, sharing, payment, duration, and restrictions without necessarily transferring the underlying rights.',
 definition:'Data licensing establishes the permission and conditions under which one party may use data supplied by another. A license might allow internal analysis, model training, or evaluation while excluding other uses. Its effect depends on the agreement and the rights the provider can actually grant; possessing a file does not establish unrestricted authority to license everything in it.',
 how:'Start by identifying the dataset and the parties. A useful description states which systems and time periods are covered, what is excluded, how records will be delivered, and whether updates are included. The agreement then connects that description to permitted purposes, authorized users, security requirements, retention rules, and commercial terms.\n\nData licenses differ. For example, the Community Data License Agreement—Permissive 2.0 allows use, modification, and sharing subject to its terms and treats computational results separately. A negotiated commercial license may set different boundaries. Neither model should be assumed to apply before the actual agreement is examined.',
@@ -13,6 +14,7 @@ related:['licensing-scope','permitted-use','data-ownership','non-exclusive-licen
 },
 {
 uid:'de-identification',
+reviewer_name: 'Edward White', reviewer_role: 'Co-Founder of Rancher', last_reviewed: '2026-09-15',
 short:'De-identification is a process for reducing the association between data and identifiable people or organizations. It combines transformations and disclosure controls; removing names alone does not establish anonymity or eliminate re-identification risk.',
 definition:'De-identification reduces the ability to connect records to the people or entities they describe. Depending on the data and intended access, it may involve removing direct identifiers, generalizing details, suppressing rare records, or changing how recipients can query information. It is a risk-management process whose effectiveness depends on context, rather than a universal label that makes a dataset safe for any use.',
 how:'An assessment begins with the intended use, recipients, and information already available to them. Names and email addresses are direct identifiers, but dates, locations, uncommon events, and combinations of attributes can also reveal identity. Free-text notes, images, and linked tables require attention beyond a single list of sensitive columns.\n\nTechniques trade some information value for reduced disclosure risk. A team might replace exact dates with broader periods, remove an unusually identifying narrative, or provide access in a controlled environment instead of distributing files. NIST’s guidance recommends choosing a sharing model, setting measurable criteria, and testing disclosure risks. The documentation should record the transformations, assumptions, and residual limitations.',
@@ -24,6 +26,7 @@ related:['pseudonymization','anonymization','re-identification-risk','redaction'
 },
 {
 uid:'computer-use-agent',
+reviewer_name: 'Edward White', reviewer_role: 'Co-Founder of Rancher', last_reviewed: '2026-09-15',
 short:'A computer-use agent is an AI system that pursues a task by interacting with software interfaces, such as clicking controls, entering text, and moving between applications. Its actions need permissions, feedback, and checks against the intended outcome.',
 definition:'A computer-use agent observes a computer interface and chooses actions intended to advance a task. It may work through screenshots, interface elements, keyboard input, or other tools. Unlike a system that only suggests instructions, it can change application state. That makes the surrounding permissions, stopping rules, and success checks part of the system’s practical design.',
 how:'A typical interaction loop observes the current state, chooses an action, performs it, and checks the result. A task such as reconciling a spreadsheet with a service system may require many such steps and movement across applications. Some systems combine visual interaction with APIs; the label does not require every action to be a simulated mouse click.\n\nThe OSWorld benchmark illustrates evaluation in real computer environments using tasks with initial states and execution-based checks. A successful-looking screenshot is not necessarily evidence that the requested file, record, or setting was changed correctly. Evaluation needs to inspect the relevant outcome and account for side effects.',

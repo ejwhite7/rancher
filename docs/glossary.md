@@ -2,9 +2,9 @@
 
 ## Current rollout state (September 15, 2026)
 
-The frontend is deployed to staging. Prismic contains all 60 populated entries and the index. They were imported as drafts; during verification, Prismic’s public API began returning all 61 as published. No publication command was run by this implementation workflow. All 60 reviewer names and completed review dates remain unset, so publication acceptance still fails. Public glossary requests on the new frontend return 503 until that metadata is complete; previews render the content with editorial warnings. Main remains on the previous frontend pending the plan’s review and approval requirements.
+Edward White, Co-Founder of Rancher, confirmed review of all 60 entries on September 15, 2026. All entries record his name, role, and that completed review date. The rollout includes the index, 60 entry pages, a Glossary navigation link, and repeatable Footer links.
 
-The Navigation draft adds a Glossary link. Verify its publication state when completing the release. The content owner must review the entries, supply actual review metadata, and approve the production rollout. If entries are already published, make and publish the reviewed corrections through Prismic before completing the production switch. Do not infer completed review from CMS publication alone.
+Footer editors can add, remove, and reorder **Footer links** in the Footer singleton, with a label and destination for each row. Use `#site-note` to open the shared information dialog. Historical fixed-link fields are retained in the **Legacy links** tab for compatibility with older deployments; the current frontend uses only the repeatable list.
 
 ## Content model and routes
 
@@ -26,7 +26,7 @@ Canonical glossary URLs use the production origin `https://www.gorancher.com`. T
 Open a draft in Prismic’s Migration Release, click **Preview the page**, and choose **Staging**. This refreshes the release snapshot and creates an actual Prismic preview session. The raw migration ref may be stale until that refresh.
 
 - Staging callback: `https://staging.gorancher.com/preview/`
-- Production callback after the approved frontend rollout: `https://www.gorancher.com/preview/`
+- Production callback: `https://www.gorancher.com/preview/`
 - Index preview renderer: `/preview/view/glossary/`
 - Term preview renderer: `/preview/view/glossary/:uid/`
 

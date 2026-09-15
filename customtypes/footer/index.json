@@ -30,6 +30,48 @@
           "label": "Footer navigation accessibility label"
         }
       },
+      "dialog_heading": {
+        "type": "Text",
+        "config": {
+          "label": "Site information heading"
+        }
+      },
+      "dialog_body": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Site information content",
+          "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
+      "close_label": {
+        "type": "Text",
+        "config": {
+          "label": "Dialog close button label"
+        }
+      },
+      "items": {
+        "type": "Group",
+        "config": {
+          "label": "Footer links (add, remove, or reorder)",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Link label"
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Link destination (use #site-note for site information)",
+                "select": "web"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Legacy links": {
       "faq_label": {
         "type": "Text",
         "config": {
@@ -65,25 +107,6 @@
         "config": {
           "label": "Partnership link destination",
           "select": "web"
-        }
-      },
-      "dialog_heading": {
-        "type": "Text",
-        "config": {
-          "label": "Site information heading"
-        }
-      },
-      "dialog_body": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Site information content",
-          "multi": "paragraph,strong,em,hyperlink"
-        }
-      },
-      "close_label": {
-        "type": "Text",
-        "config": {
-          "label": "Dialog close button label"
         }
       }
     }

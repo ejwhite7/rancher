@@ -5,7 +5,6 @@ import Footer from "../Footer.astro";
 import GlossaryRichText from "../GlossaryRichText.astro";
 import GlossaryCTA from "../GlossaryCTA.astro";
 import {
-  glossaryCategories,
   resolveTerms,
   isReviewed,
   type GlossaryContent,
@@ -79,7 +78,6 @@ const schema = {
         <span aria-current="page">{term.term}</span>
       </nav>
       <header class="glossary-heading">
-        <p class="eyebrow">{glossaryCategories[term.category]}</p>
         <h1>{term.term}</h1>
         <GlossaryRichText value={term.definition} />
         {term.aliases.length > 0 && (

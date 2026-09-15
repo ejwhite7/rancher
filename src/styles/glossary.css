@@ -1,5 +1,5 @@
 .glossary-page {
-  padding: 130px 0 90px;
+  padding: 36px 0 90px;
   min-height: 75vh;
 }
 .glossary-breadcrumb {
@@ -257,7 +257,7 @@
 }
 @media (max-width: 700px) {
   .glossary-page {
-    padding-top: 105px;
+    padding-top: 28px;
   }
   .glossary-controls {
     grid-template-columns: 1fr;

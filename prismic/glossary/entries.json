@@ -112,9 +112,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Expert demonstrations: Meaning & Licensing Context | Rancher",
     "meta_description": "Expert demonstrations are examples of a skilled operator performing a task. They can show actions, context, and outcomes for imitation or evaluation, but expertise and success need evidence rather than being inferred from the demonstrator’s title.",
@@ -233,9 +233,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Fine-tuning data: Meaning & Licensing Context | Rancher",
     "meta_description": "Fine-tuning data is the dataset used to adapt an already trained model to a more specific task or behavior. Its format and examples depend on the training method, and it should remain appropriately separated from final evaluation data.",
@@ -354,9 +354,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Long-horizon task: Meaning & Licensing Context | Rancher",
     "meta_description": "A long-horizon task requires many connected decisions or actions before reaching its goal. Difficulty comes from dependencies, delayed feedback, and recovery needs—not only from elapsed time or the number of clicks.",
@@ -475,9 +475,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Model weights: Meaning & Licensing Context | Rancher",
     "meta_description": "Model weights are learned numerical parameters that influence a model’s predictions or actions. Training adjusts them, while inference uses them; weights are distinct from the source dataset, although models can sometimes memorize aspects of training data.",
@@ -596,9 +596,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Reward hacking: Meaning & Licensing Context | Rancher",
     "meta_description": "Reward hacking occurs when an AI system achieves a high measured reward in a way that misses the intended objective. It exposes a gap between what designers want and what the reward or evaluation mechanism actually measures.",
@@ -721,9 +721,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "RL environment: Meaning & Licensing Context | Rancher",
     "meta_description": "A reinforcement learning environment is the setting an agent interacts with through actions and observations. It supplies state transitions and rewards or feedback, allowing behavior to be learned or evaluated over sequences of interaction.",
@@ -841,9 +841,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "RLHF data: Meaning & Licensing Context | Rancher",
     "meta_description": "RLHF data supplies human feedback used in reinforcement learning from human feedback. It often includes comparisons or rankings of model outputs, with instructions and context needed to understand what reviewers preferred and why.",
@@ -966,9 +966,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Synthetic training data: Meaning & Licensing Context | Rancher",
     "meta_description": "Synthetic training data is generated rather than directly recorded from the target real-world activity. It can come from models, simulations, or rules, and needs validation for usefulness, diversity, errors, privacy, and rights.",
@@ -1087,9 +1087,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Verifier: Meaning & Licensing Context | Rancher",
     "meta_description": "A verifier checks whether a result satisfies defined requirements. It may use rules, tests, environment state, or a model; the reliability of its checks determines what a passing result actually establishes.",
@@ -1208,9 +1208,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "AI training data: Meaning & Licensing Context | Rancher",
     "meta_description": "AI training data is the information used to adjust a model’s learned behavior or parameters. It can include text, images, actions, labels, or other signals; usefulness depends on the training objective, representation, quality, and permissions.",
@@ -1329,9 +1329,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Evaluation data: Meaning & Licensing Context | Rancher",
     "meta_description": "Evaluation data is used to assess a model’s performance on defined tasks or conditions. It should support meaningful comparisons and avoid unintended overlap or information that makes the assessment easier than the real use case.",
@@ -1442,9 +1442,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Fine-tuning: Meaning & Licensing Context | Rancher",
     "meta_description": "Fine-tuning adapts a pre-trained model through additional training for a particular task, domain, or behavior. It changes learned parameters or additional trainable components and is distinct from simply supplying instructions or retrieving documents at runtime.",
@@ -1563,9 +1563,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "AI agents: Meaning & Licensing Context | Rancher",
     "meta_description": "AI agents are systems that use observations and decisions to take actions toward a goal. Their capabilities and autonomy vary; tools, permissions, memory, stopping rules, and outcome checks shape what they can reliably accomplish.",
@@ -1691,9 +1691,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Data leakage: Meaning & Licensing Context | Rancher",
     "meta_description": "In model assessment, data leakage occurs when training or evaluation uses information that would not legitimately be available for the intended prediction. It can inflate performance through overlap, future outcomes, or improper preprocessing.",
@@ -1808,9 +1808,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data exclusivity: Meaning & Licensing Context | Rancher",
     "meta_description": "Data exclusivity restricts whether a provider can license the same data to other recipients. Its value and practical effect depend on which data, uses, markets, parties, and time periods the restriction covers.",
@@ -1921,9 +1921,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data monetization: Meaning & Licensing Context | Rancher",
     "meta_description": "Data monetization is the creation of economic value from data, including internal improvements, data-enabled products, or licensing. Having a large archive does not by itself establish an external market or predictable revenue.",
@@ -2042,9 +2042,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data ownership: Meaning & Licensing Context | Rancher",
     "meta_description": "Data ownership is a shorthand for the rights and control a party has over information. Those rights can come from contracts, intellectual property, privacy rules, or other law; storing data does not establish unrestricted licensing authority.",
@@ -2155,9 +2155,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Permitted use: Meaning & Licensing Context | Rancher",
     "meta_description": "Permitted use defines the activities a recipient is authorized to perform with licensed data. Analysis, model training, evaluation, redistribution, and use of derived artifacts can require different permissions in the agreement.",
@@ -2268,9 +2268,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Non-exclusive licensing: Meaning & Licensing Context | Rancher",
     "meta_description": "Non-exclusive licensing grants permission without reserving the covered rights to one recipient. A provider may retain the ability to grant other licenses, subject to the actual agreement and any pre-existing restrictions.",
@@ -2389,9 +2389,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Licensing scope: Meaning & Licensing Context | Rancher",
     "meta_description": "Licensing scope is the full boundary of a data license: covered records, permitted activities, authorized parties, duration, geography, and other conditions. Clear scope connects commercial expectations to what the recipient can actually do.",
@@ -2502,9 +2502,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Dataset valuation: Meaning & Licensing Context | Rancher",
     "meta_description": "Dataset valuation is an assessment of a dataset’s economic value in a particular context. Utility, rights, quality, scarcity, preparation costs, and the terms of access can matter more than raw record count.",
@@ -2619,9 +2619,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Egocentric video: Meaning & Licensing Context | Rancher",
     "meta_description": "Egocentric video records activity from a participant’s viewpoint, often using a wearable camera. It can show hands, objects, and immediate task context, but camera placement and movement limit what the footage reveals.",
@@ -2732,9 +2732,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Multi-camera video: Meaning & Licensing Context | Rancher",
     "meta_description": "Multi-camera video records a scene or activity from more than one camera. For joint analysis, synchronization, calibration, viewpoint coverage, and consistent event identity determine whether the recordings can be interpreted together.",
@@ -2845,9 +2845,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Sim-to-real gap: Meaning & Licensing Context | Rancher",
     "meta_description": "The sim-to-real gap is the difference between conditions represented in a simulation and those encountered in the real world. Models or policies trained in simulation can fail when appearance, dynamics, sensors, or constraints differ.",
@@ -2958,9 +2958,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Teleoperation: Meaning & Licensing Context | Rancher",
     "meta_description": "Teleoperation is the control of a machine or robot by a human through an interface. Recorded observations and commands can provide demonstrations, but timing, hardware, control mappings, and outcome quality determine how those records can be used.",
@@ -3079,9 +3079,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "World model: Meaning & Licensing Context | Rancher",
     "meta_description": "A world model is a learned representation of an environment and how it may change. It can support prediction, planning, or simulated experience, but useful-looking predictions do not guarantee accurate physical behavior or reliable action outcomes.",
@@ -3217,9 +3217,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data licensing: Meaning & Licensing Context | Rancher",
     "meta_description": "Data licensing is an agreement that permits specified uses of a dataset under defined conditions. It can address access, AI training, sharing, payment, duration, and restrictions without necessarily transferring the underlying rights.",
@@ -3355,9 +3355,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "De-identification: Meaning & Licensing Context | Rancher",
     "meta_description": "De-identification is a process for reducing the association between data and identifiable people or organizations. It combines transformations and disclosure controls; removing names alone does not establish anonymity or eliminate re-identification risk.",
@@ -3485,9 +3485,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Computer-use agent: Meaning & Licensing Context | Rancher",
     "meta_description": "A computer-use agent is an AI system that pursues a task by interacting with software interfaces, such as clicking controls, entering text, and moving between applications. Its actions need permissions, feedback, and checks against the intended outcome.",
@@ -3598,9 +3598,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data annotation: Meaning & Licensing Context | Rancher",
     "meta_description": "Data annotation adds labels or other structured information to source data so a task can be learned or evaluated. Examples include classifying text, marking objects, identifying actions, or recording whether a workflow reached an intended outcome.",
@@ -3711,9 +3711,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data curation: Meaning & Licensing Context | Rancher",
     "meta_description": "Data curation selects, organizes, documents, and maintains data for a defined use. It combines decisions about inclusion and context with quality checks; it is broader than simply cleaning errors or changing file formats.",
@@ -3824,9 +3824,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data provenance: Meaning & Licensing Context | Rancher",
     "meta_description": "Data provenance records where data came from and the people, systems, or activities involved in producing it. It helps assess origin and trustworthiness, while separate rights documentation establishes what uses are authorized.",
@@ -3945,9 +3945,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Training-ready data: Meaning & Licensing Context | Rancher",
     "meta_description": "Training-ready data has been prepared and checked for a specified model-training workflow. Readiness depends on the task, format, quality, documentation, and permissions; it is not a universal certification that any dataset can train any model.",
@@ -4066,9 +4066,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Outcome labels: Meaning & Licensing Context | Rancher",
     "meta_description": "Outcome labels describe the result of an event, decision, or workflow under a defined rule. They can support training or evaluation, but labels such as “successful” need evidence, timing, and a clear distinction from intermediate statuses.",
@@ -4179,9 +4179,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data quality: Meaning & Licensing Context | Rancher",
     "meta_description": "Data quality is the degree to which data is reliable and fit for a particular use. Accuracy, completeness, consistency, timeliness, coverage, and valid interpretation can all matter; quality cannot be judged from file size alone.",
@@ -4292,9 +4292,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data deduplication: Meaning & Licensing Context | Rancher",
     "meta_description": "Data deduplication identifies and removes or consolidates repeated records or content. Exact and near-duplicate detection require different methods, and repeated business events must be distinguished from accidental copies.",
@@ -4405,9 +4405,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Dataset documentation: Meaning & Licensing Context | Rancher",
     "meta_description": "Dataset documentation explains a dataset’s contents, origins, preparation, intended uses, limitations, and access conditions. It helps recipients interpret records correctly and assess suitability without relying on assumptions or an unexplained export.",
@@ -4518,9 +4518,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data lineage: Meaning & Licensing Context | Rancher",
     "meta_description": "Data lineage traces how data moves and changes between sources, processing steps, and outputs. It helps explain a derived value or dataset version and assess the impact of corrections, exclusions, or upstream changes.",
@@ -4631,9 +4631,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Chain of rights: Meaning & Licensing Context | Rancher",
     "meta_description": "A chain of rights is the documented sequence of permissions or transfers supporting a party’s authority to use and license material. It connects original creation and collection to the specific rights offered to a recipient.",
@@ -4751,9 +4751,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Content provenance (C2PA): Meaning & Licensing Context | Rancher",
     "meta_description": "C2PA is a technical standard for recording and verifying signed provenance information associated with digital content. It can help inspect a content history, but it does not establish that a claim is true or that all licensing rights are cleared.",
@@ -4856,9 +4856,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Fair use: Meaning & Licensing Context | Rancher",
     "meta_description": "Fair use is a U.S. copyright doctrine that can permit certain uses without the copyright holder’s authorization. It requires a context-specific assessment of statutory factors and does not automatically authorize every use of material for AI.",
@@ -4977,9 +4977,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Indemnification: Meaning & Licensing Context | Rancher",
     "meta_description": "Indemnification is a contractual allocation of responsibility for specified losses or claims. In a data license, the covered events, limits, exclusions, defense process, and party obligations determine what protection the clause actually provides.",
@@ -5085,9 +5085,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Voice & likeness rights: Meaning & Licensing Context | Rancher",
     "meta_description": "Voice and likeness rights concern uses of a person’s recognizable voice, image, or identity. Applicable protections and permissions vary by jurisdiction and can be separate from copyright in the recording itself.",
@@ -5206,9 +5206,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Onward sharing: Meaning & Licensing Context | Rancher",
     "meta_description": "Onward sharing is the transfer or disclosure of data by a recipient to another party. Affiliates, contractors, research partners, and downstream customers can introduce access and use questions beyond the original license.",
@@ -5334,9 +5334,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Personally identifiable information (PII): Meaning & Licensing Context | Rancher",
     "meta_description": "Personally identifiable information, or PII, is information that can identify a person directly or through linkage with other information. Its boundaries depend on context and applicable rules, including how combinations of seemingly ordinary details can reveal identity.",
@@ -5447,9 +5447,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Pseudonymization: Meaning & Licensing Context | Rancher",
     "meta_description": "Pseudonymization replaces identifying information with substitutes while keeping a way to reconnect records using additional information. It can reduce exposure, but pseudonymized records can still be personal data and require protection.",
@@ -5560,9 +5560,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Anonymization: Meaning & Licensing Context | Rancher",
     "meta_description": "Anonymization aims to make information no longer attributable to identifiable people under the applicable standard. It is a demanding, context-dependent outcome; masking names or replacing them with tokens does not establish it.",
@@ -5681,9 +5681,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Third-party data rights: Meaning & Licensing Context | Rancher",
     "meta_description": "Third-party data rights are rights or permissions held by parties other than the business proposing a data license. Customer content, supplier material, licensed references, and individual privacy interests can limit what that business may grant.",
@@ -5794,9 +5794,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Confidential business information: Meaning & Licensing Context | Rancher",
     "meta_description": "Confidential business information is non-public information subject to duties or expectations of restricted access and use. It can include pricing, customer terms, processes, and commercial plans; some, but not all, may qualify as trade secrets.",
@@ -5907,9 +5907,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Data minimization: Meaning & Licensing Context | Rancher",
     "meta_description": "Data minimization limits collection, use, or disclosure to information appropriate and necessary for a defined purpose. It asks which fields and records are needed before relying on later cleanup or access restrictions.",
@@ -6020,9 +6020,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Redaction: Meaning & Licensing Context | Rancher",
     "meta_description": "Redaction removes or obscures selected information before disclosure. Effective digital redaction must address underlying text, metadata, attachments, and alternate copies; covering visible text is not always enough to remove it.",
@@ -6133,9 +6133,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Re-identification risk: Meaning & Licensing Context | Rancher",
     "meta_description": "Re-identification risk is the possibility of connecting transformed or apparently non-identifying records back to people or entities. It depends on remaining detail, outside information, recipient capabilities, and the conditions of access.",
@@ -6254,9 +6254,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": false,
     "meta_title": "Data retention: Meaning & Licensing Context | Rancher",
     "meta_description": "Data retention defines how long information is kept and what happens when that period or purpose ends. Source files, backups, derived datasets, logs, and model artifacts may need distinct treatment in a licensing agreement.",
@@ -6367,9 +6367,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Dark data: Meaning & Licensing Context | Rancher",
     "meta_description": "Dark data is information an organization collects or retains but does not meaningfully use for analysis or decisions. It may be overlooked, difficult to access, poorly documented, or retained without a clear current purpose.",
@@ -6480,9 +6480,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "System of record: Meaning & Licensing Context | Rancher",
     "meta_description": "A system of record is the designated authoritative source for a particular kind of business information. An organization can have several systems of record, each responsible for different entities, fields, or processes.",
@@ -6608,9 +6608,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Workflow trajectory: Meaning & Licensing Context | Rancher",
     "meta_description": "A workflow trajectory is an ordered record of a particular task’s progression through states, actions, and outcomes. It captures one execution path, including branches or errors, rather than merely describing how a process is supposed to work.",
@@ -6729,9 +6729,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Operational data: Meaning & Licensing Context | Rancher",
     "meta_description": "Operational data is information produced while a business carries out its everyday activities. Orders, service events, inventory changes, and approvals can describe real processes, but their meaning depends on the systems and practices that created them.",
@@ -6850,9 +6850,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Workflow data: Meaning & Licensing Context | Rancher",
     "meta_description": "Workflow data describes how work is organized and performed, including tasks, handoffs, states, decisions, and outcomes. It may span several systems and can include both structured events and supporting documents or messages.",
@@ -6978,9 +6978,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Cross-system context: Meaning & Licensing Context | Rancher",
     "meta_description": "Cross-system context connects related information from different business applications so a task or outcome can be understood. It depends on reliable identities, timing, and field meanings; simply joining tables does not establish a correct relationship.",
@@ -7091,9 +7091,9 @@
         "accessed_on": "2026-09-15"
       }
     ],
-    "reviewer_name": "",
-    "reviewer_role": "",
-    "last_reviewed": null,
+    "reviewer_name": "Edward White",
+    "reviewer_role": "Co-Founder of Rancher",
+    "last_reviewed": "2026-09-15",
     "show_cta": true,
     "meta_title": "Unstructured data: Meaning & Licensing Context | Rancher",
     "meta_description": "Unstructured data is information whose substantive content does not fit neatly into predefined table fields. Documents, free text, images, audio, and video can carry useful context, even when the files also have structured metadata.",

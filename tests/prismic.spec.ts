@@ -274,7 +274,16 @@ test("footer is a reusable singleton and supplies the shared dialog content", as
   expect(homepageSeed.slices.some((s) => s.slice_type === "footer")).toBe(
     false,
   );
-  const edited = { ...footerSeed, dialog_heading: "Shared footer edit" };
+  const edited = {
+    ...footerSeed,
+    dialog_heading: "Shared footer edit",
+    items: [
+      {
+        label: "Editor added link",
+        link: { link_type: "Web", url: "/glossary/" },
+      },
+    ],
+  };
   const result = await fetchSiteContent(
     mockClient(
       document("home", "homepage", homepageSeed),
@@ -284,6 +293,10 @@ test("footer is a reusable singleton and supplies the shared dialog content", as
     ).client,
   );
   expect(result.footer.dialog_heading).toBe("Shared footer edit");
+  expect(result.footer.items).toEqual([
+    { label: "Editor added link", link: "/glossary/" },
+  ]);
+  expect(model.json.Main.items.type).toBe("Group");
   expect(() => parseFooter({ ...footerSeed, dialog_body: [] })).toThrow();
   const broken = {
     ...homepageSeed,

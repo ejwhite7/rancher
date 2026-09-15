@@ -1,10 +1,8 @@
 # Glossary editorial review
 
-60 original drafts: 28 baseline terms and 32 additions. All examples are fictional. No completed reviewer names or review dates have been asserted.
+Edward White, Co-Founder of Rancher, confirmed review of all 60 entries on September 15, 2026. Each entry records that name, role, and review date in Prismic.
 
-Review the current documents in Prismic, then use **Preview → Staging**. The original import was drafted; Prismic now exposes the entries as published, although completed review metadata remains unset. Make editorial changes in Prismic; the importer refuses unexpected overwrites.
-
-Before publication, complete qualified legal/privacy review for relevant entries and technical review for model-training concepts. Enter the actual reviewer’s public name, accurate role, and completed review date in each document. Confirm source support, jurisdiction, examples, rights caveats, and related terms.
+Make subsequent editorial changes in Prismic and update the reviewer metadata after review. The importer refuses unexpected overwrites.
 
 The outline below contains the original draft copy for convenient review. Prismic becomes authoritative once editors revise a document. Source access dates are 2026-09-15 and are separate from review dates.
 

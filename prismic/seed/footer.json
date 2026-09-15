@@ -7,7 +7,7 @@
   "privacy_label": "Privacy Policy",
   "terms_label": "Terms of Use",
   "information_label": "Site information",
-  "cta_label": "Start a partnership ↗",
+  "cta_label": "Start a partnership \u2197",
   "cta_link": {
     "link_type": "Web",
     "url": "#contact"
@@ -25,5 +25,49 @@
       "spans": []
     }
   ],
-  "close_label": "Close"
+  "close_label": "Close",
+  "items": [
+    {
+      "label": "FAQs",
+      "link": {
+        "link_type": "Web",
+        "url": "#faq"
+      }
+    },
+    {
+      "label": "Glossary",
+      "link": {
+        "link_type": "Web",
+        "url": "/glossary/"
+      }
+    },
+    {
+      "label": "Privacy Policy",
+      "link": {
+        "link_type": "Web",
+        "url": "/privacy-policy/"
+      }
+    },
+    {
+      "label": "Terms of Use",
+      "link": {
+        "link_type": "Web",
+        "url": "/terms-of-use/"
+      }
+    },
+    {
+      "label": "Site information",
+      "link": {
+        "link_type": "Web",
+        "url": "#site-note"
+      }
+    },
+    {
+      "label": "Start a partnership \u2197",
+      "link": {
+        "link_type": "Web",
+        "url": "#contact"
+      }
+    }
+  ]
 }

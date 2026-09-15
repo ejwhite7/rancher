@@ -30,7 +30,7 @@ test("60 original drafts match the model, categories, aliases, source contract, 
   const descriptions = new Set();
   for (const d of drafts) {
     const data = glossaryTermSchema.parse(termData(d, shared, ids));
-    expect(isReviewed(data)).toBe(false);
+    expect(isReviewed(data)).toBe(true);
     expect(data.related_terms.length).toBeGreaterThanOrEqual(3);
     expect(data.related_terms.length).toBeLessThanOrEqual(5);
     titles.add(data.meta_title);
@@ -40,7 +40,7 @@ test("60 original drafts match the model, categories, aliases, source contract, 
   expect(descriptions.size).toBe(60);
   expect(() =>
     validateDrafts(drafts, { complete: true, reviewed: true }),
-  ).toThrow(/completed review required/);
+  ).not.toThrow();
   expect(
     glossaryIndexSchema.parse(indexData(shared, ids)).featured_terms,
   ).toHaveLength(6);

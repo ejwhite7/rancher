@@ -28,21 +28,18 @@ const homePath = Astro.url.pathname === "/" ? "" : "/";
         © {new Date().getFullYear()} {copy.copyright}
       </span>
       <nav aria-label={copy.nav_label}>
-        <a href={`${homePath}#faq`}>{copy.faq_label}</a>
-        <a href="/privacy-policy/">{copy.privacy_label}</a>
-        <a href="/terms-of-use/">{copy.terms_label}</a>
-        <a href="#site-note" data-dialog="site-note">
-          {copy.information_label}
-        </a>
-        <a
-          href={
-            copy.cta_link.startsWith("#")
-              ? homePath + copy.cta_link
-              : copy.cta_link
-          }
-        >
-          {copy.cta_label}
-        </a>
+        {copy.items.map((item) => (
+          <a
+            href={
+              item.link.startsWith("#") && item.link !== "#site-note"
+                ? homePath + item.link
+                : item.link
+            }
+            data-dialog={item.link === "#site-note" ? "site-note" : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
       </nav>
     </div>
   </div>
