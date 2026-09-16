@@ -1,0 +1,6 @@
+"Dimension","Training proposal","Evaluation proposal","Owner","Evidence reference","Decision"
+"Primary activity","Use material to influence model development","Assess behavior against a defined task","","",""
+"Permission question","Which adaptation uses and artifacts are covered?","Which tests, recipients and retained results are covered?","","",""
+"Data boundary","Document sources, transformations and allowed reuse","Document held-out selection and exposure","","",""
+"Leakage concern","Avoid using reserved evaluation information in development","Explain known prior use and related-record overlap","","",""
+"Change request","New sources or uses require defined review","A later training request is not automatically permitted","","",""

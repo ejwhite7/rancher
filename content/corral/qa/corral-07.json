@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "report_id": "qa-corral-07-be5ac16633d2",
+  "content_id": "corral-07",
+  "article_sha256": "be5ac16633d2818e5cd1bfb2ce52f13dd056e865a3c3c002dc2f99fdd508d1a1",
+  "profile": {
+    "id": "rancher",
+    "version": "1.0.0"
+  },
+  "policies": {
+    "universal-editorial": "1.0.0",
+    "evidence": "1.0.0",
+    "search-discoverability": "1.0.0"
+  },
+  "generated_at": "2026-09-16T04:58:24.998Z",
+  "validator_version": "1.0.0",
+  "result": "pass",
+  "validation_summary": {
+    "hard_failures": 0,
+    "configurable_failures": 0,
+    "advisories": 0
+  },
+  "findings": []
+}

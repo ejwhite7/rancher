@@ -1,0 +1,163 @@
+{
+  "checked_at": "2026-09-16",
+  "status": "prepared_locally_pending_prismic_authentication",
+  "articles": [
+    {
+      "content_key": "corral-02",
+      "prepared_words": 1302,
+      "qa_result": "pass",
+      "article_links": 1,
+      "glossary_links": 3
+    },
+    {
+      "content_key": "corral-03",
+      "prepared_words": 1268,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 3
+    },
+    {
+      "content_key": "corral-05",
+      "prepared_words": 1259,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 4
+    },
+    {
+      "content_key": "corral-06",
+      "prepared_words": 1265,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 3
+    },
+    {
+      "content_key": "corral-07",
+      "prepared_words": 1258,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 2
+    },
+    {
+      "content_key": "corral-08",
+      "prepared_words": 1254,
+      "qa_result": "pass",
+      "article_links": 1,
+      "glossary_links": 1
+    },
+    {
+      "content_key": "corral-09",
+      "prepared_words": 1255,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 4
+    },
+    {
+      "content_key": "corral-10",
+      "prepared_words": 1249,
+      "qa_result": "pass",
+      "article_links": 1,
+      "glossary_links": 3
+    },
+    {
+      "content_key": "corral-11",
+      "prepared_words": 1249,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 1
+    },
+    {
+      "content_key": "corral-12",
+      "prepared_words": 1223,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 3
+    },
+    {
+      "content_key": "corral-13",
+      "prepared_words": 1269,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 4
+    },
+    {
+      "content_key": "corral-14",
+      "prepared_words": 1245,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 3
+    },
+    {
+      "content_key": "corral-15",
+      "prepared_words": 1279,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 2
+    },
+    {
+      "content_key": "corral-16",
+      "prepared_words": 1260,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 1
+    },
+    {
+      "content_key": "corral-17",
+      "prepared_words": 1276,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 4
+    },
+    {
+      "content_key": "corral-18",
+      "prepared_words": 1245,
+      "qa_result": "pass",
+      "article_links": 1,
+      "glossary_links": 2
+    },
+    {
+      "content_key": "corral-19",
+      "prepared_words": 1352,
+      "qa_result": "pass",
+      "article_links": 3,
+      "glossary_links": 4
+    },
+    {
+      "content_key": "corral-21",
+      "prepared_words": 1261,
+      "qa_result": "pass",
+      "article_links": 3,
+      "glossary_links": 1
+    },
+    {
+      "content_key": "corral-22",
+      "prepared_words": 1237,
+      "qa_result": "pass",
+      "article_links": 2,
+      "glossary_links": 1
+    },
+    {
+      "content_key": "corral-23",
+      "prepared_words": 1256,
+      "qa_result": "pass",
+      "article_links": 3,
+      "glossary_links": 1
+    },
+    {
+      "content_key": "corral-24",
+      "prepared_words": 1242,
+      "qa_result": "pass",
+      "article_links": 3,
+      "glossary_links": 4
+    }
+  ],
+  "browser_checks": {
+    "desktop_width": 1440,
+    "mobile_width": 390,
+    "all_article_text_present": true,
+    "no_horizontal_page_overflow": true,
+    "future_article_links_suppressed": true,
+    "published_glossary_destinations_verified": 17
+  },
+  "cms_imported": false,
+  "native_schedules_activated": false
+}

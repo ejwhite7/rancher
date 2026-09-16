@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "brief_id": "corral-24-brief-v1",
+  "records": [
+    {
+      "evidence_id": "EV-QUALITY",
+      "canonical_url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "title": "AI Risk Management Framework - NIST",
+      "source_owner": "National Institute of Standards and Technology",
+      "source_type": "standards_body",
+      "retrieved_at": "2026-09-15T22:02:11.806919Z",
+      "factual_summary": "The AI RMF is intended for voluntary use to help incorporate trustworthiness considerations into AI work.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "c3a3c524dd9e7c8ee5316e2d76d35fb6e969453ca7a9ab9077d62b1a82e8a7cb",
+      "verification_notes": "Read during source research. This verifies the attributed source statement, not legal suitability or specialist approval of the article.",
+      "supported_claim_ids": [
+        "corral-24-quality"
+      ]
+    },
+    {
+      "evidence_id": "EV-SECURITY",
+      "canonical_url": "https://www.nist.gov/cyberframework",
+      "title": "NIST — Cybersecurity Framework",
+      "source_owner": "National Institute of Standards and Technology",
+      "source_type": "standards_body",
+      "retrieved_at": "2026-09-16T03:41:17.461545+00:00",
+      "factual_summary": "NIST presents its Cybersecurity Framework as a resource for reducing cybersecurity risks.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "8e407d611785796e467787129914cf084ab6d240d941f23aed5884228ebf83be",
+      "verification_notes": "Read primary-source documentation for the attributed statement; not a certification or transaction-specific approval.",
+      "supported_claim_ids": [
+        "corral-24-security"
+      ]
+    }
+  ]
+}

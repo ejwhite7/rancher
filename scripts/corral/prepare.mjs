@@ -54,18 +54,29 @@ const escape = (s) =>
   );
 const rt = (...strings) =>
   strings.map((text) => ({ type: "paragraph", text, spans: [] }));
+function linkedText(block) {
+  let text = block.text;
+  for (const span of [...block.spans]
+    .filter((s) => s.type === "hyperlink")
+    .sort((a, b) => b.start - a.start))
+    text =
+      text.slice(0, span.start) +
+      `[${text.slice(span.start, span.end)}](${span.data.url})` +
+      text.slice(span.end);
+  return text;
+}
 function markdown(d) {
   return d.slices
     .map((s) => {
       const p = s.primary;
       if (s.slice_type === "text_section" || s.slice_type === "callout")
-        return `## ${p.heading}\n\n${p.body.map((b) => b.text).join("\n\n")}`;
+        return `## ${p.heading}\n\n${p.body.map(linkedText).join("\n\n")}`;
       if (s.slice_type === "comparison_table")
         return `## ${p.caption}\n\n| ${[p.column_1, p.column_2, p.column_3].join(" | ")} |\n| --- | --- | --- |\n${s.items.map((r) => `| ${[r.cell_1, r.cell_2, r.cell_3].join(" | ")} |`).join("\n")}`;
       if (s.slice_type === "checklist")
         return `## ${p.heading}\n\n${s.items.map((i) => "- " + i.text).join("\n")}`;
       if (s.slice_type === "faq")
-        return `## ${p.heading}\n\n${s.items.map((i) => `### ${i.question}\n\n${i.answer.map((b) => b.text).join("\n\n")}`).join("\n\n")}`;
+        return `## ${p.heading}\n\n${s.items.map((i) => `### ${i.question}\n\n${i.answer.map(linkedText).join("\n\n")}`).join("\n\n")}`;
       return "";
     })
     .filter(Boolean)
@@ -85,7 +96,9 @@ async function image(file, title, topic) {
   await fs.writeFile(file.replace(".png", ".svg"), svg);
   await sharp(Buffer.from(svg)).png().toFile(file);
 }
-for (const brief of manifest.articles) {
+for (const brief of manifest.articles.filter(
+  (brief) => brief.workflow_state !== "published",
+)) {
   const inputPath = `${root}/drafts/${brief.content_key}.json`;
   let draft;
   try {
@@ -113,7 +126,7 @@ for (const brief of manifest.articles) {
     draft,
     slot,
     profile,
-    renderer_version: "rancher-brand-mark-v2",
+    renderer_version: "rancher-contextual-links-v3",
     source_ledger: await read(root + "/source-ledger.json"),
   };
   const inputHash = createHash("sha256")
@@ -160,6 +173,7 @@ for (const brief of manifest.articles) {
             modified_at: slot.scheduled_at,
             claims: draft.claims || [],
             internal_links: [
+              ...(draft.internal_links || []),
               { url: "/contact/", anchor: brief.cta, inventory_verified: true },
             ],
             media_requirements: [

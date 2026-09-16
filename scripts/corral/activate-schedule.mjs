@@ -26,12 +26,17 @@ const manifest = await read(root + "/manifest.json"),
 const execute = process.argv.includes("--execute");
 const failures = [],
   items = [];
-if (manifest.articles.length !== 24 || slots.length !== 24)
-  failures.push("Expected exactly 24 articles and slots");
+const pending = manifest.articles.filter(
+  (a) => a.workflow_state !== "published",
+);
+if (manifest.articles.length !== 24 || slots.length !== pending.length)
+  failures.push(
+    "Expected complete manifest and one slot per unpublished article",
+  );
 const keys = new Set(),
   uids = new Set(),
   dates = new Set();
-for (const b of manifest.articles) {
+for (const b of pending) {
   if (keys.has(b.content_key) || uids.has(b.uid))
     failures.push("Duplicate article identity");
   keys.add(b.content_key);
@@ -223,14 +228,6 @@ for (let i = 0; i < items.length; i++) {
     await save();
   }
   let expectedCount = await move(brief.content_key, release.id);
-  if (i === 0)
-    for (const key of [
-      "blog-index",
-      "navigation",
-      "footer",
-      "author-edward-white",
-    ])
-      expectedCount += await move(key, release.id);
   const permissions = await editor(`releases/${release.id}/permissions`);
   if (!permissions.canPublish)
     throw Error("Release publishing permission missing");
@@ -251,4 +248,4 @@ for (const { brief, slot } of items) {
   if (r?.timestamp !== Date.parse(slot.scheduled_at))
     throw Error("Schedule readback differs");
 }
-console.log("Verified 24 native Prismic scheduled releases.");
+console.log(`Verified ${items.length} native Prismic scheduled releases.`);

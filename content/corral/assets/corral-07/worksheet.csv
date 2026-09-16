@@ -1,0 +1,6 @@
+"Preparation step","Information it changes","Question that remains","Owner","Evidence reference","Decision"
+"Remove direct identifiers","Deletes specified identity fields","Can context or another field identify the subject?","","",""
+"Use replacement identifiers","Preserves selected links with substituted values","Who can connect those values to other information?","","",""
+"Generalize time or location","Reduces selected precision","Does a rare combination remain identifying?","","",""
+"Review free text","Identifies passages requiring treatment","What formats and edge cases were not reliably checked?","","",""
+"Exclude records or fields","Removes defined material from the delivery","Does the remaining scope support the intended task?","","",""

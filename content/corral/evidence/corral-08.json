@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "brief_id": "corral-08-brief-v1",
+  "records": [
+    {
+      "evidence_id": "EV-PRIVACY",
+      "canonical_url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/",
+      "title": "Pseudonymisation | ICO",
+      "source_owner": "Information Commissioner’s Office",
+      "source_type": "regulator",
+      "retrieved_at": "2026-09-15T22:02:10.475820Z",
+      "factual_summary": "UK guidance states that pseudonymisation reduces risk but does not remove personal data from data-protection law; the guidance is under review.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "0c8bd28abb36ed7a256897a8264a8f6612b80d559bac545362f18c5726d4a712",
+      "verification_notes": "Read during source research. This verifies the attributed source statement, not legal suitability or specialist approval of the article.",
+      "supported_claim_ids": [
+        "corral-08-privacy"
+      ]
+    },
+    {
+      "evidence_id": "EV-SECURITY",
+      "canonical_url": "https://www.nist.gov/cyberframework",
+      "title": "NIST — Cybersecurity Framework",
+      "source_owner": "National Institute of Standards and Technology",
+      "source_type": "standards_body",
+      "retrieved_at": "2026-09-16T03:41:17.461545+00:00",
+      "factual_summary": "NIST presents its Cybersecurity Framework as a resource for reducing cybersecurity risks.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "8e407d611785796e467787129914cf084ab6d240d941f23aed5884228ebf83be",
+      "verification_notes": "Read primary-source documentation for the attributed statement; not a certification or transaction-specific approval.",
+      "supported_claim_ids": [
+        "corral-08-security"
+      ]
+    }
+  ]
+}

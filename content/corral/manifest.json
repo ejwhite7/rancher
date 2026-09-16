@@ -44,12 +44,12 @@
         "corral-08"
       ],
       "original_planned_date": "2026-09-22",
-      "workflow_state": "imported_draft",
+      "workflow_state": "published",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
       "scheduled_at": null,
-      "actual_published_at": null,
+      "actual_published_at": "2026-09-16T03:20:57.000Z",
       "prismic_id": "aqnJlhUAACwAVXo7",
       "locale": "en-us",
       "content_sha256": "70e241b297439faa33a160c1fc75de10b72a9ef42b7c03eed0e536fad56dccc9"
@@ -130,12 +130,12 @@
         "corral-14"
       ],
       "original_planned_date": "2026-10-01",
-      "workflow_state": "imported_draft",
+      "workflow_state": "published",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
       "scheduled_at": null,
-      "actual_published_at": null,
+      "actual_published_at": "2026-09-16T03:20:56.000Z",
       "prismic_id": "aqnKBRUAACsAVXwk",
       "locale": "en-us",
       "content_sha256": "8785349ea9c388d441218a1d39571d6962efe81717d73fab2e41171d034f7fca"
@@ -588,12 +588,12 @@
         "corral-17"
       ],
       "original_planned_date": "2026-11-25",
-      "workflow_state": "imported_draft",
+      "workflow_state": "published",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
       "scheduled_at": null,
-      "actual_published_at": null,
+      "actual_published_at": "2026-09-16T03:20:56.000Z",
       "prismic_id": "aqnKDRUAAC0AVXxN",
       "locale": "en-us",
       "content_sha256": "cf184cce999555233edcc5ca00aee91672d0c21d6de1fb0939dc7c416e73e5ef"

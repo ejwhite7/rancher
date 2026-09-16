@@ -18,7 +18,9 @@ for (const [key, d] of Object.entries(cp.documents)) {
     );
   const b = manifest.articles.find((b) => b.content_key === key);
   if (b) {
-    b.workflow_state = "imported_draft";
+    b.workflow_state = meta.versions.some((v) => v.status === "published")
+      ? "published"
+      : "imported_draft";
     b.prismic_id = d.id;
     const a = JSON.parse(
       await fs.readFile(`content/corral/articles/${key}.json`),

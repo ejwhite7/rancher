@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "content_id": "corral-16",
+  "brief_id": "corral-16-brief-v1",
+  "brand": "rancher",
+  "profile_version": "1.0.0",
+  "policy_versions": {
+    "universal-editorial": "1.0.0",
+    "evidence": "1.0.0",
+    "search-discoverability": "1.0.0"
+  },
+  "title": "How to review AI dataset quality",
+  "description": "Use task-specific checks for completeness, duplicates, labels, coverage, provenance and leakage before calling a dataset ready.",
+  "slug": "ai-dataset-quality-checklist",
+  "canonical_url": "https://www.gorancher.com/blog/ai-dataset-quality-checklist/",
+  "body": "# How to review AI dataset quality\n\nDataset quality is fitness for a defined use, supported by evidence about the records and their limitations. A useful checklist covers completeness, duplicates, label reliability, coverage, provenance, joins and leakage. The checks below are illustrative: acceptance thresholds must be agreed for the recipient’s task, and no checklist by itself establishes licensing rights, privacy clearance or a guaranteed model improvement.\n\n## Specify the unit and the intended decision\n\nQuality checks need a denominator and a purpose. Define whether one unit is a case, event, message, document or [trajectory](/blog/workflow-trajectory/). Then explain what the recipient intends to do with those units. A missing final event may be critical for one evaluation task and irrelevant to a task using only initial categories. Without that context, a generic completeness percentage can look precise while answering the wrong question.\n\nWrite the proposed acceptance questions in operational terms. For example, can each retained event be assigned to a defined case, and can the recipient interpret the outcome field? These are more useful starting points than describing the file as high [quality](/glossary/data-quality/). Identify which checks can be automated, which need human interpretation and which cannot be completed from the available evidence. Preserve those distinctions in the review report.\n\n## Measure missingness where it matters\n\nDistinguish an empty field, an unavailable observation and an event that did not occur. These conditions can look similar in an export but have different meanings. Document the source conventions and check whether they remain consistent across time and record categories. A default value inserted during preparation should not be mistaken for an observed fact merely because it fills a previously empty cell.\n\nInspect complete units rather than only columns. A trajectory may contain every required field on each row yet still be missing an important intermediate event. Conversely, a field may legitimately be absent for a particular category. Define the expected structure for the task, record exceptions and explain any exclusions. Do not improve a reported completeness figure by silently removing difficult cases without documenting the resulting selection.\n\n## Illustrative quality-review scorecard\n\n| Check | Example acceptance question | Evidence to record |\n| --- | --- | --- |\n| Completeness | Does each retained unit contain the context needed for this task? | Field meanings, missing-event rules and exceptions |\n| Duplicates | Can repeated or overlapping cases cross a split boundary? | Methods, grouping rules and unresolved overlap |\n| Labels | Does each outcome mean what the documentation claims? | Label source, definitions and disagreement policy |\n| Coverage | Which periods and cases are absent or underrepresented? | Selection rules and known collection changes |\n| Provenance | Can the delivery be traced to sources and transformations? | Version references and preparation record |\n| Leakage | Did held-out information influence development choices? | Split policy and known prior use |\n\n## Investigate duplicates and overlapping representations\n\nLook for repeated records and for different records that describe the same underlying event. Imports, synchronization and cross-system exports can create overlapping representations. Exact matching may identify some duplicates while missing reformatted or partially copied content. State which methods were used and which kinds of overlap remain uncertain. Deduplication is a preparation decision that should be traceable.\n\nConsider the effect on counts and dataset splits. If one case appears in both training and [evaluation](/blog/training-vs-evaluation-data-licensing/) material through different exports, a recipient may receive a misleading picture of generalization. The relevant grouping may be a case, customer, document family or another unit determined by the task. Do not assume that splitting rows independently is sufficient simply because every row has a unique identifier.\n\n## Check labels against their supporting evidence\n\nAn outcome label should have a documented meaning and a source. Determine whether it reflects an observed result, an administrative state, a later annotation or an inference. Those categories should not be blended without explanation. A closed case is not automatically a successful resolution, and a merged issue is not automatically evidence that the underlying problem was fixed.\n\nReview ambiguous, contradictory and changed labels. Record how disagreements are handled and whether the labeling convention changed during the proposed history. If a sample is used for review, describe its scope and selection rather than presenting it as proof about every record. The goal is a proportionate account of label reliability for the intended task, including cases where the available evidence does not support a confident label.\n\n## Examine coverage and provenance together\n\nCoverage describes which populations, periods, processes and conditions are represented. Provenance describes where the material came from and how it was transformed. Read them together. A historical migration, a changed collection rule or an excluded source can explain a gap that would otherwise look like a real change in behavior. A dataset should make those events visible to the reader.\n\nAsk whether the selection is aligned with the intended use. A collection containing only completed, well-documented cases may be useful for some purposes while failing to represent unresolved or difficult cases. Do not treat a larger file as more representative without evidence. Record the boundaries, including known omissions and uncertain source history, so the recipient can decide whether the collection supports its particular question.\n\n## Guard the boundary between development and evaluation\n\nEvaluation material should not quietly influence the decisions being evaluated. Document how records are assigned to development and held-out sets, and consider related records or later versions that could cross the boundary. The appropriate policy depends on the task, but it should be decided and recorded before the evaluation result is treated as independent evidence.\n\nThe scikit-learn guidance cited below gives a concrete example: preprocessing choices learned from test data can produce overly optimistic estimates. More generally, keep the information used during preparation and model development visible. A split label on a file is not sufficient if related content has already been used elsewhere in the process. Record known prior use and uncertainty rather than promising that contamination is impossible.\n\n## Turn the scorecard into an acceptance discussion\n\nFor each check, record the method, result, scope, limitations and responsible owner. Add a threshold only when the parties have a reason for that threshold and agree how it will be evaluated. The illustrative table deliberately provides questions rather than universal pass marks. A dataset that fails a particular task’s requirements might still support a narrower use, but that needs a new assessment rather than a cosmetic relabeling.\n\nKeep rights, privacy and security decisions separate from the quality scorecard. A technically useful dataset can still be inappropriate to transfer, and a permitted scope can still be unhelpful for the proposed task. The final decision should bring these findings together without substituting one for another. Use the downloadable worksheet to preserve the evidence and decide whether to proceed, revise the scope or stop.\n\n## Before you move forward\n\n- Agree the task and unit before interpreting quality metrics.\n- Document exclusions and their effect on representation.\n- Keep label strength proportionate to its evidence.\n- Use task-specific thresholds rather than invented universal standards.\n\n## Sources and scope\n\nThe scikit-learn documentation warns that allowing test data to influence model development can produce overly optimistic results. NIST describes the AI Risk Management Framework as intended for voluntary use. These sources inform the questions above; they do not establish rights, safety, commercial value or acceptance for a particular dataset. The worksheet is a decision aid, not a clearance certificate.\n\n## Sources\n\n- [scikit-learn — Common pitfalls and recommended practices](https://scikit-learn.org/stable/common_pitfalls.html)\n- [AI Risk Management Framework - NIST](https://www.nist.gov/itl/ai-risk-management-framework)\n\n[Discuss dataset requirements](/contact/)",
+  "author": "Edward White",
+  "published_at": "2026-09-22T16:15:00.000Z",
+  "modified_at": "2026-09-22T16:15:00.000Z",
+  "claims": [
+    {
+      "claim_id": "corral-16-ml",
+      "text": "The scikit-learn documentation warns that allowing test data to influence model development can produce overly optimistic results.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-ML"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    },
+    {
+      "claim_id": "corral-16-quality",
+      "text": "NIST describes the AI Risk Management Framework as intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/blog/workflow-trajectory/",
+      "anchor": "trajectory",
+      "inventory_verified": false
+    },
+    {
+      "url": "/blog/training-vs-evaluation-data-licensing/",
+      "anchor": "evaluation",
+      "inventory_verified": false
+    },
+    {
+      "url": "/glossary/data-quality/",
+      "anchor": "quality",
+      "inventory_verified": true
+    },
+    {
+      "url": "/contact/",
+      "anchor": "Discuss dataset requirements",
+      "inventory_verified": true
+    }
+  ],
+  "media_requirements": [
+    {
+      "kind": "image",
+      "alt": "The Corral — How to review AI dataset quality"
+    }
+  ],
+  "qa_report_path": "content/corral/qa/corral-16.json",
+  "approval": null,
+  "content_sha256": "d15367b5695ff755c8881b4ac2edd06ed2c43e62e64a6fc63472c3da71c45c57"
+}

@@ -1,0 +1,6 @@
+"Before preparation — fictional","Proposed representation","Question to validate","Owner","Evidence reference","Decision"
+"Participant named Alex Example","Stable case token CASE-014","Does the task need a person-level relationship?","","",""
+"Exact event timestamp","Sequence number within the case","Does losing elapsed time prevent the intended analysis?","","",""
+"Detailed troubleshooting note","Documented action category only","What meaning is lost with the text excluded?","","",""
+"Link to an attached document","Attachment outside the candidate scope","Can the remaining sequence still be interpreted?","","",""
+"Closed state after several actions","Explained closure label retained","Does the source support a successful-outcome claim?","","",""

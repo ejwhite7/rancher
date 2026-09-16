@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "brief_id": "corral-10-brief-v1",
+  "records": [
+    {
+      "evidence_id": "EV-QUALITY",
+      "canonical_url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "title": "AI Risk Management Framework - NIST",
+      "source_owner": "National Institute of Standards and Technology",
+      "source_type": "standards_body",
+      "retrieved_at": "2026-09-15T22:02:11.806919Z",
+      "factual_summary": "The AI RMF is intended for voluntary use to help incorporate trustworthiness considerations into AI work.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "c3a3c524dd9e7c8ee5316e2d76d35fb6e969453ca7a9ab9077d62b1a82e8a7cb",
+      "verification_notes": "Read during source research. This verifies the attributed source statement, not legal suitability or specialist approval of the article.",
+      "supported_claim_ids": [
+        "corral-10-quality"
+      ]
+    },
+    {
+      "evidence_id": "EV-ML",
+      "canonical_url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "title": "scikit-learn — Common pitfalls and recommended practices",
+      "source_owner": "scikit-learn contributors",
+      "source_type": "vendor_documentation",
+      "retrieved_at": "2026-09-16T03:41:17.586015+00:00",
+      "factual_summary": "The scikit-learn documentation warns that allowing test data to influence model development can produce overly optimistic results.",
+      "time_sensitive": true,
+      "primary_source_preference": {
+        "sought": true,
+        "result": "primary_used",
+        "reason": "Original source from the responsible public body."
+      },
+      "verification_status": "verified",
+      "required": true,
+      "content_sha256": "9f68cc633c60f7f4373f80a00ab04d961ebf849d0d08a0a3c858e78a09da1952",
+      "verification_notes": "Read primary-source documentation for the attributed statement; not a certification or transaction-specific approval.",
+      "supported_claim_ids": [
+        "corral-10-ml"
+      ]
+    }
+  ]
+}

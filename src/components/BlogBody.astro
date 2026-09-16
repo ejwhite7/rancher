@@ -1,17 +1,17 @@
 ---
 import { asHTML, type RichTextField } from "@prismicio/client";
 import type { BlogArticle } from "../lib/blog";
+import { availableBlogLinks } from "../lib/blog-links";
 import { blogLink } from "../lib/blog";
 interface Props {
   slices: BlogArticle["slices"];
-  liveIds: string[];
+  articles: {id: string; uid: string}[];
   preview?: boolean;
 }
-const { slices, liveIds, preview = false } = Astro.props;
+const { slices, articles } = Astro.props;
 const rich = (value: unknown) =>
-  asHTML(value as RichTextField, {
-    linkResolver: (doc) =>
-      liveIds.includes(doc.id) || preview ? blogLink(doc) : "/blog/",
+  asHTML(availableBlogLinks(value as RichTextField, articles), {
+    linkResolver: blogLink,
   });
 ---
 

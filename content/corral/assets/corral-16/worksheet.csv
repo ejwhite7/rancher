@@ -1,0 +1,7 @@
+"Check","Example acceptance question","Evidence to record","Owner","Evidence reference","Decision"
+"Completeness","Does each retained unit contain the context needed for this task?","Field meanings, missing-event rules and exceptions","","",""
+"Duplicates","Can repeated or overlapping cases cross a split boundary?","Methods, grouping rules and unresolved overlap","","",""
+"Labels","Does each outcome mean what the documentation claims?","Label source, definitions and disagreement policy","","",""
+"Coverage","Which periods and cases are absent or underrepresented?","Selection rules and known collection changes","","",""
+"Provenance","Can the delivery be traced to sources and transformations?","Version references and preparation record","","",""
+"Leakage","Did held-out information influence development choices?","Split policy and known prior use","","",""

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "content_id": "corral-03",
+  "brief_id": "corral-03-brief-v1",
+  "brand": "rancher",
+  "profile_version": "1.0.0",
+  "policy_versions": {
+    "universal-editorial": "1.0.0",
+    "evidence": "1.0.0",
+    "search-discoverability": "1.0.0"
+  },
+  "title": "What determines the value of business data?",
+  "description": "Assess the factors behind business-data value without invented price ranges or confusing a possible fee with net proceeds.",
+  "slug": "business-data-valuation-for-ai",
+  "canonical_url": "https://www.gorancher.com/blog/business-data-valuation-for-ai/",
+  "body": "# What determines the value of business data?\n\nBusiness data has no reliable universal price per record. Its potential licensing value depends on a recipient’s intended use, the usable scope, rights, preparation effort and the terms of a possible agreement. A preliminary assessment can organize those factors and identify missing evidence. It cannot guarantee demand, acceptance, payment or net proceeds before the relevant conditions are agreed.\n\n## Start with a use that somebody can describe\n\nA valuation discussion is more useful when it begins with a task than with a record count. A buyer interested in evaluating support routing may need well-explained issue categories and outcomes. A different buyer considering model training may ask for richer sequences and different permissions. The same source system can support several candidate datasets, each with a different scope, preparation burden and commercial proposition.\n\nAsk the prospective recipient to explain what it is trying to learn or improve, which parts of the dataset matter and what would make the material unsuitable. These answers are inputs to diligence, not promises of a deal. If the intended use remains vague, record that uncertainty before investing heavily in preparation. An estimate based on an imagined buyer should be labeled as an internal scenario rather than a market offer.\n\n## Distinguish volume from usable coverage\n\nA large export can contain repeated records, empty fields, imported history and events with unclear meanings. Count usable cases as well as rows. Explain whether the records cover complete workflows, isolated messages or periodic snapshots. A history of stage changes can mean something different from a file showing only the final stage. More rows do not automatically add more independent information.\n\nEvaluate the period of history in context. Changes in products, customer mix, source systems or operating procedures may create useful variety, but they can also complicate interpretation. Record those changes in the [dataset documentation](/glossary/dataset-documentation/). If a recipient needs current behavior, an extensive older archive may not meet that requirement. If historical comparison is the task, the same archive might warrant closer examination. The value question remains tied to the proposed use.\n\n## Qualitative valuation factors\n\n| Factor | What to document | What remains uncertain |\n| --- | --- | --- |\n| Usable coverage | Distinct cases, history and explained fields | Whether the recipient needs that coverage |\n| Outcome linkage | How actions connect to a defined result | Whether labels support the intended task |\n| Rights and scope | Permitted uses and exclusions | Whether a workable agreement is possible |\n| Preparation effort | People, tools and unresolved transformations | Actual cost until the work is scoped |\n| Commercial terms | Fees, milestones, restrictions and support | Net proceeds before conditions are settled |\n\n## Explain uniqueness without claiming scarcity\n\nDescribe what makes the candidate material different in concrete terms: the sequence of actions available, the kinds of decisions recorded, the relationship between events and outcomes, or the continuity of documentation. Avoid unsupported statements that the dataset is unique, irreplaceable or unavailable elsewhere. You may know your own collection well without knowing everything a recipient could obtain from other sources.\n\nConsider whether the distinctive features survive permitted-use boundaries and exclusions. A dataset may appear attractive because it contains detailed conversations, yet those conversations may be outside the proposed scope. An assessment should describe the remaining material rather than carrying the original claim of richness into a narrower offer. This is where [rights](/blog/company-data-licensing-rights-checklist/), privacy and utility need to be considered together, while remaining separate decisions with their own evidence.\n\n## Use qualitative scenarios before numerical forecasts\n\nConsider two fictional support archives. Archive A has consistent case identifiers, explained actions and a documented resolution field, but limited history. Archive B contains more messages over a longer period, with uncertain case joins and no reliable outcome definition. Neither is automatically worth more. A recipient’s task and the work needed to make the material usable could favor either, or neither.\n\nNow change the contractual assumptions. An unrestricted hypothetical offer is not comparable with an offer limited to a single evaluation purpose, a short term or a defined recipient team. Compare the same scope and permissions before treating two indications of interest as competing prices. The worksheet separates the assumptions so the team can discuss why a scenario looks more or less promising without inventing a dollar range unsupported by actual offers.\n\n## Separate licensing consideration from net proceeds\n\nA headline fee is only one part of the economics. Identify preparation costs, internal staff time, legal work, outside services, partner fees, taxes requiring professional advice and any ongoing support commitments. Distinguish costs that occur before acceptance from costs that depend on a completed transaction. A proposal can have positive gross consideration while producing an unattractive result after the company accounts for its obligations.\n\nWrite down when payment becomes due and what could delay or prevent it. Sample review, delivery checks, acceptance conditions, milestones and termination provisions can change the practical meaning of an amount. Do not describe a conditional payment as money already earned. Where the terms remain undecided, use ranges of assumptions internally and state which inputs are unknown. The point is to make uncertainty visible, not to create an impression of precision.\n\n## Price restrictions as decisions, not just line items\n\n[Exclusivity](/glossary/data-exclusivity/), onward-sharing rights, refresh obligations and support requirements can affect what the company is giving up or committing to do. A restriction on future licensing may have an opportunity cost even when no second buyer is currently known. An ongoing update obligation may require people, documentation and repeated reviews long after an initial delivery. These are commercial choices that should be understood before comparing headline amounts.\n\nAsk which obligations can be bounded in time, scope and effort. A proposal for a fixed historical dataset should not silently become a commitment to deliver every future record from the same systems. Similarly, a recipient’s request for technical help should specify what that help includes. The aim is a comparison of complete offers, including the activities and restrictions attached to them, rather than a ranking of isolated fee numbers.\n\n## Turn an assessment into a useful next decision\n\nA preliminary [assessment](/blog/business-data-assessment/) should end with a list of known facts, important uncertainties and the least costly next step that could resolve them. That step may be clarifying a field, confirming a rights boundary, estimating preparation effort or asking a recipient to specify its intended use. It may also be a decision to stop because the remaining scope or economics do not justify more work.\n\nKeep an evidence trail for every commercial assumption. Record whether a statement comes from a documented offer, an internal estimate or an untested scenario. Revisit the comparison when the dataset or terms change. An assessment can improve the [quality](/glossary/data-quality/) of a decision without producing a transaction. Treat that distinction as part of a responsible valuation process, especially when describing the opportunity to colleagues who have not reviewed the underlying conditions.\n\n## Before you move forward\n\n- Compare offers against the same dataset and permissions.\n- Separate a buyer indication from an executed payment commitment.\n- Estimate costs and obligations before describing net proceeds.\n- Keep stop decisions available when evidence does not justify more work.\n\n## Sources and scope\n\nNIST describes the AI Risk Management Framework as intended for voluntary use. These sources inform the questions above; they do not establish rights, safety, commercial value or acceptance for a particular dataset. The worksheet is a decision aid, not a clearance certificate.\n\n## Sources\n\n- [AI Risk Management Framework - NIST](https://www.nist.gov/itl/ai-risk-management-framework)\n\n[Request a scoped assessment conversation](/contact/)",
+  "author": "Edward White",
+  "published_at": "2026-09-16T16:18:00.000Z",
+  "modified_at": "2026-09-16T16:18:00.000Z",
+  "claims": [
+    {
+      "claim_id": "corral-03-quality",
+      "text": "NIST describes the AI Risk Management Framework as intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/blog/company-data-licensing-rights-checklist/",
+      "anchor": "rights",
+      "inventory_verified": false
+    },
+    {
+      "url": "/blog/business-data-assessment/",
+      "anchor": "assessment",
+      "inventory_verified": false
+    },
+    {
+      "url": "/glossary/dataset-documentation/",
+      "anchor": "dataset documentation",
+      "inventory_verified": true
+    },
+    {
+      "url": "/glossary/data-exclusivity/",
+      "anchor": "Exclusivity",
+      "inventory_verified": true
+    },
+    {
+      "url": "/glossary/data-quality/",
+      "anchor": "quality",
+      "inventory_verified": true
+    },
+    {
+      "url": "/contact/",
+      "anchor": "Request a scoped assessment conversation",
+      "inventory_verified": true
+    }
+  ],
+  "media_requirements": [
+    {
+      "kind": "image",
+      "alt": "The Corral — What determines the value of business data?"
+    }
+  ],
+  "qa_report_path": "content/corral/qa/corral-03.json",
+  "approval": null,
+  "content_sha256": "be2cb4d48e55e9abcec4d2857819217f7d8c14f421528947343c9a6d060f6c08"
+}

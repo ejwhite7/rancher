@@ -1,0 +1,7 @@
+"Area","Question to ask","Evidence to request","Owner","Evidence reference","Decision"
+"Access","Who can receive and use this specific material?","Role scope, authorization and offboarding process","","",""
+"Transfer and storage","How are delivery and copies protected?","Relevant technical description and control scope","","",""
+"Other providers","Which additional parties receive information?","Provider inventory and change process","","",""
+"Logging and incidents","How would access or an incident be investigated?","Logging scope, contacts and response responsibilities","","",""
+"Retention and deletion","What happens to each category of artifact?","Retention schedule and deletion evidence limits","","",""
+"Assurance","Does the evidence cover this actual arrangement?","Current documents with their scope and limitations","","",""

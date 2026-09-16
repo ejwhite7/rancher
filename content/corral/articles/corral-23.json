@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "content_id": "corral-23",
+  "brief_id": "corral-23-brief-v1",
+  "brand": "rancher",
+  "profile_version": "1.0.0",
+  "policy_versions": {
+    "universal-editorial": "1.0.0",
+    "evidence": "1.0.0",
+    "search-discoverability": "1.0.0"
+  },
+  "title": "Why a dataset might not qualify for licensing",
+  "description": "Recognize rights, privacy, quality, economic and demand blockers—and distinguish useful remediation from a promise of eventual acceptance.",
+  "slug": "data-licensing-disqualification",
+  "canonical_url": "https://www.gorancher.com/blog/data-licensing-disqualification/",
+  "body": "# Why a dataset might not qualify for licensing\n\nA business dataset may not qualify for a proposed AI license because the company cannot establish authority, the necessary exclusions remove useful context, the records cannot support the task, handling conditions are unacceptable or no suitable demand exists. Some gaps may be worth investigating; others justify stopping. Improving readiness does not guarantee a buyer, a transaction or a payment.\n\n## Treat qualification as proposal-specific\n\nA dataset is not universally qualified or disqualified independently of its proposed use and terms. A history unsuitable for one evaluation task might support a narrower question, while a technically rich archive may be inappropriate to transfer at all. Define the recipient, task, scope and material conditions before interpreting a readiness result. Otherwise, the team may try to solve a problem that has not been specified.\n\nAvoid turning an initial expression of interest into a requirement to make the dataset work at any cost. Set a limit on investigation and preparation effort, identify decision owners and preserve the option to stop. A useful assessment should make a no-go decision easier to explain when the evidence supports it. The goal is a defensible commercial choice, not a high score on a generic eligibility checklist.\n\n## Stop where authority cannot be established\n\nMissing agreements, uncertain contribution origins or unresolved restrictions can prevent the company from supporting the proposed license. Identify the affected categories and the evidence that would be needed to resolve them. Do not assume that access, age, payment for software or a prior internal use supplies authority for a different external activity. Keep unresolved material outside the candidate transfer.\n\nThe next action might be locating documentation, clarifying the use or narrowing the scope. It might also be a decision that further investigation is not justified. Record the reason rather than converting uncertainty into a favorable assumption. If a restricted category is essential to the intended task, excluding it may remove the basis for the proposal. That is a substantive outcome, not a problem to hide in the documentation.\n\n## Readiness blockers and next decisions\n\n| Blocker | Possible bounded next action | Reason to stop or narrow |\n| --- | --- | --- |\n| Unresolved authority | Locate evidence or clarify the proposed use | The necessary permission cannot be supported |\n| Sensitive or restricted context | Assess a smaller candidate scope | Required exclusions remove the task’s useful information |\n| Missing outcomes or joins | Investigate source definitions and explicit links | The needed evidence was never recorded |\n| Unbounded preparation effort | Estimate a limited investigation first | Costs or obligations are not justified |\n| Absent recipient fit | Seek a specific use requirement | Readiness alone does not establish demand |\n\n## Recognize when privacy boundaries remove the use\n\nA candidate dataset may depend on text, identifiers or relationships that create unacceptable risk or obligations in the proposed release context. Transformation can change the information available, but it does not guarantee that every useful detail can be retained appropriately. Assess what remains after the necessary [exclusions](/blog/ai-training-data-exclusions/) and preparation decisions, with the relevant jurisdiction and recipient assumptions documented.\n\nA fictional workflow may be easy to follow only because it contains a distinctive incident description. If that detail cannot be included and the remaining action codes are ambiguous, the prepared dataset may no longer support the intended task. Do not describe the result as equivalent to the original rich history. The decision may be a different task, a narrower discussion or a stop rather than another round of unsupported assurances.\n\n## Identify missing outcomes and unreliable joins\n\nSome proposed uses require more than a set of well-formed rows. A [workflow trajectory](/glossary/workflow-trajectory/) may need reliable case relationships, event order and an explained outcome. Missing links, uncertain timestamps or administrative closure labels can prevent the records from supporting the desired interpretation. Document these gaps at the level of the task, not just as a count of empty fields.\n\nInvestigation may reveal a recoverable source definition or an overlooked explicit join. It may also show that the required event was never recorded. Distinguish those situations before estimating remediation. A team should not invent a result or infer a relationship simply to complete a trajectory. If the necessary evidence does not exist, changing the proposed use or declining the dataset may be the more honest decision.\n\n## Compare preparation effort with the opportunity\n\nA technically possible preparation plan can still be commercially unattractive. Identify the people, tools, reviews and ongoing work required, and distinguish known costs from uncertain effort. Consider whether the recipient has defined a plausible use and acceptance process before authorizing substantial work. The existence of a large archive is not by itself a reason to fund an open-ended cleanup project.\n\nCompare net economics rather than a hypothetical headline fee. Preparation charges, internal time, partner fees and support obligations can affect the result. Payment may also depend on conditions that are not yet agreed. If the likely effort cannot be bounded or the potential terms do not justify it, stopping can be rational even when some technical gaps could eventually be addressed.\n\n## Accept that demand is a separate condition\n\nA [rights](/blog/company-data-licensing-rights-checklist/)-cleared, documented and well-prepared dataset still needs a recipient whose intended use fits the available scope and terms. Readiness does not create that demand automatically. Avoid describing the absence of a buyer as proof that the company failed to prepare correctly, or suggesting that one additional checklist will necessarily produce a transaction. Commercial interest requires its own evidence.\n\nAsk what would make a further discussion worthwhile: a clearer recipient requirement, a different scope or a documented indication of fit. Keep those possibilities separate from promises. If the company has no reason to expect that more preparation will improve a real opportunity, preserve the inventory and stop spending. A later reassessment can use new evidence without rewriting the earlier decision as a failure.\n\n## Make remediation and stop decisions explicit\n\nFor each blocker, record whether it is potentially remediable, what evidence would be needed and who can decide whether to investigate. A documentation gap may have a bounded next action, while a prohibited use may not. A [quality](/blog/ai-dataset-quality-checklist/) limitation may justify a narrower task, while a missing outcome cannot be recovered merely through formatting. Avoid grouping all blockers into one undifferentiated readiness score.\n\nUse the worksheet to state the current decision and any conditions for reopening it. Keep the history of exclusions, assumptions and costs so the next conversation does not repeat the same unsupported optimism. Remediation is worthwhile when it supports a justified decision, not because every dataset must eventually be licensed. Choosing not to proceed can protect the company’s time, relationships and information while leaving a clear record of why.\n\n## Before you move forward\n\n- Tie qualification to a defined recipient, task and scope.\n- Do not invent missing evidence to improve a readiness score.\n- Give remediation a bounded purpose and effort limit.\n- Record stop decisions and the evidence needed to revisit them.\n\n## Sources and scope\n\nThe ICO explains that pseudonymised personal data remains subject to data-protection law in the UK. NIST describes the AI Risk Management Framework as intended for voluntary use. These sources inform the questions above; they do not establish rights, safety, commercial value or acceptance for a particular dataset. The worksheet is a decision aid, not a clearance certificate.\n\n## Sources\n\n- [Pseudonymisation | ICO](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/)\n- [AI Risk Management Framework - NIST](https://www.nist.gov/itl/ai-risk-management-framework)\n\n[Discuss fit—or decide not to proceed](/contact/)",
+  "author": "Edward White",
+  "published_at": "2026-09-24T16:22:00.000Z",
+  "modified_at": "2026-09-24T16:22:00.000Z",
+  "claims": [
+    {
+      "claim_id": "corral-23-privacy",
+      "text": "The ICO explains that pseudonymised personal data remains subject to data-protection law in the UK.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    },
+    {
+      "claim_id": "corral-23-quality",
+      "text": "NIST describes the AI Risk Management Framework as intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/blog/company-data-licensing-rights-checklist/",
+      "anchor": "rights",
+      "inventory_verified": false
+    },
+    {
+      "url": "/blog/ai-training-data-exclusions/",
+      "anchor": "exclusions",
+      "inventory_verified": false
+    },
+    {
+      "url": "/blog/ai-dataset-quality-checklist/",
+      "anchor": "quality",
+      "inventory_verified": false
+    },
+    {
+      "url": "/glossary/workflow-trajectory/",
+      "anchor": "workflow trajectory",
+      "inventory_verified": true
+    },
+    {
+      "url": "/contact/",
+      "anchor": "Discuss fit—or decide not to proceed",
+      "inventory_verified": true
+    }
+  ],
+  "media_requirements": [
+    {
+      "kind": "image",
+      "alt": "The Corral — Why a dataset might not qualify for licensing"
+    }
+  ],
+  "qa_report_path": "content/corral/qa/corral-23.json",
+  "approval": null,
+  "content_sha256": "5ed66ffee97aae35d232c34a2212d6cac3b0b050ad8bf33ce881186e6e718933"
+}

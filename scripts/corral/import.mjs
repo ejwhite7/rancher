@@ -151,7 +151,7 @@ async function upsert(key, type, uid, data, title) {
     if (
       meta.versions.some((v) => v.status === "published") &&
       !(
-        type === "authors" &&
+        ["authors", "blog-index"].includes(type) &&
         JSON.stringify(existing.data) === JSON.stringify(data)
       )
     )

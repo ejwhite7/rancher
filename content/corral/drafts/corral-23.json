@@ -1,0 +1,366 @@
+{
+  "excerpt": "Recognize rights, privacy, quality, economic and demand blockers—and distinguish useful remediation from a promise of eventual acceptance.",
+  "answer": "A business dataset may not qualify for a proposed AI license because the company cannot establish authority, the necessary exclusions remove useful context, the records cannot support the task, handling conditions are unacceptable or no suitable demand exists. Some gaps may be worth investigating; others justify stopping. Improving readiness does not guarantee a buyer, a transaction or a payment.",
+  "slices": [
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Treat qualification as proposal-specific",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A dataset is not universally qualified or disqualified independently of its proposed use and terms. A history unsuitable for one evaluation task might support a narrower question, while a technically rich archive may be inappropriate to transfer at all. Define the recipient, task, scope and material conditions before interpreting a readiness result. Otherwise, the team may try to solve a problem that has not been specified.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Avoid turning an initial expression of interest into a requirement to make the dataset work at any cost. Set a limit on investigation and preparation effort, identify decision owners and preserve the option to stop. A useful assessment should make a no-go decision easier to explain when the evidence supports it. The goal is a defensible commercial choice, not a high score on a generic eligibility checklist.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Stop where authority cannot be established",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Missing agreements, uncertain contribution origins or unresolved restrictions can prevent the company from supporting the proposed license. Identify the affected categories and the evidence that would be needed to resolve them. Do not assume that access, age, payment for software or a prior internal use supplies authority for a different external activity. Keep unresolved material outside the candidate transfer.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "The next action might be locating documentation, clarifying the use or narrowing the scope. It might also be a decision that further investigation is not justified. Record the reason rather than converting uncertainty into a favorable assumption. If a restricted category is essential to the intended task, excluding it may remove the basis for the proposal. That is a substantive outcome, not a problem to hide in the documentation.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "Readiness blockers and next decisions",
+        "column_1": "Blocker",
+        "column_2": "Possible bounded next action",
+        "column_3": "Reason to stop or narrow"
+      },
+      "items": [
+        {
+          "cell_1": "Unresolved authority",
+          "cell_2": "Locate evidence or clarify the proposed use",
+          "cell_3": "The necessary permission cannot be supported"
+        },
+        {
+          "cell_1": "Sensitive or restricted context",
+          "cell_2": "Assess a smaller candidate scope",
+          "cell_3": "Required exclusions remove the task’s useful information"
+        },
+        {
+          "cell_1": "Missing outcomes or joins",
+          "cell_2": "Investigate source definitions and explicit links",
+          "cell_3": "The needed evidence was never recorded"
+        },
+        {
+          "cell_1": "Unbounded preparation effort",
+          "cell_2": "Estimate a limited investigation first",
+          "cell_3": "Costs or obligations are not justified"
+        },
+        {
+          "cell_1": "Absent recipient fit",
+          "cell_2": "Seek a specific use requirement",
+          "cell_3": "Readiness alone does not establish demand"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Recognize when privacy boundaries remove the use",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A candidate dataset may depend on text, identifiers or relationships that create unacceptable risk or obligations in the proposed release context. Transformation can change the information available, but it does not guarantee that every useful detail can be retained appropriately. Assess what remains after the necessary exclusions and preparation decisions, with the relevant jurisdiction and recipient assumptions documented.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 322,
+                "end": 332,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/ai-training-data-exclusions/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "A fictional workflow may be easy to follow only because it contains a distinctive incident description. If that detail cannot be included and the remaining action codes are ambiguous, the prepared dataset may no longer support the intended task. Do not describe the result as equivalent to the original rich history. The decision may be a different task, a narrower discussion or a stop rather than another round of unsupported assurances.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Identify missing outcomes and unreliable joins",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Some proposed uses require more than a set of well-formed rows. A workflow trajectory may need reliable case relationships, event order and an explained outcome. Missing links, uncertain timestamps or administrative closure labels can prevent the records from supporting the desired interpretation. Document these gaps at the level of the task, not just as a count of empty fields.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 66,
+                "end": 85,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/workflow-trajectory/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Investigation may reveal a recoverable source definition or an overlooked explicit join. It may also show that the required event was never recorded. Distinguish those situations before estimating remediation. A team should not invent a result or infer a relationship simply to complete a trajectory. If the necessary evidence does not exist, changing the proposed use or declining the dataset may be the more honest decision.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Compare preparation effort with the opportunity",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A technically possible preparation plan can still be commercially unattractive. Identify the people, tools, reviews and ongoing work required, and distinguish known costs from uncertain effort. Consider whether the recipient has defined a plausible use and acceptance process before authorizing substantial work. The existence of a large archive is not by itself a reason to fund an open-ended cleanup project.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Compare net economics rather than a hypothetical headline fee. Preparation charges, internal time, partner fees and support obligations can affect the result. Payment may also depend on conditions that are not yet agreed. If the likely effort cannot be bounded or the potential terms do not justify it, stopping can be rational even when some technical gaps could eventually be addressed.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Accept that demand is a separate condition",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A rights-cleared, documented and well-prepared dataset still needs a recipient whose intended use fits the available scope and terms. Readiness does not create that demand automatically. Avoid describing the absence of a buyer as proof that the company failed to prepare correctly, or suggesting that one additional checklist will necessarily produce a transaction. Commercial interest requires its own evidence.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 2,
+                "end": 8,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/company-data-licensing-rights-checklist/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Ask what would make a further discussion worthwhile: a clearer recipient requirement, a different scope or a documented indication of fit. Keep those possibilities separate from promises. If the company has no reason to expect that more preparation will improve a real opportunity, preserve the inventory and stop spending. A later reassessment can use new evidence without rewriting the earlier decision as a failure.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Make remediation and stop decisions explicit",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "For each blocker, record whether it is potentially remediable, what evidence would be needed and who can decide whether to investigate. A documentation gap may have a bounded next action, while a prohibited use may not. A quality limitation may justify a narrower task, while a missing outcome cannot be recovered merely through formatting. Avoid grouping all blockers into one undifferentiated readiness score.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 222,
+                "end": 229,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/ai-dataset-quality-checklist/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Use the worksheet to state the current decision and any conditions for reopening it. Keep the history of exclusions, assumptions and costs so the next conversation does not repeat the same unsupported optimism. Remediation is worthwhile when it supports a justified decision, not because every dataset must eventually be licensed. Choosing not to proceed can protect the company’s time, relationships and information while leaving a clear record of why.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "checklist",
+      "primary": {
+        "heading": "Before you move forward"
+      },
+      "items": [
+        {
+          "text": "Tie qualification to a defined recipient, task and scope."
+        },
+        {
+          "text": "Do not invent missing evidence to improve a readiness score."
+        },
+        {
+          "text": "Give remediation a bounded purpose and effort limit."
+        },
+        {
+          "text": "Record stop decisions and the evidence needed to revisit them."
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Sources and scope",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "The ICO explains that pseudonymised personal data remains subject to data-protection law in the UK. NIST describes the AI Risk Management Framework as intended for voluntary use. These sources inform the questions above; they do not establish rights, safety, commercial value or acceptance for a particular dataset. The worksheet is a decision aid, not a clearance certificate.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    }
+  ],
+  "sources": [
+    {
+      "source_title": "Pseudonymisation | ICO",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/"
+      },
+      "accessed_on": "2026-09-15"
+    },
+    {
+      "source_title": "AI Risk Management Framework - NIST",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+      },
+      "accessed_on": "2026-09-15"
+    }
+  ],
+  "download": {
+    "name": "Readiness blockers and next-action worksheet",
+    "rows": [
+      [
+        "Blocker",
+        "Possible bounded next action",
+        "Reason to stop or narrow",
+        "Owner",
+        "Evidence reference",
+        "Decision"
+      ],
+      [
+        "Unresolved authority",
+        "Locate evidence or clarify the proposed use",
+        "The necessary permission cannot be supported",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Sensitive or restricted context",
+        "Assess a smaller candidate scope",
+        "Required exclusions remove the task’s useful information",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Missing outcomes or joins",
+        "Investigate source definitions and explicit links",
+        "The needed evidence was never recorded",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Unbounded preparation effort",
+        "Estimate a limited investigation first",
+        "Costs or obligations are not justified",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Absent recipient fit",
+        "Seek a specific use requirement",
+        "Readiness alone does not establish demand",
+        "",
+        "",
+        ""
+      ]
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "corral-23-privacy",
+      "text": "The ICO explains that pseudonymised personal data remains subject to data-protection law in the UK.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    },
+    {
+      "claim_id": "corral-23-quality",
+      "text": "NIST describes the AI Risk Management Framework as intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/blog/company-data-licensing-rights-checklist/",
+      "anchor": "rights",
+      "inventory_verified": false
+    },
+    {
+      "url": "/blog/ai-training-data-exclusions/",
+      "anchor": "exclusions",
+      "inventory_verified": false
+    },
+    {
+      "url": "/blog/ai-dataset-quality-checklist/",
+      "anchor": "quality",
+      "inventory_verified": false
+    },
+    {
+      "url": "/glossary/workflow-trajectory/",
+      "anchor": "workflow trajectory",
+      "inventory_verified": true
+    }
+  ]
+}

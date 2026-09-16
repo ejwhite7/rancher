@@ -1,0 +1,6 @@
+"Event and time","Observed record","State or limitation","Owner","Evidence reference","Decision"
+"EVENT-01 · 09:00","CASE-014 assigned category access issue","Initial category only","","",""
+"EVENT-02 · 09:12","CASE-014 routed to specialist queue","Assignee review time unknown","","",""
+"EVENT-03 · 10:05","CASE-014 explicitly linked to ISSUE-031","Relationship recorded; causation unverified","","",""
+"EVENT-04 · 11:20","CASE-014 records workaround action","Message content intentionally omitted","","",""
+"EVENT-05 · next day","CASE-014 changes to closed","Closure is not independently verified success","","",""

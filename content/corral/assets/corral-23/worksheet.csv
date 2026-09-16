@@ -1,0 +1,6 @@
+"Blocker","Possible bounded next action","Reason to stop or narrow","Owner","Evidence reference","Decision"
+"Unresolved authority","Locate evidence or clarify the proposed use","The necessary permission cannot be supported","","",""
+"Sensitive or restricted context","Assess a smaller candidate scope","Required exclusions remove the task’s useful information","","",""
+"Missing outcomes or joins","Investigate source definitions and explicit links","The needed evidence was never recorded","","",""
+"Unbounded preparation effort","Estimate a limited investigation first","Costs or obligations are not justified","","",""
+"Absent recipient fit","Seek a specific use requirement","Readiness alone does not establish demand","","",""

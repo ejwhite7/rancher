@@ -1,0 +1,364 @@
+{
+  "excerpt": "Ask concrete questions about recipients, access, transfer, subprocessors, retention and deletion before sharing a proposed dataset.",
+  "answer": "A security review should establish who will receive the material, how access and transfer are controlled, what other parties are involved and what happens after the permitted use ends. Ask for evidence relevant to the actual arrangement, not broad assurances. Resolve the scope and responsibilities before any sample or delivery. This questionnaire does not certify a provider or establish a universally approved transfer method.",
+  "slices": [
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Define the information and the proposed path",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Security questions become more useful when the dataset and transfer are described. Identify the record categories, exclusions, volume assumptions, intended recipient and permitted use. Explain whether the proposal concerns a metadata discussion, a sample or a larger delivery. These are different activities and should not be covered by an ambiguous approval for data sharing in general.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 115,
+                "end": 125,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/ai-training-data-exclusions/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Map where the material would go and which people or services would interact with it. Include preparation environments, intermediate copies and external providers where relevant. The map does not need to expose secrets or infrastructure details to everyone in the project, but the responsible reviewers need enough information to evaluate the actual path. A claim that data is handled securely cannot replace that understanding.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Ask who can access the material",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Request a description of access roles, how access is granted, how it is reviewed and how it ends. Identify whether access is limited to named teams or includes contractors, affiliates or other parties. Ask how the proposed permissions correspond to the permitted use. A broad commercial relationship should not silently become unrestricted access for every person associated with the recipient.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 253,
+                "end": 266,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/permitted-use/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Discuss authentication and account handling at the level needed for the arrangement. Avoid sending shared credentials or granting source-system administration merely to simplify an initial assessment. If the recipient proposes a specific access mechanism, ask the security owner to assess it and the evidence supporting it. The appropriate method depends on the information and environment; this article does not designate a particular tool as approved.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "Pre-transfer security questionnaire",
+        "column_1": "Area",
+        "column_2": "Question to ask",
+        "column_3": "Evidence to request"
+      },
+      "items": [
+        {
+          "cell_1": "Access",
+          "cell_2": "Who can receive and use this specific material?",
+          "cell_3": "Role scope, authorization and offboarding process"
+        },
+        {
+          "cell_1": "Transfer and storage",
+          "cell_2": "How are delivery and copies protected?",
+          "cell_3": "Relevant technical description and control scope"
+        },
+        {
+          "cell_1": "Other providers",
+          "cell_2": "Which additional parties receive information?",
+          "cell_3": "Provider inventory and change process"
+        },
+        {
+          "cell_1": "Logging and incidents",
+          "cell_2": "How would access or an incident be investigated?",
+          "cell_3": "Logging scope, contacts and response responsibilities"
+        },
+        {
+          "cell_1": "Retention and deletion",
+          "cell_2": "What happens to each category of artifact?",
+          "cell_3": "Retention schedule and deletion evidence limits"
+        },
+        {
+          "cell_1": "Assurance",
+          "cell_2": "Does the evidence cover this actual arrangement?",
+          "cell_3": "Current documents with their scope and limitations"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Review transfer and storage evidence",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Ask how the proposed transfer will be authorized, verified and limited to the agreed recipient. Discuss how copies are protected in transit and at rest, where they are stored and which controls apply to the relevant environment. A statement that encryption is used is a starting point for questions, not a complete account of access, key handling or operational responsibility.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Request evidence that is current and relevant to the service and scope being proposed. A certification, policy document or audit statement may have boundaries that differ from the actual arrangement. Have the responsible reviewer assess those boundaries rather than treating the presence of a logo as universal proof. Do not claim a Rancher certification, integration or transfer method unless the specific capability and evidence have been established.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Identify subprocessors and onward sharing",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Determine whether the recipient plans to involve other organizations or services, and what information they would receive. Ask how those parties are selected, authorized and governed within the proposed arrangement. The company should understand whether a change in provider or processing location would require notice, review or another decision under the actual terms.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Keep technical access and contractual permission aligned. A provider may be able to pass data to another service without the company having agreed that use. Conversely, a contract can describe a boundary that needs practical implementation. Record both the proposed obligation and how it will be carried out. Unexplained onward sharing is a material question to resolve before a sample is transferred, not merely before a final production delivery.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 171,
+                "end": 179,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/ai-data-licensing-agreement-terms/"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Clarify logging and incident responsibilities",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Ask which relevant actions are logged, who can review the records and how the company would obtain information about an issue affecting its material. Define the operational contacts and the process for reporting and responding to incidents. The parties should understand their responsibilities and communication path before an event creates urgency. This guide does not prescribe legal notification periods or substitute for the applicable requirements.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Discuss the limits of the proposed evidence. A log may demonstrate a particular access event without proving every later use of a copy. A policy may describe intended behavior without establishing how a specific incident would be investigated. The review should distinguish controls, monitoring and contractual obligations, and should record uncertainties that affect the company’s willingness to proceed with the proposed scope.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Separate retention and deletion by artifact",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Identify the source files, working copies, transformed datasets, backups, evaluation outputs and trained artifacts that may exist. Ask how long each is retained, what triggers deletion and what evidence can be provided. A single statement that data will be deleted can conceal important differences between these categories. The technical and contractual descriptions should use consistent terms.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Do not assume deleting source records reverses an earlier training activity. Ask the recipient to explain the treatment of resulting artifacts and have the relevant obligations reviewed before transfer. If the proposed use creates consequences the company is not willing to accept, the decision may be to narrow or decline it. A later deletion request should not be the first time these limits are discussed.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Record a decision for the actual arrangement",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Use the questionnaire to connect each answer to evidence, an owner and a decision. Mark unsupported claims or unanswered questions explicitly. The review can identify a conditional next step, require changes or stop the proposal. It should not convert a list of answered questions into a blanket approval for every dataset, recipient and future use.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Revisit the record when the scope, provider, access model or intended activity changes. A small sample can still contain restricted information, and a later full delivery may require additional consideration. Keep the review tied to the version being discussed. The result should help the company understand what is known about the proposed handling, what remains uncertain and whether the defined next step is justified.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "checklist",
+      "primary": {
+        "heading": "Before you move forward"
+      },
+      "items": [
+        {
+          "text": "Define the recipient and path before choosing a transfer method."
+        },
+        {
+          "text": "Request evidence tied to the proposed environment and service."
+        },
+        {
+          "text": "Separate source-file deletion from treatment of resulting artifacts."
+        },
+        {
+          "text": "Reopen the review when the scope or participating parties change."
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Sources and scope",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "NIST presents its Cybersecurity Framework as a resource for reducing cybersecurity risks. The ICO explains that pseudonymised personal data remains subject to data-protection law in the UK. These sources inform the questions above; they do not establish rights, safety, commercial value or acceptance for a particular dataset. The worksheet is a decision aid, not a clearance certificate.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    }
+  ],
+  "sources": [
+    {
+      "source_title": "NIST — Cybersecurity Framework",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.nist.gov/cyberframework"
+      },
+      "accessed_on": "2026-09-16"
+    },
+    {
+      "source_title": "Pseudonymisation | ICO",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/"
+      },
+      "accessed_on": "2026-09-15"
+    }
+  ],
+  "download": {
+    "name": "Pre-transfer security-review questionnaire",
+    "rows": [
+      [
+        "Area",
+        "Question to ask",
+        "Evidence to request",
+        "Owner",
+        "Evidence reference",
+        "Decision"
+      ],
+      [
+        "Access",
+        "Who can receive and use this specific material?",
+        "Role scope, authorization and offboarding process",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Transfer and storage",
+        "How are delivery and copies protected?",
+        "Relevant technical description and control scope",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Other providers",
+        "Which additional parties receive information?",
+        "Provider inventory and change process",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Logging and incidents",
+        "How would access or an incident be investigated?",
+        "Logging scope, contacts and response responsibilities",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Retention and deletion",
+        "What happens to each category of artifact?",
+        "Retention schedule and deletion evidence limits",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Assurance",
+        "Does the evidence cover this actual arrangement?",
+        "Current documents with their scope and limitations",
+        "",
+        "",
+        ""
+      ]
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "corral-22-security",
+      "text": "NIST presents its Cybersecurity Framework as a resource for reducing cybersecurity risks.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-SECURITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    },
+    {
+      "claim_id": "corral-22-privacy",
+      "text": "The ICO explains that pseudonymised personal data remains subject to data-protection law in the UK.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/blog/ai-data-licensing-agreement-terms/",
+      "anchor": "contract",
+      "inventory_verified": true
+    },
+    {
+      "url": "/blog/ai-training-data-exclusions/",
+      "anchor": "exclusions",
+      "inventory_verified": false
+    },
+    {
+      "url": "/glossary/permitted-use/",
+      "anchor": "permitted use",
+      "inventory_verified": true
+    }
+  ]
+}

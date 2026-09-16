@@ -1,0 +1,9 @@
+{
+  "content_key": "corral-07",
+  "content_sha256": "be5ac16633d2818e5cd1bfb2ce52f13dd056e865a3c3c002dc2f99fdd508d1a1",
+  "editorial": null,
+  "specialist": null,
+  "required_roles": "Privacy specialist + counsel",
+  "source_review": "Primary-source research recorded; specialist approval waived by owner",
+  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json"
+}

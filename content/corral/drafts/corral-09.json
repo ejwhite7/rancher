@@ -1,0 +1,396 @@
+{
+  "excerpt": "Explore when support records may form a useful AI dataset, with a fictional ticket schema and clear rights, privacy and quality gates.",
+  "answer": "Support tickets may be candidates for AI licensing when the company can establish the relevant authority, define a permitted scope and document records that suit a recipient’s intended task. A ticket archive is not automatically a usable or transferable dataset. Customer obligations, free text, attachments, missing context and unreliable closure labels all need attention before a proposed sample or delivery.",
+  "slices": [
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Start with the task, not the ticket count",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A recipient interested in support records may be considering different tasks: classifying an incoming issue, suggesting a next action, reconstructing a workflow or evaluating whether a proposed response is appropriate. Each task requires different information. Ask which decision the records are meant to support and what evidence would demonstrate usefulness. A large number of tickets does not answer those questions by itself.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Define the unit being offered. Is it a complete case, an individual message, a sequence of actions or a set of structured fields? Explain whether the material contains the initial issue, later escalations and a documented outcome. If only the final state is available, avoid describing the export as a complete support journey. The data dictionary should make those boundaries understandable before the recipient begins interpreting the records.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Separate the useful structure from unrestricted text",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Structured fields can describe issue categories, event times, action types, routing decisions and closure states. Message bodies and attachments can add context, but they can also contain customer confidential information, personal information or material copied from other sources. Treat them as separate categories in the proposed scope. Do not assume that exporting a ticket grants permission to use every component it contains.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 188,
+                "end": 221,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/confidential-business-information/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Identify internal notes, external messages, attachments and embedded references explicitly. Some systems distinguish them clearly; historical exports may not. Record what the source can actually separate and what remains uncertain. If an exclusion cannot be enforced reliably, change the candidate scope rather than relying on a general promise to remove sensitive content later. The first assessment can remain metadata-only while those implementation questions are investigated.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "Fictional ticket-to-resolution sequence",
+        "column_1": "Time and case",
+        "column_2": "Recorded event",
+        "column_3": "Interpretation limit"
+      },
+      "items": [
+        {
+          "cell_1": "09:00 · CASE-014",
+          "cell_2": "Issue category recorded",
+          "cell_3": "Category meaning needs a documented definition"
+        },
+        {
+          "cell_1": "09:12 · CASE-014",
+          "cell_2": "Assigned to specialist queue",
+          "cell_3": "Assignment is not evidence of immediate review"
+        },
+        {
+          "cell_1": "10:05 · CASE-014",
+          "cell_2": "Linked to ISSUE-031",
+          "cell_3": "A relationship is recorded, not proven causation"
+        },
+        {
+          "cell_1": "11:20 · CASE-014",
+          "cell_2": "Action code changed to workaround",
+          "cell_3": "Action text is outside this illustrative scope"
+        },
+        {
+          "cell_1": "Next day · CASE-014",
+          "cell_2": "Status changed to resolved",
+          "cell_3": "Resolution requires an explained label policy"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Describe the chain of events in a fictional case",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Consider the invented case CASE-014. An issue is opened, routed to a specialist, connected to ISSUE-031 and later marked resolved. The table below shows a minimal illustrative chain, not a real customer record. Stable fictional identifiers make the relationships visible without implying that a company has already reconstructed comparable histories from its systems.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Ask what each event proves. A routing event shows a recorded assignment, not that the assignee read the case immediately. A linked issue shows a recorded relationship, not that the issue caused the customer’s problem. A resolved status shows a state change whose meaning must be explained. The dataset becomes more understandable when these distinctions are documented rather than replaced with a story about what the support team must have thought.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Review customer obligations and linked material",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Locate the agreements and arrangements relevant to the proposed records and use. Customer confidentiality, restrictions on onward sharing and the origin of attached material may affect the scope. A support organization’s operational access is not the same as authority to license the content for an external AI task. The review needs a defined recipient and purpose, not just the general phrase business data.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 123,
+                "end": 137,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/onward-sharing/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Pay attention to records that cross organizational boundaries. A ticket may include a vendor’s instructions, a customer’s internal document or messages involving several entities. Removing obvious names does not resolve those questions. Identify the categories, evidence references and responsible reviewers. Where the history contains different contract versions or acquired systems, record those distinctions rather than assuming one permission applies uniformly to the whole archive.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Treat resolution as a label that needs evidence",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A closure field may reflect a solved problem, an abandoned conversation, a duplicate case or an administrative cleanup. Determine how the source system uses the field and whether that meaning changed over time. If the intended task depends on successful resolution, identify the evidence that supports that interpretation. A convenient status code should not silently become a stronger outcome label in the delivered documentation.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Include exceptions such as reopened cases, transferred cases and missing final events in the quality review. Explain how they are represented or excluded. Removing every difficult case can make the remaining collection easier to handle while changing what it represents. The recipient should know the selection rule and its consequences. Do not claim a success rate or improvement metric from an illustrative schema or a limited preparation exercise.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 93,
+                "end": 100,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/data-quality/"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Check history, joins and duplication",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Evaluate whether events can be connected consistently across the proposed period. Case merges, migrations, changed identifiers and duplicate imports can affect a workflow trajectory. Document the join rules and distinguish a confirmed relationship from an inferred one. If a link is unavailable for part of the history, report that coverage limit rather than filling the gap with an assumption.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 162,
+                "end": 181,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/workflow-trajectory/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "Consider whether multiple rows describe the same underlying exchange. A message may appear in an email export, a ticket event and a linked issue discussion. Those copies can affect counts and the separation of training and evaluation data. The appropriate deduplication and split policy depends on the intended use, but the existence of overlapping representations should be visible. A recipient cannot make an informed assessment if copied events are presented as independent cases.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 223,
+                "end": 238,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/evaluation-data/"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Decide what can be discussed next",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A useful initial conversation can describe record categories, historical coverage, field meanings and known restrictions without sending ticket content. If there is a plausible fit, define the questions that a separately reviewed sample would need to answer. Agree the handling arrangements before preparing that sample. A small file can still contain the very material that the initial exclusions were meant to protect.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 387,
+                "end": 397,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/ai-training-data-exclusions/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "The downloadable schema is an editable starting point for documenting a candidate scope. It does not imply a Rancher connection to Zendesk, Intercom or another platform, and it does not establish that a particular archive qualifies. The next decision may be to clarify labels, narrow the scope, investigate rights or stop. Treat those outcomes as legitimate results of an assessment rather than obstacles to a promised transaction.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "checklist",
+      "primary": {
+        "heading": "Before you move forward"
+      },
+      "items": [
+        {
+          "text": "Define whether the unit is a message, event or complete case."
+        },
+        {
+          "text": "Separate text and attachments from structured fields."
+        },
+        {
+          "text": "Document closure meanings and reopened-case handling."
+        },
+        {
+          "text": "Keep fictional examples distinct from evidence about real inventory."
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Sources and scope",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "The ICO explains that pseudonymised personal data remains subject to data-protection law in the UK. NIST describes the AI Risk Management Framework as intended for voluntary use. These sources inform the questions above; they do not establish rights, safety, commercial value or acceptance for a particular dataset. The worksheet is a decision aid, not a clearance certificate.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    }
+  ],
+  "sources": [
+    {
+      "source_title": "Pseudonymisation | ICO",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-sharing/anonymisation/pseudonymisation/"
+      },
+      "accessed_on": "2026-09-15"
+    },
+    {
+      "source_title": "AI Risk Management Framework - NIST",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+      },
+      "accessed_on": "2026-09-15"
+    }
+  ],
+  "download": {
+    "name": "Illustrative support-case schema",
+    "rows": [
+      [
+        "Time and case",
+        "Recorded event",
+        "Interpretation limit",
+        "Owner",
+        "Evidence reference",
+        "Decision"
+      ],
+      [
+        "09:00 · CASE-014",
+        "Issue category recorded",
+        "Category meaning needs a documented definition",
+        "",
+        "",
+        ""
+      ],
+      [
+        "09:12 · CASE-014",
+        "Assigned to specialist queue",
+        "Assignment is not evidence of immediate review",
+        "",
+        "",
+        ""
+      ],
+      [
+        "10:05 · CASE-014",
+        "Linked to ISSUE-031",
+        "A relationship is recorded, not proven causation",
+        "",
+        "",
+        ""
+      ],
+      [
+        "11:20 · CASE-014",
+        "Action code changed to workaround",
+        "Action text is outside this illustrative scope",
+        "",
+        "",
+        ""
+      ],
+      [
+        "Next day · CASE-014",
+        "Status changed to resolved",
+        "Resolution requires an explained label policy",
+        "",
+        "",
+        ""
+      ]
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "corral-09-privacy",
+      "text": "The ICO explains that pseudonymised personal data remains subject to data-protection law in the UK.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-PRIVACY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    },
+    {
+      "claim_id": "corral-09-quality",
+      "text": "NIST describes the AI Risk Management Framework as intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/blog/ai-training-data-exclusions/",
+      "anchor": "exclusions",
+      "inventory_verified": false
+    },
+    {
+      "url": "/blog/workflow-trajectory/",
+      "anchor": "workflow trajectory",
+      "inventory_verified": false
+    },
+    {
+      "url": "/glossary/confidential-business-information/",
+      "anchor": "customer confidential information",
+      "inventory_verified": true
+    },
+    {
+      "url": "/glossary/evaluation-data/",
+      "anchor": "evaluation data",
+      "inventory_verified": true
+    },
+    {
+      "url": "/glossary/onward-sharing/",
+      "anchor": "onward sharing",
+      "inventory_verified": true
+    },
+    {
+      "url": "/glossary/data-quality/",
+      "anchor": "quality",
+      "inventory_verified": true
+    }
+  ]
+}

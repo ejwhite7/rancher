@@ -1,0 +1,6 @@
+"Opportunity and event","Candidate process field","Boundary or interpretation","Owner","Evidence reference","Decision"
+"DEAL-027 · qualification","Stage transition recorded","Qualification criteria need explanation","","",""
+"DEAL-027 · requirements","Activity category recorded","Notes and contact identities excluded","","",""
+"DEAL-027 · proposal","Proposal-created event","Pricing and attachments outside initial scope","","",""
+"DEAL-027 · closure","Closed-lost state","Reason and cleanup conventions need review","","",""
+"DEAL-027 · later update","Record modified after closure","Modification is not automatically a new customer event","","",""

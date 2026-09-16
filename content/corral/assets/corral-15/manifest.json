@@ -1,0 +1,24 @@
+{
+  "content_key": "corral-15",
+  "article_sha256": "a2f446d7ac1cf3b3f709d132bac3e0d78ada7422f2c0373e9cb135707bc1dc93",
+  "rights": "Original editorial diagrams and share cards created for the user’s Rancher site; no third-party photographs or synthetic customer proof.",
+  "assets": [
+    {
+      "path": "content/corral/assets/corral-15/social.png",
+      "sha256": "3b1583f1d19bcf2fefc2e7cad46af617ff92033ce05b1806934de9ea241c1685",
+      "bytes": 56060,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "path": "content/corral/assets/corral-15/social.svg",
+      "sha256": "30aa0763f9caa5e5d124f925de6437c70ebe4046d1a6679a0c0126010487c414",
+      "bytes": 925
+    },
+    {
+      "path": "content/corral/assets/corral-15/worksheet.csv",
+      "sha256": "ae015a25de917b5362054b6debb2710d8ca983cab5fc6a760cfa60c24ba468cd",
+      "bytes": 765
+    }
+  ]
+}

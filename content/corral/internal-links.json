@@ -1,0 +1,587 @@
+[
+  {
+    "content_key": "corral-02",
+    "links": [
+      {
+        "url": "/blog/ai-data-licensing-agreement-terms/",
+        "anchor": "agreement",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/chain-of-rights/",
+        "anchor": "chain-of-rights",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/onward-sharing/",
+        "anchor": "onward sharing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-licensing/",
+        "anchor": "licensing",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-03",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/business-data-assessment/",
+        "anchor": "assessment",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/dataset-documentation/",
+        "anchor": "dataset documentation",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-exclusivity/",
+        "anchor": "Exclusivity",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-05",
+    "links": [
+      {
+        "url": "/blog/ai-data-licensing-agreement-terms/",
+        "anchor": "agreement",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/license-dataset-multiple-times/",
+        "anchor": "Non-exclusive",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/non-exclusive-licensing/",
+        "anchor": "non-exclusive licensing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-exclusivity/",
+        "anchor": "exclusivity",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-licensing/",
+        "anchor": "licensing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted uses",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-06",
+    "links": [
+      {
+        "url": "/blog/license-business-data-for-ai/",
+        "anchor": "licensing outcome",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights and privacy findings",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/confidential-business-information/",
+        "anchor": "customer confidential information",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted use",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-07",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights review",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclusions",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/de-identification/",
+        "anchor": "de-identification",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/onward-sharing/",
+        "anchor": "onward-sharing",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-08",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/confidential-business-information/",
+        "anchor": "Customer confidential information",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-09",
+    "links": [
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclusions",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/workflow-trajectory/",
+        "anchor": "workflow trajectory",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/confidential-business-information/",
+        "anchor": "customer confidential information",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/evaluation-data/",
+        "anchor": "evaluation data",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/onward-sharing/",
+        "anchor": "onward sharing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-10",
+    "links": [
+      {
+        "url": "/blog/preserve-workflow-context-privacy/",
+        "anchor": "identifiers",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/workflow-trajectory/",
+        "anchor": "workflow trajectory",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/outcome-labels/",
+        "anchor": "Outcome labels",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-11",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclusions",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/redaction/",
+        "anchor": "redaction",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-12",
+    "links": [
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclusion rules",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/workflow-trajectory/",
+        "anchor": "sequence of events",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/confidential-business-information/",
+        "anchor": "Commercial confidentiality",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted use",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "Quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-13",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights review",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclude",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/confidential-business-information/",
+        "anchor": "commercial confidentiality",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/dataset-documentation/",
+        "anchor": "dataset documentation",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-licensing/",
+        "anchor": "licensing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted use",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-14",
+    "links": [
+      {
+        "url": "/blog/ai-data-licensing-agreement-terms/",
+        "anchor": "agreement",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/exclusive-vs-non-exclusive-data-licensing/",
+        "anchor": "exclusivity",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/non-exclusive-licensing/",
+        "anchor": "non-exclusive",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-licensing/",
+        "anchor": "licensing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-15",
+    "links": [
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclusions",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/workflow-trajectory/",
+        "anchor": "trajectory",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/dataset-documentation/",
+        "anchor": "dataset documentation",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/pseudonymization/",
+        "anchor": "Pseudonymization",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-16",
+    "links": [
+      {
+        "url": "/blog/workflow-trajectory/",
+        "anchor": "trajectory",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/training-vs-evaluation-data-licensing/",
+        "anchor": "evaluation",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-17",
+    "links": [
+      {
+        "url": "/blog/ai-data-licensing-agreement-terms/",
+        "anchor": "agreement",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-data-card-template/",
+        "anchor": "documentation",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/evaluation-data/",
+        "anchor": "evaluation data",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/onward-sharing/",
+        "anchor": "onward sharing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted use",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/fine-tuning/",
+        "anchor": "fine-tuning",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-18",
+    "links": [
+      {
+        "url": "/blog/business-data-assessment/",
+        "anchor": "metadata inventory",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/data-exclusivity/",
+        "anchor": "exclusivity",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-licensing/",
+        "anchor": "data licensing",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-19",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights and readiness",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/business-data-valuation-for-ai/",
+        "anchor": "valuation",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-data-licensing-agreement-terms/",
+        "anchor": "agreement",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/non-exclusive-licensing/",
+        "anchor": "Non-exclusive",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/dataset-valuation/",
+        "anchor": "dataset valuation",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/de-identification/",
+        "anchor": "de-identification",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-21",
+    "links": [
+      {
+        "url": "/blog/business-data-assessment/",
+        "anchor": "metadata inventory",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-dataset-quality-checklist/",
+        "anchor": "quality",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-data-card-template/",
+        "anchor": "documentation",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted use",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-22",
+    "links": [
+      {
+        "url": "/blog/ai-data-licensing-agreement-terms/",
+        "anchor": "contract",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclusions",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted use",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-23",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-training-data-exclusions/",
+        "anchor": "exclusions",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-dataset-quality-checklist/",
+        "anchor": "quality",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/workflow-trajectory/",
+        "anchor": "workflow trajectory",
+        "kind": "glossary"
+      }
+    ]
+  },
+  {
+    "content_key": "corral-24",
+    "links": [
+      {
+        "url": "/blog/company-data-licensing-rights-checklist/",
+        "anchor": "rights and readiness",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/business-data-assessment/",
+        "anchor": "assessment",
+        "kind": "article"
+      },
+      {
+        "url": "/blog/ai-data-licensing-security-review/",
+        "anchor": "security",
+        "kind": "article"
+      },
+      {
+        "url": "/glossary/dataset-documentation/",
+        "anchor": "dataset documentation",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-licensing/",
+        "anchor": "licensing",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/permitted-use/",
+        "anchor": "permitted uses",
+        "kind": "glossary"
+      },
+      {
+        "url": "/glossary/data-quality/",
+        "anchor": "quality",
+        "kind": "glossary"
+      }
+    ]
+  }
+]

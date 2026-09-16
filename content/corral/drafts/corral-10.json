@@ -1,0 +1,366 @@
+{
+  "excerpt": "A workflow trajectory connects events, actions and outcomes. This synthetic example shows what recorded history can—and cannot—prove.",
+  "answer": "A workflow trajectory is an ordered, connected account of events and state changes around a task or case. It can preserve context that an isolated record lacks, but it does not automatically reveal human reasoning or prove that the final outcome was successful. A useful trajectory documents identifiers, ordering, joins, missing events and outcome definitions, with clear boundaries between observed facts and interpretation.",
+  "slices": [
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Distinguish a sequence from a collection of rows",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "An isolated ticket, message or issue can describe one part of an activity. A trajectory attempts to connect relevant parts into a sequence around a defined task. The unit might be a support case, a sales process or an engineering change. Define that unit before joining records. Otherwise, a technically valid merge can combine events that do not belong to the same business activity.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "The sequence needs more than timestamps. Identify which fields establish relationships, what the events mean and how changes in state are represented. A later event may refer to an earlier one without being caused by it. Two events close in time may be unrelated. Documentation should distinguish a recorded link from a proposed interpretation so a recipient can assess how much context the reconstructed history actually preserves.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Give identifiers a specific job",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Use a stable case identifier to group events that belong to the same case, and separate event identifiers to distinguish individual observations. If a trajectory crosses systems, document the relationship between source identifiers. Explain whether the join comes from an explicit field, a maintained mapping or an inference. These methods do not provide the same evidence, and the difference should survive into the dataset documentation.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 94,
+                "end": 105,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/blog/preserve-workflow-context-privacy/"
+                }
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "text": "In the fictional example below, CASE-014 links to ISSUE-031 through an explicit recorded relationship. EVENT-01 through EVENT-05 identify observations. Those identifiers are invented solely to explain the structure. They do not represent available Rancher inventory. A real preparation process would also need to consider whether the identifiers or their retained relationships create privacy or confidentiality risks in the proposed release context.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "comparison_table",
+      "primary": {
+        "caption": "Synthetic cross-system trajectory",
+        "column_1": "Event and time",
+        "column_2": "Observed record",
+        "column_3": "State or limitation"
+      },
+      "items": [
+        {
+          "cell_1": "EVENT-01 · 09:00",
+          "cell_2": "CASE-014 assigned category access issue",
+          "cell_3": "Initial category only"
+        },
+        {
+          "cell_1": "EVENT-02 · 09:12",
+          "cell_2": "CASE-014 routed to specialist queue",
+          "cell_3": "Assignee review time unknown"
+        },
+        {
+          "cell_1": "EVENT-03 · 10:05",
+          "cell_2": "CASE-014 explicitly linked to ISSUE-031",
+          "cell_3": "Relationship recorded; causation unverified"
+        },
+        {
+          "cell_1": "EVENT-04 · 11:20",
+          "cell_2": "CASE-014 records workaround action",
+          "cell_3": "Message content intentionally omitted"
+        },
+        {
+          "cell_1": "EVENT-05 · next day",
+          "cell_2": "CASE-014 changes to closed",
+          "cell_3": "Closure is not independently verified success"
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Preserve ordering without inventing precision",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Record the meaning and source of each timestamp. A creation time, ingestion time and last-modified time can describe different events. If sources use different time zones or precision, document how ordering was established. Do not manufacture an exact sequence when the available evidence only supports a partial order. Tied times and missing timestamps should have an explicit treatment.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Consider a case where a batch import makes several old events appear to have happened at the same time. Sorting by that field would produce a misleading account of the workflow. The right response might be to use another documented field, preserve an uncertain ordering or exclude the affected sequence from a task that needs exact order. The choice should be based on the intended use and recorded as a limitation.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Separate actions, states and outcomes",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "An action is something recorded as having been done, while a state describes the case at a point in the process. An outcome is the result being used for the task, with its own definition and evidence. A status change to closed may be an action and a state transition without proving that the underlying customer problem was solved. Explain which interpretation the data supports.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "If a trajectory ends after an escalation, record the missing result rather than labeling the case unsuccessful or successful by default. If a reopened case appears later, decide whether it belongs to the same trajectory and document that rule. Outcome labels should not be stronger than their supporting evidence. This distinction matters when a recipient uses the records to evaluate behavior or learn relationships between actions and results.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 244,
+                "end": 258,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/outcome-labels/"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Read the synthetic example with its limits",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "The invented sequence begins with a category assignment, proceeds through specialist routing and a linked issue, then records a workaround and a closure state. It illustrates an event chain, not a claim that the workaround caused the closure. The example omits message contents and attachments, and it does not provide a verified measure of customer satisfaction. Those omissions are part of the description.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Now imagine EVENT-03 is missing. A reader may see routing followed by a workaround without knowing about the linked issue. The trajectory still contains observations, but a causal story would be less supported. Imagine instead that the final event belongs to another case because of a faulty join. The sequence would be structurally tidy and substantively wrong. Testing missing-context and incorrect-join cases is therefore part of making the representation credible.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Do not confuse recorded history with reasoning",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "A sequence can show that an action followed an observation without showing why a person chose it. A note may provide a stated explanation, but that explanation is itself a recorded artifact with a source and context. Do not fill unobserved reasoning with fluent prose and present it as ground truth. Keep any synthetic explanations clearly separated from observed records.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "The same caution applies to labeling a trajectory as an expert demonstration. The role, competence and decision quality of the participant require evidence beyond the existence of an action log. For some tasks, an imperfect or failed workflow may be useful if it is accurately described. The dataset should make its limitations legible rather than turning every sequence into an example of correct behavior by assumption.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 112,
+                "end": 119,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/data-quality/"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Document selection and intended use",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Define how trajectories enter the candidate dataset. Requiring complete outcomes, for example, may exclude long-running or difficult cases and change the represented population. Record the selection rule, coverage and known omissions. A recipient needs that context to assess whether the collection suits training, evaluation or another permitted purpose. A sequence suitable for one task may be misleading for another.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Use the downloadable event table to discuss structure before exchanging real records. Add references to the source definitions, join policy, timestamp policy and label policy. If the required context cannot be reconstructed or safely included, revise the task or stop the proposal. A workflow trajectory is a representation that needs validation, not a quality certificate and not an assurance that a buyer will accept the resulting dataset.",
+            "spans": [
+              {
+                "type": "hyperlink",
+                "start": 284,
+                "end": 303,
+                "data": {
+                  "link_type": "Web",
+                  "url": "/glossary/workflow-trajectory/"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "checklist",
+      "primary": {
+        "heading": "Before you move forward"
+      },
+      "items": [
+        {
+          "text": "Define the case unit before joining source records."
+        },
+        {
+          "text": "Explain timestamp meaning and uncertain ordering."
+        },
+        {
+          "text": "Distinguish recorded links from inferred relationships."
+        },
+        {
+          "text": "Keep outcome labels and claims about reasoning tied to evidence."
+        }
+      ]
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Sources and scope",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "NIST describes the AI Risk Management Framework as intended for voluntary use. The scikit-learn documentation warns that allowing test data to influence model development can produce overly optimistic results. These sources inform the questions above; they do not establish rights, safety, commercial value or acceptance for a particular dataset. The worksheet is a decision aid, not a clearance certificate.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    }
+  ],
+  "sources": [
+    {
+      "source_title": "AI Risk Management Framework - NIST",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+      },
+      "accessed_on": "2026-09-15"
+    },
+    {
+      "source_title": "scikit-learn — Common pitfalls and recommended practices",
+      "source_url": {
+        "link_type": "Web",
+        "url": "https://scikit-learn.org/stable/common_pitfalls.html"
+      },
+      "accessed_on": "2026-09-16"
+    }
+  ],
+  "download": {
+    "name": "Synthetic workflow trajectory template",
+    "rows": [
+      [
+        "Event and time",
+        "Observed record",
+        "State or limitation",
+        "Owner",
+        "Evidence reference",
+        "Decision"
+      ],
+      [
+        "EVENT-01 · 09:00",
+        "CASE-014 assigned category access issue",
+        "Initial category only",
+        "",
+        "",
+        ""
+      ],
+      [
+        "EVENT-02 · 09:12",
+        "CASE-014 routed to specialist queue",
+        "Assignee review time unknown",
+        "",
+        "",
+        ""
+      ],
+      [
+        "EVENT-03 · 10:05",
+        "CASE-014 explicitly linked to ISSUE-031",
+        "Relationship recorded; causation unverified",
+        "",
+        "",
+        ""
+      ],
+      [
+        "EVENT-04 · 11:20",
+        "CASE-014 records workaround action",
+        "Message content intentionally omitted",
+        "",
+        "",
+        ""
+      ],
+      [
+        "EVENT-05 · next day",
+        "CASE-014 changes to closed",
+        "Closure is not independently verified success",
+        "",
+        "",
+        ""
+      ]
+    ]
+  },
+  "claims": [
+    {
+      "claim_id": "corral-10-quality",
+      "text": "NIST describes the AI Risk Management Framework as intended for voluntary use.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-QUALITY"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    },
+    {
+      "claim_id": "corral-10-ml",
+      "text": "The scikit-learn documentation warns that allowing test data to influence model development can produce overly optimistic results.",
+      "material": true,
+      "support_type": "evidence",
+      "support_ids": [
+        "EV-ML"
+      ],
+      "body_locator": "article.body",
+      "qualification": "Attributed primary-source statement; examples and decision aids are illustrative."
+    }
+  ],
+  "internal_links": [
+    {
+      "url": "/blog/preserve-workflow-context-privacy/",
+      "anchor": "identifiers",
+      "inventory_verified": false
+    },
+    {
+      "url": "/glossary/workflow-trajectory/",
+      "anchor": "workflow trajectory",
+      "inventory_verified": true
+    },
+    {
+      "url": "/glossary/outcome-labels/",
+      "anchor": "Outcome labels",
+      "inventory_verified": true
+    },
+    {
+      "url": "/glossary/data-quality/",
+      "anchor": "quality",
+      "inventory_verified": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "content_key": "corral-10",
+  "content_sha256": "9abd0800657c518348f70064d67af2a800c4cf018a6a65d6fcd766ab513f7b02",
+  "editorial": null,
+  "specialist": null,
+  "required_roles": "Data engineer + support SME",
+  "source_review": "Primary-source research recorded; specialist approval waived by owner",
+  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json"
+}
