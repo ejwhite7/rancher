@@ -135,6 +135,19 @@ export const blogIndexSchema = z.object({
   empty_state: text,
   featured_articles: z.array(z.object({ article: relation })).default([]),
 });
+export const authorSchema = z.object({
+  name: text,
+  title: text,
+  bio: body,
+  socials: z
+    .array(
+      z.object({
+        label: text,
+        url: z.object({ link_type: z.literal("Web"), url }),
+      }),
+    )
+    .default([]),
+});
 export const blogArticleSchema = z.object({
   ...shared,
   content_key: text,
@@ -146,11 +159,9 @@ export const blogArticleSchema = z.object({
   topic: z.enum(blogTopics),
   published_at: timestamp,
   updated_at: timestamp.nullable().optional(),
-  author_name: text,
-  author_bio: body,
+  author: relation.refine((r) => !r.isBroken && r.type === "authors"),
   reviewer_name: heading,
   reviewer_role: heading,
-  hero_image: image,
   slices: z.array(blogSlice).min(1),
   sources: z
     .array(
@@ -166,7 +177,12 @@ export const blogArticleSchema = z.object({
   cta_link: web,
 });
 export type BlogArticle = z.infer<typeof blogArticleSchema>;
-export type BlogRecord = { id: string; uid: string; data: BlogArticle };
+export type BlogRecord = {
+  id: string;
+  uid: string;
+  data: BlogArticle;
+  author?: z.infer<typeof authorSchema>;
+};
 export const blogHeaders = {
   "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
 };
@@ -207,9 +223,26 @@ export async function fetchBlog(client: Client, preview = false) {
     client.getSingle("blog-index"),
     client.getAllByType("blog"),
   ]);
+  const articles = parseBlogRecords(docs, preview);
+  const authorIDs = [
+    ...new Set(articles.map((article) => article.data.author.id)),
+  ];
+  const authors = new Map(
+    await Promise.all(
+      authorIDs.map(async (id) => {
+        const doc = await client.getByID(id);
+        if (doc.type !== "authors")
+          throw Error("Invalid article author relationship");
+        return [id, authorSchema.parse(doc.data)] as const;
+      }),
+    ),
+  );
   return {
     index: blogIndexSchema.parse(index.data),
-    articles: parseBlogRecords(docs, preview),
+    articles: articles.map((article) => ({
+      ...article,
+      author: authors.get(article.data.author.id)!,
+    })),
   };
 }
 export async function blogSiteContent(

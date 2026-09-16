@@ -8,8 +8,8 @@
   },
   "length": {
     "target_words": {
-      "minimum": 500,
-      "maximum": 2000
+      "minimum": 1080,
+      "maximum": 1650
     },
     "enforcement": "configurable"
   },
@@ -26,5 +26,5 @@
       "maximum_external": 12
     }
   },
-  "notes": "Edward White confirmed the byline and accepted the pilots. publishing-policy.json records his explicit waiver of editorial and specialist approval; the Rancher consumer adapter applies it without fabricating approvals. Bio pending his review."
+  "notes": "Edward White confirmed the byline and bio and accepted the pilots. Owner-managed Prismic publishing policy applies. Aim for 1200–1500 words; permitted tolerance is 1080–1650."
 }

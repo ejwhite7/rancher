@@ -69,6 +69,22 @@ Document who reviewed the residual risk for the intended recipients and context.
 
 A new export date alone is not evidence of new editorial or specialist review. Update the card when its scope, transformations, permissions, limitations or supporting checks change, and preserve the previous version. Ask reviewers to assess the changed facts rather than silently copying an earlier approval to a materially different package.
 
+## Build the first card from evidence you already have
+
+Start with a narrow candidate dataset and collect the documents that explain it: a field dictionary, export specification, transformation notes and any quality checks already performed. Write the card alongside those materials. If a statement cannot be traced to a source or a responsible owner, mark it as unverified. A short card with explicit gaps is more useful for a decision than a polished description that conceals uncertainty.
+
+For a fictional service-events dataset, the first draft might identify the export date, the source application and the included event types. It might also say that records before a system migration use a different status vocabulary. That limitation should appear next to the relevant coverage description, not only in a general disclaimer at the bottom. A reader evaluating trends needs to know where apparent changes could reflect the collection process.
+
+Keep the card at the level needed to explain the dataset. Do not copy customer records, credentials or sensitive examples into the documentation merely to make it vivid. If an example row is useful, create a clearly labeled fictional example and check that it illustrates the documented schema. The example should not imply that the real dataset has distributions, outcomes or completeness that have not been measured.
+
+## Use the card to organize buyer questions
+
+Ask the intended reader to identify the decisions they cannot yet make from the card. They might need to understand what a missing value means, whether several events can belong to the same case, or whether outcome labels were recorded at the time of the event or added later. Turn each question into a documented clarification, a measurement task or an explicit limitation. Avoid changing the underlying description simply because a more confident answer would make the dataset easier to market.
+
+A field called closed, for example, could mean that work ended, a record was archived or an administrator cleared a queue. The card should explain the meaning supported by the source system and note any variation across teams or time periods. If the intended use requires a verified outcome and the dataset only records administrative closure, state that mismatch. The reader can then assess whether additional validation would be necessary.
+
+Treat the card and the downloadable template as living documentation with a controlled version. Record who owns updates and which dataset version the current card describes. When a transformation, exclusion or source changes, review the affected sections and preserve the previous version for comparison. The aim is to make it possible to reconstruct what a recipient was told about a particular delivery, including the limitations that were known at the time.
+
 ## Sources
 
 - [NIST — AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework)

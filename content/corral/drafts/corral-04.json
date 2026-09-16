@@ -199,6 +199,54 @@
         ]
       },
       "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Walk one proposed use through the agreement",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "Read the draft agreement against a concrete, fictional example. Suppose a recipient wants historical support records to evaluate a model that categorizes incoming requests. Trace that proposed use from receipt to final deletion: who receives the files, where copies are stored, which team performs the evaluation, what outputs are retained and whether another party can access them. The exercise is a way to identify questions for the negotiating team, not a substitute for interpreting the agreement.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Now change one fact at a time. What if the recipient wants to train a model rather than evaluate it? What if an affiliate takes over the work, or an external contractor runs the evaluation? What if the recipient asks for monthly updates instead of a one-time delivery? Each variation should have a clear treatment in the proposed scope. If the answer depends on informal assurances that do not appear in the draft, record the mismatch for resolution before signing.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Distinguish the material delivered from the results created with it. A contract might refer separately to source records, transformed datasets, annotations, evaluation reports and model artifacts. Ask the parties to use consistent names and explain what permissions apply to each category. Broad phrases such as derived data can hide different expectations. A shared example often makes a disagreement visible sooner than another abstract definition.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
+    },
+    {
+      "slice_type": "text_section",
+      "primary": {
+        "heading": "Make acceptance and change requests operational",
+        "body": [
+          {
+            "type": "paragraph",
+            "text": "An acceptance clause needs a procedure that the people doing the work can follow. Identify the delivery format, the checks the recipient will perform, the period for reporting problems and the process for resolving a disputed rejection. Consider how the parties would handle missing fields, duplicate records or a misunderstanding about historical coverage. This is a checklist for negotiation; it does not prescribe which party should bear a particular cost or risk.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Clarify the boundary between correcting a delivery and expanding the project. Replacing an unreadable file may be different from adding a new source system or supplying a longer period of history. Record how additional work is requested, scoped and priced, and who can authorize it. Otherwise, a limited delivery can become an open-ended preparation obligation without either party making that decision explicitly.",
+            "spans": []
+          },
+          {
+            "type": "paragraph",
+            "text": "Before final approval, assemble the documents that the agreement depends on: the dataset description, exclusions, permitted-use schedule, security requirements and payment milestones. Check that version names and references match. Assign someone to keep the executed documents and the delivery record together. After signing, operational teams need the agreed boundaries in a form they can use; a contract stored away from the people preparing the data will not answer their day-to-day questions.",
+            "spans": []
+          }
+        ]
+      },
+      "items": []
     }
   ],
   "sources": [

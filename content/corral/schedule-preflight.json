@@ -2,10 +2,8 @@
   "mode": "dry-run",
   "ready": false,
   "failures": [
-    "corral-01: QA report failed",
     "corral-02: package incomplete",
     "corral-03: package incomplete",
-    "corral-04: QA report failed",
     "corral-05: package incomplete",
     "corral-06: package incomplete",
     "corral-07: package incomplete",
@@ -21,7 +19,6 @@
     "corral-17: package incomplete",
     "corral-18: package incomplete",
     "corral-19: package incomplete",
-    "corral-20: QA report failed",
     "corral-21: package incomplete",
     "corral-22: package incomplete",
     "corral-23: package incomplete",

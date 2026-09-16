@@ -6,7 +6,7 @@
       "release"
     ],
     "reconciled": true,
-    "slices": 9,
+    "slices": 11,
     "source_count": 3,
     "unresolved_related_keys": [
       "corral-02",
@@ -21,7 +21,7 @@
       "release"
     ],
     "reconciled": true,
-    "slices": 9,
+    "slices": 11,
     "source_count": 2,
     "unresolved_related_keys": [
       "corral-02",
@@ -36,7 +36,7 @@
       "release"
     ],
     "reconciled": true,
-    "slices": 10,
+    "slices": 12,
     "source_count": 2,
     "unresolved_related_keys": [
       "corral-16",
@@ -68,6 +68,15 @@
     "state": [
       "release",
       "published"
+    ],
+    "reconciled": true,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "author-edward-white",
+    "id": "aqn6vBUAACsAVeaE",
+    "state": [
+      "release"
     ],
     "reconciled": true,
     "unresolved_related_keys": []

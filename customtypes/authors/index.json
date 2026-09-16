@@ -1,0 +1,57 @@
+{
+  "id": "authors",
+  "label": "Authors",
+  "repeatable": true,
+  "status": true,
+  "format": "custom",
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "Author identifier"
+        }
+      },
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "Full name"
+        }
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Professional title"
+        }
+      },
+      "bio": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Author biography",
+          "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
+      "socials": {
+        "type": "Group",
+        "config": {
+          "label": "Personal social profiles",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Platform label"
+              }
+            },
+            "url": {
+              "type": "Link",
+              "config": {
+                "label": "Profile URL",
+                "select": "web"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

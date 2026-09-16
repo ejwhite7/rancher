@@ -160,7 +160,7 @@ for (const { brief, article } of items) {
   if (review.cms_payload_sha256 !== deterministicHash(d.data))
     throw Error("CMS payload is not bound to the reviewed package");
   if (
-    d.data.author_name !== article.author ||
+    checkpoint.documents["author-edward-white"]?.data.name !== article.author ||
     Date.parse(d.data.published_at) !== Date.parse(article.published_at)
   )
     throw Error("Prismic metadata differs from approved article");
@@ -213,13 +213,18 @@ for (let i = 0; i < items.length; i++) {
   }
   await move(brief.content_key, release.id);
   if (i === 0)
-    for (const key of ["blog-index", "navigation", "footer"])
+    for (const key of [
+      "blog-index",
+      "navigation",
+      "footer",
+      "author-edward-white",
+    ])
       await move(key, release.id);
   const permissions = await editor(`releases/${release.id}/permissions`);
   if (!permissions.canPublish)
     throw Error("Release publishing permission missing");
   const size = await editor(`releases/${release.id}/size`);
-  if (size.documentsCount !== (i === 0 ? 4 : 1))
+  if (size.documentsCount !== (i === 0 ? 5 : 1))
     throw Error("Unexpected release contents");
   await editor(`releases/${release.id}/schedule`, {
     date: Date.parse(slot.scheduled_at),

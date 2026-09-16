@@ -1,9 +1,8 @@
 # QA report: corral-01
 
-Result: **fail**
-Article SHA-256: `b029200b13a71e3b2febb99ffcdb111071ec0fcfa7d26af9355eb703e72b7082`
+Result: **pass**
+Article SHA-256: `70e241b297439faa33a160c1fc75de10b72a9ef42b7c03eed0e536fad56dccc9`
 
 ## Findings
 
-- **hard / editorial.exact-hash-approval**: Approval is absent or does not match the exact article hash. (/approval/content_sha256)
-- **configurable / profile.allowed-author**: Author Author pending confirmation is not allowed by the profile. (/author)
+No findings.

@@ -40,7 +40,7 @@ const inventory = await editor("core/documents/search", { limit: 100 });
 if (inventory.total !== inventory.results.length)
   throw Error("Incomplete inventory");
 for (const d of inventory.results.filter((d) =>
-  ["blog", "blog-index"].includes(d.custom_type_id),
+  ["blog", "blog-index", "authors"].includes(d.custom_type_id),
 )) {
   if (!Object.values(checkpoint.documents).some((v) => v.id === d.id))
     throw Error("Untracked blog document requires reconciliation");
@@ -51,11 +51,14 @@ const types = typesClient({
 });
 const models = await types.getAllCustomTypes();
 const original = await read(privateRoot + "/public-inventory.json");
-for (const id of ["blog", "blog-index"]) {
+for (const id of ["blog", "blog-index", "authors"]) {
   const local = await read(`customtypes/${id}/index.json`),
     live = models.find((m) => m.id === id);
   if (live && JSON.stringify(live.json) !== JSON.stringify(local.json)) {
-    const old = original.models.find((m) => m.id === id);
+    const old =
+      id === "blog"
+        ? await read(privateRoot + "/previous-blog-model.json")
+        : original.models.find((m) => m.id === id);
     if (!old) throw Error("Untracked blog model");
     assertUnchanged(live, old, id + " model");
   }
@@ -68,7 +71,7 @@ if (!execute) {
   console.log(
     JSON.stringify({
       mode: "dry-run",
-      models: ["blog", "blog-index"],
+      models: ["blog", "blog-index", "authors"],
       creates: ["blog-index", ...keys].filter((k) => !checkpoint.documents[k]),
       tracked: Object.keys(checkpoint.documents),
       publication: false,
@@ -180,6 +183,21 @@ async function upsert(key, type, uid, data, title) {
   }
   return pending.document.id;
 }
+const authorPolicy = (await read(root + "/publishing-policy.json")).author;
+if (authorPolicy.bio_status !== "approved")
+  throw Error("Author bio is not approved");
+const authorID = await upsert(
+  "author-edward-white",
+  "authors",
+  "edward-white",
+  {
+    name: authorPolicy.name,
+    title: authorPolicy.title,
+    bio: [{ type: "paragraph", text: authorPolicy.proposed_bio, spans: [] }],
+    socials: [],
+  },
+  authorPolicy.name,
+);
 for (const b of briefs) {
   const draft = addInlineSources(
       await read(`${root}/drafts/${b.content_key}.json`),
@@ -247,17 +265,14 @@ for (const b of briefs) {
     topic: b.topic,
     published_at: article.published_at.replace(/\.\d{3}Z$/, "+0000"),
     updated_at: null,
-    author_name: article.author,
-    author_bio: [
-      {
-        type: "paragraph",
-        text: "Draft for editorial review. Author and specialist attribution will be set after confirmed review.",
-        spans: [],
-      },
-    ],
+    author: {
+      link_type: "Document",
+      id: authorID,
+      type: "authors",
+      uid: "edward-white",
+    },
     reviewer_name: null,
     reviewer_role: null,
-    hero_image: hero,
     slices,
     sources: draft.sources,
     related_articles: b.related_keys

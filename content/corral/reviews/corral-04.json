@@ -1,10 +1,10 @@
 {
   "content_key": "corral-04",
-  "content_sha256": "c2ffb7dcbf9679826ca86448cb1b4cca94a71f3c3d400e9ca74503910f2dc4c4",
+  "content_sha256": "8785349ea9c388d441218a1d39571d6962efe81717d73fab2e41171d034f7fca",
   "editorial": null,
   "specialist": null,
   "required_roles": "Counsel",
-  "source_review": "Primary-source research recorded separately; specialist review pending",
-  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; transaction-specific interpretations and operational advice require the assigned human review",
-  "cms_payload_sha256": "a47c66d22112d786943b095b77981790462f43f9272c84a628706dde6eb5505f"
+  "source_review": "Primary-source research recorded; specialist approval waived by owner",
+  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json",
+  "cms_payload_sha256": "a4491a477cf93ed45d02e4586a7cabe87db4e09a8350aaa418b5eaaf45e3746c"
 }

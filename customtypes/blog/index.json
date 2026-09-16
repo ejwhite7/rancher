@@ -62,19 +62,6 @@
           "label": "Meaningful editorial update date"
         }
       },
-      "author_name": {
-        "type": "Text",
-        "config": {
-          "label": "Author name"
-        }
-      },
-      "author_bio": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Author description",
-          "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
-        }
-      },
       "reviewer_name": {
         "type": "Text",
         "config": {
@@ -85,14 +72,6 @@
         "type": "Text",
         "config": {
           "label": "Reviewer role"
-        }
-      },
-      "hero_image": {
-        "type": "Image",
-        "config": {
-          "label": "Article hero",
-          "constraint": {},
-          "thumbnails": []
         }
       },
       "slices": {
@@ -342,6 +321,14 @@
             }
           }
         }
+      },
+      "author": {
+        "type": "Link",
+        "config": {
+          "label": "Author",
+          "select": "document",
+          "customtypes": ["authors"]
+        }
       }
     },
     "References": {
@@ -382,9 +369,7 @@
               "config": {
                 "label": "Related article",
                 "select": "document",
-                "customtypes": [
-                  "blog"
-                ]
+                "customtypes": ["blog"]
               }
             }
           }
@@ -410,9 +395,7 @@
         "config": {
           "label": "Site navigation",
           "select": "document",
-          "customtypes": [
-            "navigation"
-          ]
+          "customtypes": ["navigation"]
         }
       },
       "footer": {
@@ -420,9 +403,7 @@
         "config": {
           "label": "Site footer",
           "select": "document",
-          "customtypes": [
-            "footer"
-          ]
+          "customtypes": ["footer"]
         }
       }
     },
@@ -442,7 +423,7 @@
       "meta_image": {
         "type": "Image",
         "config": {
-          "label": "Social sharing image (1200 \u00d7 630)",
+          "label": "Social sharing image (1200 × 630)",
           "constraint": {},
           "thumbnails": []
         }

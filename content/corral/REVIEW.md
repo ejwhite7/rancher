@@ -2,7 +2,7 @@
 
 ## Owner update
 
-Edward White accepted pilots 01, 04 and 20 and explicitly removed editorial and specialist approval requirements. His byline is **Edward White, Co-founder at Rancher**; the proposed bio in `publishing-policy.json` awaits his review. This instruction supersedes the earlier review gates described below and in the original plan. The remaining 21 articles can proceed. Technical validation and CMS integrity checks remain required; no specialist review is implied. The schedule is still inactive.
+Edward White accepted pilots 01, 04 and 20 and explicitly removed editorial and specialist approval requirements. His byline is **Edward White, Co-founder at Rancher**; the bio in `publishing-policy.json` is approved. This instruction supersedes the earlier review gates described below and in the original plan. The remaining 21 articles can proceed. Technical validation and CMS integrity checks remain required; no specialist review is implied. The schedule is still inactive.
 
 ## Review these three unpublished Prismic drafts
 
@@ -35,3 +35,9 @@ All 24 articles must pass the plan’s launch gates before scheduling. The first
 - `qa/`, `reviews/`, `schedule-preflight.json`: explicit pending approvals and missing later packages.
 - `reconciliation/`: imported document identifiers and readback comparisons.
 - `../../docs/corral.md`: integration commands, scheduling gates and rollback procedure.
+
+## Author and length revision
+
+The `authors` repeatable custom type holds the name, title, approved bio and optional labeled social links. Each blog document links to an author. The byline links to the author section on the article, which resolves the relationship using the current published or preview ref. Social URLs are unset until supplied. OG images remain in metadata and index cards, but are not inserted into article bodies. Original explanatory diagrams remain.
+
+Pilot packages now target 1,200–1,500 words, with a permitted 1,080–1,650 range. Edward’s approved bio is stored once in Prismic; article prose remains in the blog documents.

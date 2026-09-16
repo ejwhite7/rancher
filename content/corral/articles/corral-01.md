@@ -51,6 +51,22 @@ A useful first conversation can be limited to systems, categories, approximate h
 
 NIST’s AI Risk Management Framework is intended for voluntary use. It offers a risk-management reference, not a certification that a proposed data license is acceptable. This article describes a decision process; it does not represent a verified Rancher operating procedure or promise that a dataset will qualify.
 
+## Turn a candidate dataset into a concrete proposal
+
+Consider a fictional field-service company that wants to explore licensing maintenance records. Its initial description, “ten years of service data,” leaves important questions unanswered. Does the proposed material include technician notes, equipment identifiers, customer addresses, invoices or photographs? Are repair outcomes recorded consistently? A useful proposal names the included record types and explicitly lists the material that would stay out. This makes the next discussion about an identifiable scope rather than an entire business system.
+
+The inventory owner could prepare a field dictionary with descriptions, approximate coverage and known limitations. A date field might mean job creation in one system and completion in another. A status called resolved might indicate administrative closure rather than a verified repair. Capture these distinctions before describing the records as outcome-linked. If the meaning cannot be established, mark it as unknown and explain what investigation would be needed. Do not fill gaps with assumptions simply to make the proposal look complete.
+
+Keep the first discussion at the level of descriptions and aggregate estimates. If a recipient later requests examples, make sample preparation a separate decision with a defined recipient, purpose and handling arrangement. A synthetic example can illustrate a schema without revealing an actual customer record, but it must be labeled synthetic and must not be presented as evidence of real coverage or quality.
+
+## Give the exploration a budget and an owner
+
+Before committing to preparation, write down who can authorize work and how much time the company is willing to spend investigating the opportunity. Include the people needed to interpret the source system, review restrictions, prepare a candidate extract and answer questions. A possible licensing payment is only one side of the decision. Internal effort, ongoing support expectations and restrictions on future use of the material also matter.
+
+Use a short decision log rather than relying on a long email thread. For each open issue, record the question, its owner, the evidence needed and the next decision. For example, a missing agreement is an authority question; an unexplained status field is a documentation question; an uncertain acceptance milestone is a commercial question. Separating them helps the company avoid treating a promising buyer conversation as permission to transfer data.
+
+Agree on stopping conditions as well as next steps. The company might pause if the useful fields cannot be separated from excluded material, if preparation costs remain uncertain, or if the proposed use is wider than it is willing to permit. Record the reason and preserve the inventory for a future reassessment. Exploring a license can be useful even when the decision is to retain the data internally.
+
 ## Sources
 
 - [U.S. Copyright Office — Copyright and Artificial Intelligence](https://www.copyright.gov/ai/)

@@ -33,9 +33,12 @@ const data = {
   topic: "Start here",
   published_at: "2026-09-16T13:00:00+0000",
   updated_at: null,
-  author_name: "Fixture author",
-  author_bio: rt,
-  hero_image: img,
+  author: {
+    link_type: "Document",
+    id: "author",
+    type: "authors",
+    isBroken: false,
+  },
   slices: [
     {
       slice_type: "text_section",
@@ -173,4 +176,9 @@ test("Content Engine accepts the explicit Rancher contract extension and blocks 
     "exact-content-hash human approval is required",
   );
   expect(result.errors).toContain("adapter publish capability is disabled");
+});
+
+test("articles require an intact author relationship", () => {
+  expect(blogArticleSchema.safeParse({...data, author:{...data.author,isBroken:true}}).success).toBe(false);
+  expect(blogArticleSchema.safeParse({...data, author:{...data.author,type:'blog'}}).success).toBe(false);
 });

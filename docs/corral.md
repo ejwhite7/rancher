@@ -2,7 +2,7 @@
 
 ## Owner update
 
-Edward White accepted pilots 01, 04 and 20 and explicitly removed editorial and specialist approval requirements. His byline is **Edward White, Co-founder at Rancher**; the proposed bio in `publishing-policy.json` awaits his review. This instruction supersedes the earlier review gates described below and in the original plan. The remaining 21 articles can proceed. Technical validation and CMS integrity checks remain required; no specialist review is implied. The schedule is still inactive.
+Edward White accepted pilots 01, 04 and 20 and explicitly removed editorial and specialist approval requirements. His byline is **Edward White, Co-founder at Rancher**; the bio in `publishing-policy.json` is approved. This instruction supersedes the earlier review gates described below and in the original plan. The remaining 21 articles can proceed. Technical validation and CMS integrity checks remain required; no specialist review is implied. The schedule is still inactive.
 
 ## Current rollout
 
@@ -50,3 +50,9 @@ Reviewable article Markdown is in `content/corral/articles/`; Prismic document I
 Cancel scheduled native releases through Prismic if approved content changes; update the package and repeat review before rescheduling. Code rollback does not unpublish CMS content. Preserve the prior deployment and `.prismic-migration/corral/` snapshots. Do not delete referenced assets. After launch, verify all newly live URLs, source/download links, sitemap and inquiry tracking; perform the plan’s day-1, day-7 and day-28 checks with actual publication dates.
 
 After draft imports or discovery updates, refresh the migration release with `refresh-preview.mjs --execute`, then start a **new** session using Prismic Preview → Staging. Existing preview tokens retain the earlier ref and can omit newly imported documents. Refreshing does not publish.
+
+## Shared authors
+
+The `authors` repeatable custom type contains `name`, `title`, rich-text `bio`, and repeatable `socials` (`label` plus HTTPS `url`). Blog `author` is a content relationship restricted to authors. The first scheduled release includes Edward’s author document along with the index, navigation, footer and first post (five documents). Resolve authors from the same Prismic ref as articles; broken or wrong-type relationships fail validation. Article bylines link to the rendered author section. OG images are metadata/card images only; article-body images must be explicit content slices.
+
+Length target: 1,200–1,500 words, tolerance 1,080–1,650. Owner-approved biography is recorded in `content/corral/publishing-policy.json`. No social profile is inferred.

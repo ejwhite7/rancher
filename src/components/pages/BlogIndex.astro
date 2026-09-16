@@ -60,10 +60,10 @@ const schema = {
             <article>
               <a href={`/blog/${doc.uid}/`}>
                 <img
-                  src={doc.data.hero_image.url}
-                  alt={doc.data.hero_image.alt}
-                  width={doc.data.hero_image.dimensions.width}
-                  height={doc.data.hero_image.dimensions.height}
+                  src={doc.data.meta_image.url}
+                  alt={doc.data.meta_image.alt}
+                  width={doc.data.meta_image.dimensions.width}
+                  height={doc.data.meta_image.dimensions.height}
                 />
                 <p class="blog-topic">{doc.data.topic}</p>
                 <h3>{doc.data.title[0].text}</h3>

@@ -15,6 +15,8 @@ interface Props {
   preview?: boolean;
 }
 const { document, articles, content, preview = false } = Astro.props;
+const author = document.author;
+if (!author) throw Error("Article author could not be resolved");
 const d = document.data,
   title = d.title[0].text,
   url = `${PUBLIC_SITE}/blog/${document.uid}/`;
@@ -38,7 +40,7 @@ const schema = {
       mainEntityOfPage: url,
       url,
       image: [d.meta_image.url],
-      author: { "@type": "Person", name: d.author_name },
+      author: { "@type": "Person", name: author.name, jobTitle: author.title, sameAs: author.socials.map((social) => social.url.url) },
       publisher: { "@type": "Organization", name: "Rancher", url: PUBLIC_SITE },
       datePublished: d.published_at,
       dateModified: d.updated_at || d.published_at,
@@ -73,7 +75,7 @@ const schema = {
   glossarySchema={schema}
   preview={preview}
   article={{
-    author: d.author_name,
+    author: author.name,
     published: d.published_at,
     modified: d.updated_at || d.published_at,
   }}
@@ -96,7 +98,7 @@ const schema = {
           set:html={asHTML(d.answer_summary as RichTextField)}
         />
         <p class="blog-byline">
-          By {d.author_name} ·{" "}
+          By <a href="#author">{author.name}</a> ·{" "}
           <time datetime={d.published_at}>{date(d.published_at)}</time> ·{" "}
           {readingMinutes(d)} min read
         </p>
@@ -111,13 +113,7 @@ const schema = {
             {d.reviewer_role ? `, ${d.reviewer_role}` : ""}
           </p>
         )}
-        <img
-          class="blog-hero"
-          src={d.hero_image.url}
-          alt={d.hero_image.alt}
-          width={d.hero_image.dimensions.width}
-          height={d.hero_image.dimensions.height}
-        />
+
       </header>
       <nav class="blog-toc" aria-label="On this page">
         <h2>On this page</h2>
@@ -149,9 +145,11 @@ const schema = {
           ))}
         </ul>
       </section>
-      <section class="blog-author">
-        <h2>About the author</h2>
-        <div set:html={asHTML(d.author_bio as RichTextField)} />
+      <section class="blog-author" id="author">
+        <h2>About {author.name}</h2>
+        <p>{author.title}</p>
+        <div set:html={asHTML(author.bio as RichTextField)} />
+        {author.socials.length > 0 && <ul aria-label="Author social profiles">{author.socials.map((social) => <li><a href={social.url.url} rel="me noopener noreferrer">{social.label}</a></li>)}</ul>}
       </section>
       <p>
         <a

@@ -18,5 +18,20 @@
     "id": "aqnKZhUAADAAVX4E",
     "type": "blog-index",
     "uid": null
+  },
+  "navigation": {
+    "id": "aqltoBUAADEAU_-i",
+    "type": "navigation",
+    "uid": null
+  },
+  "footer": {
+    "id": "aqlujBUAADEAVAKN",
+    "type": "footer",
+    "uid": null
+  },
+  "author-edward-white": {
+    "id": "aqn6vBUAACsAVeaE",
+    "type": "authors",
+    "uid": "edward-white"
   }
 }
