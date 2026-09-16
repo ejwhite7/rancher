@@ -78,6 +78,7 @@ const isDevelopment = import.meta.env.DEV;
     // POSTHOG_BROWSER_SNIPPET_END
     window.posthog.init(projectToken, {
       api_host: host,
+      opt_in_site_apps: true,
       defaults: "2026-01-30",
       capture_exceptions: {
         capture_unhandled_errors: true,
