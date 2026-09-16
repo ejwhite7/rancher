@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "batch_id": "the-corral-launch-2026",
-  "release_policy": "Three articles each weekday, one randomized minute in each approved window; activate only after required reviews",
+  "release_policy": "Three articles each weekday, one randomized minute in each requested window; owner-managed Prismic publication without editorial or specialist approval. Technical validation remains required.",
   "schedule": {
     "timezone": "America/New_York",
     "windows": [
@@ -717,5 +717,14 @@
       "prismic_id": null,
       "locale": "en-us"
     }
-  ]
+  ],
+  "pilot_acceptance": {
+    "accepted_by": "Edward White",
+    "content_keys": [
+      "corral-01",
+      "corral-04",
+      "corral-20"
+    ],
+    "recorded_at": "2026-09-16T02:06:13.065476+00:00"
+  }
 }

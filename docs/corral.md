@@ -1,5 +1,9 @@
 # The Corral
 
+## Owner update
+
+Edward White accepted pilots 01, 04 and 20 and explicitly removed editorial and specialist approval requirements. His byline is **Edward White, Co-founder at Rancher**; the proposed bio in `publishing-policy.json` awaits his review. This instruction supersedes the earlier review gates described below and in the original plan. The remaining 21 articles can proceed. Technical validation and CMS integrity checks remain required; no specialist review is implied. The schedule is still inactive.
+
 ## Current rollout
 
 The user’s weekday cadence supersedes the plan’s simultaneous launch: one article at a persisted random minute in each 09:00–10:00, 12:00–13:00 and 16:00–17:00 America/New_York window, Monday–Friday. The original CSV dates remain provenance only. `proposed-schedule.json` is a **proposal**, not an active publishing schedule. If a proposed slot passes before approvals, regenerate dates, update draft metadata and obtain new hash-bound approvals; never backdate a launch.

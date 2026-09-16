@@ -9,6 +9,10 @@ import {
   renderQaMarkdown,
   validateRancherContract,
 } from "./engine.mjs";
+import {
+  applyApprovalPolicy,
+  ownerManagedPublishing,
+} from "./approval-policy.mjs";
 import { planSchedule } from "./schedule.mjs";
 const root = "content/corral",
   read = async (p) => JSON.parse(await fs.readFile(p, "utf8")),
@@ -18,6 +22,7 @@ const root = "content/corral",
   };
 const manifest = await read(root + "/manifest.json"),
   profile = await read(root + "/rancher-profile.json");
+const approvalPolicy = await read(root + "/publishing-policy.json");
 const args = process.argv.slice(2),
   start = args.find((a) => a.startsWith("--start="))?.slice(8);
 const schedulePath = root + "/proposed-schedule.json";
@@ -190,9 +195,12 @@ for (const brief of manifest.articles) {
           };
           await validateRancherContract("evidence", ledger);
           await write(`${root}/evidence/${brief.content_key}.json`, ledger);
-          const qa = createQaReport(input.article, ledger, profile, {
-            generatedAt: new Date().toISOString(),
-          });
+          const qa = applyApprovalPolicy(
+            createQaReport(input.article, ledger, profile, {
+              generatedAt: new Date().toISOString(),
+            }),
+            approvalPolicy,
+          );
           await write(
             `${root}/articles/${brief.content_key}.json`,
             input.article,
@@ -212,10 +220,11 @@ for (const brief of manifest.articles) {
             editorial: null,
             specialist: null,
             required_roles: brief.reviewer_roles,
-            source_review:
-              "Primary-source research recorded separately; specialist review pending",
+            source_review: ownerManagedPublishing(approvalPolicy)
+              ? "Primary-source research recorded; specialist approval waived by owner"
+              : "Primary-source research recorded separately; specialist review pending",
             claim_coverage:
-              "Attributed source claims are hash-bound in the evidence ledger; transaction-specific interpretations and operational advice require the assigned human review",
+              "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json",
           });
           return { ...input, qa };
         },
@@ -274,7 +283,9 @@ for (const brief of manifest.articles) {
             content_sha256: input.article.content_sha256,
             assets,
             qa: input.qa.validation_summary,
-            status: "awaiting_human_review",
+            status: ownerManagedPublishing(approvalPolicy)
+              ? "technically_validated"
+              : "awaiting_human_review",
           };
         },
       },

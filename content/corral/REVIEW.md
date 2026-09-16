@@ -1,5 +1,9 @@
 # The Corral pilot review
 
+## Owner update
+
+Edward White accepted pilots 01, 04 and 20 and explicitly removed editorial and specialist approval requirements. His byline is **Edward White, Co-founder at Rancher**; the proposed bio in `publishing-policy.json` awaits his review. This instruction supersedes the earlier review gates described below and in the original plan. The remaining 21 articles can proceed. Technical validation and CMS integrity checks remain required; no specialist review is implied. The schedule is still inactive.
+
 ## Review these three unpublished Prismic drafts
 
 | Pilot                                  | Prismic                                                                 | Local article                    |

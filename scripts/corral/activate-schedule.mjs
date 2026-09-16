@@ -1,6 +1,6 @@
 // Uses the same repository endpoints and millisecond dates as the inspected
 // Prismic Page Builder. Endpoint contract captured 2026-09-15; verify on upgrade.
-// No publication capability is enabled until all exact-content review gates pass.
+// Owner publishing policy changes review requirements; content-integrity gates remain.
 import fs from "node:fs/promises";
 import os from "node:os";
 import {
@@ -10,6 +10,14 @@ import {
 } from "./engine.mjs";
 import { inPublishingWindow } from "./schedule.mjs";
 import { assertCorralUnchanged as assertUnchanged } from "./audit.mjs";
+import {
+  ownerManagedPublishing,
+  applyApprovalPolicy,
+  applyPreflightPolicy,
+} from "./approval-policy.mjs";
+const policy = JSON.parse(
+  await fs.readFile("content/corral/publishing-policy.json", "utf8"),
+);
 const read = async (p) => JSON.parse(await fs.readFile(p, "utf8"));
 const root = "content/corral";
 const manifest = await read(root + "/manifest.json"),
@@ -47,32 +55,36 @@ for (const b of manifest.articles) {
       failures.push(b.content_key + ": article date differs from schedule");
     if (
       review.content_sha256 !== canonicalArticleHash(article) ||
-      !review.editorial?.by ||
-      !review.editorial?.at ||
-      !review.specialist?.by ||
-      !review.specialist?.at ||
-      review.specialist.required_roles !== b.reviewer_roles
+      (!ownerManagedPublishing(policy) &&
+        (!review.editorial?.by ||
+          !review.editorial?.at ||
+          !review.specialist?.by ||
+          !review.specialist?.at ||
+          review.specialist.required_roles !== b.reviewer_roles))
     )
       failures.push(
         b.content_key +
           ": exact-hash editorial and assigned specialist approvals required",
       );
-    const preflight = await publicationPreflight({
-      article,
-      qaReport: qa,
-      profile,
-      execute: false,
-      adapter: {
-        id: "prismic-corral",
-        canPublish: false,
-        preflight: async () => [],
-        publish: async () => {
-          throw Error(
-            "Direct engine publication disabled; use verified scheduled releases",
-          );
+    const preflight = applyPreflightPolicy(
+      await publicationPreflight({
+        article,
+        qaReport: applyApprovalPolicy(qa, policy),
+        profile,
+        execute: false,
+        adapter: {
+          id: "prismic-corral",
+          canPublish: false,
+          preflight: async () => [],
+          publish: async () => {
+            throw Error(
+              "Direct engine publication disabled; use verified scheduled releases",
+            );
+          },
         },
-      },
-    });
+      }),
+      policy,
+    );
     failures.push(...preflight.errors.map((e) => b.content_key + ": " + e));
     items.push({ brief: b, article, slot });
   } catch (e) {

@@ -1,0 +1,19 @@
+{
+  "mode": "owner-managed-prismic",
+  "requested_by": "Edward White",
+  "editorial_approval_required": false,
+  "specialist_approval_required": false,
+  "pilot_accepted": [
+    "corral-01",
+    "corral-04",
+    "corral-20"
+  ],
+  "instruction": "Editorial approval and Specialist approval are not needed because I can just unplublish/edit posts through Prismic. Pilot accepted.",
+  "recorded_at": "2026-09-16T02:06:13.065476+00:00",
+  "author": {
+    "name": "Edward White",
+    "title": "Co-founder at Rancher",
+    "bio_status": "pending_user_review",
+    "proposed_bio": "Edward White is co-founder at Rancher. He writes about business-data licensing for AI, with a focus on helping companies understand what they can share, how to prepare their data, and the decisions that come before a licensing agreement."
+  }
+}
