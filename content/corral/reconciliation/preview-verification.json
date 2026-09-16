@@ -1,7 +1,7 @@
 {
-  "checked_at": "2026-09-15T22:59:01.080Z",
-  "deployment": "rancher-mr15vk5wp-b2b-saas.vercel.app",
-  "frontend_commit": "d4342af4f6ac609e30e646fe4a0ac5014e9f83fa",
+  "checked_at": "2026-09-16T02:13:54.580Z",
+  "deployment": "rancher-bbvowcs5q-b2b-saas.vercel.app",
+  "frontend_commit": "f44595a4cf9bb815aee95f4b349dfb42146f59e0",
   "browser": [
     {
       "mode": "public",
@@ -48,7 +48,7 @@
       "h1": [
         "How to license business data for AI"
       ],
-      "words": 949,
+      "words": 1431,
       "tables": 1,
       "canonical": "https://www.gorancher.com/blog/license-business-data-for-ai/",
       "overflow": false,
@@ -67,7 +67,7 @@
       "h1": [
         "12 terms to review in an AI data license"
       ],
-      "words": 1018,
+      "words": 1495,
       "tables": 1,
       "canonical": "https://www.gorancher.com/blog/ai-data-licensing-agreement-terms/",
       "overflow": false,
@@ -86,7 +86,7 @@
       "h1": [
         "A practical data-card template for AI buyers"
       ],
-      "words": 1034,
+      "words": 1519,
       "tables": 2,
       "canonical": "https://www.gorancher.com/blog/ai-data-card-template/",
       "overflow": false,
@@ -122,7 +122,7 @@
       "h1": [
         "How to license business data for AI"
       ],
-      "words": 949,
+      "words": 1431,
       "tables": 1,
       "canonical": "https://www.gorancher.com/blog/license-business-data-for-ai/",
       "overflow": false,
@@ -141,7 +141,7 @@
       "h1": [
         "12 terms to review in an AI data license"
       ],
-      "words": 1018,
+      "words": 1495,
       "tables": 1,
       "canonical": "https://www.gorancher.com/blog/ai-data-licensing-agreement-terms/",
       "overflow": false,
@@ -160,7 +160,7 @@
       "h1": [
         "A practical data-card template for AI buyers"
       ],
-      "words": 1034,
+      "words": 1519,
       "tables": 2,
       "canonical": "https://www.gorancher.com/blog/ai-data-card-template/",
       "overflow": false,
@@ -173,21 +173,21 @@
   "content": [
     {
       "key": "corral-04",
-      "textBlocksChecked": 65,
+      "textBlocksChecked": 73,
       "downloadMatchesLocal": true,
       "structuredData": true,
       "anchors": true
     },
     {
       "key": "corral-20",
-      "textBlocksChecked": 82,
+      "textBlocksChecked": 90,
       "downloadMatchesLocal": true,
       "structuredData": true,
       "anchors": true
     },
     {
       "key": "corral-01",
-      "textBlocksChecked": 42,
+      "textBlocksChecked": 50,
       "downloadMatchesLocal": true,
       "structuredData": true,
       "anchors": true
@@ -199,10 +199,20 @@
       "publicDiscoveryHidden": true
     }
   ],
-  "automated_tests": {
-    "passed": 50,
-    "skipped": 2
+  "author": {
+    "type": "authors",
+    "id": "aqn6vBUAACsAVeaE",
+    "name": "Edward White",
+    "bio_approved": true,
+    "byline_anchor_verified": true,
+    "socials": []
   },
-  "human_approval": false,
+  "og_images_excluded_from_article_body": true,
+  "unchanged_reimport_verified": true,
+  "automated_tests": {
+    "full_suite_passed": 52,
+    "skipped": 2,
+    "subsequent_corral_tests_passed": 5
+  },
   "published": false
 }
