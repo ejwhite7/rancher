@@ -33,5 +33,110 @@
     "id": "aqn6vBUAACsAVeaE",
     "type": "authors",
     "uid": "edward-white"
+  },
+  "corral-02": {
+    "id": "aqq9qBUAACwAV0TF",
+    "type": "blog",
+    "uid": "company-data-licensing-rights-checklist"
+  },
+  "corral-03": {
+    "id": "aqq9sRUAACsAV0T6",
+    "type": "blog",
+    "uid": "business-data-valuation-for-ai"
+  },
+  "corral-05": {
+    "id": "aqq9uhUAADEAV0Uo",
+    "type": "blog",
+    "uid": "exclusive-vs-non-exclusive-data-licensing"
+  },
+  "corral-06": {
+    "id": "aqq9whUAADIAV0VX",
+    "type": "blog",
+    "uid": "business-data-assessment"
+  },
+  "corral-07": {
+    "id": "aqq9yhUAADAAV0WA",
+    "type": "blog",
+    "uid": "de-identification-vs-anonymization"
+  },
+  "corral-08": {
+    "id": "aqq91hUAADAAV0W8",
+    "type": "blog",
+    "uid": "ai-training-data-exclusions"
+  },
+  "corral-09": {
+    "id": "aqq94hUAADAAV0X9",
+    "type": "blog",
+    "uid": "license-support-tickets-for-ai"
+  },
+  "corral-10": {
+    "id": "aqq97BUAADAAV0Yx",
+    "type": "blog",
+    "uid": "workflow-trajectory"
+  },
+  "corral-11": {
+    "id": "aqq99hUAACwAV0Zh",
+    "type": "blog",
+    "uid": "license-slack-email-data-for-ai"
+  },
+  "corral-12": {
+    "id": "aqq9_xUAADAAV0aO",
+    "type": "blog",
+    "uid": "crm-sales-history-ai-data"
+  },
+  "corral-13": {
+    "id": "aqq-BxUAADIAV0a0",
+    "type": "blog",
+    "uid": "license-source-code-engineering-history"
+  },
+  "corral-14": {
+    "id": "aqq-DxUAADAAV0bj",
+    "type": "blog",
+    "uid": "license-dataset-multiple-times"
+  },
+  "corral-15": {
+    "id": "aqq-FxUAAC8AV0cK",
+    "type": "blog",
+    "uid": "preserve-workflow-context-privacy"
+  },
+  "corral-16": {
+    "id": "aqq-IBUAACsAV0c3",
+    "type": "blog",
+    "uid": "ai-dataset-quality-checklist"
+  },
+  "corral-17": {
+    "id": "aqq-KBUAAC4AV0dj",
+    "type": "blog",
+    "uid": "training-vs-evaluation-data-licensing"
+  },
+  "corral-18": {
+    "id": "aqq-MRUAACwAV0eR",
+    "type": "blog",
+    "uid": "direct-licensing-vs-data-partner"
+  },
+  "corral-19": {
+    "id": "aqq-ORUAAC8AV0e7",
+    "type": "blog",
+    "uid": "ai-data-licensing-faq"
+  },
+  "corral-21": {
+    "id": "aqq-QhUAAC4AV0fm",
+    "type": "blog",
+    "uid": "workflow-data-assessment-example"
+  },
+  "corral-22": {
+    "id": "aqq-ShUAAC0AV0gQ",
+    "type": "blog",
+    "uid": "ai-data-licensing-security-review"
+  },
+  "corral-23": {
+    "id": "aqq-UhUAACsAV0g6",
+    "type": "blog",
+    "uid": "data-licensing-disqualification"
+  },
+  "corral-24": {
+    "id": "aqq-WxUAADAAV0hx",
+    "type": "blog",
+    "uid": "business-data-licensing-readiness-plan"
   }
 }

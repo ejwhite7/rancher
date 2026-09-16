@@ -1,9 +1,10 @@
 {
   "content_key": "corral-17",
-  "content_sha256": "1fd0fe5af8754c7b72e134887e36ac1a9b8f60412e2142e0afd17a883d8d5d03",
+  "content_sha256": "d01981f06aa4b95107ee84cb42ed0a398c7199cc90d735571d56e6a06dd2abfe",
   "editorial": null,
   "specialist": null,
   "required_roles": "ML specialist + counsel",
   "source_review": "Primary-source research recorded; specialist approval waived by owner",
-  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json"
+  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json",
+  "cms_payload_sha256": "6f026dd259a075681f4c81e2b4f9db05cbf92d44a9a9f6e27bac290678410404"
 }

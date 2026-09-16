@@ -1,9 +1,10 @@
 {
   "content_key": "corral-13",
-  "content_sha256": "018f3222e3031ab3516b55ffe265afb6e67390e09de54b8ff3fcd8af81b72b9c",
+  "content_sha256": "c52300b3f10ce74fe66e6b44f09abff7df331af374b05cabca26341f69cb04cd",
   "editorial": null,
   "specialist": null,
   "required_roles": "Engineering lead + IP counsel",
   "source_review": "Primary-source research recorded; specialist approval waived by owner",
-  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json"
+  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json",
+  "cms_payload_sha256": "cfea3a00d9ce9d507c8eb65bf82749a7d1894d0997a70a24edb30ad48337f4a1"
 }

@@ -73,14 +73,16 @@
         "corral-07"
       ],
       "original_planned_date": "2026-09-24",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-17T13:16:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq9qBUAACwAV0TF",
+      "locale": "en-us",
+      "content_sha256": "1a74905626cf80f02245113f7fc79aaf4b02d55e0e5f06229293461b5a9fb386",
+      "prismic_release_id": "aqq-vxUAAM47V0p6"
     },
     {
       "content_key": "corral-03",
@@ -101,14 +103,16 @@
         "corral-06"
       ],
       "original_planned_date": "2026-09-29",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-17T16:05:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq9sRUAACsAV0T6",
+      "locale": "en-us",
+      "content_sha256": "2558b728e01e2c5824d741748abbb1dda50740a623faa2821ea18ef677713038",
+      "prismic_release_id": "aqq-xRUAAIk8V0qg"
     },
     {
       "content_key": "corral-04",
@@ -159,14 +163,16 @@
         "corral-14"
       ],
       "original_planned_date": "2026-10-06",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-17T20:51:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq9uhUAADEAV0Uo",
+      "locale": "en-us",
+      "content_sha256": "1c26c27988035160f1bb9576dd24739f71b67f474ea9c497e46219fad1a1c9d1",
+      "prismic_release_id": "aqq-yRUAANA6V0rC"
     },
     {
       "content_key": "corral-06",
@@ -187,14 +193,16 @@
         "corral-03"
       ],
       "original_planned_date": "2026-10-08",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-18T13:51:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq9whUAADIAV0VX",
+      "locale": "en-us",
+      "content_sha256": "4bcc4c388cf2d442ca4daf091fec4cc60fc255b782ce07785e5402482a42080e",
+      "prismic_release_id": "aqq-zRUAALQ7V0rl"
     },
     {
       "content_key": "corral-07",
@@ -215,14 +223,16 @@
         "corral-08"
       ],
       "original_planned_date": "2026-10-13",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-18T16:32:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq9yhUAADAAV0WA",
+      "locale": "en-us",
+      "content_sha256": "ddc3189172f7a06d140792cb7a8c48ab8658aa924bbf872e6e6e2493481d6887",
+      "prismic_release_id": "aqq-0RUAAIk8V0sE"
     },
     {
       "content_key": "corral-08",
@@ -243,14 +253,16 @@
         "corral-09"
       ],
       "original_planned_date": "2026-10-15",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-18T20:32:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq91hUAADAAV0W8",
+      "locale": "en-us",
+      "content_sha256": "f3fbb658a9bb4180dc860a506bbefaa4929620e108707ba18bc7c7cd96bd1599",
+      "prismic_release_id": "aqq-1hUAABQ6V0st"
     },
     {
       "content_key": "corral-09",
@@ -272,14 +284,16 @@
         "corral-10"
       ],
       "original_planned_date": "2026-10-20",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-21T13:38:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq94hUAADAAV0X9",
+      "locale": "en-us",
+      "content_sha256": "469c24c3b88bb9e37f587a41e5d7c5c7b52137fad31a5d0e715c46a0715b9d02",
+      "prismic_release_id": "aqq-2hUAAIk8V0tI"
     },
     {
       "content_key": "corral-10",
@@ -300,14 +314,16 @@
         "corral-15"
       ],
       "original_planned_date": "2026-10-22",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-21T16:59:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq97BUAADAAV0Yx",
+      "locale": "en-us",
+      "content_sha256": "6ca875a5f3aeec5af37cfe7b101e5d688619b0c0e89eb5bdb5c28087e5dd86c7",
+      "prismic_release_id": "aqq-3hUAAIk8V0tg"
     },
     {
       "content_key": "corral-11",
@@ -329,14 +345,16 @@
         "corral-10"
       ],
       "original_planned_date": "2026-10-27",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-21T20:04:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq99hUAACwAV0Zh",
+      "locale": "en-us",
+      "content_sha256": "65e63a9461dad8f5084517a9e58c45206c2570fa324359196c782279d0f06117",
+      "prismic_release_id": "aqq-4hUAAFw8V0t4"
     },
     {
       "content_key": "corral-12",
@@ -357,14 +375,16 @@
         "corral-10"
       ],
       "original_planned_date": "2026-10-29",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-22T13:11:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq9_xUAADAAV0aO",
+      "locale": "en-us",
+      "content_sha256": "136fb0ab1e6b3b939d82d3327151e2bce90282162c88e8cc86c740fd7306d0ae",
+      "prismic_release_id": "aqq-5hUAAIk8V0uQ"
     },
     {
       "content_key": "corral-13",
@@ -386,14 +406,16 @@
         "corral-10"
       ],
       "original_planned_date": "2026-11-03",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-22T16:52:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-BxUAADIAV0a0",
+      "locale": "en-us",
+      "content_sha256": "c52300b3f10ce74fe66e6b44f09abff7df331af374b05cabca26341f69cb04cd",
+      "prismic_release_id": "aqq-6hUAAKQ7V0um"
     },
     {
       "content_key": "corral-14",
@@ -414,14 +436,16 @@
         "corral-18"
       ],
       "original_planned_date": "2026-11-05",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-22T20:10:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-DxUAADAAV0bj",
+      "locale": "en-us",
+      "content_sha256": "41e3e51c5c9519ab343f7e7ed6e2f1a1342337fe265d0be9384afc9b514985ca",
+      "prismic_release_id": "aqq-7hUAAKQ7V0u-"
     },
     {
       "content_key": "corral-15",
@@ -443,14 +467,16 @@
         "corral-16"
       ],
       "original_planned_date": "2026-11-10",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-23T13:12:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-FxUAAC8AV0cK",
+      "locale": "en-us",
+      "content_sha256": "4855cba5eb4bebbb5a9ee37df088f7ef984283214c1d9ea45f8a4a31a4d1934f",
+      "prismic_release_id": "aqq-8hUAANA6V0va"
     },
     {
       "content_key": "corral-16",
@@ -472,14 +498,16 @@
         "corral-20"
       ],
       "original_planned_date": "2026-11-12",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-23T16:58:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-IBUAACsAV0c3",
+      "locale": "en-us",
+      "content_sha256": "cae2b5f4b4675228abea15fe06f48d1811039c1877d6f1445ebb50c325d3bdb9",
+      "prismic_release_id": "aqq-9hUAABQ6V0vz"
     },
     {
       "content_key": "corral-17",
@@ -501,14 +529,16 @@
         "corral-20"
       ],
       "original_planned_date": "2026-11-17",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-23T20:51:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-KBUAAC4AV0dj",
+      "locale": "en-us",
+      "content_sha256": "d01981f06aa4b95107ee84cb42ed0a398c7199cc90d735571d56e6a06dd2abfe",
+      "prismic_release_id": "aqq--RUAAM47V0wJ"
     },
     {
       "content_key": "corral-18",
@@ -530,14 +560,16 @@
         "corral-14"
       ],
       "original_planned_date": "2026-11-19",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-24T13:22:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-MRUAACwAV0eR",
+      "locale": "en-us",
+      "content_sha256": "4952d8302342adf3c52f707ec94d5b26695e624b3919492c63bfe295ed020991",
+      "prismic_release_id": "aqq-_hUAANA6V0wh"
     },
     {
       "content_key": "corral-19",
@@ -560,14 +592,16 @@
         "corral-06"
       ],
       "original_planned_date": "2026-11-24",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-24T16:08:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-ORUAAC8AV0e7",
+      "locale": "en-us",
+      "content_sha256": "d5ff66f0255049b8f5ede67cdcdaa0f8f4fc82a8f5f6e2bf163ea5eec0427abe",
+      "prismic_release_id": "aqq_AhUAABQ6V0w5"
     },
     {
       "content_key": "corral-20",
@@ -619,14 +653,16 @@
         "corral-20"
       ],
       "original_planned_date": "2026-12-01",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-24T20:16:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-QhUAAC4AV0fm",
+      "locale": "en-us",
+      "content_sha256": "658afb866150fe8b59d7cfede980b10043d35bd94e8cba28712d1a7d4507ecf3",
+      "prismic_release_id": "aqq_ChUAAFw8V0xj"
     },
     {
       "content_key": "corral-22",
@@ -648,14 +684,16 @@
         "corral-20"
       ],
       "original_planned_date": "2026-12-03",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-25T13:54:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-ShUAAC0AV0gQ",
+      "locale": "en-us",
+      "content_sha256": "968eab855e35d2f4a68a393db8d39c7e94ed91065e286272baff5b17366a867d",
+      "prismic_release_id": "aqq_ERUAANA6V0yK"
     },
     {
       "content_key": "corral-23",
@@ -677,14 +715,16 @@
         "corral-16"
       ],
       "original_planned_date": "2026-12-08",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-25T16:10:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-UhUAACsAV0g6",
+      "locale": "en-us",
+      "content_sha256": "0ccbdc1a5745d6bb6902c71fa5a2907b315f1830546c86f912d27a584243b60e",
+      "prismic_release_id": "aqq_FBUAAFw8V0yb"
     },
     {
       "content_key": "corral-24",
@@ -708,14 +748,16 @@
         "corral-23"
       ],
       "original_planned_date": "2026-12-10",
-      "workflow_state": "brief_ready",
+      "workflow_state": "scheduled",
       "author_status": "pending_confirmation",
       "specialist_approval": null,
       "editorial_approval": null,
-      "scheduled_at": null,
+      "scheduled_at": "2026-09-25T20:19:00.000Z",
       "actual_published_at": null,
-      "prismic_id": null,
-      "locale": "en-us"
+      "prismic_id": "aqq-WxUAADAAV0hx",
+      "locale": "en-us",
+      "content_sha256": "419113e1a05029157d61428f03634feca67485b6909f0c3df64d49f81cfa08b5",
+      "prismic_release_id": "aqq_GBUAAIk8V0yz"
     }
   ],
   "pilot_acceptance": {

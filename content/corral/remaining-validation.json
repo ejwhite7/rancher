@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-09-16",
-  "status": "prepared_locally_pending_prismic_authentication",
+  "checked_at": "2026-09-16T16:09:45.297Z",
+  "status": "imported_verified_and_scheduled",
   "articles": [
     {
       "content_key": "corral-02",
@@ -158,6 +158,7 @@
     "future_article_links_suppressed": true,
     "published_glossary_destinations_verified": 17
   },
-  "cms_imported": false,
-  "native_schedules_activated": false
+  "cms_imported": true,
+  "native_schedules_activated": true,
+  "prismic_previews_verified": 21
 }

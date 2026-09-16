@@ -1,149 +1,149 @@
 [
   {
     "content_key": "corral-02",
-    "local_date": "2026-09-16",
+    "local_date": "2026-09-17",
     "window": "9:00–10:00",
-    "scheduled_at": "2026-09-16T13:50:00.000Z",
+    "scheduled_at": "2026-09-17T13:16:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-03",
-    "local_date": "2026-09-16",
+    "local_date": "2026-09-17",
     "window": "12:00–13:00",
-    "scheduled_at": "2026-09-16T16:18:00.000Z",
+    "scheduled_at": "2026-09-17T16:05:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-05",
-    "local_date": "2026-09-16",
+    "local_date": "2026-09-17",
     "window": "16:00–17:00",
-    "scheduled_at": "2026-09-16T20:59:00.000Z",
+    "scheduled_at": "2026-09-17T20:51:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-06",
-    "local_date": "2026-09-17",
+    "local_date": "2026-09-18",
     "window": "9:00–10:00",
-    "scheduled_at": "2026-09-17T13:26:00.000Z",
+    "scheduled_at": "2026-09-18T13:51:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-07",
-    "local_date": "2026-09-17",
+    "local_date": "2026-09-18",
     "window": "12:00–13:00",
-    "scheduled_at": "2026-09-17T16:13:00.000Z",
+    "scheduled_at": "2026-09-18T16:32:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-08",
-    "local_date": "2026-09-17",
+    "local_date": "2026-09-18",
     "window": "16:00–17:00",
-    "scheduled_at": "2026-09-17T20:19:00.000Z",
+    "scheduled_at": "2026-09-18T20:32:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-09",
-    "local_date": "2026-09-18",
+    "local_date": "2026-09-21",
     "window": "9:00–10:00",
-    "scheduled_at": "2026-09-18T13:37:00.000Z",
+    "scheduled_at": "2026-09-21T13:38:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-10",
-    "local_date": "2026-09-18",
+    "local_date": "2026-09-21",
     "window": "12:00–13:00",
-    "scheduled_at": "2026-09-18T16:55:00.000Z",
+    "scheduled_at": "2026-09-21T16:59:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-11",
-    "local_date": "2026-09-18",
+    "local_date": "2026-09-21",
     "window": "16:00–17:00",
-    "scheduled_at": "2026-09-18T20:54:00.000Z",
+    "scheduled_at": "2026-09-21T20:04:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-12",
-    "local_date": "2026-09-21",
+    "local_date": "2026-09-22",
     "window": "9:00–10:00",
-    "scheduled_at": "2026-09-21T13:35:00.000Z",
+    "scheduled_at": "2026-09-22T13:11:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-13",
-    "local_date": "2026-09-21",
+    "local_date": "2026-09-22",
     "window": "12:00–13:00",
-    "scheduled_at": "2026-09-21T16:28:00.000Z",
+    "scheduled_at": "2026-09-22T16:52:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-14",
-    "local_date": "2026-09-21",
+    "local_date": "2026-09-22",
     "window": "16:00–17:00",
-    "scheduled_at": "2026-09-21T20:21:00.000Z",
+    "scheduled_at": "2026-09-22T20:10:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-15",
-    "local_date": "2026-09-22",
+    "local_date": "2026-09-23",
     "window": "9:00–10:00",
-    "scheduled_at": "2026-09-22T13:06:00.000Z",
+    "scheduled_at": "2026-09-23T13:12:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-16",
-    "local_date": "2026-09-22",
+    "local_date": "2026-09-23",
     "window": "12:00–13:00",
-    "scheduled_at": "2026-09-22T16:15:00.000Z",
+    "scheduled_at": "2026-09-23T16:58:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-17",
-    "local_date": "2026-09-22",
+    "local_date": "2026-09-23",
     "window": "16:00–17:00",
-    "scheduled_at": "2026-09-22T20:40:00.000Z",
+    "scheduled_at": "2026-09-23T20:51:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-18",
-    "local_date": "2026-09-23",
+    "local_date": "2026-09-24",
     "window": "9:00–10:00",
-    "scheduled_at": "2026-09-23T13:42:00.000Z",
+    "scheduled_at": "2026-09-24T13:22:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-19",
-    "local_date": "2026-09-23",
+    "local_date": "2026-09-24",
     "window": "12:00–13:00",
-    "scheduled_at": "2026-09-23T16:36:00.000Z",
+    "scheduled_at": "2026-09-24T16:08:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-21",
-    "local_date": "2026-09-23",
+    "local_date": "2026-09-24",
     "window": "16:00–17:00",
-    "scheduled_at": "2026-09-23T20:13:00.000Z",
+    "scheduled_at": "2026-09-24T20:16:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-22",
-    "local_date": "2026-09-24",
+    "local_date": "2026-09-25",
     "window": "9:00–10:00",
-    "scheduled_at": "2026-09-24T13:01:00.000Z",
+    "scheduled_at": "2026-09-25T13:54:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-23",
-    "local_date": "2026-09-24",
+    "local_date": "2026-09-25",
     "window": "12:00–13:00",
-    "scheduled_at": "2026-09-24T16:22:00.000Z",
+    "scheduled_at": "2026-09-25T16:10:00.000Z",
     "timezone": "America/New_York"
   },
   {
     "content_key": "corral-24",
-    "local_date": "2026-09-24",
+    "local_date": "2026-09-25",
     "window": "16:00–17:00",
-    "scheduled_at": "2026-09-24T20:29:00.000Z",
+    "scheduled_at": "2026-09-25T20:19:00.000Z",
     "timezone": "America/New_York"
   }
 ]

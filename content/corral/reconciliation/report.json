@@ -3,51 +3,40 @@
     "key": "corral-01",
     "id": "aqnJlhUAACwAVXo7",
     "state": [
-      "release"
+      "published"
     ],
     "reconciled": true,
     "slices": 11,
     "source_count": 3,
-    "unresolved_related_keys": [
-      "corral-02",
-      "corral-03",
-      "corral-08"
-    ]
+    "unresolved_related_keys": []
   },
   {
     "key": "corral-04",
     "id": "aqnKBRUAACsAVXwk",
     "state": [
-      "release"
+      "published"
     ],
     "reconciled": true,
     "slices": 11,
     "source_count": 2,
-    "unresolved_related_keys": [
-      "corral-02",
-      "corral-05",
-      "corral-14"
-    ]
+    "unresolved_related_keys": []
   },
   {
     "key": "corral-20",
     "id": "aqnKDRUAAC0AVXxN",
     "state": [
-      "release"
+      "published"
     ],
     "reconciled": true,
     "slices": 12,
     "source_count": 2,
-    "unresolved_related_keys": [
-      "corral-16",
-      "corral-17"
-    ]
+    "unresolved_related_keys": []
   },
   {
     "key": "blog-index",
     "id": "aqnKZhUAADAAVX4E",
     "state": [
-      "release"
+      "published"
     ],
     "reconciled": true,
     "unresolved_related_keys": []
@@ -56,7 +45,6 @@
     "key": "navigation",
     "id": "aqltoBUAADEAU_-i",
     "state": [
-      "release",
       "published"
     ],
     "reconciled": true,
@@ -66,7 +54,6 @@
     "key": "footer",
     "id": "aqlujBUAADEAVAKN",
     "state": [
-      "release",
       "published"
     ],
     "reconciled": true,
@@ -76,9 +63,240 @@
     "key": "author-edward-white",
     "id": "aqn6vBUAACsAVeaE",
     "state": [
+      "published"
+    ],
+    "reconciled": true,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-02",
+    "id": "aqq9qBUAACwAV0TF",
+    "state": [
       "release"
     ],
     "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-03",
+    "id": "aqq9sRUAACsAV0T6",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 1,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-05",
+    "id": "aqq9uhUAADEAV0Uo",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 1,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-06",
+    "id": "aqq9whUAADIAV0VX",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-07",
+    "id": "aqq9yhUAADAAV0WA",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 1,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-08",
+    "id": "aqq91hUAADAAV0W8",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-09",
+    "id": "aqq94hUAADAAV0X9",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-10",
+    "id": "aqq97BUAADAAV0Yx",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-11",
+    "id": "aqq99hUAACwAV0Zh",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-12",
+    "id": "aqq9_xUAADAAV0aO",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-13",
+    "id": "aqq-BxUAADIAV0a0",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-14",
+    "id": "aqq-DxUAADAAV0bj",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 1,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-15",
+    "id": "aqq-FxUAAC8AV0cK",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-16",
+    "id": "aqq-IBUAACsAV0c3",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-17",
+    "id": "aqq-KBUAAC4AV0dj",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-18",
+    "id": "aqq-MRUAACwAV0eR",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-19",
+    "id": "aqq-ORUAAC8AV0e7",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 8,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-21",
+    "id": "aqq-QhUAAC4AV0fm",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-22",
+    "id": "aqq-ShUAAC0AV0gQ",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-23",
+    "id": "aqq-UhUAACsAV0g6",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
+    "unresolved_related_keys": []
+  },
+  {
+    "key": "corral-24",
+    "id": "aqq-WxUAADAAV0hx",
+    "state": [
+      "release"
+    ],
+    "reconciled": true,
+    "slices": 11,
+    "source_count": 2,
     "unresolved_related_keys": []
   }
 ]

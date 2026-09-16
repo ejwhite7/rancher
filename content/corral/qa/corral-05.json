@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "report_id": "qa-corral-05-46bd59b5a4d9",
+  "report_id": "qa-corral-05-1c26c2798803",
   "content_id": "corral-05",
-  "article_sha256": "46bd59b5a4d9614e792a41046555ab8f9059b3153a9912bb69ec7a7eca5e863f",
+  "article_sha256": "1c26c27988035160f1bb9576dd24739f71b67f474ea9c497e46219fad1a1c9d1",
   "profile": {
     "id": "rancher",
     "version": "1.0.0"
@@ -12,7 +12,7 @@
     "evidence": "1.0.0",
     "search-discoverability": "1.0.0"
   },
-  "generated_at": "2026-09-16T04:57:32.114Z",
+  "generated_at": "2026-09-16T16:01:59.354Z",
   "validator_version": "1.0.0",
   "result": "pass",
   "validation_summary": {

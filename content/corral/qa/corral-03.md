@@ -1,7 +1,7 @@
 # QA report: corral-03
 
 Result: **pass**
-Article SHA-256: `be2cb4d48e55e9abcec4d2857819217f7d8c14f421528947343c9a6d060f6c08`
+Article SHA-256: `2558b728e01e2c5824d741748abbb1dda50740a623faa2821ea18ef677713038`
 
 ## Findings
 

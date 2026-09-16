@@ -1,9 +1,10 @@
 {
   "content_key": "corral-19",
-  "content_sha256": "a0533f23c52c095ef1ee567eb8ec7ddcd63f06661c9b6281996543d27b6dadff",
+  "content_sha256": "d5ff66f0255049b8f5ede67cdcdaa0f8f4fc82a8f5f6e2bf163ea5eec0427abe",
   "editorial": null,
   "specialist": null,
   "required_roles": "Counsel + commercial lead",
   "source_review": "Primary-source research recorded; specialist approval waived by owner",
-  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json"
+  "claim_coverage": "Attributed source claims are hash-bound in the evidence ledger; approval requirements follow publishing-policy.json",
+  "cms_payload_sha256": "7ed7d6ba0c489f25068550865997580d50524f6c9254cfba9d5a2b5399e1695c"
 }

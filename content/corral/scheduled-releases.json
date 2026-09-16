@@ -1,0 +1,217 @@
+{
+  "verified_at": "2026-09-16T16:09:45.295Z",
+  "timezone": "America/New_York",
+  "unchanged_published_articles": 3,
+  "releases": [
+    {
+      "content_key": "corral-02",
+      "title": "Can your company license its data?",
+      "uid": "company-data-licensing-rights-checklist",
+      "prismic_id": "aqq9qBUAACwAV0TF",
+      "release_id": "aqq-vxUAAM47V0p6",
+      "scheduled_at": "2026-09-17T13:16:00.000Z",
+      "eastern": "Sep 17, 2026, 9:16 AM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-03",
+      "title": "What determines the value of business data?",
+      "uid": "business-data-valuation-for-ai",
+      "prismic_id": "aqq9sRUAACsAV0T6",
+      "release_id": "aqq-xRUAAIk8V0qg",
+      "scheduled_at": "2026-09-17T16:05:00.000Z",
+      "eastern": "Sep 17, 2026, 12:05 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-05",
+      "title": "Exclusive or non-exclusive data licensing?",
+      "uid": "exclusive-vs-non-exclusive-data-licensing",
+      "prismic_id": "aqq9uhUAADEAV0Uo",
+      "release_id": "aqq-yRUAANA6V0rC",
+      "scheduled_at": "2026-09-17T20:51:00.000Z",
+      "eastern": "Sep 17, 2026, 4:51 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-06",
+      "title": "What happens during a business-data assessment?",
+      "uid": "business-data-assessment",
+      "prismic_id": "aqq9whUAADIAV0VX",
+      "release_id": "aqq-zRUAALQ7V0rl",
+      "scheduled_at": "2026-09-18T13:51:00.000Z",
+      "eastern": "Sep 18, 2026, 9:51 AM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-07",
+      "title": "De-identification and anonymization are different",
+      "uid": "de-identification-vs-anonymization",
+      "prismic_id": "aqq9yhUAADAAV0WA",
+      "release_id": "aqq-0RUAAIk8V0sE",
+      "scheduled_at": "2026-09-18T16:32:00.000Z",
+      "eastern": "Sep 18, 2026, 12:32 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-08",
+      "title": "What to exclude from an AI training dataset",
+      "uid": "ai-training-data-exclusions",
+      "prismic_id": "aqq91hUAADAAV0W8",
+      "release_id": "aqq-1hUAABQ6V0st",
+      "scheduled_at": "2026-09-18T20:32:00.000Z",
+      "eastern": "Sep 18, 2026, 4:32 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-09",
+      "title": "Can support tickets be licensed for AI training?",
+      "uid": "license-support-tickets-for-ai",
+      "prismic_id": "aqq94hUAADAAV0X9",
+      "release_id": "aqq-2hUAAIk8V0tI",
+      "scheduled_at": "2026-09-21T13:38:00.000Z",
+      "eastern": "Sep 21, 2026, 9:38 AM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-10",
+      "title": "What is a workflow trajectory?",
+      "uid": "workflow-trajectory",
+      "prismic_id": "aqq97BUAADAAV0Yx",
+      "release_id": "aqq-3hUAAIk8V0tg",
+      "scheduled_at": "2026-09-21T16:59:00.000Z",
+      "eastern": "Sep 21, 2026, 12:59 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-11",
+      "title": "Can Slack messages and email be licensed for AI?",
+      "uid": "license-slack-email-data-for-ai",
+      "prismic_id": "aqq99hUAACwAV0Zh",
+      "release_id": "aqq-4hUAAFw8V0t4",
+      "scheduled_at": "2026-09-21T20:04:00.000Z",
+      "eastern": "Sep 21, 2026, 4:04 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-12",
+      "title": "CRM histories need more than contact records",
+      "uid": "crm-sales-history-ai-data",
+      "prismic_id": "aqq9_xUAADAAV0aO",
+      "release_id": "aqq-5hUAAIk8V0uQ",
+      "scheduled_at": "2026-09-22T13:11:00.000Z",
+      "eastern": "Sep 22, 2026, 9:11 AM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-13",
+      "title": "A rights checklist for licensing engineering data",
+      "uid": "license-source-code-engineering-history",
+      "prismic_id": "aqq-BxUAADIAV0a0",
+      "release_id": "aqq-6hUAAKQ7V0um",
+      "scheduled_at": "2026-09-22T16:52:00.000Z",
+      "eastern": "Sep 22, 2026, 12:52 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-14",
+      "title": "Can you license the same dataset more than once?",
+      "uid": "license-dataset-multiple-times",
+      "prismic_id": "aqq-DxUAADAAV0bj",
+      "release_id": "aqq-7hUAAKQ7V0u-",
+      "scheduled_at": "2026-09-22T20:10:00.000Z",
+      "eastern": "Sep 22, 2026, 4:10 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-15",
+      "title": "Preserve workflow context while reducing privacy risk",
+      "uid": "preserve-workflow-context-privacy",
+      "prismic_id": "aqq-FxUAAC8AV0cK",
+      "release_id": "aqq-8hUAANA6V0va",
+      "scheduled_at": "2026-09-23T13:12:00.000Z",
+      "eastern": "Sep 23, 2026, 9:12 AM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-16",
+      "title": "How to review AI dataset quality",
+      "uid": "ai-dataset-quality-checklist",
+      "prismic_id": "aqq-IBUAACsAV0c3",
+      "release_id": "aqq-9hUAABQ6V0vz",
+      "scheduled_at": "2026-09-23T16:58:00.000Z",
+      "eastern": "Sep 23, 2026, 12:58 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-17",
+      "title": "Training and evaluation data need different rules",
+      "uid": "training-vs-evaluation-data-licensing",
+      "prismic_id": "aqq-KBUAAC4AV0dj",
+      "release_id": "aqq--RUAAM47V0wJ",
+      "scheduled_at": "2026-09-23T20:51:00.000Z",
+      "eastern": "Sep 23, 2026, 4:51 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-18",
+      "title": "Direct licensing or a data partner?",
+      "uid": "direct-licensing-vs-data-partner",
+      "prismic_id": "aqq-MRUAACwAV0eR",
+      "release_id": "aqq-_hUAANA6V0wh",
+      "scheduled_at": "2026-09-24T13:22:00.000Z",
+      "eastern": "Sep 24, 2026, 9:22 AM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-19",
+      "title": "Business-data licensing questions answered",
+      "uid": "ai-data-licensing-faq",
+      "prismic_id": "aqq-ORUAAC8AV0e7",
+      "release_id": "aqq_AhUAABQ6V0w5",
+      "scheduled_at": "2026-09-24T16:08:00.000Z",
+      "eastern": "Sep 24, 2026, 12:08 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-21",
+      "title": "A fictional workflow-data assessment",
+      "uid": "workflow-data-assessment-example",
+      "prismic_id": "aqq-QhUAAC4AV0fm",
+      "release_id": "aqq_ChUAAFw8V0xj",
+      "scheduled_at": "2026-09-24T20:16:00.000Z",
+      "eastern": "Sep 24, 2026, 4:16 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-22",
+      "title": "Security questions before any data transfer",
+      "uid": "ai-data-licensing-security-review",
+      "prismic_id": "aqq-ShUAAC0AV0gQ",
+      "release_id": "aqq_ERUAANA6V0yK",
+      "scheduled_at": "2026-09-25T13:54:00.000Z",
+      "eastern": "Sep 25, 2026, 9:54 AM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-23",
+      "title": "Why a dataset might not qualify for licensing",
+      "uid": "data-licensing-disqualification",
+      "prismic_id": "aqq-UhUAACsAV0g6",
+      "release_id": "aqq_FBUAAFw8V0yb",
+      "scheduled_at": "2026-09-25T16:10:00.000Z",
+      "eastern": "Sep 25, 2026, 12:10 PM",
+      "verified": true
+    },
+    {
+      "content_key": "corral-24",
+      "title": "Build a business-data licensing readiness plan",
+      "uid": "business-data-licensing-readiness-plan",
+      "prismic_id": "aqq-WxUAADAAV0hx",
+      "release_id": "aqq_GBUAAIk8V0yz",
+      "scheduled_at": "2026-09-25T20:19:00.000Z",
+      "eastern": "Sep 25, 2026, 4:19 PM",
+      "verified": true
+    }
+  ]
+}
