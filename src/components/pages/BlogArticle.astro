@@ -3,6 +3,7 @@ import { asHTML, type RichTextField } from "@prismicio/client";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import Navigation from "../Navigation.astro";
 import Footer from "../Footer.astro";
+import SocialIcon from "../SocialIcon.astro";
 import BlogBody from "../BlogBody.astro";
 import { readingMinutes, type BlogRecord } from "../../lib/blog";
 import type { SiteContent } from "../../lib/content";
@@ -23,6 +24,11 @@ const d = document.data,
 const related = d.related_articles.flatMap(({ article }) =>
   articles.filter((doc) => doc.id === article.id),
 );
+const shares = [
+ {platform: "LinkedIn" as const, href: `https://www.linkedin.com/sharing/share-offsite/?${new URLSearchParams({url})}`},
+ {platform: "X" as const, href: `https://twitter.com/intent/tweet?${new URLSearchParams({url,text:title})}`},
+ {platform: "Facebook" as const, href: `https://www.facebook.com/sharer/sharer.php?${new URLSearchParams({u:url})}`},
+];
 const date = (value: string) =>
   new Date(value).toLocaleDateString("en-US", {
     timeZone: "America/New_York",
@@ -115,6 +121,10 @@ const schema = {
         )}
 
       </header>
+      <nav class="blog-share" aria-label="Share this article">
+        <span>Share</span>
+        {shares.map((share) => <a href={share.href} aria-label={`Share on ${share.platform}`} title={`Share on ${share.platform}`} target="_blank" rel="noopener noreferrer"><SocialIcon platform={share.platform}/></a>)}
+      </nav>
       <nav class="blog-toc" aria-label="On this page">
         <h2>On this page</h2>
         <ul>

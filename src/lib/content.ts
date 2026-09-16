@@ -75,6 +75,26 @@ const navigationRelationship = z.object({
   isBroken: z.literal(false).optional(),
 });
 export const footerSchema = z.object({
+  socials: z
+    .array(
+      z.object({
+        platform: z.enum(["LinkedIn", "Instagram", "X"]),
+        link: z
+          .object({
+            link_type: z.literal("Web"),
+            url: z
+              .url()
+              .refine(
+                (v) =>
+                  v.startsWith("https://") &&
+                  !new URL(v).username &&
+                  !new URL(v).password,
+              ),
+          })
+          .transform((v) => v.url),
+      }),
+    )
+    .default([]),
   brand_name: text,
   brand_label: text,
   copyright: text,

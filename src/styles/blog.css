@@ -206,3 +206,31 @@
     padding-top: 24px;
   }
 }
+
+.blog-share {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 24px 0;
+}
+.blog-share span {
+  margin-right: 8px;
+  font-size: 14px;
+}
+.blog-share a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink);
+}
+.blog-share a:hover {
+  background: var(--line);
+}
+.blog-share a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}

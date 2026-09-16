@@ -194,7 +194,7 @@ const authorID = await upsert(
     name: authorPolicy.name,
     title: authorPolicy.title,
     bio: [{ type: "paragraph", text: authorPolicy.proposed_bio, spans: [] }],
-    socials: [],
+    socials: authorPolicy.socials || [],
   },
   authorPolicy.name,
 );

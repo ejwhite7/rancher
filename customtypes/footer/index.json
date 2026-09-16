@@ -69,6 +69,32 @@
             }
           }
         }
+      },
+      "socials": {
+        "type": "Group",
+        "config": {
+          "label": "Social profiles (add, remove, or reorder)",
+          "fields": {
+            "platform": {
+              "type": "Select",
+              "config": {
+                "label": "Platform logo",
+                "options": [
+                  "LinkedIn",
+                  "Instagram",
+                  "X"
+                ]
+              }
+            },
+            "link": {
+              "type": "Link",
+              "config": {
+                "label": "Company profile URL",
+                "select": "web"
+              }
+            }
+          }
+        }
       }
     },
     "Legacy links": {
