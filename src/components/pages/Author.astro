@@ -1,0 +1,29 @@
+---
+import {asHTML, asText, type RichTextField} from "@prismicio/client";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import Navigation from "../Navigation.astro";
+import Footer from "../Footer.astro";
+import type {SiteContent} from "../../lib/content";
+import {authorPath, type fetchAuthor} from "../../lib/authors";
+import {PUBLIC_SITE} from "../../lib/site";
+import "../../styles/blog.css";
+interface Props {author:Awaited<ReturnType<typeof fetchAuthor>>;content:SiteContent;preview?:boolean;}
+const {author,content,preview=false}=Astro.props;
+const {data,articles}=author;
+const url=PUBLIC_SITE+authorPath(author.uid);
+const schema={"@context":"https://schema.org","@type":"ProfilePage",url,name:data.name,mainEntity:{"@type":"Person","@id":url+"#person",name:data.name,jobTitle:data.title,description:asText(data.bio as RichTextField),url,sameAs:data.socials.map(s=>s.url.url)}};
+---
+<SiteLayout content={content} title={`${data.name} | Rancher`} description={asText(data.bio as RichTextField)} glossarySchema={schema} preview={preview}>
+ <Navigation copy={content.navigation} homeLinks/>
+ <main id="main-content" class="blog-page wrap">
+  <nav class="blog-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">{data.name}</span></nav>
+  <header class="blog-index-heading"><h1>{data.name}</h1><p>{data.title}</p></header>
+  <section class="author-profile" aria-label={`About ${data.name}`}>
+   <div set:html={asHTML(data.bio as RichTextField)}/>
+   {data.socials.length>0 && <nav aria-label="Author social profiles"><ul>{data.socials.map(s=><li><a href={s.url.url} rel="me noopener noreferrer" target="_blank">{s.label}</a></li>)}</ul></nav>}
+  </section>
+  {articles.length>0 && <section class="blog-library"><h2>Articles by {data.name}</h2><div class="blog-cards">{articles.map(a=><article><h3><a href={`/blog/${a.uid}/`}>{a.data.title[0].text}</a></h3><p>{a.data.excerpt}</p></article>)}</div></section>}
+ </main>
+ <Footer copy={content.footer}/>
+</SiteLayout>
+<style>.author-profile{max-width:760px;font-size:18px;margin-bottom:56px}.author-profile ul{list-style:none;padding:0;display:flex;gap:24px;flex-wrap:wrap}.author-profile a{text-decoration:underline;text-underline-offset:4px}</style>

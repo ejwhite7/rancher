@@ -148,7 +148,13 @@ async function upsert(key, type, uid, data, title) {
   const existing = checkpoint.documents[key];
   if (existing) {
     const meta = await editor("core/documents/" + existing.id);
-    if (meta.versions.some((v) => v.status === "published"))
+    if (
+      meta.versions.some((v) => v.status === "published") &&
+      !(
+        type === "authors" &&
+        JSON.stringify(existing.data) === JSON.stringify(data)
+      )
+    )
       throw Error("This draft importer never updates published articles");
     for (const v of meta.versions)
       assertCorralUnchanged(

@@ -38,6 +38,6 @@ All 24 articles must pass the plan’s launch gates before scheduling. The first
 
 ## Author and length revision
 
-The `authors` repeatable custom type holds the name, title, approved bio and optional labeled social links. Each blog document links to an author. The byline links to the author section on the article, which resolves the relationship using the current published or preview ref. Social URLs are unset until supplied. OG images remain in metadata and index cards, but are not inserted into article bodies. Original explanatory diagrams remain.
+The `authors` repeatable custom type holds the name, title, approved bio and optional labeled social links. Each blog document links to an author. The byline links to a dedicated `/authors/edward-white/` page using the current published or preview ref. The author page contains the approved bio and supplied X and LinkedIn profiles. OG images remain in metadata and index cards, but are not inserted into article bodies. Original explanatory diagrams remain.
 
 Pilot packages now target 1,200–1,500 words, with a permitted 1,080–1,650 range. Edward’s approved bio is stored once in Prismic; article prose remains in the blog documents.

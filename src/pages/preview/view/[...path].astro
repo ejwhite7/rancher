@@ -30,6 +30,9 @@ if (!token || !validPreviewToken(token))
     status: 302,
     headers: { ...previewHeaders, Location: path ? `/${path}/` : "/" },
   });
+import Author from "../../../components/pages/Author.astro";
+import {fetchAuthor} from "../../../lib/authors";
+let author;
 import BlogIndex from "../../../components/pages/BlogIndex.astro";
 import BlogArticle from "../../../components/pages/BlogArticle.astro";
 import { fetchBlog, blogSiteContent } from "../../../lib/blog";
@@ -54,7 +57,9 @@ try {
     client,
     import.meta.env.PRISMIC_LOCALE || "en-us",
   );
-  if (path === "blog" || path.startsWith("blog/")) {
+  if (path.startsWith("authors/")) {
+    author = await fetchAuthor(client,path.slice(8),true);
+  } else if (path === "blog" || path.startsWith("blog/")) {
     blog = await fetchBlog(client, true);
     if (path !== "blog") {
       blogDocument = blog.articles.find((d) => d.uid === path.slice(5));
@@ -113,7 +118,7 @@ try {
 }
 ---
 
-{blog ? (
+{author ? (<Author author={author} content={content} preview />) : blog ? (
   blogDocument ? (
     <BlogArticle
       document={blogDocument}

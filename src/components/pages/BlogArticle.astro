@@ -3,6 +3,7 @@ import { asHTML, type RichTextField } from "@prismicio/client";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import Navigation from "../Navigation.astro";
 import Footer from "../Footer.astro";
+import {authorPath} from "../../lib/authors";
 import SocialIcon from "../SocialIcon.astro";
 import BlogBody from "../BlogBody.astro";
 import { readingMinutes, type BlogRecord } from "../../lib/blog";
@@ -46,7 +47,7 @@ const schema = {
       mainEntityOfPage: url,
       url,
       image: [d.meta_image.url],
-      author: { "@type": "Person", name: author.name, jobTitle: author.title, sameAs: author.socials.map((social) => social.url.url) },
+      author: { "@type": "Person", name: author.name, url: PUBLIC_SITE + authorPath(author.uid), jobTitle: author.title, sameAs: author.socials.map((social) => social.url.url) },
       publisher: { "@type": "Organization", name: "Rancher", url: PUBLIC_SITE },
       datePublished: d.published_at,
       dateModified: d.updated_at || d.published_at,
@@ -104,7 +105,7 @@ const schema = {
           set:html={asHTML(d.answer_summary as RichTextField)}
         />
         <p class="blog-byline">
-          By <a href="#author">{author.name}</a> ·{" "}
+          By <a href={authorPath(author.uid)}>{author.name}</a> ·{" "}
           <time datetime={d.published_at}>{date(d.published_at)}</time> ·{" "}
           {readingMinutes(d)} min read
         </p>
@@ -155,12 +156,7 @@ const schema = {
           ))}
         </ul>
       </section>
-      <section class="blog-author" id="author">
-        <h2>About {author.name}</h2>
-        <p>{author.title}</p>
-        <div set:html={asHTML(author.bio as RichTextField)} />
-        {author.socials.length > 0 && <ul aria-label="Author social profiles">{author.socials.map((social) => <li><a href={social.url.url} rel="me noopener noreferrer">{social.label}</a></li>)}</ul>}
-      </section>
+
       <p>
         <a
           class="btn"

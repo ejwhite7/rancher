@@ -181,7 +181,7 @@ export type BlogRecord = {
   id: string;
   uid: string;
   data: BlogArticle;
-  author?: z.infer<typeof authorSchema>;
+  author?: z.infer<typeof authorSchema> & { uid: string };
 };
 export const blogHeaders = {
   "Cache-Control": "public, max-age=0, s-maxage=60, stale-while-revalidate=60",
@@ -233,7 +233,9 @@ export async function fetchBlog(client: Client, preview = false) {
         const doc = await client.getByID(id);
         if (doc.type !== "authors")
           throw Error("Invalid article author relationship");
-        return [id, authorSchema.parse(doc.data)] as const;
+        if (!doc.uid || !blogUID.test(doc.uid))
+          throw Error("Invalid author UID");
+        return [id, { ...authorSchema.parse(doc.data), uid: doc.uid }] as const;
       }),
     ),
   );

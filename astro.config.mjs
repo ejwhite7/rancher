@@ -45,6 +45,7 @@ export default defineConfig({
       customSitemaps: [
         new URL("/glossary-sitemap.xml", PUBLIC_SITE).href,
         new URL("/blog-sitemap.xml", PUBLIC_SITE).href,
+        new URL("/authors-sitemap.xml", PUBLIC_SITE).href,
       ],
     }),
   ],

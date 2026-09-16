@@ -1,0 +1,19 @@
+---
+export const prerender = false;
+import {NotFoundError} from "@prismicio/client";
+import Author from "../../components/pages/Author.astro";
+import {fetchAuthor} from "../../lib/authors";
+import {createBlogClient, blogHeaders, blogUID} from "../../lib/blog";
+import {fetchSiteContent} from "../../lib/prismic";
+const missing = () => new Response("Author not found.", {status:404,headers:{"Cache-Control":"no-store","X-Robots-Tag":"noindex"}});
+if (!Astro.params.uid || !blogUID.test(Astro.params.uid)) return missing();
+let author, content;
+try {
+ const client = createBlogClient();
+ [author,content] = await Promise.all([fetchAuthor(client,Astro.params.uid),fetchSiteContent(client)]);
+} catch(error) {
+ return error instanceof NotFoundError ? missing() : new Response("Author temporarily unavailable.",{status:503,headers:{"Cache-Control":"no-store","X-Robots-Tag":"noindex"}});
+}
+for(const [key,value] of Object.entries(blogHeaders)) Astro.response.headers.set(key,value);
+---
+<Author author={author} content={content}/>

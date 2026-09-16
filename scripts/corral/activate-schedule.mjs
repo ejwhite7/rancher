@@ -184,6 +184,16 @@ async function move(key, releaseId) {
     meta.versions.find(
       (v) => v.status === "release" && v.release_id === releaseId,
     ) || meta.versions.find((v) => v.status === "release");
+  if (!version && key === "author-edward-white") {
+    const published = meta.versions.find((v) => v.status === "published");
+    if (!published) throw Error("Author is neither published nor staged");
+    assertUnchanged(
+      await editor("documents/data/" + published.version_id),
+      { ...d.data, uid: d.uid },
+      "Published author",
+    );
+    return 0;
+  }
   if (!version) throw Error("No release draft for " + key);
   assertUnchanged(
     await editor("documents/data/" + version.version_id),
@@ -196,6 +206,7 @@ async function move(key, releaseId) {
       { status: `release:${releaseId}`, release_id: version.release_id },
       "PATCH",
     );
+  return 1;
 }
 for (let i = 0; i < items.length; i++) {
   const { brief, slot } = items[i];
@@ -211,7 +222,7 @@ for (let i = 0; i < items.length; i++) {
     };
     await save();
   }
-  await move(brief.content_key, release.id);
+  let expectedCount = await move(brief.content_key, release.id);
   if (i === 0)
     for (const key of [
       "blog-index",
@@ -219,12 +230,12 @@ for (let i = 0; i < items.length; i++) {
       "footer",
       "author-edward-white",
     ])
-      await move(key, release.id);
+      expectedCount += await move(key, release.id);
   const permissions = await editor(`releases/${release.id}/permissions`);
   if (!permissions.canPublish)
     throw Error("Release publishing permission missing");
   const size = await editor(`releases/${release.id}/size`);
-  if (size.documentsCount !== (i === 0 ? 5 : 1))
+  if (size.documentsCount !== expectedCount)
     throw Error("Unexpected release contents");
   await editor(`releases/${release.id}/schedule`, {
     date: Date.parse(slot.scheduled_at),
