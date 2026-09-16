@@ -59,8 +59,7 @@ const data = {
   cta_label: "Contact",
   cta_link: { link_type: "Web", url: "/contact/" },
 };
-test("Prismic publication overrides provisional dates while drafts stay hidden", () => {
-  expect(blogArticleSchema.parse(data).related_articles).toHaveLength(1);
+test("future dates stay hidden even if Prismic publishes early, and previews remain available", () => {
   const docs = [
     {
       id: "one",
@@ -70,23 +69,39 @@ test("Prismic publication overrides provisional dates while drafts stay hidden",
     },
     { id: "draft", uid: "draft", data, first_publication_date: null },
   ];
-  const published = parseBlogRecords(docs);
-  expect(published.map((d) => d.id)).toEqual(["one"]);
-  expect(published[0].data.published_at).toBe("2026-09-15T23:00:00Z");
+  const due = Date.parse("2026-09-16T13:00:00Z");
+  expect(parseBlogRecords(docs, false, due - 1)).toHaveLength(0);
+  expect(parseBlogRecords(docs, false, due).map((d) => d.id)).toEqual(["one"]);
+  expect(parseBlogRecords(docs, false, due)[0].data.published_at).toBe(
+    "2026-09-16T13:00:00+00:00",
+  );
+  expect(parseBlogRecords(docs, true, due - 1)).toHaveLength(2);
   expect(
-    parseBlogRecords(docs, true).find((d) => d.id === "one")?.data.published_at,
-  ).toBe("2026-09-16T13:00:00+00:00");
-  expect(parseBlogRecords(docs, true)).toHaveLength(2);
-  expect(
-    parseBlogRecords([{ ...docs[0], data: { ...data, published_at: null } }])[0]
-      .data.published_at,
+    parseBlogRecords(
+      [{ ...docs[0], data: { ...data, published_at: null } }],
+      false,
+      due,
+    )[0].data.published_at,
   ).toBe("2026-09-15T23:00:00Z");
-  expect(() =>
-    blogArticleSchema.parse({
-      ...data,
-      navigation: { ...ref, isBroken: true },
-    }),
-  ).toThrow();
+});
+test("original imported articles retain their actual dates while later CMS rescheduling works", () => {
+  const doc = {
+    id: "aqnKBRUAACsAVXwk",
+    uid: "original",
+    data: { ...data, published_at: "2026-09-17T13:03:00+0000" },
+    first_publication_date: "2026-09-16T03:20:56+0000",
+  };
+  const now = Date.parse("2026-09-16T17:00:00Z");
+  expect(parseBlogRecords([doc], false, now)[0].data.published_at).toBe(
+    "2026-09-16T03:20:56+00:00",
+  );
+  expect(
+    parseBlogRecords(
+      [{ ...doc, data: { ...data, published_at: "2026-09-20T13:00:00+0000" } }],
+      false,
+      now,
+    ),
+  ).toHaveLength(0);
 });
 test("Corral rejects unsafe links, incomplete table cells and missing required social metadata", () => {
   expect(() => blogArticleSchema.parse({ ...data, meta_image: {} })).toThrow();

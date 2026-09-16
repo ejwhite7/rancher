@@ -1,5 +1,6 @@
 import { createClient, type Client } from "@prismicio/client";
 import { z } from "zod";
+import legacyDates from "../../content/corral/legacy-publication-dates.json" with { type: "json" };
 import { fetchSiteContent } from "./prismic";
 import { parseNavigation, parseFooter } from "./content";
 export const blogUID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -199,20 +200,32 @@ export function parseBlogRecords(
     first_publication_date?: string | null;
   }[],
   preview = false,
+  now = Date.now(),
 ): BlogRecord[] {
   return documents
     .filter((doc) => preview || !!doc.first_publication_date)
     .map((doc) => {
       if (!doc.uid || !blogUID.test(doc.uid)) throw Error("Invalid blog UID");
-      // Native Prismic publication controls visibility and live dates.
-      // Provisional dates only describe draft previews, never a second schedule.
-      const data = blogArticleSchema.parse(
-        !preview && doc.data && typeof doc.data === "object"
-          ? { ...doc.data, published_at: doc.first_publication_date }
-          : doc.data,
-      );
+      const raw =
+        doc.data && typeof doc.data === "object"
+          ? (doc.data as Record<string, unknown>)
+          : {};
+      const legacy = (
+        legacyDates as Record<string, { provisional: string; actual: string }>
+      )[doc.id];
+      // Correct only the three original imports' exact stale provisional values.
+      // Subsequent CMS date edits still take effect normally.
+      const publishedAt =
+        !preview && legacy && raw.published_at === legacy.provisional
+          ? legacy.actual
+          : raw.published_at || doc.first_publication_date;
+      const data = blogArticleSchema.parse({
+        ...raw,
+        published_at: publishedAt,
+      });
       return { id: doc.id, uid: doc.uid, data };
     })
+    .filter((doc) => preview || Date.parse(doc.data.published_at) <= now)
     .sort(
       (a, b) =>
         Date.parse(b.data.published_at) - Date.parse(a.data.published_at) ||
