@@ -199,19 +199,20 @@ export function parseBlogRecords(
     first_publication_date?: string | null;
   }[],
   preview = false,
-  now = Date.now(),
 ): BlogRecord[] {
   return documents
     .filter((doc) => preview || !!doc.first_publication_date)
     .map((doc) => {
       if (!doc.uid || !blogUID.test(doc.uid)) throw Error("Invalid blog UID");
-      return {
-        id: doc.id,
-        uid: doc.uid,
-        data: blogArticleSchema.parse(doc.data),
-      };
+      // Native Prismic publication controls visibility and live dates.
+      // Provisional dates only describe draft previews, never a second schedule.
+      const data = blogArticleSchema.parse(
+        !preview && doc.data && typeof doc.data === "object"
+          ? { ...doc.data, published_at: doc.first_publication_date }
+          : doc.data,
+      );
+      return { id: doc.id, uid: doc.uid, data };
     })
-    .filter((doc) => preview || Date.parse(doc.data.published_at) <= now)
     .sort(
       (a, b) =>
         Date.parse(b.data.published_at) - Date.parse(a.data.published_at) ||

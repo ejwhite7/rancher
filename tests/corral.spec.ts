@@ -59,26 +59,28 @@ const data = {
   cta_label: "Contact",
   cta_link: { link_type: "Web", url: "/contact/" },
 };
-test("Corral excludes drafts and future articles while retaining unpublished related references safely", () => {
+test("Prismic publication overrides provisional dates while drafts stay hidden", () => {
   expect(blogArticleSchema.parse(data).related_articles).toHaveLength(1);
   const docs = [
     {
       id: "one",
       uid: "one",
       data,
-      first_publication_date: "2026-09-16T13:00:00Z",
+      first_publication_date: "2026-09-15T23:00:00Z",
     },
     { id: "draft", uid: "draft", data, first_publication_date: null },
   ];
+  const published = parseBlogRecords(docs);
+  expect(published.map((d) => d.id)).toEqual(["one"]);
+  expect(published[0].data.published_at).toBe("2026-09-15T23:00:00Z");
   expect(
-    parseBlogRecords(docs, false, Date.parse("2026-09-15T00:00:00Z")),
-  ).toHaveLength(0);
-  expect(
-    parseBlogRecords(docs, false, Date.parse("2026-09-17T00:00:00Z")).map(
-      (d) => d.id,
-    ),
-  ).toEqual(["one"]);
+    parseBlogRecords(docs, true).find((d) => d.id === "one")?.data.published_at,
+  ).toBe("2026-09-16T13:00:00+00:00");
   expect(parseBlogRecords(docs, true)).toHaveLength(2);
+  expect(
+    parseBlogRecords([{ ...docs[0], data: { ...data, published_at: null } }])[0]
+      .data.published_at,
+  ).toBe("2026-09-15T23:00:00Z");
   expect(() =>
     blogArticleSchema.parse({
       ...data,
@@ -179,6 +181,16 @@ test("Content Engine accepts the explicit Rancher contract extension and blocks 
 });
 
 test("articles require an intact author relationship", () => {
-  expect(blogArticleSchema.safeParse({...data, author:{...data.author,isBroken:true}}).success).toBe(false);
-  expect(blogArticleSchema.safeParse({...data, author:{...data.author,type:'blog'}}).success).toBe(false);
+  expect(
+    blogArticleSchema.safeParse({
+      ...data,
+      author: { ...data.author, isBroken: true },
+    }).success,
+  ).toBe(false);
+  expect(
+    blogArticleSchema.safeParse({
+      ...data,
+      author: { ...data.author, type: "blog" },
+    }).success,
+  ).toBe(false);
 });
