@@ -270,7 +270,13 @@ export function blogLink(doc: { type?: string; uid?: string | null }) {
     ? `/blog/${doc.uid}/`
     : doc.type === "blog-index"
       ? "/blog/"
-      : "/";
+      : doc.type === "glossary" && doc.uid && blogUID.test(doc.uid)
+        ? `/glossary/${doc.uid}/`
+        : doc.type === "glossary-index"
+          ? "/glossary/"
+          : doc.type === "authors" && doc.uid && blogUID.test(doc.uid)
+            ? `/authors/${doc.uid}/`
+            : "/";
 }
 export function readingMinutes(data: BlogArticle) {
   return Math.max(

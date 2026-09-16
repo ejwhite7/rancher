@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { asHTML, type RichTextField } from "@prismicio/client";
+import { blogLink } from "../src/lib/blog";
 import { availableBlogLinks } from "../src/lib/blog-links";
 const text = "Read the guide and glossary.";
 function rich(data: any): RichTextField {
@@ -46,4 +47,22 @@ test("glossary, contact, external and library links remain available", () => {
     expect(
       asHTML(availableBlogLinks(rich({ link_type: "Web", url }), [])),
     ).toContain(`href="${url}"`);
+});
+
+test("Prismic glossary and author document links resolve to their own routes", () => {
+  for (const [type, uid, path] of [
+    ["glossary", "data-licensing", "/glossary/data-licensing/"],
+    ["authors", "edward-white", "/authors/edward-white/"],
+  ]) {
+    const content = rich({
+      link_type: "Document",
+      id: "linked",
+      type,
+      uid,
+      isBroken: false,
+    });
+    expect(
+      asHTML(availableBlogLinks(content, []), { linkResolver: blogLink }),
+    ).toContain(`href="${path}"`);
+  }
 });

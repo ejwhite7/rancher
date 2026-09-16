@@ -14,7 +14,17 @@ export function availableBlogLinks(
         if (span.type !== "hyperlink") return true;
         const link = span.data;
         if (link.link_type === "Document")
-          return !link.isBroken && ids.has(link.id);
+          return (
+            !link.isBroken &&
+            (link.type === "blog"
+              ? ids.has(link.id)
+              : [
+                  "glossary",
+                  "glossary-index",
+                  "authors",
+                  "blog-index",
+                ].includes(link.type || ""))
+          );
         if (link.link_type !== "Web") return true;
         const url = new URL(link.url, "https://www.gorancher.com");
         if (
