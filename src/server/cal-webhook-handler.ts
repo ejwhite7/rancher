@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { serverLog } from "./logger";
 
 const MAX_BODY_BYTES = 128_000;
 const EVENT_NAMES = {
@@ -170,7 +171,7 @@ export async function handleCalWebhook(
   const token = dependencies.posthogToken();
   const host = dependencies.posthogHost();
   if (!secret || !token || !host) {
-    console.error("cal_webhook_configuration_missing");
+    await serverLog("error", "cal_webhook_configuration_missing");
     return new Response("Webhook unavailable", { status: 503 });
   }
 
@@ -201,7 +202,7 @@ export async function handleCalWebhook(
       ...details,
     });
   } catch {
-    console.error("cal_posthog_capture_failed");
+    await serverLog("error", "cal_posthog_capture_failed");
     return new Response("Event delivery failed", { status: 502 });
   }
   return Response.json({ received: true });

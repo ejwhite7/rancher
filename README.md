@@ -17,6 +17,10 @@ Use Node.js 24 to match the deployment runtime. Development serves the site at h
 - `SITE_URL`: canonical public origin, e.g. the project's production Vercel alias. The sitemap and all absolute SEO URLs use it.
 - `POSTGRES_URL`: server-side pooled Postgres connection provisioned by the Vercel Supabase integration. `DATABASE_URL` is accepted as an alternative. Never prefix credentials with `PUBLIC_` or expose them to the browser.
 - `BOOKING_URL`: HTTPS calendar URL. Initially `https://cal.com/growthcast/discovery`. The server reads it at request time. The browser receives it only after the database confirms the submission. No contact information is appended to this URL.
+- `PUBLIC_POSTHOG_PROJECT_TOKEN`: browser-safe PostHog project token used for analytics and OTLP log authentication. Do not use a personal API key.
+- `PUBLIC_POSTHOG_HOST`: canonical PostHog ingestion origin used by server capture. Browser analytics uses the same-origin `/ingest` proxy configured in `vercel.json`.
+- `OTEL_SERVICE_NAME`: optional OpenTelemetry service name; defaults to `rancher-web`.
+- `POSTHOG_LOGS_ENDPOINT`: optional OTLP/HTTP logs endpoint; defaults to `https://us.i.posthog.com/i/v1/logs`.
 
 The Supabase integration provides the production database connection. Preview and development use a dedicated `rancher_form_writer` role with INSERT access and SELECT access only to id and request hash for retry detection. Its RLS policies apply only to that role. All connected environments write to the same database; only use clearly marked test submissions when testing and remove them after verification. Local environment files, Vercel output, and research snapshots are ignored by Git.
 
@@ -52,6 +56,12 @@ npx vercel --prod
 The test suite uses a separate local development server on port 4322 so it does not interrupt the user's server on 4321. Tests cover benchmark outputs, validation and persistence-error handling, form success/error behavior, navigation, legal pages, metadata, and responsive layouts. An opt-in database test also checks real browser → API → Postgres → calendar behavior, concurrent retry deduplication, migration reruns, and RLS. Run it only against an isolated local Postgres instance at `127.0.0.1`: set `POSTGRES_URL`, `RUN_DATABASE_TESTS=1`, and `BOOKING_URL` in an ignored `.env.test.local`, then run `node --env-file=.env.test.local node_modules/@playwright/test/cli.js test`. Build and test sequentially because Astro shares its generated cache. Production verification must additionally confirm a real row in Supabase and the booking redirect.
 
 The Vercel GitHub App must have access to `ejwhite7/rancher` for Git-based automatic deployments. The production branch is `main`.
+
+## PostHog proxy and logs
+
+Vercel rewrites `/ingest/static/*`, `/ingest/array/*`, and `/ingest/*` to PostHog's US asset and ingestion hosts. The browser SDK uses `/ingest` as its `api_host` and keeps `https://us.posthog.com` as its `ui_host`. This proxy carries browser events, feature-flag requests, session recordings, and SDK assets, so monitor Vercel Fast Data Transfer usage.
+
+Server handlers emit privacy-safe operational failures through the standard OpenTelemetry Logs SDK. OTLP/HTTP exports go directly to PostHog and are flushed before the serverless handler returns. Log attributes are limited to deployment metadata and sanitized error codes; form contents, email addresses, webhook payloads, credentials, and database error details are excluded. Vercel platform/build/static logs are not OTLP application logs and require a separate Vercel Log Drain if they are needed.
 
 ## External submission delivery
 

@@ -2,6 +2,7 @@ import {
   referralSubmissionSchema as submissionSchema,
   type ReferralSubmission as Submission,
 } from "../lib/referral-submission";
+import { serverLog } from "./logger";
 import { SubmissionConflict } from "./submissions";
 
 type Dependencies = {
@@ -69,12 +70,12 @@ export async function handleReferralSubmission(
         409,
       );
     // Log no form data, credentials, or database error detail.
-    console.error(
-      "referral_submission_save_failed",
-      error instanceof Error && "code" in error
-        ? String(error.code)
-        : "unknown",
-    );
+    await serverLog("error", "referral_submission_save_failed", {
+      error_code:
+        error instanceof Error && "code" in error
+          ? String(error.code)
+          : "unknown",
+    });
     return json(
       {
         error:

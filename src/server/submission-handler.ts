@@ -1,5 +1,6 @@
 import { submissionSchema, type Submission } from "../lib/submission";
 import { emailDomain, isFreeOrDisposableEmail } from "./email-domain";
+import { serverLog } from "./logger";
 import { REFERRAL_BONUS_USD } from "./referral";
 import { SubmissionConflict } from "./submissions";
 
@@ -92,12 +93,12 @@ export async function handleSubmission(
         409,
       );
     // Log no form data, credentials, or database error detail.
-    console.error(
-      "submission_save_failed",
-      error instanceof Error && "code" in error
-        ? String(error.code)
-        : "unknown",
-    );
+    await serverLog("error", "submission_save_failed", {
+      error_code:
+        error instanceof Error && "code" in error
+          ? String(error.code)
+          : "unknown",
+    });
     return json(
       {
         error:

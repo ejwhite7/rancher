@@ -1,4 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
+import { serverLog } from "./logger";
 import { hookdeckUrl } from "./webhook-outbox";
 
 type Dependencies = {
@@ -31,7 +32,7 @@ export async function handleWebhookDelivery(
   try {
     return json((await deps.drain(destination)) as object, 200);
   } catch {
-    console.error("webhook_dispatch_failed");
+    await serverLog("error", "webhook_dispatch_failed");
     return json(
       {
         error:

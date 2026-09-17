@@ -1,10 +1,15 @@
 ---
 const projectToken = import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN;
 const host = import.meta.env.PUBLIC_POSTHOG_HOST;
+const apiHost = "/ingest";
+const uiHost = "https://us.posthog.com";
 const isDevelopment = import.meta.env.DEV;
 ---
 
-<script is:inline define:vars={{ projectToken, host, isDevelopment }}>
+<script
+  is:inline
+  define:vars={{ projectToken, host, apiHost, uiHost, isDevelopment }}
+>
   if (!projectToken || !host) {
     if (isDevelopment) {
       const variable = !projectToken
@@ -77,7 +82,8 @@ const isDevelopment = import.meta.env.DEV;
     })(document, window.posthog || []);
     // POSTHOG_BROWSER_SNIPPET_END
     window.posthog.init(projectToken, {
-      api_host: host,
+      api_host: apiHost,
+      ui_host: uiHost,
       opt_in_site_apps: true,
       defaults: "2026-01-30",
       capture_exceptions: {

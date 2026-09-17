@@ -2,6 +2,7 @@ import {
   contactSubmissionSchema as submissionSchema,
   type ContactSubmission as Submission,
 } from "../lib/contact-submission";
+import { serverLog } from "./logger";
 import { SubmissionConflict } from "./submissions";
 
 type Dependencies = {
@@ -69,12 +70,12 @@ export async function handleContactSubmission(
         409,
       );
     // Log no form data, credentials, or database error detail.
-    console.error(
-      "contact_submission_save_failed",
-      error instanceof Error && "code" in error
-        ? String(error.code)
-        : "unknown",
-    );
+    await serverLog("error", "contact_submission_save_failed", {
+      error_code:
+        error instanceof Error && "code" in error
+          ? String(error.code)
+          : "unknown",
+    });
     return json(
       {
         error:
