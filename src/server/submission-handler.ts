@@ -6,6 +6,7 @@ import { SubmissionConflict } from "./submissions";
 
 type Dependencies = {
   save: (submission: Submission) => Promise<void>;
+  capture?: (submission: Submission, request: Request) => Promise<void>;
   bookingUrl: () => string | undefined;
 };
 const MAX_BODY_BYTES = 16_384;
@@ -78,6 +79,7 @@ export async function handleSubmission(
   }
   try {
     await dependencies.save(validated.data);
+    await dependencies.capture?.(validated.data, request);
     return json(
       {
         redirectUrl: booking.href,

@@ -7,6 +7,7 @@ import { SubmissionConflict } from "./submissions";
 
 type Dependencies = {
   save: (submission: Submission) => Promise<void>;
+  capture?: (submission: Submission, request: Request) => Promise<void>;
 };
 const MAX_BODY_BYTES = 16_384;
 const json = (body: object, status: number) =>
@@ -62,6 +63,7 @@ export async function handleContactSubmission(
     );
   try {
     await dependencies.save(validated.data);
+    await dependencies.capture?.(validated.data, request);
     return json({ saved: true }, 201);
   } catch (error) {
     if (error instanceof SubmissionConflict)

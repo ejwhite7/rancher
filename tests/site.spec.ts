@@ -133,6 +133,9 @@ test("calculator updates reference scenarios and submits before redirecting", as
     "alex@example.com",
     {
       email: "alex@example.com",
+      first_name: "Alex",
+      last_name: "Morgan",
+      company: "Example Company",
       domain: "example.com",
       job_title: "VP of Operations",
     },

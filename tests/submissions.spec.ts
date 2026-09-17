@@ -30,6 +30,7 @@ const request = (data: unknown, headers: Record<string, string> = {}) =>
 test("accepts valid submissions only after persistence resolves", async () => {
   let resolveSave!: () => void;
   let saved = false;
+  let captured = false;
   const response = handleSubmission(request({ ...valid, records: undefined }), {
     bookingUrl: () => booking,
     save: async () => {
@@ -38,12 +39,17 @@ test("accepts valid submissions only after persistence resolves", async () => {
       });
       saved = true;
     },
+    capture: async () => {
+      expect(saved).toBe(true);
+      captured = true;
+    },
   });
   await expect.poll(() => typeof resolveSave).toBe("function");
   expect(saved).toBe(false);
   resolveSave();
   const result = await response;
   expect(saved).toBe(true);
+  expect(captured).toBe(true);
   expect(result.status).toBe(201);
   expect(await result.json()).toEqual({
     redirectUrl: booking,

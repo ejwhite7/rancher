@@ -91,17 +91,22 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         typeof result.domain !== "string"
       )
         throw new Error(result.error || copy.save_error);
+      const [firstName, ...lastNameParts] = payload.name.split(/\s+/);
       window.posthog?.identify(payload.email, {
         email: payload.email,
+        first_name: firstName,
+        last_name: lastNameParts.join(" "),
         domain: result.domain,
         job_title: payload.title,
+        company: payload.company,
       });
-      const [firstName, ...lastNameParts] = payload.name.split(/\s+/);
       trackEvent(
         "partnership_request_submitted",
         {
           submission_id: submissionKey.current.key,
           name: payload.name,
+          first_name: firstName,
+          last_name: lastNameParts.join(" "),
           email: payload.email,
           domain: result.domain,
           job_title: payload.title,

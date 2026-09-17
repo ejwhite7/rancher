@@ -24,6 +24,7 @@ export function trackEvent(
   const setOnce = options.personProperties?.setOnce;
   window.posthog?.capture(event, {
     ...properties,
+    ...(options.eventId ? { $insert_id: options.eventId, event_id: options.eventId } : {}),
     ...(set && Object.keys(set).length ? { $set: set } : {}),
     ...(setOnce && Object.keys(setOnce).length ? { $set_once: setOnce } : {}),
   });

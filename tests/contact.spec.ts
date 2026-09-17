@@ -153,6 +153,8 @@ test("contact form retains entries on error, retries safely, confirms success an
       properties: {
         form: "contact",
         submission_id: bodies[1].idempotencyKey,
+        event_id: bodies[1].idempotencyKey,
+        $insert_id: bodies[1].idempotencyKey,
         name: input.name,
         email: input.email,
         message: input.message,

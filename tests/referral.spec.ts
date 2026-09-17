@@ -193,6 +193,8 @@ test("referral retries safely, identifies only the referrer, tracks once after s
       properties: {
         form: "referral",
         submission_id: bodies[1].idempotencyKey,
+        event_id: bodies[1].idempotencyKey,
+        $insert_id: bodies[1].idempotencyKey,
         referrer_first_name: input.referrer_first_name,
         referrer_last_name: input.referrer_last_name,
         referrer_email: input.referrer_email,
