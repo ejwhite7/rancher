@@ -1,4 +1,4 @@
-// Attached only to contact.submission.created events on Rancher-Contact-to-Attio.
+// Attached only to submission.created events on Rancher-to-Attio.
 const attributionLines = (attribution) =>
   ["first", "last"].flatMap((touch) =>
     Object.entries(attribution?.[touch] || {}).map(
@@ -10,31 +10,38 @@ addHandler("transform", (request) => {
     typeof request.body === "string" ? JSON.parse(request.body) : request.body;
   const submission = event?.data;
   if (
-    event?.type !== "contact.submission.created" ||
+    event?.type !== "submission.created" ||
     !submission?.submission_id ||
     typeof submission.email !== "string" ||
-    typeof submission.name !== "string" ||
-    typeof submission.message !== "string"
+    typeof submission.name !== "string"
   ) {
-    throw new Error("Invalid Rancher contact submission");
+    throw new Error("Invalid Rancher partnership submission");
   }
-  const email = submission.email.trim().toLowerCase();
   request.headers = { ...request.headers, "content-type": "application/json" };
   request.query = "matching_attribute=email_addresses";
   request.body = {
     data: {
       values: {
-        email_addresses: [email],
+        email_addresses: [submission.email.trim().toLowerCase()],
         name: [{ full_name: submission.name }],
+        job_title: submission.job_title,
         rancher_submission_id: submission.submission_id,
-        domain: email.split("@")[1],
+        company_name: submission.company,
+        domain: submission.domain,
+        company_size: submission.company_size,
+        data_history: submission.data_history,
+        record_types: submission.record_types,
+        referral_bonus_usd: submission.referral_bonus_usd,
         additional_context: [
-          submission.message,
+          submission.additional_context || "",
           ...attributionLines(submission.attribution),
-        ].join("\n"),
+        ]
+          .filter(Boolean)
+          .join("\n"),
+        outreach_consent: submission.outreach_consent,
+        consent_recorded_at: submission.consent_recorded_at,
       },
     },
   };
-  // Contact enquiries do not overwrite company details or marketing consent.
   return request;
 });

@@ -63,7 +63,9 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
     process.env.RUN_DATABASE_TESTS !== "1",
     "Requires isolated local Postgres.",
   );
-  expect(new URL(process.env.POSTGRES_URL!).hostname).toBe("127.0.0.1");
+  expect(["127.0.0.1", "postgres"]).toContain(
+    new URL(process.env.POSTGRES_URL!).hostname,
+  );
   const sql = database();
   const id = randomUUID();
   const rollbackId = randomUUID();
@@ -79,6 +81,10 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
     records: "None",
     recordTypes: ["Documents & files"] as ["Documents & files"],
     outreachConsent: true as const,
+    attribution: {
+      first: { source: "google", medium: "cpc" },
+      last: { source: "linkedin", medium: "paid-social" },
+    },
     scenario: null,
   };
   try {
@@ -108,10 +114,11 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
     const [event] =
       await sql`SELECT * FROM rancher.webhook_outbox WHERE id=${id}`;
     expect(event.payload.type).toBe("submission.created");
-    expect(event.payload.schema_version).toBe(3);
+    expect(event.payload.schema_version).toBe(4);
     expect(event.payload.data.domain).toBe("example.com");
     expect(event.payload.data.job_title).toBe("VP of Operations");
     expect(event.payload.data.referral_bonus_usd).toBe(8000);
+    expect(event.payload.data.attribution).toEqual(input.attribution);
     expect(event.payload.data.request_hash).toBeUndefined();
     expect(event.payload.id).toBe(id);
     // Other test files may create events concurrently; isolate delivery candidates to this event.

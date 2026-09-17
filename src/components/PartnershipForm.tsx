@@ -4,6 +4,11 @@ import { useScenario } from "../lib/scenario";
 import { HISTORY_RANGES, RECORD_TYPES, TEAM_SIZES } from "../lib/submission";
 import { EMPLOYEES } from "../lib/estimate";
 import { trackEvent } from "../lib/analytics";
+import {
+  attributionFromForm,
+  attributionPersonProperties,
+} from "../lib/attribution";
+import AttributionFields from "./AttributionFields";
 export default function PartnershipForm({ copy }: { copy: FormContent }) {
   const scenario = useScenario();
   const [size, setSize] = useState("");
@@ -51,6 +56,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
       records: String(fields.get("records") ?? "").trim(),
       outreachConsent: fields.get("outreach_consent") === "yes",
       website: String(fields.get("website") ?? ""),
+      attribution: attributionFromForm(form),
       scenario: scenario
         ? {
             employees: scenario.employees,
@@ -107,9 +113,26 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           outreach_consent: payload.outreachConsent,
           referral_bonus_usd: result.referralBonusUsd,
           calculator_scenario: payload.scenario,
+          attribution: payload.attribution,
         },
         {
           eventId: submissionKey.current.key,
+          personProperties: {
+            setOnce: {
+              ...attributionPersonProperties(
+                "attribution_first",
+                payload.attribution.first,
+              ),
+              ...attributionPersonProperties(
+                "partnership_first",
+                payload.attribution.first,
+              ),
+              ...attributionPersonProperties(
+                "partnership_last",
+                payload.attribution.last,
+              ),
+            },
+          },
           userData: {
             emailAddress: payload.email,
             firstName,
@@ -144,6 +167,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           {scenario?.brief}
         </p>
         <p>{copy.description}</p>
+        <AttributionFields />
         <div className="form-honeypot" aria-hidden="true">
           <label>
             {copy.honeypot_label}

@@ -1,0 +1,41 @@
+<script is:inline src="/vendor/attributor/attributor-2.1.1.js"></script>
+<script is:inline>
+  if (typeof window.Attributor === "function") {
+    const host = window.location.hostname;
+    const cookieDomain =
+      host === "gorancher.com" || host.endsWith(".gorancher.com")
+        ? "gorancher.com"
+        : "";
+    const keys = [
+      "source",
+      "medium",
+      "campaign",
+      "term",
+      "content",
+      "id",
+      "source_platform",
+      "marketing_tactic",
+      "creative_format",
+      "adextension",
+      "adgroup",
+      "adgroupid",
+      "adplacement",
+      "adposition",
+      "campaignid",
+      "geo",
+      "keymatch",
+      "device",
+      "matchtype",
+      "network",
+    ];
+    const fieldMap = {
+      first: Object.fromEntries(
+        keys.map((key) => [key, `attribution_first_${key}`]),
+      ),
+      last: Object.fromEntries(
+        keys.map((key) => [key, `attribution_last_${key}`]),
+      ),
+    };
+    window.__attribution = new window.Attributor({ cookieDomain, fieldMap });
+  }
+</script>

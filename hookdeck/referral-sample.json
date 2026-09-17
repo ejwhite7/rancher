@@ -5,7 +5,7 @@
   "body": {
     "id": "53c5d917-09b6-459f-9c16-794972ec77eb",
     "type": "referral.submission.created",
-    "schema_version": 1,
+    "schema_version": 2,
     "created_at": "2026-09-15T12:00:00Z",
     "data": {
       "submission_id": "53c5d917-09b6-459f-9c16-794972ec77eb",
@@ -17,7 +17,11 @@
       "referral_last_name": "Referral",
       "referral_email": "REFERRED@example.org",
       "company_size": "50\u2013199",
-      "industry": "Technology"
+      "industry": "Technology",
+      "attribution": {
+        "first": { "source": "google", "medium": "cpc", "campaign": "spring" },
+        "last": { "source": "newsletter", "medium": "email", "campaign": "partner-update" }
+      }
     }
   }
 }

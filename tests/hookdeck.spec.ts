@@ -1,6 +1,33 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
+
+test("partnership transformation includes attribution in Attio context", async () => {
+  const code = await readFile("hookdeck/website-attio.js", "utf8");
+  const sample = JSON.parse(
+    await readFile("hookdeck/website-sample.json", "utf8"),
+  );
+  let transform: any;
+  runInNewContext(code, {
+    addHandler: (_event: string, handler: unknown) => {
+      transform = handler;
+    },
+  });
+  const output = JSON.parse(
+    JSON.stringify(transform({ headers: {}, body: sample.body })),
+  );
+  expect(output.query).toBe("matching_attribute=email_addresses");
+  expect(output.body.data.values.email_addresses).toEqual([
+    "partner@example.com",
+  ]);
+  expect(output.body.data.values.additional_context).toContain(
+    "Attribution first source: google",
+  );
+  expect(output.body.data.values.additional_context).toContain(
+    "Attribution last campaign: retargeting",
+  );
+});
+
 test("contact transformation maps the message without writing partnership or consent fields", async () => {
   const code = await readFile("hookdeck/contact-attio.js", "utf8");
   const sample = JSON.parse(
@@ -21,7 +48,8 @@ test("contact transformation maps the message without writing partnership or con
       name: [{ full_name: "Synthetic transformation test" }],
       rancher_submission_id: sample.body.id,
       domain: "example.com",
-      additional_context: sample.body.data.message,
+      additional_context:
+        "Synthetic contact transformation test.\nAttribution first source: google\nAttribution first medium: cpc\nAttribution first campaign: spring\nAttribution last source: linkedin\nAttribution last medium: paid-social\nAttribution last campaign: retargeting",
     });
   }
   expect(() =>
@@ -53,7 +81,7 @@ test("referral transformation targets the referred person and preserves referrer
       domain: "example.org",
       company_size: "50–199",
       additional_context:
-        "Rancher referral\nReferred by: Test Referrer <referrer@example.com>\nReferral: Test Referral <referred@example.org>\nCompany size: 50–199\nIndustry: Technology",
+        "Rancher referral\nReferred by: Test Referrer <referrer@example.com>\nReferral: Test Referral <referred@example.org>\nCompany size: 50–199\nIndustry: Technology\nAttribution first source: google\nAttribution first medium: cpc\nAttribution first campaign: spring\nAttribution last source: newsletter\nAttribution last medium: email\nAttribution last campaign: partner-update",
     });
   }
   expect(() =>

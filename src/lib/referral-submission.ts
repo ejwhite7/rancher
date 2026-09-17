@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { attributionSchema, EMPTY_ATTRIBUTION } from "./attribution";
 const name = z.string().trim().min(1).max(120);
 const email = z
   .email()
@@ -16,6 +17,7 @@ export const referralSubmissionSchema = z
     company_size: z.string().trim().min(1).max(120),
     industry: z.string().trim().min(1).max(120),
     website: z.string().max(0).optional(),
+    attribution: attributionSchema.optional().default(EMPTY_ATTRIBUTION),
   })
   .strict();
 export type ReferralSubmission = z.infer<typeof referralSubmissionSchema>;

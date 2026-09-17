@@ -110,7 +110,7 @@
     },
     {
       "type": "paragraph",
-      "text": "We use PostHog to understand site usage, measure conversions, and operate submission notifications. After a successful partnership, contact, or referral submission, we identify the analytics record using the submitter’s email and send the submitted form fields and submission ID to PostHog. PostHog Workflows forwards those fields to Rancher’s Slack workspace for follow-up. The application does not set advertising cookies or save your form entries in local storage. Your browser may separately retain autofill information according to its settings. We do not sell submission information or use it for cross-context advertising.",
+      "text": "We use first-party attr_first and attr_last cookies to retain campaign and referring-source information, including first and most recent non-direct touch. The first-touch cookie can remain for up to 400 days, subject to browser limits. The last-touch cookie uses a rolling 30-minute window. When you successfully submit a partnership, contact, or referral form, we store that attribution with your normalized submitter email and submission ID. We send the submitted form fields, submission ID, and attribution to PostHog for analytics and operational workflows. PostHog Workflows forwards submission details to Rancher’s Slack workspace, and Hookdeck forwards them to Attio for follow-up. We do not save your form entries in local storage, sell submission information, or use it for cross-context advertising.",
       "spans": [],
       "direction": "ltr"
     },

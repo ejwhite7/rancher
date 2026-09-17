@@ -47,7 +47,9 @@ test("calculator updates reference scenarios and submits before redirecting", as
   );
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("/");
+  await page.goto(
+    "/?utm_source=google&utm_medium=cpc&utm_campaign=partner-search&utm_content=hero",
+  );
   await page.evaluate(() => {
     const record = (...args: unknown[]) =>
       console.log(`__POSTHOG__${JSON.stringify(args)}`);
@@ -101,6 +103,20 @@ test("calculator updates reference scenarios and submits before redirecting", as
     country: "Canada",
   });
   expect(submitted?.idempotencyKey).toMatch(/^[0-9a-f-]{36}$/);
+  expect(submitted?.attribution).toEqual({
+    first: {
+      source: "google",
+      medium: "cpc",
+      campaign: "partner-search",
+      content: "hero",
+    },
+    last: {
+      source: "google",
+      medium: "cpc",
+      campaign: "partner-search",
+      content: "hero",
+    },
+  });
   expect(posthogCalls).toContainEqual([
     "capture",
     "partnership_explored",
@@ -142,6 +158,12 @@ test("calculator updates reference scenarios and submits before redirecting", as
         years: 20,
         country: "Canada",
       },
+      attribution: submitted?.attribution,
+      $set_once: expect.objectContaining({
+        attribution_first_source: "google",
+        partnership_first_source: "google",
+        partnership_last_source: "google",
+      }),
     }),
   ]);
   expect(dataLayerCalls).toContainEqual(
@@ -158,6 +180,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
       event_id: submitted?.idempotencyKey,
       submission_id: submitted?.idempotencyKey,
       referral_bonus_usd: 75000,
+      attribution: submitted?.attribution,
       user_data: {
         email_address: "alex@example.com",
         address: {
@@ -180,6 +203,54 @@ test("calculator updates reference scenarios and submits before redirecting", as
   );
   expect(range).toContain("$");
   expect(errors).toEqual([]);
+});
+
+test("attribution keeps first touch and updates the latest non-direct touch", async ({
+  page,
+}) => {
+  await page.goto(
+    "/?utm_source=google&utm_medium=cpc&utm_campaign=first-campaign",
+  );
+  await page.goto(
+    "/contact/?utm_source=linkedin&utm_medium=paid-social&utm_campaign=latest-campaign",
+  );
+  const attribution = await page.evaluate(() => ({
+    first: JSON.parse(
+      decodeURIComponent(
+        document.cookie.match(/(?:^|; )attr_first=([^;]*)/)?.[1] || "{}",
+      ),
+    ),
+    last: JSON.parse(
+      decodeURIComponent(
+        document.cookie.match(/(?:^|; )attr_last=([^;]*)/)?.[1] || "{}",
+      ),
+    ),
+  }));
+  expect(attribution.first).toEqual(
+    expect.objectContaining({
+      source: "google",
+      medium: "cpc",
+      campaign: "first-campaign",
+    }),
+  );
+  expect(attribution.last).toEqual(
+    expect.objectContaining({
+      source: "linkedin",
+      medium: "paid-social",
+      campaign: "latest-campaign",
+    }),
+  );
+  await page.evaluate(() =>
+    window.__attribution?.fillFormFields({
+      scope: document.querySelector("form") ?? document,
+    }),
+  );
+  await expect(
+    page.locator('input[name="attribution_first_source"]'),
+  ).toHaveValue("google");
+  await expect(page.locator('input[name="attribution_last_source"]')).toHaveValue(
+    "linkedin",
+  );
 });
 
 test("tabs and site-information dialog retain keyboard interaction", async ({

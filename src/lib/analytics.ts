@@ -9,6 +9,10 @@ type UserData = {
 type TrackOptions = {
   eventId?: string;
   userData?: UserData;
+  personProperties?: {
+    set?: EventProperties;
+    setOnce?: EventProperties;
+  };
 };
 
 export function trackEvent(
@@ -16,7 +20,13 @@ export function trackEvent(
   properties: EventProperties = {},
   options: TrackOptions = {},
 ) {
-  window.posthog?.capture(event, properties);
+  const set = options.personProperties?.set;
+  const setOnce = options.personProperties?.setOnce;
+  window.posthog?.capture(event, {
+    ...properties,
+    ...(set && Object.keys(set).length ? { $set: set } : {}),
+    ...(setOnce && Object.keys(setOnce).length ? { $set_once: setOnce } : {}),
+  });
 
   const userData = options.userData
     ? {

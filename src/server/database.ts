@@ -14,7 +14,9 @@ export function database() {
     prepare: false, // Supabase transaction pooler does not support named prepared statements.
     connect_timeout: 10,
     idle_timeout: 20,
-    ssl: ["localhost", "127.0.0.1", "[::1]"].includes(host) ? false : "require",
+    ssl: ["localhost", "127.0.0.1", "[::1]", "postgres"].includes(host)
+      ? false
+      : "require",
   });
   return client;
 }

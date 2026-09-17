@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { attributionSchema, EMPTY_ATTRIBUTION } from "./attribution";
 
 export const CONSENT_TEXT =
   "I consent to outreach from Rancher about data licensing opportunities.";
@@ -53,6 +54,7 @@ export const submissionSchema = z
       error: "Please consent to outreach before submitting.",
     }),
     website: z.string().max(0).optional(),
+    attribution: attributionSchema.optional().default(EMPTY_ATTRIBUTION),
     scenario: z
       .object({
         employees: z.number().int().min(20).max(200),

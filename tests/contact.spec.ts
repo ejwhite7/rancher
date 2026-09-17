@@ -103,7 +103,9 @@ test("contact form retains entries on error, retries safely, confirms success an
       ),
     });
   });
-  await page.goto("/contact/");
+  await page.goto(
+    "/contact/?utm_source=newsletter&utm_medium=email&utm_campaign=contact-test",
+  );
   await expect(page.locator("link[rel=canonical]")).toHaveAttribute(
     "href",
     "https://www.gorancher.com/contact/",
@@ -112,6 +114,7 @@ test("contact form retains entries on error, retries safely, confirms success an
     const events: unknown[] = [];
     Object.assign(window, {
       contactAnalytics: events,
+      dataLayer: [],
       posthog: {
         identify: (id: string, properties: Record<string, unknown>) =>
           events.push({ method: "identify", id, properties }),
@@ -153,9 +156,38 @@ test("contact form retains entries on error, retries safely, confirms success an
         name: input.name,
         email: input.email,
         message: input.message,
+        attribution: {
+          first: {
+            source: "newsletter",
+            medium: "email",
+            campaign: "contact-test",
+          },
+          last: {
+            source: "newsletter",
+            medium: "email",
+            campaign: "contact-test",
+          },
+        },
+        $set: {
+          attribution_last_source: "newsletter",
+          attribution_last_medium: "email",
+          attribution_last_campaign: "contact-test",
+        },
+        $set_once: {
+          attribution_first_source: "newsletter",
+          attribution_first_medium: "email",
+          attribution_first_campaign: "contact-test",
+        },
       },
     },
   ]);
+  expect(await page.evaluate(() => (window as any).dataLayer)).toContainEqual(
+    expect.objectContaining({
+      event: "contact_form_submitted",
+      event_id: bodies[1].idempotencyKey,
+      attribution: bodies[1].attribution,
+    }),
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/contact/");
   expect(

@@ -13,7 +13,9 @@ test.skip(
 test("Postgres migration, idempotent insertion, server estimates, and RLS", async ({
   page,
 }) => {
-  expect(new URL(process.env.POSTGRES_URL!).hostname).toBe("127.0.0.1");
+  expect(["127.0.0.1", "postgres"]).toContain(
+    new URL(process.env.POSTGRES_URL!).hostname,
+  );
   const sql = database();
   const id = randomUUID();
   const browserEmail = `browser-${id}@example.com`;
@@ -28,6 +30,10 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     records: "Synthetic test data",
     recordTypes: ["Documents & files"],
     outreachConsent: true,
+    attribution: {
+      first: { source: "google", medium: "cpc", campaign: "database-test" },
+      last: { source: "linkedin", medium: "paid-social" },
+    },
     scenario: { employees: 100, years: 10, country: "Canada" },
   };
   try {
@@ -63,6 +69,21 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       await sql.unsafe(
         await readFile("db/migrations/005_job_title.sql", "utf8"),
       );
+      await sql.unsafe(
+        await readFile("db/migrations/006_submission_domain.sql", "utf8"),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/007_contact_submissions.sql", "utf8"),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/008_contact_webhooks.sql", "utf8"),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/009_referral_submissions.sql", "utf8"),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/010_submission_attribution.sql", "utf8"),
+      );
     }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
     const records =
@@ -92,6 +113,30 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     expect(records[0].outreach_consent).toBe(true);
     expect(records[0].consent_prechecked).toBe(true);
     expect(records[0].consent_recorded_at).toBeTruthy();
+    const [snapshot] =
+      await sql`SELECT * FROM rancher.submission_attribution WHERE submission_id = ${id}`;
+    expect(snapshot.email).toBe("test@example.com");
+    expect(snapshot.first_touch).toEqual(row.attribution.first);
+    const [initialUserAttribution] =
+      await sql`SELECT * FROM rancher.user_attribution WHERE email = 'test@example.com'`;
+    expect(initialUserAttribution.partnership_submission_id).toBe(id);
+    expect(initialUserAttribution.partnership_last_touch).toEqual(
+      row.attribution.last,
+    );
+    const laterId = randomUUID();
+    await sql`SELECT rancher.record_submission_attribution(
+      'test@example.com', ${laterId}, 'contact',
+      ${sql.json({ source: "ignored-first" })},
+      ${sql.json({ source: "newsletter", medium: "email" })}
+    )`;
+    const [updatedUserAttribution] =
+      await sql`SELECT * FROM rancher.user_attribution WHERE email = 'test@example.com'`;
+    expect(updatedUserAttribution.first_touch).toEqual(row.attribution.first);
+    expect(updatedUserAttribution.last_touch).toEqual({
+      source: "newsletter",
+      medium: "email",
+    });
+    expect(updatedUserAttribution.partnership_submission_id).toBe(id);
     await expect(
       saveSubmission({ ...row, company: "Different company" }),
     ).rejects.toBeInstanceOf(SubmissionConflict);
@@ -135,6 +180,8 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     );
   } finally {
     await sql`DELETE FROM rancher.partnership_submissions WHERE id = ${id} OR email = ${browserEmail}`;
+    await sql`DELETE FROM rancher.submission_attribution WHERE email IN ('test@example.com', ${browserEmail})`;
+    await sql`DELETE FROM rancher.user_attribution WHERE email IN ('test@example.com', ${browserEmail})`;
     // The Playwright worker owns the shared database connection pool.
   }
 });

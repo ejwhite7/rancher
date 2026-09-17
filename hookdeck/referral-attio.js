@@ -1,4 +1,10 @@
 // Attached only to referral.submission.created on Rancher-Referral-to-Attio.
+const attributionLines = (attribution) =>
+  ["first", "last"].flatMap((touch) =>
+    Object.entries(attribution?.[touch] || {}).map(
+      ([key, value]) => `Attribution ${touch} ${key}: ${String(value)}`,
+    ),
+  );
 addHandler("transform", (request) => {
   const event =
     typeof request.body === "string" ? JSON.parse(request.body) : request.body;
@@ -45,6 +51,7 @@ addHandler("transform", (request) => {
           `Referral: ${submission.referral_first_name} ${submission.referral_last_name} <${email}>`,
           `Company size: ${submission.company_size}`,
           `Industry: ${submission.industry}`,
+          ...attributionLines(submission.attribution),
         ].join("\n"),
       },
     },

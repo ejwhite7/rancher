@@ -196,7 +196,9 @@ test("legal documents keep their own content and reject unsafe links", async () 
     const seed = JSON.parse(await readFile(`prismic/seed/${uid}.json`, "utf8"));
     const legal = validateLegalContent(seed);
     expect(legal.body.length).toBeGreaterThan(10);
-    expect(legal.updated).toBe("2026-09-14");
+    expect(legal.updated).toBe(
+      uid === "privacy-policy" ? "2026-09-17" : "2026-09-14",
+    );
     expect(() =>
       validateLegalContent({
         ...seed,

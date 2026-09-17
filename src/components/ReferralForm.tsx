@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
+import AttributionFields from "./AttributionFields";
 import type { ReferralFormContent } from "../lib/referral";
+import {
+  attributionFromForm,
+  attributionPersonProperties,
+} from "../lib/attribution";
+import { trackEvent } from "../lib/analytics";
 export default function ReferralForm({
   copy,
   preview = false,
@@ -34,6 +40,7 @@ export default function ReferralForm({
       company_size: String(fields.get("company_size") || "").trim(),
       industry: String(fields.get("industry") || "").trim(),
       website: String(fields.get("website") || ""),
+      attribution: attributionFromForm(form),
     };
     const serialized = JSON.stringify(payload);
     if (submission.current?.payload !== serialized)
@@ -65,18 +72,35 @@ export default function ReferralForm({
         /* Keep the confirmation visible if analytics is unavailable. */
       }
       try {
-        window.posthog?.capture("referral_form_submitted", {
-          form: "referral",
-          submission_id: submission.current.key,
-          referrer_first_name: payload.referrer_first_name,
-          referrer_last_name: payload.referrer_last_name,
-          referrer_email: payload.referrer_email,
-          referral_first_name: payload.referral_first_name,
-          referral_last_name: payload.referral_last_name,
-          referral_email: payload.referral_email,
-          company_size: payload.company_size,
-          industry: payload.industry,
-        });
+        trackEvent(
+          "referral_form_submitted",
+          {
+            form: "referral",
+            submission_id: submission.current.key,
+            referrer_first_name: payload.referrer_first_name,
+            referrer_last_name: payload.referrer_last_name,
+            referrer_email: payload.referrer_email,
+            referral_first_name: payload.referral_first_name,
+            referral_last_name: payload.referral_last_name,
+            referral_email: payload.referral_email,
+            company_size: payload.company_size,
+            industry: payload.industry,
+            attribution: payload.attribution,
+          },
+          {
+            eventId: submission.current.key,
+            personProperties: {
+              set: attributionPersonProperties(
+                "attribution_last",
+                payload.attribution.last,
+              ),
+              setOnce: attributionPersonProperties(
+                "attribution_first",
+                payload.attribution.first,
+              ),
+            },
+          },
+        );
       } catch {
         /* Delivery was already confirmed by the server. */
       }
@@ -100,6 +124,7 @@ export default function ReferralForm({
         </p>
       ) : (
         <form onSubmit={submit} className="referral-form ph-no-capture">
+          <AttributionFields />
           <div className="form-honeypot" aria-hidden="true">
             <label>
               {copy.honeypot_label}

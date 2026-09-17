@@ -136,7 +136,9 @@ test("referral retries safely, identifies only the referrer, tracks once after s
       ),
     });
   });
-  await page.goto("/referral/");
+  await page.goto(
+    "/referral/?utm_source=partner&utm_medium=referral&utm_campaign=referral-test",
+  );
   await expect(page.locator("link[rel=canonical]")).toHaveAttribute(
     "href",
     "https://www.gorancher.com/referral/",
@@ -148,6 +150,7 @@ test("referral retries safely, identifies only the referrer, tracks once after s
     const events: unknown[] = [];
     Object.assign(window, {
       referralAnalytics: events,
+      dataLayer: [],
       posthog: {
         identify: (id: string, properties: unknown) =>
           events.push({ method: "identify", id, properties }),
@@ -198,9 +201,38 @@ test("referral retries safely, identifies only the referrer, tracks once after s
         referral_email: input.referral_email,
         company_size: input.company_size,
         industry: input.industry,
+        attribution: {
+          first: {
+            source: "partner",
+            medium: "referral",
+            campaign: "referral-test",
+          },
+          last: {
+            source: "partner",
+            medium: "referral",
+            campaign: "referral-test",
+          },
+        },
+        $set: {
+          attribution_last_source: "partner",
+          attribution_last_medium: "referral",
+          attribution_last_campaign: "referral-test",
+        },
+        $set_once: {
+          attribution_first_source: "partner",
+          attribution_first_medium: "referral",
+          attribution_first_campaign: "referral-test",
+        },
       },
     },
   ]);
+  expect(await page.evaluate(() => (window as any).dataLayer)).toContainEqual(
+    expect.objectContaining({
+      event: "referral_form_submitted",
+      event_id: bodies[1].idempotencyKey,
+      attribution: bodies[1].attribution,
+    }),
+  );
   await page.goto("/referral/");
   await expect(
     page.getByRole("button", { name: "Submit referral", exact: true }),
