@@ -3,8 +3,33 @@ import { asHTML, type RichTextField } from "@prismicio/client";
 import { getLegalContent } from "../lib/prismic";
 import LegalLayout from "../layouts/LegalLayout.astro";
 const legal = await getLegalContent("privacy-policy");
+const bodyHtml = asHTML(legal.body as RichTextField);
+const hasAttributionDisclosure = bodyHtml.includes("attr_first");
+const displayedLegal = hasAttributionDisclosure
+  ? legal
+  : { ...legal, updated: "2026-09-17" };
 ---
 
-<LegalLayout title={legal.title} description={legal.description} legal={legal}>
-  <Fragment set:html={asHTML(legal.body as RichTextField)} />
+<LegalLayout
+  title={displayedLegal.title}
+  description={displayedLegal.description}
+  legal={displayedLegal}
+>
+  <Fragment set:html={bodyHtml} />
+  {!hasAttributionDisclosure && (
+    <>
+      <h2>Campaign attribution</h2>
+      <p>
+        We use first-party <code>attr_first</code> and <code>attr_last</code>
+        cookies to retain campaign and referring-source information, including
+        your first and most recent non-direct touch. The first-touch cookie can
+        remain for up to 400 days, subject to browser limits. The last-touch
+        cookie uses a rolling 30-minute window. When you successfully submit a
+        partnership, contact, or referral form, we store that attribution with
+        your normalized submitter email and submission ID, and send it to our
+        analytics and follow-up providers as described above. We do not use
+        these cookies for cross-context advertising.
+      </p>
+    </>
+  )}
 </LegalLayout>

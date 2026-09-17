@@ -13,7 +13,7 @@ Migration `010_submission_attribution.sql` creates two restricted, RLS-enabled t
 
 Referral attribution belongs to the referrer who browsed and submitted the form. The referred person remains the Attio contact.
 
-Attribution and the source form row are written in one database transaction. The attribution row is inserted before the form row so the existing database webhook trigger can include the snapshot atomically. A failed or conflicting form insert rolls back attribution changes.
+Attribution and the source form row are written in one database transaction. The attribution row is inserted before the form row so the existing database webhook trigger can include the snapshot atomically. A failed or conflicting form insert rolls back attribution changes. Deleting a source form row deletes its submission snapshot; the email-keyed user record is also deleted when no snapshots remain.
 
 ## Analytics and delivery
 
