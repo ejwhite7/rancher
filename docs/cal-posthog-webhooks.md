@@ -34,6 +34,8 @@ The endpoint records these PostHog events respectively:
 
 The attendee's normalized email is the PostHog `distinct_id`, linking booking events to the person identified after a Rancher inquiry. Properties include booking/event identifiers, title/type, times, duration, status, attendee name/email/time zone, cancellation or rejection reason, reschedule UID, no-show state, and webhook version. Meeting links, notes, phone numbers, additional guests, and calendar invite contents are not forwarded.
 
+Booking-created, rescheduled, meeting-started, and meeting-ended events set the person's `cal_booking_booked` property to `true`. Booking-cancelled and booking-rejected events set it to `false`. PostHog's **Partnership request follow-up** workflow reads this property after its five-minute delay so one Liquid email can either confirm the scheduled call or show the booking link.
+
 ## Verification
 
 1. Use Cal.com's webhook test action or create a test booking.
