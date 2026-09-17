@@ -190,6 +190,12 @@ test("referral retries safely, identifies only the referrer, tracks once after s
       properties: {
         form: "referral",
         submission_id: bodies[1].idempotencyKey,
+        referrer_first_name: input.referrer_first_name,
+        referrer_last_name: input.referrer_last_name,
+        referrer_email: input.referrer_email,
+        referral_first_name: input.referral_first_name,
+        referral_last_name: input.referral_last_name,
+        referral_email: input.referral_email,
         company_size: input.company_size,
         industry: input.industry,
       },

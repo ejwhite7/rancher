@@ -4,7 +4,7 @@
   "body": [
     {
       "type": "paragraph",
-      "text": "This Privacy Policy explains how the Rancher website handles information when you browse, explore a calculator scenario, submit a partnership inquiry, or continue to a booking service. A separate written agreement governs any actual data-licensing partnership.",
+      "text": "This Privacy Policy explains how the Rancher website handles information when you browse, explore a calculator scenario, submit a partnership inquiry, contact Rancher, make a referral, or continue to a booking service. A separate written agreement governs any actual data-licensing partnership.",
       "spans": [],
       "direction": "ltr"
     },
@@ -16,7 +16,7 @@
     },
     {
       "type": "paragraph",
-      "text": "The inquiry form collects your name, work email, job title, company, team size, available data history, selected record types, additional context, and outreach consent. If you select a calculator scenario before submitting, we also record its employee count, years, region, and the indicative estimate calculated by our server.",
+      "text": "The partnership inquiry form collects your name, work email, job title, company, team size, available data history, selected record types, additional context, and outreach consent. The contact form collects your name, email, and message. The referral form collects the referrer’s and referred contact’s names and emails, company size, and industry. If you select a calculator scenario before submitting, we also record its employee count, years, region, and the indicative estimate calculated by our server.",
       "spans": [],
       "direction": "ltr"
     },
@@ -52,7 +52,7 @@
     },
     {
       "type": "paragraph",
-      "text": "Vercel hosts the website and processes form requests. Submissions are stored in a Supabase-managed PostgreSQL database. Database credentials remain on the server, and the submission records are not available through a public browser database API. Authorized operators and service providers may access information as needed to operate and support the service.",
+      "text": "Vercel hosts the website and processes form requests. Submissions are stored in a Supabase-managed PostgreSQL database. PostHog processes successful submission events and uses Slack to notify Rancher operators in a private operational channel. Database credentials remain on the server, and the submission records are not available through a public browser database API. Authorized operators and service providers may access information as needed to operate and support the service.",
       "spans": [],
       "direction": "ltr"
     },
@@ -110,7 +110,7 @@
     },
     {
       "type": "paragraph",
-      "text": "We use PostHog to understand site usage and measure inquiry conversions. When you successfully submit the inquiry form, we identify the analytics record using your work email and send the submitted name, email, email domain, job title, company, company size, data-history range, record types, optional additional context, outreach-consent status, calculator scenario, submission ID, and server-calculated referral amount to PostHog. The application does not set advertising cookies or save your form entries in local storage. Your browser may separately retain autofill information according to its settings. We do not sell inquiry information or use it for cross-context advertising.",
+      "text": "We use PostHog to understand site usage, measure conversions, and operate submission notifications. After a successful partnership, contact, or referral submission, we identify the analytics record using the submitter’s email and send the submitted form fields and submission ID to PostHog. PostHog Workflows forwards those fields to Rancher’s Slack workspace for follow-up. The application does not set advertising cookies or save your form entries in local storage. Your browser may separately retain autofill information according to its settings. We do not sell submission information or use it for cross-context advertising.",
       "spans": [],
       "direction": "ltr"
     },
@@ -141,8 +141,8 @@
   ],
   "operator": "Rancher",
   "contact_email": "",
-  "updated": "2026-09-14",
-  "updated_label": "September 14, 2026",
+  "updated": "2026-09-17",
+  "updated_label": "September 17, 2026",
   "navigation": {
     "link_type": "Document",
     "id": "snapshot-navigation",

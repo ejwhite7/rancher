@@ -59,6 +59,9 @@ export default function ContactForm({
         window.posthog?.capture("contact_form_submitted", {
           form: "contact",
           submission_id: submission.current.key,
+          name: payload.name,
+          email: payload.email,
+          message: payload.message,
         });
       } catch {
         /* Delivery was already confirmed by the server. */

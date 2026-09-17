@@ -147,7 +147,13 @@ test("contact form retains entries on error, retries safely, confirms success an
     {
       method: "capture",
       event: "contact_form_submitted",
-      properties: { form: "contact", submission_id: bodies[1].idempotencyKey },
+      properties: {
+        form: "contact",
+        submission_id: bodies[1].idempotencyKey,
+        name: input.name,
+        email: input.email,
+        message: input.message,
+      },
     },
   ]);
   await page.setViewportSize({ width: 390, height: 844 });

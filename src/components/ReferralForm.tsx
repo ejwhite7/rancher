@@ -68,6 +68,12 @@ export default function ReferralForm({
         window.posthog?.capture("referral_form_submitted", {
           form: "referral",
           submission_id: submission.current.key,
+          referrer_first_name: payload.referrer_first_name,
+          referrer_last_name: payload.referrer_last_name,
+          referrer_email: payload.referrer_email,
+          referral_first_name: payload.referral_first_name,
+          referral_last_name: payload.referral_last_name,
+          referral_email: payload.referral_email,
           company_size: payload.company_size,
           industry: payload.industry,
         });
