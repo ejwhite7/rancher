@@ -1,4 +1,5 @@
 interface Window {
+  dataLayer: Array<Record<string, unknown>>;
   posthog?: {
     identify: (
       distinctId: string,

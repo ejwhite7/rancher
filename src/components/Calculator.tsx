@@ -1,6 +1,7 @@
 import type { CalculatorContent } from "../lib/content";
 import { useState, type CSSProperties } from "react";
 import { setScenario } from "../lib/scenario";
+import { trackEvent } from "../lib/analytics";
 import {
   calculateEstimate,
   formatEstimate,
@@ -17,7 +18,7 @@ export default function Calculator({ copy }: { copy: CalculatorContent }) {
   const [country, setCountry] = useState<Region>("USA");
   const estimate = calculateEstimate(employees, years, country);
   function buildBrief() {
-    window.posthog?.capture("partnership_explored", {
+    trackEvent("partnership_explored", {
       employee_count: employees === EMPLOYEES.max ? "200_plus" : employees,
       history_years: years === YEARS.max ? "20_plus" : years,
       company_region: country,

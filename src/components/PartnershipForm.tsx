@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { useScenario } from "../lib/scenario";
 import { HISTORY_RANGES, RECORD_TYPES, TEAM_SIZES } from "../lib/submission";
 import { EMPLOYEES } from "../lib/estimate";
+import { trackEvent } from "../lib/analytics";
 export default function PartnershipForm({ copy }: { copy: FormContent }) {
   const scenario = useScenario();
   const [size, setSize] = useState("");
@@ -89,21 +90,33 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         domain: result.domain,
         job_title: payload.title,
       });
-      window.posthog?.capture("partnership_request_submitted", {
-        submission_id: submissionKey.current.key,
-        name: payload.name,
-        email: payload.email,
-        domain: result.domain,
-        job_title: payload.title,
-        company: payload.company,
-        company_size: payload.size,
-        data_history: payload.history,
-        record_types: payload.recordTypes,
-        additional_context: payload.records,
-        outreach_consent: payload.outreachConsent,
-        referral_bonus_usd: result.referralBonusUsd,
-        calculator_scenario: payload.scenario,
-      });
+      const [firstName, ...lastNameParts] = payload.name.split(/\s+/);
+      trackEvent(
+        "partnership_request_submitted",
+        {
+          submission_id: submissionKey.current.key,
+          name: payload.name,
+          email: payload.email,
+          domain: result.domain,
+          job_title: payload.title,
+          company: payload.company,
+          company_size: payload.size,
+          data_history: payload.history,
+          record_types: payload.recordTypes,
+          additional_context: payload.records,
+          outreach_consent: payload.outreachConsent,
+          referral_bonus_usd: result.referralBonusUsd,
+          calculator_scenario: payload.scenario,
+        },
+        {
+          eventId: submissionKey.current.key,
+          userData: {
+            emailAddress: payload.email,
+            firstName,
+            lastName: lastNameParts.join(" ") || undefined,
+          },
+        },
+      );
       setStatus(copy.success);
       window.location.assign(result.redirectUrl);
     } catch (error) {

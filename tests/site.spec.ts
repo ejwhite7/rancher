@@ -6,9 +6,14 @@ test("calculator updates reference scenarios and submits before redirecting", as
 }) => {
   let submitted: Record<string, any> | undefined;
   const posthogCalls: unknown[][] = [];
+  const dataLayerCalls: Record<string, unknown>[] = [];
   page.on("console", (message) => {
-    if (!message.text().startsWith("__POSTHOG__")) return;
-    posthogCalls.push(JSON.parse(message.text().slice("__POSTHOG__".length)));
+    if (message.text().startsWith("__POSTHOG__"))
+      posthogCalls.push(JSON.parse(message.text().slice("__POSTHOG__".length)));
+    if (message.text().startsWith("__DATALAYER__"))
+      dataLayerCalls.push(
+        JSON.parse(message.text().slice("__DATALAYER__".length)),
+      );
   });
   await page.addInitScript(() => {
     const record = (...args: unknown[]) =>
@@ -17,6 +22,13 @@ test("calculator updates reference scenarios and submits before redirecting", as
       identify: (...args: unknown[]) => record("identify", ...args),
       capture: (...args: unknown[]) => record("capture", ...args),
     };
+    const dataLayer: Record<string, unknown>[] = [];
+    dataLayer.push = (...entries: Record<string, unknown>[]) => {
+      for (const entry of entries)
+        console.log(`__DATALAYER__${JSON.stringify(entry)}`);
+      return Array.prototype.push.apply(dataLayer, entries);
+    };
+    (window as any).dataLayer = dataLayer;
   });
   await page.route("**/api/submissions/", async (route) => {
     submitted = route.request().postDataJSON();
@@ -132,6 +144,40 @@ test("calculator updates reference scenarios and submits before redirecting", as
       },
     }),
   ]);
+  expect(dataLayerCalls).toContainEqual(
+    expect.objectContaining({
+      event: "partnership_explored",
+      employee_count: "200_plus",
+      history_years: "20_plus",
+      company_region: "Canada",
+    }),
+  );
+  expect(dataLayerCalls).toContainEqual(
+    expect.objectContaining({
+      event: "partnership_request_submitted",
+      event_id: submitted?.idempotencyKey,
+      submission_id: submitted?.idempotencyKey,
+      referral_bonus_usd: 75000,
+      user_data: {
+        email_address: "alex@example.com",
+        address: {
+          first_name: "alex",
+          last_name: "morgan",
+        },
+      },
+      eventModel: {
+        currency: "USD",
+        value: 75000,
+        user_data: {
+          email_address: "alex@example.com",
+          address: {
+            first_name: "alex",
+            last_name: "morgan",
+          },
+        },
+      },
+    }),
+  );
   expect(range).toContain("$");
   expect(errors).toEqual([]);
 });
