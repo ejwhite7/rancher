@@ -68,6 +68,15 @@ function eventDetails(envelope: JsonObject, trigger: TriggerEvent) {
   const bookingId = number(booking.bookingId) ?? number(booking.id);
   const createdAt = string(envelope.createdAt) ?? string(booking.createdAt);
   const name = string(attendee.name);
+  const bookingState =
+    trigger === "BOOKING_CREATED" ||
+    trigger === "BOOKING_RESCHEDULED" ||
+    trigger === "MEETING_STARTED" ||
+    trigger === "MEETING_ENDED"
+      ? true
+      : trigger === "BOOKING_CANCELLED" || trigger === "BOOKING_REJECTED"
+        ? false
+        : undefined;
 
   const properties: JsonObject = {
     source: "cal.com",
@@ -92,7 +101,17 @@ function eventDetails(envelope: JsonObject, trigger: TriggerEvent) {
     $insert_id: [trigger, bookingUid ?? bookingId, createdAt]
       .filter(Boolean)
       .join(":"),
-    ...(email ? { $set: { email, ...(name ? { name } : {}) } } : {}),
+    ...(email
+      ? {
+          $set: {
+            email,
+            ...(name ? { name } : {}),
+            ...(bookingState === undefined
+              ? {}
+              : { cal_booking_booked: bookingState }),
+          },
+        }
+      : {}),
   };
   return {
     distinctId:

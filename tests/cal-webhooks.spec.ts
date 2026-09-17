@@ -73,9 +73,26 @@ test("verifies Cal signature and maps a booking to an identified PostHog event",
       duration_minutes: 30,
       cal_webhook_version: "2021-10-20",
       $insert_id: "BOOKING_CREATED:booking-uid:2026-09-17T12:00:00.000Z",
-      $set: { email: "alex@example.com", name: "Alex Morgan" },
+      $set: {
+        email: "alex@example.com",
+        name: "Alex Morgan",
+        cal_booking_booked: true,
+      },
     }),
   });
+});
+
+test("clears booked status when a booking is cancelled", async () => {
+  let captured: any;
+  const response = await handleCalWebhook(
+    request({ ...payload, triggerEvent: "BOOKING_CANCELLED" }),
+    dependencies(async (input) => {
+      captured = input;
+    }),
+  );
+
+  expect(response.status).toBe(200);
+  expect(captured.properties.$set.cal_booking_booked).toBe(false);
 });
 
 test("rejects invalid signatures before capture", async () => {
