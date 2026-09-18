@@ -14,7 +14,7 @@ export default defineConfig({
       PRISMIC_CONTENT_MODE: process.env.PRISMIC_CONTENT_MODE || "snapshot",
       PUBLIC_POSTHOG_PROJECT_TOKEN: "phc_test",
       PUBLIC_POSTHOG_HOST: "https://posthog.test",
-      BOOKING_URL: "https://cal.com/growthcast/discovery",
+      BOOKING_URL: "https://cal.com/rancher/discovery",
     },
     url: "http://127.0.0.1:4322",
     reuseExistingServer: false,

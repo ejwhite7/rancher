@@ -151,7 +151,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
         await tx`SELECT * FROM rancher.partnership_submissions`,
       ).toHaveLength(0);
     });
-    await page.route("https://cal.com/growthcast/discovery", (route) =>
+    await page.route("https://cal.com/rancher/discovery", (route) =>
       route.fulfill({ body: "Booking calendar" }),
     );
     await page.goto("/");
@@ -169,7 +169,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       .locator('[name="records"]')
       .fill("Synthetic browser persistence test");
     await page.getByRole("button", { name: "Submit & book a call" }).click();
-    await expect(page).toHaveURL("https://cal.com/growthcast/discovery");
+    await expect(page).toHaveURL("https://cal.com/rancher/discovery");
     const browserRows =
       await sql`SELECT * FROM rancher.partnership_submissions WHERE email = ${browserEmail}`;
     expect(browserRows).toHaveLength(1);

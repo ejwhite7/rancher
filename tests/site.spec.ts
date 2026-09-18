@@ -36,13 +36,13 @@ test("calculator updates reference scenarios and submits before redirecting", as
       status: 201,
       contentType: "application/json",
       body: JSON.stringify({
-        redirectUrl: "https://cal.com/growthcast/discovery",
+        redirectUrl: "https://cal.com/rancher/discovery",
         referralBonusUsd: 75000,
         domain: "example.com",
       }),
     });
   });
-  await page.route("https://cal.com/growthcast/discovery", (route) =>
+  await page.route("https://cal.com/rancher/discovery", (route) =>
     route.fulfill({ body: "<h1>Booking calendar</h1>" }),
   );
   const errors: string[] = [];
@@ -93,7 +93,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
   await page.locator('[name="size"]').selectOption("500–999");
   await page.locator(".consent input").check();
   await page.getByRole("button", { name: "Submit & book a call" }).click();
-  await expect(page).toHaveURL("https://cal.com/growthcast/discovery");
+  await expect(page).toHaveURL("https://cal.com/rancher/discovery");
   expect(submitted?.title).toBe("VP of Operations");
   expect(submitted?.company).toBe("Example Company");
   expect(submitted?.outreachConsent).toBe(true);

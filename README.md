@@ -16,7 +16,7 @@ Use Node.js 24 to match the deployment runtime. Development serves the site at h
 
 - `SITE_URL`: canonical public origin, e.g. the project's production Vercel alias. The sitemap and all absolute SEO URLs use it.
 - `POSTGRES_URL`: server-side pooled Postgres connection provisioned by the Vercel Supabase integration. `DATABASE_URL` is accepted as an alternative. Never prefix credentials with `PUBLIC_` or expose them to the browser.
-- `BOOKING_URL`: HTTPS calendar URL. Initially `https://cal.com/growthcast/discovery`. The server reads it at request time. The browser receives it only after the database confirms the submission. No contact information is appended to this URL.
+- `BOOKING_URL`: HTTPS calendar URL. Initially `https://cal.com/rancher/discovery`. The server reads it at request time. The browser receives it only after the database confirms the submission. No contact information is appended to this URL.
 - `PUBLIC_POSTHOG_PROJECT_TOKEN`: browser-safe PostHog project token used for analytics and OTLP log authentication. Do not use a personal API key.
 - `PUBLIC_POSTHOG_HOST`: canonical PostHog ingestion origin used by server capture. Browser analytics uses the same-origin `/ingest` proxy configured in `vercel.json`.
 - `OTEL_SERVICE_NAME`: optional OpenTelemetry service name; defaults to `rancher-web`.

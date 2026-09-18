@@ -15,7 +15,7 @@ const valid = {
   website: "",
   scenario: { employees: 100, years: 10, country: "Canada" },
 };
-const booking = "https://cal.com/growthcast/discovery";
+const booking = "https://cal.com/rancher/discovery";
 const request = (data: unknown, headers: Record<string, string> = {}) =>
   new Request("https://rancher.example/api/submissions/", {
     method: "POST",
