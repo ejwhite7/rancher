@@ -1,4 +1,4 @@
-// Attached only to referral.submission.created on Rancher-Referral-to-Attio.
+// Attached only to referral_form_submitted events on Rancher-Referral-to-Attio.
 const attributionLines = (attribution) =>
   ["first", "last"].flatMap((touch) =>
     Object.entries(attribution?.[touch] || {}).map(
@@ -22,6 +22,8 @@ addHandler("transform", (request) => {
   ];
   if (
     event?.type !== "referral.submission.created" ||
+    (event?.event_name !== undefined &&
+      event.event_name !== "referral_form_submitted") ||
     required.some(
       (key) => typeof submission?.[key] !== "string" || !submission[key].trim(),
     )

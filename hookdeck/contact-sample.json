@@ -3,7 +3,8 @@
   "body": {
     "id": "c5e36f65-2b86-4be4-aaab-8a829b46f9fa",
     "type": "contact.submission.created",
-    "schema_version": 2,
+    "event_name": "contact_form_submitted",
+    "schema_version": 3,
     "created_at": "2026-09-15T20:00:00.000Z",
     "data": {
       "submission_id": "c5e36f65-2b86-4be4-aaab-8a829b46f9fa",

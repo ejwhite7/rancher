@@ -2,7 +2,7 @@
   {
     "type": "filter",
     "body": {
-      "type": "referral.submission.created"
+      "event_name": "referral_form_submitted"
     }
   },
   {

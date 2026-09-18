@@ -2,7 +2,7 @@
   {
     "type": "filter",
     "body": {
-      "type": "contact.submission.created"
+      "event_name": "contact_form_submitted"
     }
   },
   {

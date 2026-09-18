@@ -1,4 +1,4 @@
-// Attached only to contact.submission.created events on Rancher-Contact-to-Attio.
+// Attached only to contact_form_submitted events on Rancher-Contact-to-Attio.
 const attributionLines = (attribution) =>
   ["first", "last"].flatMap((touch) =>
     Object.entries(attribution?.[touch] || {}).map(
@@ -11,6 +11,8 @@ addHandler("transform", (request) => {
   const submission = event?.data;
   if (
     event?.type !== "contact.submission.created" ||
+    (event?.event_name !== undefined &&
+      event.event_name !== "contact_form_submitted") ||
     !submission?.submission_id ||
     typeof submission.email !== "string" ||
     typeof submission.name !== "string" ||

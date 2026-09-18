@@ -3,7 +3,8 @@
   "body": {
     "id": "8eea4f47-bc25-48fd-a24f-ecad13599b5f",
     "type": "submission.created",
-    "schema_version": 4,
+    "event_name": "partnership_request_submitted",
+    "schema_version": 5,
     "created_at": "2026-09-17T18:00:00Z",
     "data": {
       "submission_id": "8eea4f47-bc25-48fd-a24f-ecad13599b5f",

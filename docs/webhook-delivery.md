@@ -8,7 +8,7 @@ The worker claims up to ten events per invocation with `FOR UPDATE SKIP LOCKED`,
 
 Both the JSON event `id` and the `Idempotency-Key`/`X-Rancher-Event-Id` headers use the submission UUID. Delivery is at least once: if acceptance occurs immediately before a database acknowledgement fails, the event can be resent. Configure downstream consumers to deduplicate using this stable ID. Configure routing, destination authentication, retry rules, and notifications inside Hookdeck for onward delivery.
 
-The Partnership v4, Contact v2, and Referral v2 JSON envelopes contain `id`, `type`, `schema_version`, `created_at`, and `data`. Each `data` object contains the form fields plus a nested `attribution` object with immutable `first` and `last` snapshots. Partnership data also contains normalized email domain, consent fields, calculator scenario, and the internal `referral_bonus_usd`. It excludes the request hash and honeypot. The source URL, credentials, payloads, and response bodies are not logged by the worker. The outbox uses RLS with no public policies; it is accessible only through authorized database roles.
+The Partnership v5, Contact v3, and Referral v3 JSON envelopes contain `id`, `type`, `event_name`, `schema_version`, `created_at`, and `data`. The stable business event names are `partnership_request_submitted`, `contact_form_submitted`, and `referral_form_submitted`, allowing Hookdeck connections to route each payload before running its related transformation. Each `data` object contains the form fields plus a nested `attribution` object with immutable `first` and `last` snapshots. Partnership data also contains normalized email domain, consent fields, calculator scenario, and the internal `referral_bonus_usd`. It excludes the request hash and honeypot. The source URL, credentials, payloads, and response bodies are not logged by the worker. The outbox uses RLS with no public policies; it is accessible only through authorized database roles.
 
 ## Inspect delivery status
 
@@ -37,7 +37,7 @@ WHERE id = 'REPLACE-WITH-EVENT-UUID' AND status = 'failed';
 
 The next cron run sends it with the same event ID. Use Hookdeck's replay controls for downstream failures after successful ingestion.
 
-Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `010_submission_attribution.sql` with an administrative database connection before deploying the application and worker.
+Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `011_webhook_event_names.sql` with an administrative database connection before deploying the application and worker.
 
 
 ## Contact delivery and transformation
@@ -46,8 +46,8 @@ Contact events use schema version 2 and contain the submission ID, form identifi
 
 The existing Hookdeck source `rancher-website` (`src_a3qr6u9qtbwd8e`) routes to the existing Attio destination through separate connections:
 
-- `Rancher-to-Attio` (`web_e24WYPlekfFf`) filters for `submission.created` and retains its existing transformation/retry rules.
-- `Rancher-Contact-to-Attio` (`web_gO4m62pfvMJM`) filters for `contact.submission.created`, deduplicates within 60 seconds, applies `contact-attio` (`trs_bkVeya698fKz0Q`), and retries five times with exponential backoff starting at 30 seconds.
+- `Rancher-to-Attio` routes `event_name = partnership_request_submitted` and retains its existing transformation/retry rules.
+- `Rancher-Contact-to-Attio` routes `event_name = contact_form_submitted`, deduplicates within 60 seconds, applies `contact-attio` (`trs_bkVeya698fKz0Q`), and retries five times with exponential backoff starting at 30 seconds.
 
 Transformation source: `hookdeck/contact-attio.js`. Connection rules: `hookdeck/contact-rules.json`. The transformation maps email, name, submission ID, domain, contact message, and readable first/last attribution lines to Attio's existing `additional_context` attribute. It does not set company, job title, or consent fields. Test the installed transformation without sending an enquiry to Attio:
 

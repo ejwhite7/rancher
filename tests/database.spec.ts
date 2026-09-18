@@ -84,6 +84,9 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       await sql.unsafe(
         await readFile("db/migrations/010_submission_attribution.sql", "utf8"),
       );
+      await sql.unsafe(
+        await readFile("db/migrations/011_webhook_event_names.sql", "utf8"),
+      );
     }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
     const records =

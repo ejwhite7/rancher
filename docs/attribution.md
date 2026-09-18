@@ -22,7 +22,7 @@ Every successful form event includes `attribution.first` and `attribution.last` 
 - Partnership uses PostHog `$set_once` for `attribution_first_*`, `partnership_first_*`, and `partnership_last_*` person properties.
 - Contact and referral use `$set_once` for `attribution_first_*` and `$set` for `attribution_last_*`.
 
-Webhook schema versions are Partnership v4, Contact v2, and Referral v2. Hookdeck forwards the nested attribution object, and the Attio transformations append a readable first/last attribution block to the existing context field.
+Webhook schema versions are Partnership v5, Contact v3, and Referral v3. Each envelope includes a top-level business `event_name` for Hookdeck routing. Hookdeck forwards the nested attribution object, and the Attio transformations append a readable first/last attribution block to the existing context field.
 
 ## Verification
 
