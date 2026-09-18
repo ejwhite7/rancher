@@ -5,6 +5,19 @@ const attributionLines = (attribution) =>
       ([key, value]) => `Attribution ${touch} ${key}: ${String(value)}`,
     ),
   );
+const attioEmployeeRange = (companySize) => {
+  const ranges = {
+    "20–49": "11-50",
+    "50–199": "51-250",
+    "200–499": "251-1K",
+    "500–999": "251-1K",
+    "1,000–4,999": "1K-5K",
+    "5,000+": "5K-10K",
+  };
+  const value = ranges[companySize];
+  if (!value) throw new Error("Unsupported Rancher company size");
+  return value;
+};
 addHandler("transform", (request) => {
   const event =
     typeof request.body === "string" ? JSON.parse(request.body) : request.body;
@@ -46,7 +59,7 @@ addHandler("transform", (request) => {
         ],
         rancher_submission_id: submission.submission_id,
         domain: email.split("@")[1],
-        company_size: submission.company_size,
+        company_size: attioEmployeeRange(submission.company_size),
         additional_context: [
           "Rancher referral",
           `Referred by: ${submission.referrer_first_name} ${submission.referrer_last_name} <${submission.referrer_email.trim().toLowerCase()}>`,

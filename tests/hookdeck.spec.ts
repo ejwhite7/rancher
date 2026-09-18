@@ -20,6 +20,7 @@ test("partnership transformation includes attribution in Attio context", async (
   expect(output.body.data.values.email_addresses).toEqual([
     "partner@example.com",
   ]);
+  expect(output.body.data.values.company_size).toBe("51-250");
   expect(output.body.data.values.additional_context).toContain(
     "Attribution first source: google",
   );
@@ -79,7 +80,7 @@ test("referral transformation targets the referred person and preserves referrer
       name: [{ full_name: "Test Referral" }],
       rancher_submission_id: sample.body.id,
       domain: "example.org",
-      company_size: "50–199",
+      company_size: "51-250",
       additional_context:
         "Rancher referral\nReferred by: Test Referrer <referrer@example.com>\nReferral: Test Referral <referred@example.org>\nCompany size: 50–199\nIndustry: Technology\nAttribution first source: google\nAttribution first medium: cpc\nAttribution first campaign: spring\nAttribution last source: newsletter\nAttribution last medium: email\nAttribution last campaign: partner-update",
     });
@@ -95,4 +96,12 @@ test("referral transformation targets the referred person and preserves referrer
       },
     }),
   ).toThrow("Invalid Rancher referral submission");
+  expect(() =>
+    transform({
+      body: {
+        ...sample.body,
+        data: { ...sample.body.data, company_size: "unknown" },
+      },
+    }),
+  ).toThrow("Unsupported Rancher company size");
 });

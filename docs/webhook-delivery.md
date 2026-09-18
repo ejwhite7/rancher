@@ -49,7 +49,7 @@ The existing Hookdeck source `rancher-website` (`src_a3qr6u9qtbwd8e`) routes to 
 - `Rancher-to-Attio` routes `event_name = partnership_request_submitted` and retains its existing transformation/retry rules.
 - `Rancher-Contact-to-Attio` routes `event_name = contact_form_submitted`, deduplicates within 60 seconds, applies `contact-attio` (`trs_bkVeya698fKz0Q`), and retries five times with exponential backoff starting at 30 seconds.
 
-Transformation source: `hookdeck/contact-attio.js`. Connection rules: `hookdeck/contact-rules.json`. The transformation maps email, name, submission ID, domain, contact message, and readable first/last attribution lines to Attio's existing `additional_context` attribute. It does not set company, job title, or consent fields. Test the installed transformation without sending an enquiry to Attio:
+Transformation source: `hookdeck/contact-attio.js`. Connection rules: `hookdeck/contact-rules.json`. The transformation maps email, name, submission ID, domain, contact message, and readable first/last attribution lines to Attio's existing `additional_context` attribute. It does not set company, job title, or consent fields. Partnership and referral transformations preserve the submitted Rancher range in context while mapping `company_size` to Attio's accepted Employee range options: `20–49` → `11-50`, `50–199` → `51-250`, `200–499` and `500–999` → `251-1K`, `1,000–4,999` → `1K-5K`, and `5,000+` → `5K-10K`. Unsupported values fail before delivery rather than sending an invalid Attio option. Test the installed transformation without sending an enquiry to Attio:
 
 ```sh
 npx hookdeck-cli gateway transformation run --id trs_bkVeya698fKz0Q --connection-id web_gO4m62pfvMJM --request-file hookdeck/contact-sample.json --output json
