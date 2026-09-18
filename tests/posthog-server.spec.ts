@@ -42,6 +42,9 @@ test("server form capture uses the submission id for PostHog deduplication", asy
     event: "contact_form_submitted",
     distinct_id: "person@example.com",
     properties: {
+      $lib: "rancher-server",
+      $lib_version: "1",
+      capture_source: "server",
       $insert_id: "11111111-2222-4333-8444-555555555555",
       event_id: "11111111-2222-4333-8444-555555555555",
       $current_url: "https://www.gorancher.com/contact/",

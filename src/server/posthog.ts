@@ -32,6 +32,9 @@ export async function captureFormEvent(input: CaptureInput) {
   const forwarded = input.request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
   const properties: JsonObject = {
     ...input.properties,
+    $lib: "rancher-server",
+    $lib_version: "1",
+    capture_source: "server",
     $insert_id: input.submissionId,
     event_id: input.submissionId,
     $current_url: input.request.headers.get("referer") || new URL(input.request.url).origin,
