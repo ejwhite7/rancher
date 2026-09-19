@@ -30,15 +30,10 @@ npx hookdeck-cli gateway transformation run \
   --output json
 ```
 
-## Activation gate
+## Activation and monitoring
 
-The connection remains paused and no HeyReach webhooks should be created until the configured Attio workflow webhook is active. The initial synthetic delivery reached Hookdeck but Attio returned HTTP 404 `This webhook URL is not currently active`. Once Attio is activated:
+The Attio workflow webhook is active, connection `web_N09JPALMUWAP` is unpaused, and four campaign-scoped HeyReach webhooks deliver to the Hookdeck source. A direct Attio probe returned HTTP 202; two synthetic end-to-end Hookdeck deliveries then completed successfully with HTTP 202 on their first and third attempts respectively.
 
-1. Repeat the synthetic delivery and require HTTP 2xx from Attio.
-2. Inspect the resulting synthetic Attio records and remove them if no longer needed.
-3. Unpause `web_N09JPALMUWAP`.
-4. Confirm the four active campaign-scoped HeyReach webhooks remain correctly configured.
-5. Add `LEAD_FINISHED_SEQUENCE_WITHOUT_REPLYING` if HeyReach begins accepting that webhook type.
-6. Monitor the first genuine lifecycle event.
+Monitor the first genuine lifecycle event in Hookdeck and verify its intended Attio person, company, and workflow effects. Remove the clearly labeled synthetic test records if the workflow created any. Add `LEAD_FINISHED_SEQUENCE_WITHOUT_REPLYING` only if HeyReach begins accepting that webhook type.
 
 Rollback is to delete the HeyReach webhooks and pause or disable the Hookdeck connection. Do not commit ingress or destination URLs, credentials, or real lead payloads.
