@@ -1,6 +1,10 @@
 import { createHash } from "node:crypto";
 import { calculateEstimate } from "../lib/estimate";
-import { CONSENT_TEXT, type Submission } from "../lib/submission";
+import {
+  CONSENT_TEXT,
+  CONSENT_VERSION,
+  type Submission,
+} from "../lib/submission";
 import { REFERRAL_BONUS_USD } from "./referral";
 import { database } from "./database";
 
@@ -28,10 +32,13 @@ export async function saveSubmission(input: Submission): Promise<void> {
     const rows = await tx`
       INSERT INTO rancher.partnership_submissions (
         id, name, email, job_title, company, team_size, data_history, records_description, record_types,
-        outreach_consent, consent_text, calculator_scenario, request_hash, referral_bonus_usd
+        outreach_consent, consent_text, consent_version, consent_prechecked,
+        consent_recorded_at, phone_e164, calculator_scenario, request_hash, referral_bonus_usd
       ) VALUES (
         ${id}, ${data.name}, ${data.email}, ${data.title}, ${data.company}, ${data.size}, ${data.history}, ${data.records}, ARRAY(SELECT jsonb_array_elements_text(${tx.typed(JSON.stringify(data.recordTypes), 25)}::jsonb)),
-        ${data.outreachConsent}, ${CONSENT_TEXT}, ${scenario === null ? null : tx.json(scenario)}, ${hash}, ${REFERRAL_BONUS_USD[data.size]}
+        ${data.communicationsConsent}, ${CONSENT_TEXT}, ${CONSENT_VERSION}, false,
+        CASE WHEN ${data.communicationsConsent} THEN now() ELSE NULL END,
+        ${data.phone}, ${scenario === null ? null : tx.json(scenario)}, ${hash}, ${REFERRAL_BONUS_USD[data.size]}
       ) ON CONFLICT (id) DO NOTHING RETURNING id
     `;
     if (rows.length) return;

@@ -28,7 +28,7 @@ The Supabase integration provides the production database connection. Preview an
 
 `npm run db:migrate` applies the idempotent, transactional SQL migration files in `db/migrations/` in filename order. Run it once before deploying an endpoint that needs the table, using an administrative connection (the limited preview/development role cannot migrate). Alternatively, apply the SQL files in order through the Supabase SQL editor. Migrations are not executed during ordinary builds, and no table creation runs on public requests.
 
-Records live in `rancher.partnership_submissions`: contact, job-title, and company fields, selected data-history band, selected record types, additional context, outreach consent text and timestamp, the prechecked-checkbox disclosure, optional server-calculated estimate, submission time, and an internal `referral_bonus_usd` derived on the server from the company-size band. The six bands are 20–49 ($8,000), 50–199 ($14,000), 200–499 ($28,000), 500–999 ($42,000), 1,000–4,999 ($54,000), and 5,000+ ($75,000). These are internal referral values from the supplied schedule, separate from the calculator estimate. Older rows retain a null bonus because their previous bands overlap the new ones. The schema is private, the table has RLS enabled with no public policies, and database credentials are available only to the server. There is no public endpoint for reading records.
+Records live in `rancher.partnership_submissions`: contact, job-title, and company fields, selected data-history band, selected record types, additional context, optional E.164 US phone number, communications-consent text/version/timestamp, the unchecked-checkbox record, optional server-calculated estimate, submission time, and an internal `referral_bonus_usd` derived on the server from the company-size band. The six bands are 20–49 ($8,000), 50–199 ($14,000), 200–499 ($28,000), 500–999 ($42,000), 1,000–4,999 ($54,000), and 5,000+ ($75,000). These are internal referral values from the supplied schedule, separate from the calculator estimate. Older rows retain a null bonus because their previous bands overlap the new ones. The schema is private, the table has RLS enabled with no public policies, and database credentials are available only to the server. There is no public endpoint for reading records.
 
 The endpoint validates all fields again on the server, checks request size and origin, and uses parameterized queries. A UUID idempotency key prevents duplicate records when a client retries the same submission. Reusing a key with different data is rejected. Failed validation, unavailable booking configuration, and failed database writes do not trigger a booking redirect. On error, the form preserves entries for retry.
 
@@ -36,7 +36,7 @@ To review submissions, use an authorized SQL client or Supabase SQL editor:
 
 ```sql
 SELECT id, created_at, name, email, job_title, company, team_size, data_history,
-       record_types, records_description, referral_bonus_usd, outreach_consent, consent_text, calculator_scenario
+       record_types, records_description, referral_bonus_usd, phone_e164, outreach_consent, consent_text, consent_version, calculator_scenario
 FROM rancher.partnership_submissions
 ORDER BY created_at DESC;
 ```

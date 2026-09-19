@@ -50,6 +50,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
         redirectUrl: "https://cal.com/rancher/discovery",
         referralBonusUsd: 75000,
         domain: "example.com",
+        phone: "+12125550123",
       }),
     });
   });
@@ -102,12 +103,14 @@ test("calculator updates reference scenarios and submits before redirecting", as
     .locator('[name="records"]')
     .fill("Project histories and internal documentation.");
   await page.locator('[name="size"]').selectOption("500–999");
+  await page.getByLabel("US phone number").fill("(212) 555-0123");
   await page.locator(".consent input").check();
   await page.getByRole("button", { name: "Submit & book a call" }).click();
   await expect(page).toHaveURL("https://cal.com/rancher/discovery");
   expect(submitted?.title).toBe("VP of Operations");
   expect(submitted?.company).toBe("Example Company");
-  expect(submitted?.outreachConsent).toBe(true);
+  expect(submitted?.phone).toBe("(212) 555-0123");
+  expect(submitted?.communicationsConsent).toBe(true);
   expect(submitted?.scenario).toEqual({
     employees: 200,
     years: 20,
@@ -149,6 +152,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
       company: "Example Company",
       domain: "example.com",
       job_title: "VP of Operations",
+      phone: "+12125550123",
+      communications_consent: true,
     },
   ]);
   expect(posthogCalls).toContainEqual([
@@ -165,7 +170,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
       data_history: "20+ years",
       record_types: ["Documents & files"],
       additional_context: "Project histories and internal documentation.",
-      outreach_consent: true,
+      phone: "+12125550123",
+      communications_consent: true,
       referral_bonus_usd: 75000,
       calculator_scenario: {
         employees: 200,
@@ -262,9 +268,9 @@ test("attribution keeps first touch and updates the latest non-direct touch", as
   await expect(
     page.locator('input[name="attribution_first_source"]'),
   ).toHaveValue("google");
-  await expect(page.locator('input[name="attribution_last_source"]')).toHaveValue(
-    "linkedin",
-  );
+  await expect(
+    page.locator('input[name="attribution_last_source"]'),
+  ).toHaveValue("linkedin");
 });
 
 test("tabs and site-information dialog retain keyboard interaction", async ({

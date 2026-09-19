@@ -141,7 +141,7 @@ test("missing documents, broken relationships, and incomplete copy fail instead 
       footerSeed,
     ),
   ).toThrow();
-  expect(() =>
+  expect(
     validateContent(
       homepageSeed,
       {
@@ -150,8 +150,8 @@ test("missing documents, broken relationships, and incomplete copy fail instead 
       },
       navigationSeed,
       footerSeed,
-    ),
-  ).toThrow("CONSENT_TEXT");
+    ).form.consent,
+  ).toBe(formSeed.consent);
 });
 
 test("every seed field is modeled and the homepage is a singleton linked to a repeatable form", () => {

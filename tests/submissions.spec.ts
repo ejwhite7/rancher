@@ -11,7 +11,8 @@ const valid = {
   history: "3–5 years",
   records: "Project histories",
   recordTypes: ["Documents & files", "Projects & knowledge"],
-  outreachConsent: true,
+  phone: "(212) 555-0123",
+  communicationsConsent: true,
   website: "",
   scenario: { employees: 100, years: 10, country: "Canada" },
 };
@@ -55,10 +56,11 @@ test("accepts valid submissions only after persistence resolves", async () => {
     redirectUrl: booking,
     referralBonusUsd: 8000,
     domain: "example.com",
+    phone: "+12125550123",
   });
 });
 
-test("rejects missing fields, bad emails, unconsented requests, tampered scenarios, and honeypots", async () => {
+test("rejects missing fields, invalid phones, tampered scenarios, and honeypots", async () => {
   let writes = 0;
   const dependencies = {
     bookingUrl: () => booking,
@@ -91,7 +93,8 @@ test("rejects missing fields, bad emails, unconsented requests, tampered scenari
     { recordTypes: ["Unknown"] },
     { history: "1–3 years" },
     { history: "5+ years" },
-    { outreachConsent: false },
+    { phone: "555-1234" },
+    { phone: "", communicationsConsent: true },
     { website: "bot.example" },
     { scenario: { employees: 1000, years: 10, country: "USA" } },
   ]) {
@@ -101,6 +104,13 @@ test("rejects missing fields, bad emails, unconsented requests, tampered scenari
     ).toBe(400);
   }
   expect(writes).toBe(0);
+
+  const optionalPhone = await handleSubmission(
+    request({ ...valid, phone: "", communicationsConsent: false }),
+    dependencies,
+  );
+  expect(optionalPhone.status).toBe(201);
+  expect(writes).toBe(1);
 });
 
 test("rejects cross-origin and oversized requests without writing", async () => {

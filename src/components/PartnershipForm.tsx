@@ -54,7 +54,8 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
       history: String(fields.get("history") ?? ""),
       recordTypes: fields.getAll("recordTypes").map(String),
       records: String(fields.get("records") ?? "").trim(),
-      outreachConsent: fields.get("outreach_consent") === "yes",
+      phone: String(fields.get("phone") ?? "").trim(),
+      communicationsConsent: fields.get("communications_consent") === "yes",
       website: String(fields.get("website") ?? ""),
       attribution: attributionFromForm(form),
       scenario: scenario
@@ -99,6 +100,8 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         domain: result.domain,
         job_title: payload.title,
         company: payload.company,
+        phone: result.phone || undefined,
+        communications_consent: payload.communicationsConsent,
       });
       trackEvent(
         "partnership_request_submitted",
@@ -115,7 +118,8 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           data_history: payload.history,
           record_types: payload.recordTypes,
           additional_context: payload.records,
-          outreach_consent: payload.outreachConsent,
+          phone: result.phone,
+          communications_consent: payload.communicationsConsent,
           referral_bonus_usd: result.referralBonusUsd,
           calculator_scenario: payload.scenario,
           attribution: payload.attribution,
@@ -274,6 +278,17 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
               ))}
             </div>
           </fieldset>
+          <label>
+            US phone number <span className="optional">Optional</span>
+            <input
+              name="phone"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel-national"
+              placeholder="(555) 555-0123"
+              maxLength={40}
+            />
+          </label>
           <label className="full">
             {copy.context_label}{" "}
             <span className="optional">{copy.optional_label}</span>
@@ -285,13 +300,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           </label>
         </div>
         <label className="consent">
-          <input
-            type="checkbox"
-            name="outreach_consent"
-            value="yes"
-            defaultChecked
-            required
-          />
+          <input type="checkbox" name="communications_consent" value="yes" />
           <span>{copy.consent}</span>
         </label>
         <button className="btn" type="submit" disabled={!ready || submitting}>

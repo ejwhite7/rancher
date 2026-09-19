@@ -29,7 +29,8 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     history: "3–5 years",
     records: "Synthetic test data",
     recordTypes: ["Documents & files"],
-    outreachConsent: true,
+    phone: "+12125550123",
+    communicationsConsent: true,
     attribution: {
       first: { source: "google", medium: "cpc", campaign: "database-test" },
       last: { source: "linkedin", medium: "paid-social" },
@@ -64,7 +65,10 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
         await readFile("db/migrations/003_company_size_referral.sql", "utf8"),
       );
       await sql.unsafe(
-        await readFile("db/migrations/004_submission_webhook_outbox.sql", "utf8"),
+        await readFile(
+          "db/migrations/004_submission_webhook_outbox.sql",
+          "utf8",
+        ),
       );
       await sql.unsafe(
         await readFile("db/migrations/005_job_title.sql", "utf8"),
@@ -86,6 +90,12 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       );
       await sql.unsafe(
         await readFile("db/migrations/011_webhook_event_names.sql", "utf8"),
+      );
+      await sql.unsafe(
+        await readFile(
+          "db/migrations/012_phone_communications_consent.sql",
+          "utf8",
+        ),
       );
     }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
@@ -113,8 +123,10 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       }
     }
     expect(records[0].calculator_scenario.estimate.low).toBe(287313);
+    expect(records[0].phone_e164).toBe("+12125550123");
     expect(records[0].outreach_consent).toBe(true);
-    expect(records[0].consent_prechecked).toBe(true);
+    expect(records[0].consent_prechecked).toBe(false);
+    expect(records[0].consent_version).toBe("communications-v1-2026-09-19");
     expect(records[0].consent_recorded_at).toBeTruthy();
     const [snapshot] =
       await sql`SELECT * FROM rancher.submission_attribution WHERE submission_id = ${id}`;

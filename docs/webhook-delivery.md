@@ -8,7 +8,7 @@ The worker claims up to ten events per invocation with `FOR UPDATE SKIP LOCKED`,
 
 Both the JSON event `id` and the `Idempotency-Key`/`X-Rancher-Event-Id` headers use the submission UUID. Delivery is at least once: if acceptance occurs immediately before a database acknowledgement fails, the event can be resent. Configure downstream consumers to deduplicate using this stable ID. Configure routing, destination authentication, retry rules, and notifications inside Hookdeck for onward delivery.
 
-The Partnership v5, Contact v3, and Referral v3 JSON envelopes contain `id`, `type`, `event_name`, `schema_version`, `created_at`, and `data`. The stable business event names are `partnership_request_submitted`, `contact_form_submitted`, and `referral_form_submitted`, allowing Hookdeck connections to route each payload before running its related transformation. Each `data` object contains the form fields plus a nested `attribution` object with immutable `first` and `last` snapshots. Partnership data also contains normalized email domain, consent fields, calculator scenario, and the internal `referral_bonus_usd`. It excludes the request hash and honeypot. The source URL, credentials, payloads, and response bodies are not logged by the worker. The outbox uses RLS with no public policies; it is accessible only through authorized database roles.
+The Partnership v6, Contact v3, and Referral v3 JSON envelopes contain `id`, `type`, `event_name`, `schema_version`, `created_at`, and `data`. The stable business event names are `partnership_request_submitted`, `contact_form_submitted`, and `referral_form_submitted`, allowing Hookdeck connections to route each payload before running its related transformation. Each `data` object contains the form fields plus a nested `attribution` object with immutable `first` and `last` snapshots. Partnership data also contains normalized email domain, optional E.164 US phone number, communications-consent fields and disclosure version, calculator scenario, and the internal `referral_bonus_usd`. It excludes the request hash and honeypot. The source URL, credentials, payloads, and response bodies are not logged by the worker. The outbox uses RLS with no public policies; it is accessible only through authorized database roles.
 
 ## Inspect delivery status
 
@@ -37,8 +37,7 @@ WHERE id = 'REPLACE-WITH-EVENT-UUID' AND status = 'failed';
 
 The next cron run sends it with the same event ID. Use Hookdeck's replay controls for downstream failures after successful ingestion.
 
-Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `011_webhook_event_names.sql` with an administrative database connection before deploying the application and worker.
-
+Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `012_phone_communications_consent.sql` with an administrative database connection before deploying the application and worker.
 
 ## Contact delivery and transformation
 

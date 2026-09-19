@@ -16,7 +16,7 @@
     },
     {
       "type": "paragraph",
-      "text": "The partnership inquiry form collects your name, work email, job title, company, team size, available data history, selected record types, additional context, and outreach consent. The contact form collects your name, email, and message. The referral form collects the referrer’s and referred contact’s names and emails, company size, and industry. If you select a calculator scenario before submitting, we also record its employee count, years, region, and the indicative estimate calculated by our server.",
+      "text": "The partnership inquiry form collects your name, work email, job title, company, team size, available data history, selected record types, and additional context. You may also provide a US phone number and optionally consent to calls and texts. The contact form collects your name, email, and message. The referral form collects the referrer’s and referred contact’s names and emails, company size, and industry. If you select a calculator scenario before submitting, we also record its employee count, years, region, and the indicative estimate calculated by our server.",
       "spans": [],
       "direction": "ltr"
     },
@@ -34,7 +34,7 @@
     },
     {
       "type": "paragraph",
-      "text": "We store your inquiry to assess potential data-licensing opportunities, follow up about your request, and keep a record of your outreach preference. The record includes submission time and the consent wording shown on the form. The consent checkbox starts selected, and the form requires it to remain selected before an inquiry can be sent.",
+      "text": "We store your inquiry to assess potential data-licensing opportunities, follow up about your request, and keep a record of your communications preference. Providing a phone number and consenting to calls or texts are optional and are not conditions of submitting an inquiry. The consent checkbox starts unchecked. If selected, we retain the normalized phone number, exact disclosure version, and consent time. You can revoke consent through any reasonable method; reply STOP to stop text messages.",
       "spans": [],
       "direction": "ltr"
     },

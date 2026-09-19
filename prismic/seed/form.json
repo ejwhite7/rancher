@@ -18,7 +18,7 @@
   "context_label": "Anything else to know?",
   "optional_label": "Optional",
   "context_placeholder": "Share any additional context.",
-  "consent": "I consent to outreach from Rancher about data licensing opportunities.",
+  "consent": "Yes, B2B SaaS Inc. DBA Rancher may call or text me at the number provided about my partnership request and related opportunities, including through automated technology, artificial or prerecorded voice, and AI-generated voice. Consent is not a condition of submitting this request. Message and data rates may apply. Message frequency varies. Reply STOP to opt out or HELP for help.",
   "no_javascript": "Enable JavaScript to submit your request and book a call.",
   "save_error": "We could not save your request. Please try again.",
   "success": "Your request is saved. Opening the booking calendar…",

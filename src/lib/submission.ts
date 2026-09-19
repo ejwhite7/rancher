@@ -1,8 +1,19 @@
 import { z } from "zod";
 import { attributionSchema, EMPTY_ATTRIBUTION } from "./attribution";
 
+export const CONSENT_VERSION = "communications-v1-2026-09-19";
 export const CONSENT_TEXT =
-  "I consent to outreach from Rancher about data licensing opportunities.";
+  "Yes, B2B SaaS Inc. DBA Rancher may call or text me at the number provided about my partnership request and related opportunities, including through automated technology, artificial or prerecorded voice, and AI-generated voice. Consent is not a condition of submitting this request. Message and data rates may apply. Message frequency varies. Reply STOP to opt out or HELP for help.";
+
+export function normalizeUsPhone(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  const digits = trimmed.replace(/\D/g, "");
+  const national =
+    digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
+  if (!/^[2-9]\d{2}[2-9]\d{6}$/.test(national)) return null;
+  return `+1${national}`;
+}
 export const TEAM_SIZES = [
   "20–49",
   "50–199",
@@ -50,9 +61,19 @@ export const submissionSchema = z
         "Choose each record type only once.",
       ),
     records: z.string().trim().max(2000).optional().default(""),
-    outreachConsent: z.literal(true, {
-      error: "Please consent to outreach before submitting.",
-    }),
+    phone: z
+      .string()
+      .max(40)
+      .transform((value, context) => {
+        const normalized = normalizeUsPhone(value);
+        if (value.trim() && !normalized)
+          context.addIssue({
+            code: "custom",
+            message: "Enter a valid US phone number.",
+          });
+        return normalized;
+      }),
+    communicationsConsent: z.boolean(),
     website: z.string().max(0).optional(),
     attribution: attributionSchema.optional().default(EMPTY_ATTRIBUTION),
     scenario: z
@@ -64,5 +85,9 @@ export const submissionSchema = z
       .strict()
       .nullable(),
   })
-  .strict();
+  .strict()
+  .refine((value) => !value.communicationsConsent || value.phone !== null, {
+    path: ["communicationsConsent"],
+    message: "Enter a phone number before consenting to calls or texts.",
+  });
 export type Submission = z.infer<typeof submissionSchema>;

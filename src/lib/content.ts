@@ -287,11 +287,7 @@ export function parseHomepage(data: unknown): HomepageContent {
 }
 export function parseForm(data: unknown): FormContent {
   const form = formSchema.parse(data) as FormContent;
-  if (form.consent !== CONSENT_TEXT)
-    throw new Error(
-      "Prismic form consent must match CONSENT_TEXT in src/lib/submission.ts.",
-    );
-  return form;
+  return { ...form, consent: CONSENT_TEXT };
 }
 export function validateContent(
   homepage: unknown,
