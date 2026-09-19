@@ -55,7 +55,15 @@ test("webhook worker requires authentication and valid source configuration", as
   expect(
     (await handleWebhookDelivery(request("test-secret"), deps)).status,
   ).toBe(200);
-  expect(calls).toBe(1);
+  expect(
+    (
+      await handleWebhookDelivery(request("test-secret"), {
+        ...deps,
+        destination: "https://hooks.gorancher.com/a3qr6u9qtbwd8e",
+      })
+    ).status,
+  ).toBe(200);
+  expect(calls).toBe(2);
 });
 
 test("outbox is atomic, retries failures, deduplicates inserts, and recovers leases", async () => {

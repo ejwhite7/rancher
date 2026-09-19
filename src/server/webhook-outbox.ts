@@ -13,7 +13,11 @@ export function hookdeckUrl(value: string | undefined): URL {
   const url = new URL(value || "");
   if (
     url.protocol !== "https:" ||
-    !["hkdk.events", "events.hookdeck.com"].includes(url.hostname) ||
+    ![
+      "hkdk.events",
+      "events.hookdeck.com",
+      "hooks.gorancher.com",
+    ].includes(url.hostname) ||
     url.username ||
     url.password ||
     url.port ||
