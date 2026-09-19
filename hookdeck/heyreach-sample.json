@@ -1,0 +1,21 @@
+{
+  "headers": { "content-type": "application/json" },
+  "body": {
+    "id": "synthetic-heyreach-event-001",
+    "eventType": "LEAD_AUTO_TAGGED_INTERESTED",
+    "timestamp": "2026-09-19T15:30:00Z",
+    "campaignId": 608725,
+    "campaignName": "Rancher - heyreach-founders-v1",
+    "lead": {
+      "id": "synthetic-lead-001",
+      "firstName": "Integration",
+      "lastName": "Test",
+      "emailAddress": "integration-test@gorancher.com",
+      "profileUrl": "https://www.linkedin.com/in/integration-test",
+      "jobTitle": "Founder",
+      "companyName": "Rancher Integration Test",
+      "companyDomain": "gorancher.com",
+      "companyLinkedInUrl": "https://www.linkedin.com/company/rancher-integration-test"
+    }
+  }
+}

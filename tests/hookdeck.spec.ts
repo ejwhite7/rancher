@@ -61,6 +61,55 @@ test("contact transformation maps the message without writing partnership or con
   ).toThrow("Invalid Rancher contact submission");
 });
 
+test("HeyReach transformation normalizes the approved campaign and rejects other campaigns", async () => {
+  const code = await readFile("hookdeck/heyreach-attio.js", "utf8");
+  const sample = JSON.parse(
+    await readFile("hookdeck/heyreach-sample.json", "utf8"),
+  );
+  let transform: any;
+  runInNewContext(code, {
+    Date,
+    addHandler: (_event: string, handler: unknown) => {
+      transform = handler;
+    },
+  });
+  for (const body of [sample.body, JSON.stringify(sample.body)]) {
+    const output = JSON.parse(JSON.stringify(transform({ headers: {}, body })));
+    expect(output.body).toEqual({
+      event_name: "heyreach_lead_activity",
+      event_id:
+        "heyreach:608725:lead_auto_tagged_interested:synthetic-heyreach-event-001",
+      occurred_at: "2026-09-19T15:30:00Z",
+      activity: "lead_auto_tagged_interested",
+      campaign: {
+        id: 608725,
+        name: "Rancher - heyreach-founders-v1",
+      },
+      person: {
+        first_name: "Integration",
+        last_name: "Test",
+        email: "integration-test@gorancher.com",
+        linkedin_url: "https://www.linkedin.com/in/integration-test",
+        job_title: "Founder",
+      },
+      company: {
+        name: "Rancher Integration Test",
+        domain: "gorancher.com",
+        linkedin_url:
+          "https://www.linkedin.com/company/rancher-integration-test",
+      },
+      source_context: {
+        provider: "heyreach",
+        event_type: "LEAD_AUTO_TAGGED_INTERESTED",
+        campaign_scoped: true,
+      },
+    });
+  }
+  expect(() =>
+    transform({ headers: {}, body: { ...sample.body, campaignId: 123 } }),
+  ).toThrow("Unexpected HeyReach campaign");
+});
+
 test("referral transformation targets the referred person and preserves referrer attribution without granting consent", async () => {
   const code = await readFile("hookdeck/referral-attio.js", "utf8");
   const sample = JSON.parse(
