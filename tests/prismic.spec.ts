@@ -197,8 +197,14 @@ test("legal documents keep their own content and reject unsafe links", async () 
     const legal = validateLegalContent(seed);
     expect(legal.body.length).toBeGreaterThan(10);
     expect(legal.updated).toBe(
-      uid === "privacy-policy" ? "2026-09-17" : "2026-09-14",
+      uid === "privacy-policy" ? "2026-09-18" : "2026-09-14",
     );
+    if (uid === "privacy-policy") {
+      const policyText = legal.body.map((block) => block.text).join("\n");
+      expect(policyText).toContain("including RB2B");
+      expect(policyText).toContain("Retention.com opt-out page");
+      expect(policyText).toContain("RB2B GDPR opt-out page");
+    }
     expect(() =>
       validateLegalContent({
         ...seed,

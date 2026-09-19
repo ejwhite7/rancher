@@ -110,8 +110,39 @@
     },
     {
       "type": "paragraph",
-      "text": "We use first-party attr_first and attr_last cookies to retain campaign and referring-source information, including first and most recent non-direct touch. The first-touch cookie can remain for up to 400 days, subject to browser limits. The last-touch cookie uses a rolling 30-minute window. When you successfully submit a partnership, contact, or referral form, we store that attribution with your normalized submitter email and submission ID. We send the submitted form fields, submission ID, and attribution to PostHog for analytics and operational workflows. PostHog Workflows forwards submission details to Rancher’s Slack workspace, and Hookdeck forwards them to Attio for follow-up. We do not save your form entries in local storage, sell submission information, or use it for cross-context advertising.",
+      "text": "We use first-party attr_first and attr_last cookies to retain campaign and referring-source information, including first and most recent non-direct touch. The first-touch cookie can remain for up to 400 days, subject to browser limits. The last-touch cookie uses a rolling 30-minute window. When you successfully submit a partnership, contact, or referral form, we store that attribution with your normalized submitter email and submission ID. We send the submitted form fields, submission ID, and attribution to PostHog for analytics and operational workflows. PostHog Workflows forwards submission details to Rancher’s Slack workspace, and Hookdeck forwards them to Attio for follow-up. We do not save your form entries in local storage or sell submission information.",
       "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "heading2",
+      "text": "Website visitor identification and marketing",
+      "spans": [],
+      "direction": "ltr"
+    },
+    {
+      "type": "paragraph",
+      "text": "When you visit or log in to our website, cookies and similar technologies may be used by our online data partners or vendors, including RB2B, to associate these activities with other personal information they or others have about you, including by association with your email. We or service providers acting on our behalf may then use this information to send communications and marketing to those email addresses. You may opt out of receiving this advertising by visiting the Retention.com opt-out page. You may also opt out of RB2B’s collection of personal data by visiting the RB2B GDPR opt-out page.",
+      "spans": [
+        {
+          "type": "hyperlink",
+          "data": {
+            "link_type": "Web",
+            "url": "https://app.retention.com/optout"
+          },
+          "start": 477,
+          "end": 503
+        },
+        {
+          "type": "hyperlink",
+          "data": {
+            "link_type": "Web",
+            "url": "https://www.rb2b.com/rb2b-gdpr-opt-out"
+          },
+          "start": 580,
+          "end": 602
+        }
+      ],
       "direction": "ltr"
     },
     {
@@ -141,8 +172,8 @@
   ],
   "operator": "Rancher",
   "contact_email": "",
-  "updated": "2026-09-17",
-  "updated_label": "September 17, 2026",
+  "updated": "2026-09-18",
+  "updated_label": "September 18, 2026",
   "navigation": {
     "link_type": "Document",
     "id": "snapshot-navigation",

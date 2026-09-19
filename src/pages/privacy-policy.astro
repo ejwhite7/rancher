@@ -5,9 +5,25 @@ import LegalLayout from "../layouts/LegalLayout.astro";
 const legal = await getLegalContent("privacy-policy");
 const bodyHtml = asHTML(legal.body as RichTextField);
 const hasAttributionDisclosure = bodyHtml.includes("attr_first");
-const displayedLegal = hasAttributionDisclosure
+const hasRb2bDisclosure = bodyHtml.includes("app.retention.com/optout");
+const renderedBodyHtml = hasRb2bDisclosure
+  ? bodyHtml
+  : bodyHtml
+      .replace(
+        "The application does not set advertising cookies or save your form entries in local storage.",
+        "We do not save your form entries in local storage.",
+      )
+      .replace(
+        "We do not sell inquiry information or use it for cross-context advertising.",
+        "We do not sell inquiry information.",
+      );
+const displayedLegal = hasAttributionDisclosure && hasRb2bDisclosure
   ? legal
-  : { ...legal, updated: "2026-09-17" };
+  : {
+      ...legal,
+      updated: "2026-09-18",
+      updated_label: "September 18, 2026",
+    };
 ---
 
 <LegalLayout
@@ -15,7 +31,7 @@ const displayedLegal = hasAttributionDisclosure
   description={displayedLegal.description}
   legal={displayedLegal}
 >
-  <Fragment set:html={bodyHtml} />
+  <Fragment set:html={renderedBodyHtml} />
   {!hasAttributionDisclosure && (
     <>
       <h2>Campaign attribution</h2>
@@ -27,8 +43,27 @@ const displayedLegal = hasAttributionDisclosure
         cookie uses a rolling 30-minute window. When you successfully submit a
         partnership, contact, or referral form, we store that attribution with
         your normalized submitter email and submission ID, and send it to our
-        analytics and follow-up providers as described above. We do not use
-        these cookies for cross-context advertising.
+        analytics and follow-up providers as described above.
+      </p>
+    </>
+  )}
+  {!hasRb2bDisclosure && (
+    <>
+      <h2>Website visitor identification and marketing</h2>
+      <p>
+        When you visit or log in to our website, cookies and similar
+        technologies may be used by our online data partners or vendors,
+        including RB2B, to associate these activities with other personal
+        information they or others have about you, including by association
+        with your email. We or service providers acting on our behalf may then
+        use this information to send communications and marketing to those
+        email addresses. You may opt out of receiving this advertising by
+        visiting the <a href="https://app.retention.com/optout"
+          >Retention.com opt-out page</a
+        >. You may also opt out of RB2B’s collection of personal data by
+        visiting the <a href="https://www.rb2b.com/rb2b-gdpr-opt-out"
+          >RB2B GDPR opt-out page</a
+        >.
       </p>
     </>
   )}
