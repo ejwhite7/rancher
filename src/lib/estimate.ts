@@ -36,7 +36,7 @@ export function calculateEstimate(
     !Number.isInteger(years) ||
     years < YEARS.min ||
     years > YEARS.max ||
-    !Object.hasOwn(REGION_MULTIPLIERS, region)
+    !Object.prototype.hasOwnProperty.call(REGION_MULTIPLIERS, region)
   ) {
     throw new RangeError(
       "Estimate inputs must be 20–200 employees, 3–20 years, and a supported region.",
