@@ -8,9 +8,8 @@ Campaign `Rancher - heyreach-founders-v1` (`608725`) is designed to send selecte
 - `MESSAGE_REPLY_RECEIVED`
 - `LEAD_AUTO_TAGGED_INTERESTED`
 - `LEAD_AUTO_TAGGED_NOT_INTERESTED`
-- `LEAD_FINISHED_SEQUENCE_WITHOUT_REPLYING`
 
-Profile views, sent messages, follows, and connection requests sent are intentionally excluded.
+`LEAD_FINISHED_SEQUENCE_WITHOUT_REPLYING` remains intentionally desired, but HeyReach currently rejects webhook creation for that event as unsupported despite advertising it in the integration schema. Profile views, sent messages, follows, and connection requests sent are intentionally excluded.
 
 ## Hookdeck resources
 
@@ -38,7 +37,8 @@ The connection remains paused and no HeyReach webhooks should be created until t
 1. Repeat the synthetic delivery and require HTTP 2xx from Attio.
 2. Inspect the resulting synthetic Attio records and remove them if no longer needed.
 3. Unpause `web_N09JPALMUWAP`.
-4. Create the five campaign-scoped HeyReach webhooks.
-5. Read back all webhooks and monitor the first genuine lifecycle event.
+4. Confirm the four active campaign-scoped HeyReach webhooks remain correctly configured.
+5. Add `LEAD_FINISHED_SEQUENCE_WITHOUT_REPLYING` if HeyReach begins accepting that webhook type.
+6. Monitor the first genuine lifecycle event.
 
 Rollback is to delete the HeyReach webhooks and pause or disable the Hookdeck connection. Do not commit ingress or destination URLs, credentials, or real lead payloads.
