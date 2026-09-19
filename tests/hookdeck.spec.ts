@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { runInNewContext } from "node:vm";
 
-test("partnership transformation includes attribution in Attio context", async () => {
+test("partnership transformation emits structured Attio attribution and preserves manual context", async () => {
   const code = await readFile("hookdeck/website-attio.js", "utf8");
   const sample = JSON.parse(
     await readFile("hookdeck/website-sample.json", "utf8"),
@@ -32,11 +32,28 @@ test("partnership transformation includes attribution in Attio context", async (
   expect(output.body.data.values.rancher_consent_source).toBe(
     "Rancher partnership form",
   );
-  expect(output.body.data.values.additional_context).toContain(
-    "Attribution first source: google",
+  expect(output.body.data.values.additional_context).toBe(
+    "Synthetic transformation test.",
   );
-  expect(output.body.data.values.additional_context).toContain(
-    "Attribution last campaign: retargeting",
+  expect(output.body.data.values.attribution_submission_id).toBe(
+    sample.body.data.submission_id,
+  );
+  expect(output.body.data.values.attribution_converted_at).toBe(
+    "2026-09-17T18:00:00Z",
+  );
+  expect(output.body.data.values.first_utm_source).toBe("google");
+  expect(output.body.data.values.first_attribution_id).toBe(
+    "gclid-first-123",
+  );
+  expect(output.body.data.values.first_ad_group_id).toBe("ag-101");
+  expect(output.body.data.values.conversion_utm_source).toBe("linkedin");
+  expect(output.body.data.values.conversion_utm_campaign).toBe("retargeting");
+  expect(output.body.data.values.conversion_attribution_id).toBe(
+    "li-click-456",
+  );
+  expect(output.body.data.values.conversion_network).toBe("linkedin");
+  expect(output.body.data.values.additional_context).not.toContain(
+    "Attribution",
   );
 });
 

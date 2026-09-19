@@ -1,10 +1,48 @@
 // Attached only to partnership_request_submitted events on Rancher-to-Attio.
-const attributionLines = (attribution) =>
-  ["first", "last"].flatMap((touch) =>
-    Object.entries(attribution?.[touch] || {}).map(
-      ([key, value]) => `Attribution ${touch} ${key}: ${String(value)}`,
-    ),
-  );
+const attributionFieldNames = {
+  source: "utm_source",
+  medium: "utm_medium",
+  campaign: "utm_campaign",
+  term: "utm_term",
+  content: "utm_content",
+  id: "attribution_id",
+  source_platform: "source_platform",
+  marketing_tactic: "marketing_tactic",
+  creative_format: "creative_format",
+  adgroup: "ad_group",
+  adgroupid: "ad_group_id",
+  adplacement: "ad_placement",
+  device: "device",
+  matchtype: "match_type",
+  network: "network",
+};
+const attioAttributionValues = (submission, event) => {
+  const attribution = submission.conversion_attribution || {
+    submission_id: submission.submission_id,
+    converted_at: event.created_at,
+    first_touch: submission.attribution?.first,
+    conversion_touch: submission.attribution?.last,
+  };
+  const values = {
+    attribution_submission_id:
+      attribution.submission_id || submission.submission_id,
+    attribution_converted_at: attribution.converted_at || event.created_at,
+  };
+  for (const [touch, prefix] of [
+    [attribution.first_touch, "first"],
+    [attribution.conversion_touch, "conversion"],
+  ]) {
+    for (const [sourceKey, targetKey] of Object.entries(
+      attributionFieldNames,
+    )) {
+      const value = touch?.[sourceKey];
+      if (typeof value === "string" && value.length > 0) {
+        values[`${prefix}_${targetKey}`] = value;
+      }
+    }
+  }
+  return values;
+};
 const attioEmployeeRange = (companySize) => {
   const ranges = {
     "20–49": "11-50",
@@ -55,12 +93,8 @@ addHandler("transform", (request) => {
         data_history: submission.data_history,
         record_types: submission.record_types,
         referral_bonus_usd: submission.referral_bonus_usd,
-        additional_context: [
-          submission.additional_context || "",
-          ...attributionLines(submission.attribution),
-        ]
-          .filter(Boolean)
-          .join("\n"),
+        additional_context: submission.additional_context || undefined,
+        ...attioAttributionValues(submission, event),
         outreach_consent: submission.communications_consent,
         consent_recorded_at: submission.communications_consent
           ? submission.consent_recorded_at

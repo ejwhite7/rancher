@@ -1,0 +1,66 @@
+{
+  "data": {
+    "values": {
+      "email_addresses": [
+        "partner@example.com"
+      ],
+      "name": [
+        {
+          "full_name": "Synthetic Partner"
+        }
+      ],
+      "job_title": "VP Operations",
+      "rancher_submission_id": "8eea4f47-bc25-48fd-a24f-ecad13599b5f",
+      "company_name": "Example Co",
+      "domain": "example.com",
+      "company_size": "51-250",
+      "phone_numbers": [
+        "+12125550123"
+      ],
+      "rancher_communications_consent": true,
+      "rancher_consent_version": "communications-v1-2026-09-19",
+      "rancher_consent_recorded_at": "2026-09-17T18:00:00Z",
+      "rancher_consent_source": "Rancher partnership form",
+      "data_history": "6–10 years",
+      "record_types": [
+        "Documents & files"
+      ],
+      "referral_bonus_usd": 14000,
+      "additional_context": "Synthetic transformation test.",
+      "attribution_submission_id": "8eea4f47-bc25-48fd-a24f-ecad13599b5f",
+      "attribution_converted_at": "2026-09-17T18:00:00Z",
+      "first_utm_source": "google",
+      "first_utm_medium": "cpc",
+      "first_utm_campaign": "partner-search",
+      "first_utm_term": "business data recovery",
+      "first_utm_content": "archive-control-ad",
+      "first_attribution_id": "gclid-first-123",
+      "first_source_platform": "Google Ads",
+      "first_marketing_tactic": "paid-search",
+      "first_creative_format": "responsive-search-ad",
+      "first_ad_group": "Data recovery",
+      "first_ad_group_id": "ag-101",
+      "first_ad_placement": "search",
+      "first_device": "desktop",
+      "first_match_type": "phrase",
+      "first_network": "search",
+      "conversion_utm_source": "linkedin",
+      "conversion_utm_medium": "paid-social",
+      "conversion_utm_campaign": "retargeting",
+      "conversion_utm_term": "founder",
+      "conversion_utm_content": "control-your-data",
+      "conversion_attribution_id": "li-click-456",
+      "conversion_source_platform": "LinkedIn Ads",
+      "conversion_marketing_tactic": "retargeting",
+      "conversion_creative_format": "single-image",
+      "conversion_ad_group": "Founder retargeting",
+      "conversion_ad_group_id": "ag-202",
+      "conversion_ad_placement": "feed",
+      "conversion_device": "mobile",
+      "conversion_match_type": "audience",
+      "conversion_network": "linkedin",
+      "outreach_consent": true,
+      "consent_recorded_at": "2026-09-17T18:00:00Z"
+    }
+  }
+}
