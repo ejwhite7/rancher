@@ -21,6 +21,17 @@ test("partnership transformation includes attribution in Attio context", async (
     "partner@example.com",
   ]);
   expect(output.body.data.values.company_size).toBe("51-250");
+  expect(output.body.data.values.phone_numbers).toEqual(["+12125550123"]);
+  expect(output.body.data.values.rancher_communications_consent).toBe(true);
+  expect(output.body.data.values.rancher_consent_version).toBe(
+    "communications-v1-2026-09-19",
+  );
+  expect(output.body.data.values.rancher_consent_recorded_at).toBe(
+    "2026-09-17T18:00:00Z",
+  );
+  expect(output.body.data.values.rancher_consent_source).toBe(
+    "Rancher partnership form",
+  );
   expect(output.body.data.values.additional_context).toContain(
     "Attribution first source: google",
   );

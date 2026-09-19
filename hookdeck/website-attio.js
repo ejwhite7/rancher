@@ -44,6 +44,14 @@ addHandler("transform", (request) => {
         company_name: submission.company,
         domain: submission.domain,
         company_size: attioEmployeeRange(submission.company_size),
+        phone_numbers: submission.phone ? [submission.phone] : undefined,
+        rancher_communications_consent:
+          submission.communications_consent === true,
+        rancher_consent_version: submission.consent_version,
+        rancher_consent_recorded_at: submission.communications_consent
+          ? submission.consent_recorded_at
+          : undefined,
+        rancher_consent_source: "Rancher partnership form",
         data_history: submission.data_history,
         record_types: submission.record_types,
         referral_bonus_usd: submission.referral_bonus_usd,
@@ -53,8 +61,10 @@ addHandler("transform", (request) => {
         ]
           .filter(Boolean)
           .join("\n"),
-        outreach_consent: submission.outreach_consent,
-        consent_recorded_at: submission.consent_recorded_at,
+        outreach_consent: submission.communications_consent,
+        consent_recorded_at: submission.communications_consent
+          ? submission.consent_recorded_at
+          : undefined,
       },
     },
   };
