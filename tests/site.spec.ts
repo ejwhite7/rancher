@@ -1,6 +1,17 @@
 import { test, expect } from "@playwright/test";
 import handshakeCases from "./fixtures/handshake-calculator.json" with { type: "json" };
 
+test("provides an empty in-flow mount for the paid-campaign notification", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const notificationBar = page.locator("#notification-bar");
+  await expect(notificationBar).toHaveCount(1);
+  await expect(notificationBar).toBeEmpty();
+  await expect(notificationBar).toHaveAttribute("aria-live", "polite");
+  await expect(notificationBar).toHaveCSS("height", "0px");
+});
+
 test("calculator updates reference scenarios and submits before redirecting", async ({
   page,
 }) => {
