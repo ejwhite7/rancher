@@ -5,6 +5,7 @@ import type { Submission } from "../lib/submission";
 import { serverEnv } from "./database";
 import { serverLog } from "./logger";
 import { REFERRAL_BONUS_USD } from "./referral";
+import type { SubmissionConsentEvidence } from "./submissions";
 
 type JsonObject = Record<string, unknown>;
 type CaptureInput = {
@@ -79,6 +80,7 @@ async function safelyCapture(input: CaptureInput) {
 export function capturePartnershipSubmission(
   submission: Submission,
   request: Request,
+  consent: SubmissionConsentEvidence,
 ) {
   const [firstName, ...lastName] = submission.name.split(/\s+/);
   return safelyCapture({
@@ -101,6 +103,8 @@ export function capturePartnershipSubmission(
       additional_context: submission.records,
       phone: submission.phone,
       communications_consent: submission.communicationsConsent,
+      consent_version: consent.consentVersion,
+      consent_recorded_at: consent.consentRecordedAt,
       referral_bonus_usd: REFERRAL_BONUS_USD[submission.size],
       currency: "USD",
       calculator_scenario: submission.scenario,
@@ -116,6 +120,8 @@ export function capturePartnershipSubmission(
       job_title: submission.title,
       phone: submission.phone,
       communications_consent: submission.communicationsConsent,
+      consent_version: consent.consentVersion,
+      consent_recorded_at: consent.consentRecordedAt,
     },
     setOnce: {
       ...attributionPersonProperties(

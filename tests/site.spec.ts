@@ -51,6 +51,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
         referralBonusUsd: 75000,
         domain: "example.com",
         phone: "+12125550123",
+        consentVersion: "communications-v1-2026-09-19",
+        consentRecordedAt: "2026-09-20T18:00:00.000Z",
       }),
     });
   });
@@ -154,6 +156,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
       job_title: "VP of Operations",
       phone: "+12125550123",
       communications_consent: true,
+      consent_version: "communications-v1-2026-09-19",
+      consent_recorded_at: "2026-09-20T18:00:00.000Z",
     },
   ]);
   expect(posthogCalls).toContainEqual([
@@ -172,6 +176,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
       additional_context: "Project histories and internal documentation.",
       phone: "+12125550123",
       communications_consent: true,
+      consent_version: "communications-v1-2026-09-19",
+      consent_recorded_at: "2026-09-20T18:00:00.000Z",
       referral_bonus_usd: 75000,
       calculator_scenario: {
         employees: 200,

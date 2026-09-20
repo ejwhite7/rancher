@@ -57,6 +57,8 @@ test("accepts valid submissions only after persistence resolves", async () => {
     referralBonusUsd: 8000,
     domain: "example.com",
     phone: "+12125550123",
+    consentVersion: "communications-v1-2026-09-19",
+    consentRecordedAt: expect.any(String),
   });
 });
 

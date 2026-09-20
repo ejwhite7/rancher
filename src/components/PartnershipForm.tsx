@@ -89,7 +89,10 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         !response.ok ||
         typeof result.redirectUrl !== "string" ||
         typeof result.referralBonusUsd !== "number" ||
-        typeof result.domain !== "string"
+        typeof result.domain !== "string" ||
+        typeof result.consentVersion !== "string" ||
+        (result.consentRecordedAt !== null &&
+          typeof result.consentRecordedAt !== "string")
       )
         throw new Error(result.error || copy.save_error);
       const [firstName, ...lastNameParts] = payload.name.split(/\s+/);
@@ -102,6 +105,8 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         company: payload.company,
         phone: result.phone || undefined,
         communications_consent: payload.communicationsConsent,
+        consent_version: result.consentVersion,
+        consent_recorded_at: result.consentRecordedAt,
       });
       trackEvent(
         "partnership_request_submitted",
@@ -120,6 +125,8 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           additional_context: payload.records,
           phone: result.phone,
           communications_consent: payload.communicationsConsent,
+          consent_version: result.consentVersion,
+          consent_recorded_at: result.consentRecordedAt,
           referral_bonus_usd: result.referralBonusUsd,
           calculator_scenario: payload.scenario,
           attribution: payload.attribution,

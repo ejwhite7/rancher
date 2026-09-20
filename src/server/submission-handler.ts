@@ -1,12 +1,25 @@
-import { submissionSchema, type Submission } from "../lib/submission";
+import {
+  CONSENT_VERSION,
+  submissionSchema,
+  type Submission,
+} from "../lib/submission";
 import { emailDomain, isFreeOrDisposableEmail } from "./email-domain";
 import { serverLog } from "./logger";
 import { REFERRAL_BONUS_USD } from "./referral";
-import { SubmissionConflict } from "./submissions";
+import {
+  SubmissionConflict,
+  type SubmissionConsentEvidence,
+} from "./submissions";
 
 type Dependencies = {
-  save: (submission: Submission) => Promise<void>;
-  capture?: (submission: Submission, request: Request) => Promise<void>;
+  save: (
+    submission: Submission,
+  ) => Promise<SubmissionConsentEvidence | void>;
+  capture?: (
+    submission: Submission,
+    request: Request,
+    consent: SubmissionConsentEvidence,
+  ) => Promise<void>;
   bookingUrl: () => string | undefined;
 };
 const MAX_BODY_BYTES = 16_384;
@@ -78,14 +91,22 @@ export async function handleSubmission(
     );
   }
   try {
-    await dependencies.save(validated.data);
-    await dependencies.capture?.(validated.data, request);
+    const saved = await dependencies.save(validated.data);
+    const consent = saved || {
+      consentVersion: CONSENT_VERSION,
+      consentRecordedAt: validated.data.communicationsConsent
+        ? new Date().toISOString()
+        : null,
+    };
+    await dependencies.capture?.(validated.data, request, consent);
     return json(
       {
         redirectUrl: booking.href,
         referralBonusUsd: REFERRAL_BONUS_USD[validated.data.size],
         domain,
         phone: validated.data.phone,
+        consentVersion: consent.consentVersion,
+        consentRecordedAt: consent.consentRecordedAt,
       },
       201,
     );

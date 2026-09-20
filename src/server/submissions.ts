@@ -8,7 +8,27 @@ import {
 import { REFERRAL_BONUS_USD } from "./referral";
 import { database } from "./database";
 
-export async function saveSubmission(input: Submission): Promise<void> {
+export type SubmissionConsentEvidence = {
+  consentVersion: string;
+  consentRecordedAt: string | null;
+};
+
+type ConsentEvidenceRow = {
+  consent_version: string | null;
+  consent_recorded_at: Date | string | null;
+};
+
+const consentEvidence = (row: ConsentEvidenceRow): SubmissionConsentEvidence => ({
+  consentVersion: row.consent_version || CONSENT_VERSION,
+  consentRecordedAt:
+    row.consent_recorded_at instanceof Date
+      ? row.consent_recorded_at.toISOString()
+      : row.consent_recorded_at,
+});
+
+export async function saveSubmission(
+  input: Submission,
+): Promise<SubmissionConsentEvidence> {
   const sql = database();
   const { idempotencyKey: id, website: _website, attribution, ...data } = input;
   const hash = createHash("sha256")
@@ -25,7 +45,7 @@ export async function saveSubmission(input: Submission): Promise<void> {
         benchmark: "handshake-2026-09-12",
       }
     : null;
-  await sql.begin(async (tx) => {
+  return await sql.begin(async (tx) => {
     await tx`SELECT rancher.record_submission_attribution(
       ${data.email}, ${id}, 'partnership', ${tx.json(attribution.first)}, ${tx.json(attribution.last)}
     )`;
@@ -39,12 +59,17 @@ export async function saveSubmission(input: Submission): Promise<void> {
         ${data.communicationsConsent}, ${CONSENT_TEXT}, ${CONSENT_VERSION}, false,
         CASE WHEN ${data.communicationsConsent} THEN now() ELSE NULL END,
         ${data.phone}, ${scenario === null ? null : tx.json(scenario)}, ${hash}, ${REFERRAL_BONUS_USD[data.size]}
-      ) ON CONFLICT (id) DO NOTHING RETURNING id
+      ) ON CONFLICT (id) DO NOTHING
+      RETURNING consent_version, consent_recorded_at
     `;
-    if (rows.length) return;
-    const [existing] =
-      await tx`SELECT request_hash FROM rancher.partnership_submissions WHERE id = ${id}`;
+    if (rows.length)
+      return consentEvidence(rows[0] as unknown as ConsentEvidenceRow);
+    const [existing] = await tx`
+      SELECT request_hash, consent_version, consent_recorded_at
+      FROM rancher.partnership_submissions WHERE id = ${id}
+    `;
     if (existing?.request_hash !== hash) throw new SubmissionConflict();
+    return consentEvidence(existing as unknown as ConsentEvidenceRow);
   });
 }
 export class SubmissionConflict extends Error {}
