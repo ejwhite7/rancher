@@ -141,46 +141,13 @@ test("contact form retains entries on error, retries safely, confirms success an
     "message has been received",
   );
   expect(bodies[0].idempotencyKey).toBe(bodies[1].idempotencyKey);
+  // The browser only identifies the person. The server captures the
+  // contact_form_submitted event, so the browser must not capture a second row.
   expect(await page.evaluate(() => (window as any).contactAnalytics)).toEqual([
     {
       method: "identify",
       id: input.email,
       properties: { email: input.email, name: input.name, domain: "gmail.com" },
-    },
-    {
-      method: "capture",
-      event: "contact_form_submitted",
-      properties: {
-        form: "contact",
-        submission_id: bodies[1].idempotencyKey,
-        event_id: bodies[1].idempotencyKey,
-        $insert_id: bodies[1].idempotencyKey,
-        name: input.name,
-        email: input.email,
-        message: input.message,
-        attribution: {
-          first: {
-            source: "newsletter",
-            medium: "email",
-            campaign: "contact-test",
-          },
-          last: {
-            source: "newsletter",
-            medium: "email",
-            campaign: "contact-test",
-          },
-        },
-        $set: {
-          attribution_last_source: "newsletter",
-          attribution_last_medium: "email",
-          attribution_last_campaign: "contact-test",
-        },
-        $set_once: {
-          attribution_first_source: "newsletter",
-          attribution_first_medium: "email",
-          attribution_first_campaign: "contact-test",
-        },
-      },
     },
   ]);
   expect(await page.evaluate(() => (window as any).dataLayer)).toContainEqual(

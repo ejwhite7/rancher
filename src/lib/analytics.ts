@@ -24,11 +24,24 @@ export function trackEvent(
   const setOnce = options.personProperties?.setOnce;
   window.posthog?.capture(event, {
     ...properties,
-    ...(options.eventId ? { $insert_id: options.eventId, event_id: options.eventId } : {}),
+    ...(options.eventId
+      ? { $insert_id: options.eventId, event_id: options.eventId }
+      : {}),
     ...(set && Object.keys(set).length ? { $set: set } : {}),
     ...(setOnce && Object.keys(setOnce).length ? { $set_once: setOnce } : {}),
   });
 
+  pushDataLayer(event, properties, options);
+}
+
+// Forwards an event to the tag manager only. Use this for events that the
+// server already captures to PostHog, so the browser does not store a second
+// row for the same submission.
+export function pushDataLayer(
+  event: string,
+  properties: EventProperties = {},
+  options: TrackOptions = {},
+) {
   const userData = options.userData
     ? {
         email_address: options.userData.emailAddress.trim().toLowerCase(),

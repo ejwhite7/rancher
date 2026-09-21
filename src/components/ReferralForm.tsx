@@ -1,11 +1,8 @@
 import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import AttributionFields from "./AttributionFields";
 import type { ReferralFormContent } from "../lib/referral";
-import {
-  attributionFromForm,
-  attributionPersonProperties,
-} from "../lib/attribution";
-import { trackEvent } from "../lib/analytics";
+import { attributionFromForm } from "../lib/attribution";
+import { pushDataLayer } from "../lib/analytics";
 export default function ReferralForm({
   copy,
   preview = false,
@@ -72,7 +69,7 @@ export default function ReferralForm({
         /* Keep the confirmation visible if analytics is unavailable. */
       }
       try {
-        trackEvent(
+        pushDataLayer(
           "referral_form_submitted",
           {
             form: "referral",
@@ -87,19 +84,7 @@ export default function ReferralForm({
             industry: payload.industry,
             attribution: payload.attribution,
           },
-          {
-            eventId: submission.current.key,
-            personProperties: {
-              set: attributionPersonProperties(
-                "attribution_last",
-                payload.attribution.last,
-              ),
-              setOnce: attributionPersonProperties(
-                "attribution_first",
-                payload.attribution.first,
-              ),
-            },
-          },
+          { eventId: submission.current.key },
         );
       } catch {
         /* Delivery was already confirmed by the server. */
