@@ -53,7 +53,8 @@ test("accepts valid submissions only after persistence resolves", async () => {
   expect(captured).toBe(true);
   expect(result.status).toBe(201);
   expect(await result.json()).toEqual({
-    redirectUrl: booking,
+    redirectUrl:
+      "https://cal.com/rancher/discovery?name=Alex+Morgan&email=alex%40example.com&attendeePhoneNumber=%2B12125550123",
     message: null,
     qualifies: true,
     qualificationStatus: "qualified",
@@ -63,6 +64,30 @@ test("accepts valid submissions only after persistence resolves", async () => {
     consentVersion: "communications-v1-2026-09-19",
     consentRecordedAt: expect.any(String),
   });
+});
+
+test("preserves booking parameters and omits an unavailable phone", async () => {
+  const result = await handleSubmission(
+    request({
+      ...valid,
+      phone: "",
+      communicationsConsent: false,
+    }),
+    {
+      bookingUrl: () => `${booking}?utm_source=partnership-form`,
+      save: async () => {},
+    },
+  );
+
+  expect(result.status).toBe(201);
+  const body = await result.json();
+  const redirect = new URL(body.redirectUrl);
+  expect(Object.fromEntries(redirect.searchParams)).toEqual({
+    utm_source: "partnership-form",
+    name: "Alex Morgan",
+    email: "alex@example.com",
+  });
+  expect(redirect.searchParams.has("attendeePhoneNumber")).toBe(false);
 });
 
 test("accepts both small-company ranges without returning a booking redirect", async () => {

@@ -88,6 +88,10 @@ export async function handleSubmission(
       booking = new URL(dependencies.bookingUrl() || "");
       if (booking.protocol !== "https:" || booking.username || booking.password)
         throw new Error("Invalid booking URL");
+      booking.searchParams.set("name", validated.data.name);
+      booking.searchParams.set("email", validated.data.email);
+      if (validated.data.phone)
+        booking.searchParams.set("attendeePhoneNumber", validated.data.phone);
     } catch {
       return json(
         {
