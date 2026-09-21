@@ -6,13 +6,16 @@ ALTER TABLE rancher.partnership_submissions
 ALTER TABLE rancher.partnership_submissions
   ADD CONSTRAINT partnership_submissions_team_size_check CHECK (team_size IN (
     '20–100', '101–500', '501–1,000', '1,001+',
-    '20–49', '50–199', '200–499', '500–999', '1,000–4,999', '5,000+'
+    '1–10', '11–19', '20–49', '50–199', '200–499', '500–999',
+    '1,000–4,999', '5,000+'
   ));
 ALTER TABLE rancher.partnership_submissions
   DROP CONSTRAINT IF EXISTS partnership_submissions_referral_bonus_check;
 ALTER TABLE rancher.partnership_submissions
   ADD CONSTRAINT partnership_submissions_referral_bonus_check CHECK (
     referral_bonus_usd IS NULL OR
+    (team_size = '1–10' AND referral_bonus_usd = 0) OR
+    (team_size = '11–19' AND referral_bonus_usd = 0) OR
     (team_size = '20–49' AND referral_bonus_usd = 8000) OR
     (team_size = '50–199' AND referral_bonus_usd = 14000) OR
     (team_size = '200–499' AND referral_bonus_usd = 28000) OR

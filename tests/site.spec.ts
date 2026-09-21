@@ -172,6 +172,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
       company: "Example Company",
       company_size: "500–999",
       rancher_company_size: "500–999",
+      qualifies: true,
+      qualification_status: "qualified",
       data_history: "20+ years",
       record_types: ["Documents & files"],
       additional_context: "Project histories and internal documentation.",

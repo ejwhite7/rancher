@@ -25,12 +25,18 @@ export const TEAM_SIZES = [
   "5,000+",
 ] as const;
 export const HISTORY_RANGES = [
+  "0–3 years",
   "3–5 years",
   "6–10 years",
   "11–15 years",
   "16–19 years",
   "20+ years",
 ] as const;
+export type TeamSize = (typeof TEAM_SIZES)[number];
+export const qualifiesTeamSize = (size: TeamSize) =>
+  size !== "1–10" && size !== "11–19";
+export const qualificationStatus = (size: TeamSize) =>
+  qualifiesTeamSize(size) ? "qualified" : "does_not_qualify";
 export const RECORD_TYPES = [
   "Chat & messaging",
   "Email & calendar",

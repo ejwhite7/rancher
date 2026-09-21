@@ -1,5 +1,7 @@
 import {
   CONSENT_VERSION,
+  qualificationStatus,
+  qualifiesTeamSize,
   submissionSchema,
   type Submission,
 } from "../lib/submission";
@@ -23,6 +25,8 @@ type Dependencies = {
   bookingUrl: () => string | undefined;
 };
 const MAX_BODY_BYTES = 16_384;
+export const NONQUALIFYING_MESSAGE =
+  "Thank you for your interest, but at this time your organization does not meet minimum requirements.";
 const json = (body: object, status: number) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
@@ -77,18 +81,21 @@ export async function handleSubmission(
   if (isFreeOrDisposableEmail(validated.data.email))
     return json({ error: "Enter your work email address." }, 400);
   const domain = emailDomain(validated.data.email);
-  let booking: URL;
-  try {
-    booking = new URL(dependencies.bookingUrl() || "");
-    if (booking.protocol !== "https:" || booking.username || booking.password)
-      throw new Error("Invalid booking URL");
-  } catch {
-    return json(
-      {
-        error: "Booking is temporarily unavailable. Please try again shortly.",
-      },
-      503,
-    );
+  const qualifies = qualifiesTeamSize(validated.data.size);
+  let booking: URL | null = null;
+  if (qualifies) {
+    try {
+      booking = new URL(dependencies.bookingUrl() || "");
+      if (booking.protocol !== "https:" || booking.username || booking.password)
+        throw new Error("Invalid booking URL");
+    } catch {
+      return json(
+        {
+          error: "Booking is temporarily unavailable. Please try again shortly.",
+        },
+        503,
+      );
+    }
   }
   try {
     const saved = await dependencies.save(validated.data);
@@ -101,7 +108,10 @@ export async function handleSubmission(
     await dependencies.capture?.(validated.data, request, consent);
     return json(
       {
-        redirectUrl: booking.href,
+        redirectUrl: booking?.href ?? null,
+        message: qualifies ? null : NONQUALIFYING_MESSAGE,
+        qualifies,
+        qualificationStatus: qualificationStatus(validated.data.size),
         referralBonusUsd: REFERRAL_BONUS_USD[validated.data.size],
         domain,
         phone: validated.data.phone,

@@ -87,7 +87,11 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
       const result = await response.json();
       if (
         !response.ok ||
-        typeof result.redirectUrl !== "string" ||
+        (result.redirectUrl !== null &&
+          typeof result.redirectUrl !== "string") ||
+        (result.message !== null && typeof result.message !== "string") ||
+        typeof result.qualifies !== "boolean" ||
+        typeof result.qualificationStatus !== "string" ||
         typeof result.referralBonusUsd !== "number" ||
         typeof result.domain !== "string" ||
         typeof result.consentVersion !== "string" ||
@@ -121,6 +125,8 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           company: payload.company,
           company_size: payload.size,
           rancher_company_size: payload.size,
+          qualifies: result.qualifies,
+          qualification_status: result.qualificationStatus,
           data_history: payload.history,
           record_types: payload.recordTypes,
           additional_context: payload.records,
@@ -157,8 +163,9 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           },
         },
       );
-      setStatus(copy.success);
-      window.location.assign(result.redirectUrl);
+      setStatus(result.message || copy.success);
+      if (result.qualifies && result.redirectUrl)
+        window.location.assign(result.redirectUrl);
     } catch (error) {
       setStatus(
         error instanceof TypeError

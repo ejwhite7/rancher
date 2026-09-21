@@ -7,5 +7,5 @@ ALTER TABLE rancher.partnership_submissions
 ALTER TABLE rancher.partnership_submissions
   ADD CONSTRAINT partnership_submissions_data_history_check CHECK (data_history IN (
     'Less than 1 year', '1–3 years', '3–5 years', '5+ years', 'Not sure yet',
-    '6–10 years', '11–15 years', '16–19 years', '20+ years'
+    '0–3 years', '6–10 years', '11–15 years', '16–19 years', '20+ years'
   ));

@@ -87,6 +87,12 @@ addHandler("transform", (request) => {
         domain: submission.domain,
         company_size: attioEmployeeRange(rancherCompanySize),
         rancher_company_size: rancherCompanySize,
+        qualifies: !["1–10", "11–19"].includes(rancherCompanySize),
+        qualification_status: ["1–10", "11–19"].includes(
+          rancherCompanySize,
+        )
+          ? "does_not_qualify"
+          : "qualified",
         phone_numbers: submission.phone ? [submission.phone] : undefined,
         rancher_communications_consent:
           submission.communications_consent === true,

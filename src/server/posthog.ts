@@ -1,7 +1,11 @@
 import { attributionPersonProperties } from "../lib/attribution";
 import type { ContactSubmission } from "../lib/contact-submission";
 import type { ReferralSubmission } from "../lib/referral-submission";
-import type { Submission } from "../lib/submission";
+import {
+  qualificationStatus,
+  qualifiesTeamSize,
+  type Submission,
+} from "../lib/submission";
 import { serverEnv } from "./database";
 import { serverLog } from "./logger";
 import { REFERRAL_BONUS_USD } from "./referral";
@@ -99,6 +103,8 @@ export function capturePartnershipSubmission(
       company: submission.company,
       company_size: submission.size,
       rancher_company_size: submission.size,
+      qualifies: qualifiesTeamSize(submission.size),
+      qualification_status: qualificationStatus(submission.size),
       data_history: submission.history,
       record_types: submission.recordTypes,
       additional_context: submission.records,
@@ -119,6 +125,8 @@ export function capturePartnershipSubmission(
       company: submission.company,
       domain: submission.email.split("@")[1],
       job_title: submission.title,
+      qualifies: qualifiesTeamSize(submission.size),
+      qualification_status: qualificationStatus(submission.size),
       phone: submission.phone,
       communications_consent: submission.communicationsConsent,
       consent_version: consent.consentVersion,

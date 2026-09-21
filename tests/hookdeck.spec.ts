@@ -22,6 +22,8 @@ test("partnership transformation emits structured Attio attribution and preserve
   ]);
   expect(output.body.data.values.company_size).toBe("51-250");
   expect(output.body.data.values.rancher_company_size).toBe("50–199");
+  expect(output.body.data.values.qualifies).toBe(true);
+  expect(output.body.data.values.qualification_status).toBe("qualified");
   expect(output.body.data.values.phone_numbers).toEqual(["+12125550123"]);
   expect(output.body.data.values.rancher_communications_consent).toBe(true);
   expect(output.body.data.values.rancher_consent_version).toBe(
@@ -223,6 +225,12 @@ test("partnership and referral transformations normalize small-company ranges wh
       );
       expect(output.body.data.values.company_size).toBe(normalized);
       expect(output.body.data.values.rancher_company_size).toBe(raw);
+      if (script === "hookdeck/website-attio.js") {
+        expect(output.body.data.values.qualifies).toBe(false);
+        expect(output.body.data.values.qualification_status).toBe(
+          "does_not_qualify",
+        );
+      }
     }
   }
 });

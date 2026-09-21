@@ -54,6 +54,9 @@ test("accepts valid submissions only after persistence resolves", async () => {
   expect(result.status).toBe(201);
   expect(await result.json()).toEqual({
     redirectUrl: booking,
+    message: null,
+    qualifies: true,
+    qualificationStatus: "qualified",
     referralBonusUsd: 8000,
     domain: "example.com",
     phone: "+12125550123",
@@ -62,17 +65,44 @@ test("accepts valid submissions only after persistence resolves", async () => {
   });
 });
 
-test("accepts both small-company ranges with zero referral bonus", async () => {
+test("accepts both small-company ranges without returning a booking redirect", async () => {
   for (const size of ["1–10", "11–19"] as const) {
+    let captured = false;
     const result = await handleSubmission(request({ ...valid, size }), {
-      bookingUrl: () => booking,
+      bookingUrl: () => {
+        throw new Error("Nonqualifying submissions must not request a booking URL");
+      },
       save: async (submission) => {
         expect(submission.size).toBe(size);
       },
+      capture: async () => {
+        captured = true;
+      },
     });
     expect(result.status).toBe(201);
-    expect(await result.json()).toMatchObject({ referralBonusUsd: 0 });
+    expect(captured).toBe(true);
+    expect(await result.json()).toMatchObject({
+      redirectUrl: null,
+      message:
+        "Thank you for your interest, but at this time your organization does not meet minimum requirements.",
+      qualifies: false,
+      qualificationStatus: "does_not_qualify",
+      referralBonusUsd: 0,
+    });
   }
+});
+
+test("accepts the 0–3 years operating-history range", async () => {
+  const result = await handleSubmission(
+    request({ ...valid, history: "0–3 years" }),
+    {
+      bookingUrl: () => booking,
+      save: async (submission) => {
+        expect(submission.history).toBe("0–3 years");
+      },
+    },
+  );
+  expect(result.status).toBe(201);
 });
 
 test("rejects missing fields, invalid phones, tampered scenarios, and honeypots", async () => {
@@ -192,6 +222,62 @@ test("database failures, conflicting retries, and invalid booking configuration 
     ).toBe(503);
   }
   expect(writes).toBe(0);
+});
+
+test("form displays the nonqualifying message without redirecting", async ({
+  page,
+}) => {
+  await page.route("**/api/submissions/", (route) =>
+    route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: JSON.stringify({
+        redirectUrl: null,
+        message:
+          "Thank you for your interest, but at this time your organization does not meet minimum requirements.",
+        qualifies: false,
+        qualificationStatus: "does_not_qualify",
+        referralBonusUsd: 0,
+        domain: "example.com",
+        phone: null,
+        consentVersion: "communications-v1-2026-09-19",
+        consentRecordedAt: null,
+      }),
+    }),
+  );
+  await page.goto("/");
+  await page.evaluate(() => {
+    Object.assign(window, {
+      partnershipAnalytics: [] as unknown[],
+      posthog: {
+        identify: () => undefined,
+        capture: (event: string, properties: unknown) =>
+          (window as any).partnershipAnalytics.push({ event, properties }),
+      },
+    });
+  });
+  await page.getByLabel("Your name").fill(valid.name);
+  await page.getByLabel("Work email").fill(valid.email);
+  await page.getByLabel("Job title").fill(valid.title);
+  await page.getByLabel("Company", { exact: true }).fill(valid.company);
+  await page.locator('[name="size"]').selectOption("1–10");
+  await page.locator('[name="history"]').selectOption("0–3 years");
+  await page.getByLabel("Documents & files", { exact: true }).check();
+  await page.getByRole("button", { name: "Submit & book a call" }).click();
+  await expect(page.locator("#form-status")).toHaveText(
+    "Thank you for your interest, but at this time your organization does not meet minimum requirements.",
+  );
+  await expect(page).toHaveURL("http://127.0.0.1:4322/");
+  expect(await page.evaluate(() => (window as any).partnershipAnalytics)).toEqual([
+    expect.objectContaining({
+      event: "partnership_request_submitted",
+      properties: expect.objectContaining({
+        qualifies: false,
+        qualification_status: "does_not_qualify",
+        referral_bonus_usd: 0,
+      }),
+    }),
+  ]);
 });
 
 test("form preserves entries on failure and reuses its retry key", async ({
