@@ -54,6 +54,22 @@ export const referralFormSchema = z.object({
   no_javascript: text,
 });
 export type ReferralFormContent = z.infer<typeof referralFormSchema>;
+export function normalizeCompanySizeOptions(form: ReferralFormContent) {
+  const firstSmallBand = form.company_size_options.findIndex((option) =>
+    ["1–19", "1–10", "11–19"].includes(option.value),
+  );
+  const remaining = form.company_size_options.filter(
+    (option) => !["1–19", "1–10", "11–19"].includes(option.value),
+  );
+  const insertionIndex = firstSmallBand < 0 ? 0 : firstSmallBand;
+  remaining.splice(
+    insertionIndex,
+    0,
+    { label: "1–10", value: "1–10" },
+    { label: "11–19", value: "11–19" },
+  );
+  return { ...form, company_size_options: remaining };
+}
 export async function fetchReferral(client: Client, lang = "en-us") {
   const page = referralSchema.parse(
     (await client.getSingle("referral", { lang })).data,
@@ -72,7 +88,7 @@ export async function fetchReferral(client: Client, lang = "en-us") {
     throw Error("Invalid Referral page relationship");
   return {
     page,
-    form: referralFormSchema.parse(form.data),
+    form: normalizeCompanySizeOptions(referralFormSchema.parse(form.data)),
     content: {
       ...site,
       navigation: parseNavigation(nav.data),
@@ -83,7 +99,7 @@ export async function fetchReferral(client: Client, lang = "en-us") {
 export async function referralSnapshot() {
   return {
     page: referralSchema.parse(referralSeed),
-    form: referralFormSchema.parse(formSeed),
+    form: normalizeCompanySizeOptions(referralFormSchema.parse(formSeed)),
     content: await getSiteContent(),
   };
 }

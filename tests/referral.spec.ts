@@ -1,7 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { handleReferralSubmission } from "../src/server/referral-handler";
 import { SubmissionConflict } from "../src/server/submissions";
-import { referralSchema, referralFormSchema } from "../src/lib/referral";
+import {
+  referralSchema,
+  referralFormSchema,
+  normalizeCompanySizeOptions,
+} from "../src/lib/referral";
 import { previewLinkResolver, supportedPreviewPath } from "../src/lib/preview";
 import referral from "../prismic/seed/referral.json" with { type: "json" };
 import form from "../prismic/seed/referral-form.json" with { type: "json" };
@@ -83,6 +87,26 @@ test("referral rejects missing fields, invalid emails, spam, oversized and cross
   ).toBe(403);
   expect(saved).toBe(0);
 });
+test("referral normalizes the legacy small-company option in CMS content", () => {
+  const content = normalizeCompanySizeOptions(
+    referralFormSchema.parse({
+      ...form,
+      company_size_options: [
+        { label: "1–19", value: "1–19" },
+        ...form.company_size_options.filter(
+          (option) => !["1–10", "11–19"].includes(option.value),
+        ),
+      ],
+    }),
+  );
+  expect(content.company_size_options.map((option) => option.value)).toEqual(
+    expect.arrayContaining(["1–10", "11–19"]),
+  );
+  expect(content.company_size_options.map((option) => option.value)).not.toContain(
+    "1–19",
+  );
+});
+
 test("referral CMS relationships, editable options and both preview entry points are validated", () => {
   expect(referralSchema.parse(referral).form.type).toBe("form");
   expect(
@@ -202,6 +226,7 @@ test("referral retries safely, identifies only the referrer, tracks once after s
         referral_last_name: input.referral_last_name,
         referral_email: input.referral_email,
         company_size: input.company_size,
+        rancher_company_size: input.company_size,
         industry: input.industry,
         attribution: {
           first: {
