@@ -177,6 +177,8 @@ test("referral retries safely, identifies only the referrer, tracks once after s
     "referral has been received",
   );
   expect(bodies[0].idempotencyKey).toBe(bodies[1].idempotencyKey);
+  // The browser only identifies the referrer. The server captures the
+  // referral_form_submitted event, so the browser must not capture a second row.
   expect(await page.evaluate(() => (window as any).referralAnalytics)).toEqual([
     {
       method: "identify",
@@ -185,46 +187,6 @@ test("referral retries safely, identifies only the referrer, tracks once after s
         email: "referrer@gmail.com",
         name: "Test Referrer",
         domain: "gmail.com",
-      },
-    },
-    {
-      method: "capture",
-      event: "referral_form_submitted",
-      properties: {
-        form: "referral",
-        submission_id: bodies[1].idempotencyKey,
-        event_id: bodies[1].idempotencyKey,
-        $insert_id: bodies[1].idempotencyKey,
-        referrer_first_name: input.referrer_first_name,
-        referrer_last_name: input.referrer_last_name,
-        referrer_email: input.referrer_email,
-        referral_first_name: input.referral_first_name,
-        referral_last_name: input.referral_last_name,
-        referral_email: input.referral_email,
-        company_size: input.company_size,
-        industry: input.industry,
-        attribution: {
-          first: {
-            source: "partner",
-            medium: "referral",
-            campaign: "referral-test",
-          },
-          last: {
-            source: "partner",
-            medium: "referral",
-            campaign: "referral-test",
-          },
-        },
-        $set: {
-          attribution_last_source: "partner",
-          attribution_last_medium: "referral",
-          attribution_last_campaign: "referral-test",
-        },
-        $set_once: {
-          attribution_first_source: "partner",
-          attribution_first_medium: "referral",
-          attribution_first_campaign: "referral-test",
-        },
       },
     },
   ]);

@@ -3,11 +3,8 @@ import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { useScenario } from "../lib/scenario";
 import { HISTORY_RANGES, RECORD_TYPES, TEAM_SIZES } from "../lib/submission";
 import { EMPLOYEES } from "../lib/estimate";
-import { trackEvent } from "../lib/analytics";
-import {
-  attributionFromForm,
-  attributionPersonProperties,
-} from "../lib/attribution";
+import { pushDataLayer } from "../lib/analytics";
+import { attributionFromForm } from "../lib/attribution";
 import AttributionFields from "./AttributionFields";
 export default function PartnershipForm({ copy }: { copy: FormContent }) {
   const scenario = useScenario();
@@ -108,7 +105,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         consent_version: result.consentVersion,
         consent_recorded_at: result.consentRecordedAt,
       });
-      trackEvent(
+      pushDataLayer(
         "partnership_request_submitted",
         {
           submission_id: submissionKey.current.key,
@@ -133,22 +130,6 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         },
         {
           eventId: submissionKey.current.key,
-          personProperties: {
-            setOnce: {
-              ...attributionPersonProperties(
-                "attribution_first",
-                payload.attribution.first,
-              ),
-              ...attributionPersonProperties(
-                "partnership_first",
-                payload.attribution.first,
-              ),
-              ...attributionPersonProperties(
-                "partnership_last",
-                payload.attribution.last,
-              ),
-            },
-          },
           userData: {
             emailAddress: payload.email,
             firstName,
