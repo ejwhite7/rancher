@@ -15,6 +15,8 @@ export function normalizeUsPhone(value: string): string | null {
   return `+1${national}`;
 }
 export const TEAM_SIZES = [
+  "1–10",
+  "11–19",
   "20–49",
   "50–199",
   "200–499",

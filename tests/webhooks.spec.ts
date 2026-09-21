@@ -124,13 +124,14 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
       await sql`SELECT * FROM rancher.webhook_outbox WHERE id=${id}`;
     expect(event.payload.type).toBe("submission.created");
     expect(event.payload.event_name).toBe("partnership_request_submitted");
-    expect(event.payload.schema_version).toBe(7);
+    expect(event.payload.schema_version).toBe(8);
     expect(event.payload.data.domain).toBe("example.com");
     expect(event.payload.data.phone).toBe("+12125550123");
     expect(event.payload.data.communications_consent).toBe(true);
     expect(event.payload.data.consent_prechecked).toBe(false);
     expect(event.payload.data.job_title).toBe("VP of Operations");
     expect(event.payload.data.referral_bonus_usd).toBe(8000);
+    expect(event.payload.data.rancher_company_size).toBe("20–49");
     expect(event.payload.data.attribution).toEqual(input.attribution);
     expect(event.payload.data.conversion_attribution).toEqual({
       schema_version: 1,

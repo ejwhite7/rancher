@@ -84,6 +84,7 @@ export default function ReferralForm({
             referral_last_name: payload.referral_last_name,
             referral_email: payload.referral_email,
             company_size: payload.company_size,
+            rancher_company_size: payload.company_size,
             industry: payload.industry,
             attribution: payload.attribution,
           },

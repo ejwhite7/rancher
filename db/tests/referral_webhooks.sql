@@ -12,12 +12,13 @@ BEGIN
   SELECT payload INTO event_payload FROM rancher.webhook_outbox WHERE id=test_id;
   IF event_payload->>'type' <> 'referral.submission.created'
     OR event_payload->>'event_name' <> 'referral_form_submitted'
-    OR event_payload->>'schema_version' <> '3'
+    OR event_payload->>'schema_version' <> '4'
     OR event_payload->'data'->>'submission_id' <> test_id::text
     OR event_payload->'data'->>'referrer_email' <> 'referrer@example.com'
     OR event_payload->'data'->>'referral_email' <> 'referred@example.org'
     OR event_payload->'data'->>'industry' <> 'Technology'
     OR event_payload->'data'->>'company_size' <> '50–199'
+    OR event_payload->'data'->>'rancher_company_size' <> '50–199'
     OR event_payload->'data' ? 'request_hash'
     OR event_payload->'data' ? 'website' THEN
     RAISE EXCEPTION 'Invalid referral event payload';

@@ -21,6 +21,7 @@ test("partnership transformation emits structured Attio attribution and preserve
     "partner@example.com",
   ]);
   expect(output.body.data.values.company_size).toBe("51-250");
+  expect(output.body.data.values.rancher_company_size).toBe("50–199");
   expect(output.body.data.values.phone_numbers).toEqual(["+12125550123"]);
   expect(output.body.data.values.rancher_communications_consent).toBe(true);
   expect(output.body.data.values.rancher_consent_version).toBe(
@@ -158,6 +159,7 @@ test("referral transformation targets the referred person and preserves referrer
       rancher_submission_id: sample.body.id,
       domain: "example.org",
       company_size: "51-250",
+      rancher_company_size: "50–199",
       additional_context:
         "Rancher referral\nReferred by: Test Referrer <referrer@example.com>\nReferral: Test Referral <referred@example.org>\nCompany size: 50–199\nIndustry: Technology\nAttribution first source: google\nAttribution first medium: cpc\nAttribution first campaign: spring\nAttribution last source: newsletter\nAttribution last medium: email\nAttribution last campaign: partner-update",
     });
@@ -177,8 +179,50 @@ test("referral transformation targets the referred person and preserves referrer
     transform({
       body: {
         ...sample.body,
-        data: { ...sample.body.data, company_size: "unknown" },
+        data: {
+          ...sample.body.data,
+          company_size: "unknown",
+          rancher_company_size: "unknown",
+        },
       },
     }),
   ).toThrow("Unsupported Rancher company size");
+});
+
+test("partnership and referral transformations normalize small-company ranges while preserving raw values", async () => {
+  for (const [script, fixture] of [
+    ["hookdeck/website-attio.js", "hookdeck/website-sample.json"],
+    ["hookdeck/referral-attio.js", "hookdeck/referral-sample.json"],
+  ]) {
+    const code = await readFile(script, "utf8");
+    const sample = JSON.parse(await readFile(fixture, "utf8"));
+    let transform: any;
+    runInNewContext(code, {
+      addHandler: (_event: string, handler: unknown) => {
+        transform = handler;
+      },
+    });
+    for (const [raw, normalized] of [
+      ["1–10", "1-10"],
+      ["11–19", "11-50"],
+    ]) {
+      const output = JSON.parse(
+        JSON.stringify(
+          transform({
+            headers: {},
+            body: {
+              ...sample.body,
+              data: {
+                ...sample.body.data,
+                company_size: raw,
+                rancher_company_size: raw,
+              },
+            },
+          }),
+        ),
+      );
+      expect(output.body.data.values.company_size).toBe(normalized);
+      expect(output.body.data.values.rancher_company_size).toBe(raw);
+    }
+  }
 });

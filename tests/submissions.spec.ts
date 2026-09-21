@@ -62,6 +62,19 @@ test("accepts valid submissions only after persistence resolves", async () => {
   });
 });
 
+test("accepts both small-company ranges with zero referral bonus", async () => {
+  for (const size of ["1–10", "11–19"] as const) {
+    const result = await handleSubmission(request({ ...valid, size }), {
+      bookingUrl: () => booking,
+      save: async (submission) => {
+        expect(submission.size).toBe(size);
+      },
+    });
+    expect(result.status).toBe(201);
+    expect(await result.json()).toMatchObject({ referralBonusUsd: 0 });
+  }
+});
+
 test("rejects missing fields, invalid phones, tampered scenarios, and honeypots", async () => {
   let writes = 0;
   const dependencies = {

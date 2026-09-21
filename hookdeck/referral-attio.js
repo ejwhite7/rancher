@@ -7,6 +7,8 @@ const attributionLines = (attribution) =>
   );
 const attioEmployeeRange = (companySize) => {
   const ranges = {
+    "1–10": "1-10",
+    "11–19": "11-50",
     "20–49": "11-50",
     "50–199": "51-250",
     "200–499": "251-1K",
@@ -44,6 +46,8 @@ addHandler("transform", (request) => {
     throw new Error("Invalid Rancher referral submission");
   }
   const email = submission.referral_email.trim().toLowerCase();
+  const rancherCompanySize =
+    submission.rancher_company_size || submission.company_size;
   request.headers = { ...request.headers, "content-type": "application/json" };
   request.query = "matching_attribute=email_addresses";
   // The referred person is the CRM contact. Preserve attribution in the existing
@@ -59,12 +63,13 @@ addHandler("transform", (request) => {
         ],
         rancher_submission_id: submission.submission_id,
         domain: email.split("@")[1],
-        company_size: attioEmployeeRange(submission.company_size),
+        company_size: attioEmployeeRange(rancherCompanySize),
+        rancher_company_size: rancherCompanySize,
         additional_context: [
           "Rancher referral",
           `Referred by: ${submission.referrer_first_name} ${submission.referrer_last_name} <${submission.referrer_email.trim().toLowerCase()}>`,
           `Referral: ${submission.referral_first_name} ${submission.referral_last_name} <${email}>`,
-          `Company size: ${submission.company_size}`,
+          `Company size: ${rancherCompanySize}`,
           `Industry: ${submission.industry}`,
           ...attributionLines(submission.attribution),
         ].join("\n"),

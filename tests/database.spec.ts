@@ -97,6 +97,15 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
           "utf8",
         ),
       );
+      await sql.unsafe(
+        await readFile(
+          "db/migrations/013_structured_conversion_attribution.sql",
+          "utf8",
+        ),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/014_small_company_sizes.sql", "utf8"),
+      );
     }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
     const records =
@@ -105,6 +114,8 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     expect(records[0].company).toBe(row.company);
     expect(records[0].referral_bonus_usd).toBe(8000);
     for (const [size, amount] of [
+      ["1–10", 0],
+      ["11–19", 0],
       ["20–49", 8000],
       ["50–199", 14000],
       ["200–499", 28000],

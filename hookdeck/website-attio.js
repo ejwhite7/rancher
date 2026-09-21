@@ -45,6 +45,8 @@ const attioAttributionValues = (submission, event) => {
 };
 const attioEmployeeRange = (companySize) => {
   const ranges = {
+    "1–10": "1-10",
+    "11–19": "11-50",
     "20–49": "11-50",
     "50–199": "51-250",
     "200–499": "251-1K",
@@ -72,6 +74,8 @@ addHandler("transform", (request) => {
   }
   request.headers = { ...request.headers, "content-type": "application/json" };
   request.query = "matching_attribute=email_addresses";
+  const rancherCompanySize =
+    submission.rancher_company_size || submission.company_size;
   request.body = {
     data: {
       values: {
@@ -81,7 +85,8 @@ addHandler("transform", (request) => {
         rancher_submission_id: submission.submission_id,
         company_name: submission.company,
         domain: submission.domain,
-        company_size: attioEmployeeRange(submission.company_size),
+        company_size: attioEmployeeRange(rancherCompanySize),
+        rancher_company_size: rancherCompanySize,
         phone_numbers: submission.phone ? [submission.phone] : undefined,
         rancher_communications_consent:
           submission.communications_consent === true,

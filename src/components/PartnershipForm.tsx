@@ -120,6 +120,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           job_title: payload.title,
           company: payload.company,
           company_size: payload.size,
+          rancher_company_size: payload.size,
           data_history: payload.history,
           record_types: payload.recordTypes,
           additional_context: payload.records,

@@ -40,8 +40,12 @@
   "referral_industry_label": "Industry",
   "company_size_options": [
     {
-      "label": "1–19",
-      "value": "1–19"
+      "label": "1–10",
+      "value": "1–10"
+    },
+    {
+      "label": "11–19",
+      "value": "11–19"
     },
     {
       "label": "20–49",
