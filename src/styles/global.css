@@ -710,6 +710,19 @@ textarea {
   color: var(--ink);
   margin-top: 15px;
 }
+.form--nonqualifying > :not(.status) {
+  display: none;
+}
+.status--nonqualifying {
+  margin: 0;
+  border-left: 4px solid #9b3a26;
+  background: var(--paper);
+  padding: 24px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 600;
+  line-height: 1.35;
+}
 .footer {
   border-top: 1px solid var(--line);
   padding: 33px 0;

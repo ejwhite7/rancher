@@ -15,6 +15,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
   const [history, setHistory] = useState("");
   const [recordTypes, setRecordTypes] = useState<string[]>([]);
   const [status, setStatus] = useState("");
+  const [doesNotQualify, setDoesNotQualify] = useState(false);
   const [ready, setReady] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const pending = useRef(false);
@@ -164,6 +165,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         },
       );
       setStatus(result.message || copy.success);
+      setDoesNotQualify(!result.qualifies);
       if (result.qualifies && result.redirectUrl)
         window.location.assign(result.redirectUrl);
     } catch (error) {
@@ -181,7 +183,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
   return (
     <>
       <form
-        className="form"
+        className={`form${doesNotQualify ? " form--nonqualifying" : ""}`}
         id="intake"
         onSubmit={submitRequest}
         aria-busy={submitting}
@@ -323,7 +325,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           <span aria-hidden="true">↗</span>
         </button>
         <div
-          className="status"
+          className={`status${doesNotQualify ? " status--nonqualifying" : ""}`}
           id="form-status"
           role="status"
           aria-live="polite"

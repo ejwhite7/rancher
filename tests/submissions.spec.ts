@@ -289,9 +289,19 @@ test("form displays the nonqualifying message without redirecting", async ({
   await page.locator('[name="history"]').selectOption("0–3 years");
   await page.getByLabel("Documents & files", { exact: true }).check();
   await page.getByRole("button", { name: "Submit & book a call" }).click();
-  await expect(page.locator("#form-status")).toHaveText(
+  const status = page.locator("#form-status");
+  await expect(status).toHaveText(
     "Thank you for your interest, but at this time your organization does not meet minimum requirements.",
   );
+  await expect(page.locator("#intake")).toHaveClass(/form--nonqualifying/);
+  await expect(status).toHaveClass(/status--nonqualifying/);
+  await expect(page.getByLabel("Your name")).toBeHidden();
+  await expect(
+    page.getByRole("button", { name: "Submit & book a call" }),
+  ).toBeHidden();
+  expect(
+    await status.evaluate((element) => parseFloat(getComputedStyle(element).fontSize)),
+  ).toBeGreaterThanOrEqual(20);
   await expect(page).toHaveURL("http://127.0.0.1:4322/");
   expect(await page.evaluate(() => (window as any).partnershipAnalytics)).toEqual([
     expect.objectContaining({
