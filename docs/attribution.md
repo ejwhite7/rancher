@@ -8,12 +8,18 @@ Attributor records campaign/referrer first touch in `attr_first` and the most re
 
 Migration `010_submission_attribution.sql` creates two restricted, RLS-enabled tables:
 
-- `rancher.submission_attribution` stores the immutable first/last snapshot for each submission UUID, form type, and normalized submitter email.
-- `rancher.user_attribution` stores one record per normalized submitter email. Its first touch never changes. Contact and referral submissions may update its latest last touch. The first partnership submission separately locks `partnership_first_touch`, `partnership_last_touch`, and `partnership_submission_id`.
+- `rancher.submission_attribution` stores the immutable first/last snapshot for each submission UUID, form type, and normalized submitter email. Its declared PostgreSQL primary key is `submission_id`.
+- `rancher.user_attribution` stores one record per normalized submitter email. Its declared PostgreSQL primary key is `email`. Its first touch never changes. Contact and referral submissions may update its latest last touch. The first partnership submission separately locks `partnership_first_touch`, `partnership_last_touch`, and `partnership_submission_id`.
+
+Migration `016_flatten_attribution_for_cdc.sql` expands every stable Attributor field into physical nullable text columns while retaining the JSONB snapshots for backward compatibility. `submission_attribution` has `first_*` and `last_*` columns. `user_attribution` additionally has `partnership_first_*` and `partnership_last_*` columns. A database trigger derives all typed columns from the JSONB values for existing rows and every future insert/update, so old application versions and ongoing form transactions remain compatible while PostHog and other warehouse consumers receive directly queryable fields.
+
+The complete suffix set is `source`, `medium`, `campaign`, `term`, `content`, `id`, `source_platform`, `marketing_tactic`, `creative_format`, `adextension`, `adgroup`, `adgroupid`, `adplacement`, `adposition`, `campaignid`, `geo`, `keymatch`, `device`, `matchtype`, and `network`. Nullable fields mean the campaign URL did not provide that parameter; they are not evidence of a failed capture.
 
 Referral attribution belongs to the referrer who browsed and submitted the form. The referred person remains the Attio contact.
 
-Attribution and the source form row are written in one database transaction. The attribution row is inserted before the form row so the existing database webhook trigger can include the snapshot atomically. A failed or conflicting form insert rolls back attribution changes. Deleting a source form row deletes its submission snapshot; the email-keyed user record is also deleted when no snapshots remain.
+Attribution and the source form row are written in one database transaction. The attribution row is inserted before the form row so the existing database webhook trigger can include the snapshot atomically. The flattening triggers execute inside that transaction. A failed or conflicting form insert rolls back the JSONB and typed attribution values together. Deleting a source form row deletes its submission snapshot; the email-keyed user record is also deleted when no snapshots remain.
+
+For PostHog PostgreSQL CDC, use the actual PostgreSQL primary keys above; no column literally named `primary_key` is required. After applying migration 016, refresh the source schema so PostHog re-reads source column metadata and primary keys, then select CDC for both attribution tables. Do not infer CDC compatibility from an older full-refresh schema whose `primary_key_columns` is still null.
 
 ## Analytics and delivery
 

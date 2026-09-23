@@ -32,8 +32,35 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     phone: "+12125550123",
     communicationsConsent: true,
     attribution: {
-      first: { source: "google", medium: "cpc", campaign: "database-test" },
-      last: { source: "linkedin", medium: "paid-social" },
+      first: {
+        source: "google",
+        medium: "cpc",
+        campaign: "database-test",
+        term: "records management",
+        content: "field-guide",
+        id: "spring-2026",
+        source_platform: "google_ads",
+        marketing_tactic: "prospecting",
+        creative_format: "search",
+        adextension: "sitelink",
+        adgroup: "operations leaders",
+        adgroupid: "ag-123",
+        adplacement: "search",
+        adposition: "1",
+        campaignid: "campaign-123",
+        geo: "us",
+        keymatch: "records management",
+        device: "desktop",
+        matchtype: "exact",
+        network: "search",
+      },
+      last: {
+        source: "linkedin",
+        medium: "paid-social",
+        campaign: "retargeting",
+        source_platform: "linkedin_ads",
+        device: "mobile",
+      },
     },
     scenario: { employees: 100, years: 10, country: "Canada" },
   };
@@ -112,6 +139,12 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
           "utf8",
         ),
       );
+      await sql.unsafe(
+        await readFile(
+          "db/migrations/016_flatten_attribution_for_cdc.sql",
+          "utf8",
+        ),
+      );
     }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
     const records =
@@ -149,11 +182,44 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       await sql`SELECT * FROM rancher.submission_attribution WHERE submission_id = ${id}`;
     expect(snapshot.email).toBe("test@example.com");
     expect(snapshot.first_touch).toEqual(row.attribution.first);
+    expect(snapshot.first_source).toBe("google");
+    expect(snapshot.first_source_platform).toBe("google_ads");
+    expect(snapshot.first_marketing_tactic).toBe("prospecting");
+    expect(snapshot.first_network).toBe("search");
+    expect(snapshot.last_source).toBe("linkedin");
+    expect(snapshot.last_source_platform).toBe("linkedin_ads");
+    expect(snapshot.last_network).toBeNull();
+    const primaryKeys = await sql`
+      SELECT relation.relname AS table_name,
+             array_agg(attribute.attname ORDER BY key_column.ordinality) AS columns
+      FROM pg_constraint constraint_record
+      JOIN pg_class relation ON relation.oid = constraint_record.conrelid
+      JOIN pg_namespace namespace ON namespace.oid = relation.relnamespace
+      CROSS JOIN LATERAL unnest(constraint_record.conkey)
+        WITH ORDINALITY AS key_column(attribute_number, ordinality)
+      JOIN pg_attribute attribute
+        ON attribute.attrelid = relation.oid
+       AND attribute.attnum = key_column.attribute_number
+      WHERE namespace.nspname = 'rancher'
+        AND relation.relname IN ('submission_attribution', 'user_attribution')
+        AND constraint_record.contype = 'p'
+      GROUP BY relation.relname
+      ORDER BY relation.relname
+    `;
+    expect(primaryKeys).toEqual([
+      { table_name: "submission_attribution", columns: ["submission_id"] },
+      { table_name: "user_attribution", columns: ["email"] },
+    ]);
     const [initialUserAttribution] =
       await sql`SELECT * FROM rancher.user_attribution WHERE email = 'test@example.com'`;
     expect(initialUserAttribution.partnership_submission_id).toBe(id);
     expect(initialUserAttribution.partnership_last_touch).toEqual(
       row.attribution.last,
+    );
+    expect(initialUserAttribution.first_campaignid).toBe("campaign-123");
+    expect(initialUserAttribution.partnership_first_adgroupid).toBe("ag-123");
+    expect(initialUserAttribution.partnership_last_source_platform).toBe(
+      "linkedin_ads",
     );
     const laterId = randomUUID();
     await sql`SELECT rancher.record_submission_attribution(
@@ -168,6 +234,10 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       source: "newsletter",
       medium: "email",
     });
+    expect(updatedUserAttribution.last_source).toBe("newsletter");
+    expect(updatedUserAttribution.last_medium).toBe("email");
+    expect(updatedUserAttribution.last_source_platform).toBeNull();
+    expect(updatedUserAttribution.first_source_platform).toBe("google_ads");
     expect(updatedUserAttribution.partnership_submission_id).toBe(id);
     await expect(
       saveSubmission({ ...row, company: "Different company" }),
@@ -201,7 +271,13 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
       .locator('[name="records"]')
       .fill("Synthetic browser persistence test");
     await page.getByRole("button", { name: "Submit & book a call" }).click();
-    await expect(page).toHaveURL("https://cal.com/rancher/discovery");
+    await expect(page).toHaveURL(
+      (url) =>
+        `${url.origin}${url.pathname}` ===
+          "https://cal.com/rancher/discovery" &&
+        url.searchParams.get("name") === "Automated browser test" &&
+        url.searchParams.get("email") === browserEmail,
+    );
     const browserRows =
       await sql`SELECT * FROM rancher.partnership_submissions WHERE email = ${browserEmail}`;
     expect(browserRows).toHaveLength(1);

@@ -37,7 +37,7 @@ WHERE id = 'REPLACE-WITH-EVENT-UUID' AND status = 'failed';
 
 The next cron run sends it with the same event ID. Use Hookdeck's replay controls for downstream failures after successful ingestion.
 
-Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `015_qualification_and_operating_history.sql` with an administrative database connection before deploying the application and worker.
+Queued payloads and delivery history are retained until the submission is deleted; the foreign key cascades deletion to the outbox. Copies already delivered to Hookdeck or other tools require separate deletion there. Apply all migrations through `016_flatten_attribution_for_cdc.sql` with an administrative database connection before deploying the application and worker.
 
 ## Contact delivery and transformation
 
