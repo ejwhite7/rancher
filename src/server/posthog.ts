@@ -48,11 +48,9 @@ export async function captureFormEvent(input: CaptureInput) {
     ?.split(",")[0]
     ?.trim();
   const sessionId = posthogIdHeader(input.request, "x-posthog-session-id");
-  const windowId = posthogIdHeader(input.request, "x-posthog-window-id");
   const properties: JsonObject = {
     ...input.properties,
     ...(sessionId ? { $session_id: sessionId } : {}),
-    ...(windowId ? { $window_id: windowId } : {}),
     $lib: "rancher-server",
     $lib_version: "1",
     capture_source: "server",

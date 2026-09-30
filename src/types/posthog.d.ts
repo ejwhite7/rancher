@@ -21,6 +21,5 @@ interface Window {
     ) => void;
     capture: (event: string, properties?: Record<string, unknown>) => void;
     get_session_id?: () => string | undefined;
-    get_window_id?: () => string | undefined;
   };
 }

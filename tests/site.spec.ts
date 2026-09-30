@@ -34,7 +34,6 @@ test("calculator updates reference scenarios and submits before redirecting", as
       identify: (...args: unknown[]) => record("identify", ...args),
       capture: (...args: unknown[]) => record("capture", ...args),
       get_session_id: () => "018f47a2-9b3c-7def-8123-456789abcdef",
-      get_window_id: () => "018f47a2-9b3d-7abc-9234-56789abcdef0",
     };
     const dataLayer: Record<string, unknown>[] = [];
     dataLayer.push = (...entries: Record<string, unknown>[]) => {
@@ -78,7 +77,6 @@ test("calculator updates reference scenarios and submits before redirecting", as
       identify: (...args: unknown[]) => record("identify", ...args),
       capture: (...args: unknown[]) => record("capture", ...args),
       get_session_id: () => "018f47a2-9b3c-7def-8123-456789abcdef",
-      get_window_id: () => "018f47a2-9b3d-7abc-9234-56789abcdef0",
     };
   });
   await expect(page.locator("#intake button")).toBeEnabled();
@@ -130,9 +128,6 @@ test("calculator updates reference scenarios and submits before redirecting", as
   expect(submitted?.idempotencyKey).toMatch(/^[0-9a-f-]{36}$/);
   expect(submissionHeaders["x-posthog-session-id"]).toBe(
     "018f47a2-9b3c-7def-8123-456789abcdef",
-  );
-  expect(submissionHeaders["x-posthog-window-id"]).toBe(
-    "018f47a2-9b3d-7abc-9234-56789abcdef0",
   );
   expect(submitted?.attribution).toEqual({
     first: {

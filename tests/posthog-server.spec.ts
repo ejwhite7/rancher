@@ -27,7 +27,6 @@ test("server form capture uses the submission id for PostHog deduplication", asy
           "user-agent": "test-agent",
           "x-forwarded-for": "203.0.113.1, 10.0.0.1",
           "x-posthog-session-id": "018f47a2-9b3c-7def-8123-456789abcdef",
-          "x-posthog-window-id": "018f47a2-9b3d-7abc-9234-56789abcdef0",
         },
       }),
     });
@@ -49,7 +48,6 @@ test("server form capture uses the submission id for PostHog deduplication", asy
       $lib_version: "1",
       capture_source: "server",
       $session_id: "018f47a2-9b3c-7def-8123-456789abcdef",
-      $window_id: "018f47a2-9b3d-7abc-9234-56789abcdef0",
       $insert_id: "11111111-2222-4333-8444-555555555555",
       event_id: "11111111-2222-4333-8444-555555555555",
       $current_url: "https://www.gorancher.com/contact/",

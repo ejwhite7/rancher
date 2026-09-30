@@ -75,7 +75,6 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
     setStatus("");
     try {
       const posthogSessionId = window.posthog?.get_session_id?.();
-      const posthogWindowId = window.posthog?.get_window_id?.();
       const response = await fetch("/api/submissions/", {
         method: "POST",
         headers: {
@@ -83,9 +82,6 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           Accept: "application/json",
           ...(posthogSessionId
             ? { "X-PostHog-Session-Id": posthogSessionId }
-            : {}),
-          ...(posthogWindowId
-            ? { "X-PostHog-Window-Id": posthogWindowId }
             : {}),
         },
         body: JSON.stringify({
