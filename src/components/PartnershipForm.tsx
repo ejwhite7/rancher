@@ -74,11 +74,19 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
     setSubmitting(true);
     setStatus("");
     try {
+      const posthogSessionId = window.posthog?.get_session_id?.();
+      const posthogWindowId = window.posthog?.get_window_id?.();
       const response = await fetch("/api/submissions/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          ...(posthogSessionId
+            ? { "X-PostHog-Session-Id": posthogSessionId }
+            : {}),
+          ...(posthogWindowId
+            ? { "X-PostHog-Window-Id": posthogWindowId }
+            : {}),
         },
         body: JSON.stringify({
           ...payload,
@@ -162,6 +170,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
             firstName,
             lastName: lastNameParts.join(" ") || undefined,
           },
+          capturePostHog: false,
         },
       );
       setStatus(result.message || copy.success);

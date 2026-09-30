@@ -16,6 +16,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
   page,
 }) => {
   let submitted: Record<string, any> | undefined;
+  let submissionHeaders: Record<string, string> = {};
   const posthogCalls: unknown[][] = [];
   const dataLayerCalls: Record<string, unknown>[] = [];
   page.on("console", (message) => {
@@ -32,6 +33,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
     (window as any).posthog = {
       identify: (...args: unknown[]) => record("identify", ...args),
       capture: (...args: unknown[]) => record("capture", ...args),
+      get_session_id: () => "018f47a2-9b3c-7def-8123-456789abcdef",
+      get_window_id: () => "018f47a2-9b3d-7abc-9234-56789abcdef0",
     };
     const dataLayer: Record<string, unknown>[] = [];
     dataLayer.push = (...entries: Record<string, unknown>[]) => {
@@ -43,11 +46,15 @@ test("calculator updates reference scenarios and submits before redirecting", as
   });
   await page.route("**/api/submissions/", async (route) => {
     submitted = route.request().postDataJSON();
+    submissionHeaders = await route.request().allHeaders();
     await route.fulfill({
       status: 201,
       contentType: "application/json",
       body: JSON.stringify({
         redirectUrl: "https://cal.com/rancher/discovery",
+        message: null,
+        qualifies: true,
+        qualificationStatus: "qualified",
         referralBonusUsd: 75000,
         domain: "example.com",
         phone: "+12125550123",
@@ -70,6 +77,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
     (window as any).posthog = {
       identify: (...args: unknown[]) => record("identify", ...args),
       capture: (...args: unknown[]) => record("capture", ...args),
+      get_session_id: () => "018f47a2-9b3c-7def-8123-456789abcdef",
+      get_window_id: () => "018f47a2-9b3d-7abc-9234-56789abcdef0",
     };
   });
   await expect(page.locator("#intake button")).toBeEnabled();
@@ -119,6 +128,12 @@ test("calculator updates reference scenarios and submits before redirecting", as
     country: "Canada",
   });
   expect(submitted?.idempotencyKey).toMatch(/^[0-9a-f-]{36}$/);
+  expect(submissionHeaders["x-posthog-session-id"]).toBe(
+    "018f47a2-9b3c-7def-8123-456789abcdef",
+  );
+  expect(submissionHeaders["x-posthog-window-id"]).toBe(
+    "018f47a2-9b3d-7abc-9234-56789abcdef0",
+  );
   expect(submitted?.attribution).toEqual({
     first: {
       source: "google",
@@ -160,41 +175,12 @@ test("calculator updates reference scenarios and submits before redirecting", as
       consent_recorded_at: "2026-09-20T18:00:00.000Z",
     },
   ]);
-  expect(posthogCalls).toContainEqual([
-    "capture",
-    "partnership_request_submitted",
-    expect.objectContaining({
-      submission_id: submitted?.idempotencyKey,
-      name: "Alex Morgan",
-      email: "alex@example.com",
-      domain: "example.com",
-      job_title: "VP of Operations",
-      company: "Example Company",
-      company_size: "500–999",
-      rancher_company_size: "500–999",
-      qualifies: true,
-      qualification_status: "qualified",
-      data_history: "20+ years",
-      record_types: ["Documents & files"],
-      additional_context: "Project histories and internal documentation.",
-      phone: "+12125550123",
-      communications_consent: true,
-      consent_version: "communications-v1-2026-09-19",
-      consent_recorded_at: "2026-09-20T18:00:00.000Z",
-      referral_bonus_usd: 75000,
-      calculator_scenario: {
-        employees: 200,
-        years: 20,
-        country: "Canada",
-      },
-      attribution: submitted?.attribution,
-      $set_once: expect.objectContaining({
-        attribution_first_source: "google",
-        partnership_first_source: "google",
-        partnership_last_source: "google",
-      }),
-    }),
-  ]);
+  expect(
+    posthogCalls.filter(
+      (call) =>
+        call[0] === "capture" && call[1] === "partnership_request_submitted",
+    ),
+  ).toEqual([]);
   expect(dataLayerCalls).toContainEqual(
     expect.objectContaining({
       event: "partnership_explored",

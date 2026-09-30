@@ -28,6 +28,13 @@ const endpoint = () =>
     serverEnv("PUBLIC_POSTHOG_HOST") || "https://us.i.posthog.com",
   ).href;
 
+const uuidV7 =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const posthogIdHeader = (request: Request, name: string) => {
+  const value = request.headers.get(name)?.trim();
+  return value && uuidV7.test(value) ? value.toLowerCase() : undefined;
+};
+
 export async function captureFormEvent(input: CaptureInput) {
   const token = serverEnv("PUBLIC_POSTHOG_PROJECT_TOKEN");
   if (!token) {
@@ -40,8 +47,12 @@ export async function captureFormEvent(input: CaptureInput) {
     .get("x-forwarded-for")
     ?.split(",")[0]
     ?.trim();
+  const sessionId = posthogIdHeader(input.request, "x-posthog-session-id");
+  const windowId = posthogIdHeader(input.request, "x-posthog-window-id");
   const properties: JsonObject = {
     ...input.properties,
+    ...(sessionId ? { $session_id: sessionId } : {}),
+    ...(windowId ? { $window_id: windowId } : {}),
     $lib: "rancher-server",
     $lib_version: "1",
     capture_source: "server",

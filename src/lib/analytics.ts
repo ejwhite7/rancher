@@ -13,6 +13,7 @@ type TrackOptions = {
     set?: EventProperties;
     setOnce?: EventProperties;
   };
+  capturePostHog?: boolean;
 };
 
 export function trackEvent(
@@ -22,12 +23,15 @@ export function trackEvent(
 ) {
   const set = options.personProperties?.set;
   const setOnce = options.personProperties?.setOnce;
-  window.posthog?.capture(event, {
-    ...properties,
-    ...(options.eventId ? { $insert_id: options.eventId, event_id: options.eventId } : {}),
-    ...(set && Object.keys(set).length ? { $set: set } : {}),
-    ...(setOnce && Object.keys(setOnce).length ? { $set_once: setOnce } : {}),
-  });
+  if (options.capturePostHog !== false)
+    window.posthog?.capture(event, {
+      ...properties,
+      ...(options.eventId
+        ? { $insert_id: options.eventId, event_id: options.eventId }
+        : {}),
+      ...(set && Object.keys(set).length ? { $set: set } : {}),
+      ...(setOnce && Object.keys(setOnce).length ? { $set_once: setOnce } : {}),
+    });
 
   const userData = options.userData
     ? {
