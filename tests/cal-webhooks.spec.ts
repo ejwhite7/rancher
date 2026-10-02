@@ -82,6 +82,39 @@ test("verifies Cal signature and maps a booking to an identified PostHog event",
   });
 });
 
+test("notifies Slack only after a created booking is captured", async () => {
+  const order: string[] = [];
+  let notification: any;
+  const response = await handleCalWebhook(request(payload), {
+    ...dependencies(async () => {
+      order.push("capture");
+    }),
+    notifyBooking: async (input) => {
+      order.push("notify");
+      notification = input;
+    },
+  });
+
+  expect(response.status).toBe(200);
+  expect(order).toEqual(["capture", "notify"]);
+  expect(notification).toEqual({
+    bookingUid: "booking-uid",
+    email: "alex@example.com",
+    startTime: "2026-09-18T12:00:00.000Z",
+    timeZone: "America/New_York",
+  });
+});
+
+test("returns a retryable error when Slack notification fails", async () => {
+  const response = await handleCalWebhook(request(payload), {
+    ...dependencies(async () => undefined),
+    notifyBooking: async () => {
+      throw new Error("Slack failed");
+    },
+  });
+  expect(response.status).toBe(502);
+});
+
 test("clears booked status when a booking is cancelled", async () => {
   let captured: any;
   const response = await handleCalWebhook(

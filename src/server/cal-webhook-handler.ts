@@ -16,6 +16,13 @@ const EVENT_NAMES = {
 type TriggerEvent = keyof typeof EVENT_NAMES;
 type JsonObject = Record<string, unknown>;
 
+type BookingNotification = {
+  bookingUid: string;
+  email: string;
+  startTime: string;
+  timeZone?: string;
+};
+
 type Dependencies = {
   webhookSecret: () => string | undefined;
   posthogToken: () => string | undefined;
@@ -26,6 +33,7 @@ type Dependencies = {
     timestamp?: string;
     properties: JsonObject;
   }) => Promise<void>;
+  notifyBooking?: (input: BookingNotification) => Promise<void>;
 };
 
 const object = (value: unknown): JsonObject =>
@@ -204,6 +212,27 @@ export async function handleCalWebhook(
   } catch {
     await serverLog("error", "cal_posthog_capture_failed");
     return new Response("Event delivery failed", { status: 502 });
+  }
+
+  if (trigger === "BOOKING_CREATED" && dependencies.notifyBooking) {
+    const bookingUid = string(details.properties.booking_uid);
+    const email = string(details.properties.attendee_email);
+    const startTime = string(details.properties.start_time);
+    if (bookingUid && email && startTime) {
+      try {
+        await dependencies.notifyBooking({
+          bookingUid,
+          email,
+          startTime,
+          timeZone: string(details.properties.attendee_time_zone),
+        });
+      } catch {
+        await serverLog("error", "cal_slack_notification_failed");
+        return new Response("Notification delivery failed", { status: 502 });
+      }
+    } else {
+      await serverLog("warn", "cal_slack_notification_data_missing");
+    }
   }
   return Response.json({ received: true });
 }
