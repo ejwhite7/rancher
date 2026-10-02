@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { serverLog } from "./logger";
 
 const HISTORY_PAGE_SIZE = 100;
-const MAX_HISTORY_PAGES = 20;
+const MAX_HISTORY_PAGES = 5;
 
 type JsonObject = Record<string, unknown>;
 type SlackFetch = typeof fetch;
