@@ -5,7 +5,7 @@ import { notifySlackBooking } from "../../../server/slack-booking-notifier";
 export const prerender = false;
 
 const EXPECTED_TOKEN_HASH =
-  "7789fb1dca6c06b4829e0779202903cb3d6f312b894b0abf71179012fec48070";
+  "9be10454cffc50e7a4078b8420d06dcd2c503bd14e1cfcd31e6889c669a7dc2e";
 
 export const POST: APIRoute = async ({ request }) => {
   const token = request.headers
