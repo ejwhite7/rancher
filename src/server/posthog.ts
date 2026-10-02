@@ -1,4 +1,7 @@
-import { attributionPersonProperties } from "../lib/attribution";
+import {
+  attributionEventProperties,
+  attributionPersonProperties,
+} from "../lib/attribution";
 import type { ContactSubmission } from "../lib/contact-submission";
 import type { ReferralSubmission } from "../lib/referral-submission";
 import {
@@ -124,6 +127,7 @@ export function capturePartnershipSubmission(
       referral_bonus_usd: REFERRAL_BONUS_USD[submission.size],
       currency: "USD",
       calculator_scenario: submission.scenario,
+      ...attributionEventProperties(submission.attribution),
       attribution: submission.attribution,
     },
     set: {

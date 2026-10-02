@@ -25,6 +25,7 @@ For PostHog PostgreSQL CDC, use the actual PostgreSQL primary keys above; no col
 
 Every successful form event includes `attribution.first` and `attribution.last` in PostHog and `window.dataLayer`.
 
+- Partnership also exposes the conversion touch on the PostHog event as standard `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, and `utm_content` properties. Explicit `first_utm_*` and `conversion_utm_*` event properties preserve both touches without requiring nested-property queries. Only captured values are emitted.
 - Partnership uses PostHog `$set_once` for `attribution_first_*`, `partnership_first_*`, and `partnership_last_*` person properties.
 - Contact and referral use `$set_once` for `attribution_first_*` and `$set` for `attribution_last_*`.
 

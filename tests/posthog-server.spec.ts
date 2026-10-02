@@ -1,5 +1,52 @@
 import { expect, test } from "@playwright/test";
+import { attributionEventProperties } from "../src/lib/attribution";
 import { captureFormEvent } from "../src/server/posthog";
+
+test("server partnership attribution exposes standard and explicit UTM properties", () => {
+  expect(
+    attributionEventProperties({
+      first: {
+        source: "google",
+        medium: "cpc",
+        campaign: "partner-search",
+        term: "business data",
+      },
+      last: {
+        source: "linkedin",
+        medium: "paid-social",
+        campaign: "retargeting",
+        content: "control-your-data",
+      },
+    }),
+  ).toEqual({
+    first_utm_source: "google",
+    conversion_utm_source: "linkedin",
+    utm_source: "linkedin",
+    first_utm_medium: "cpc",
+    conversion_utm_medium: "paid-social",
+    utm_medium: "paid-social",
+    first_utm_campaign: "partner-search",
+    conversion_utm_campaign: "retargeting",
+    utm_campaign: "retargeting",
+    first_utm_term: "business data",
+    conversion_utm_content: "control-your-data",
+    utm_content: "control-your-data",
+  });
+
+  expect(
+    attributionEventProperties({
+      first: { source: "(direct)", medium: "(none)" },
+      last: { source: "(direct)", medium: "(none)" },
+    }),
+  ).toEqual({
+    first_utm_source: "(direct)",
+    conversion_utm_source: "(direct)",
+    utm_source: "(direct)",
+    first_utm_medium: "(none)",
+    conversion_utm_medium: "(none)",
+    utm_medium: "(none)",
+  });
+});
 
 test("server form capture uses the submission id for PostHog deduplication", async () => {
   const originalFetch = globalThis.fetch;

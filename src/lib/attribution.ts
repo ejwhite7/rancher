@@ -61,12 +61,36 @@ export function attributionFromForm(form: HTMLFormElement): Attribution {
 }
 
 export function attributionPersonProperties(
-  prefix: "attribution_first" | "attribution_last" | "partnership_first" | "partnership_last",
+  prefix:
+    | "attribution_first"
+    | "attribution_last"
+    | "partnership_first"
+    | "partnership_last",
   touch: AttributionTouch,
 ) {
   return Object.fromEntries(
     ATTRIBUTION_KEYS.flatMap((key) =>
       touch[key] ? [[`${prefix}_${key}`, touch[key]]] : [],
     ),
+  );
+}
+
+const UTM_KEYS = ["source", "medium", "campaign", "term", "content"] as const;
+
+export function attributionEventProperties(attribution: Attribution) {
+  return Object.fromEntries(
+    UTM_KEYS.flatMap((key) => {
+      const first = attribution.first[key];
+      const conversion = attribution.last[key];
+      return [
+        ...(first ? [[`first_utm_${key}`, first]] : []),
+        ...(conversion
+          ? [
+              [`conversion_utm_${key}`, conversion],
+              [`utm_${key}`, conversion],
+            ]
+          : []),
+      ];
+    }),
   );
 }
