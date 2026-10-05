@@ -28,6 +28,10 @@
     {
       "path": "/api/cron/pipeline-report/",
       "schedule": "0 13,14,21,22 * * *"
+    },
+    {
+      "path": "/api/cron/attio-stages/",
+      "schedule": "0 */4 * * *"
     }
   ]
 }
