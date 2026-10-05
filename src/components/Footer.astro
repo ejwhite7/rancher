@@ -23,9 +23,21 @@ const homePath = Astro.url.pathname === "/" ? "" : "/";
         </svg>
         {copy.brand_name}
       </a>
-      {copy.socials.length > 0 && <nav class="footer-socials" aria-label="Rancher social profiles">
-        {copy.socials.map((social) => <a href={social.link} aria-label={`Rancher on ${social.platform}`} title={`Rancher on ${social.platform}`} target="_blank" rel="me noopener noreferrer"><SocialIcon platform={social.platform}/></a>)}
-      </nav>}
+      {copy.socials.length > 0 && (
+        <nav class="footer-socials" aria-label="Rancher social profiles">
+          {copy.socials.map((social) => (
+            <a
+              href={social.link}
+              aria-label={`Rancher on ${social.platform}`}
+              title={`Rancher on ${social.platform}`}
+              target="_blank"
+              rel="me noopener noreferrer"
+            >
+              <SocialIcon platform={social.platform} />
+            </a>
+          ))}
+        </nav>
+      )}
     </div>
     <div class="footer-bottom">
       <span>
@@ -44,6 +56,13 @@ const homePath = Astro.url.pathname === "/" ? "" : "/";
             {item.label}
           </a>
         ))}
+        <button
+          type="button"
+          class="privacy-choices"
+          data-consent-action="showSettings"
+        >
+          Privacy choices
+        </button>
       </nav>
     </div>
   </div>
@@ -86,9 +105,32 @@ const homePath = Astro.url.pathname === "/" ? "" : "/";
 </script>
 
 <style>
-.footer-top {display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;}
-.footer-socials {display:flex;gap:8px;align-items:center;}
-.footer-socials a {display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;color:var(--ink);border-radius:50%;}
-.footer-socials a:hover {background:var(--line);}
-.footer-socials a:focus-visible {outline:2px solid currentColor;outline-offset:3px;}
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-socials {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--ink);
+    border-radius: 50%;
+  }
+  .footer-socials a:hover {
+    background: var(--line);
+  }
+  .footer-socials a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
 </style>

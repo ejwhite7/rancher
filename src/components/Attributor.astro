@@ -1,6 +1,20 @@
 <script is:inline src="/vendor/attributor/attributor-2.1.1.js"></script>
 <script is:inline>
-  if (typeof window.Attributor === "function") {
+  function deleteAttributionCookies() {
+    for (const name of ["attr_first", "attr_last"]) {
+      document.cookie = `${name}=; Max-Age=0; path=/`;
+      document.cookie = `${name}=; Max-Age=0; path=/; domain=.gorancher.com`;
+    }
+  }
+
+  window.addEventListener("rancher:consent", (event) => {
+    if (!event.detail.advertising) {
+      deleteAttributionCookies();
+      delete window.__attribution;
+      return;
+    }
+    if (window.__attribution || typeof window.Attributor !== "function") return;
+
     const host = window.location.hostname;
     const cookieDomain =
       host === "gorancher.com" || host.endsWith(".gorancher.com")
@@ -37,5 +51,5 @@
       ),
     };
     window.__attribution = new window.Attributor({ cookieDomain, fieldMap });
-  }
+  });
 </script>

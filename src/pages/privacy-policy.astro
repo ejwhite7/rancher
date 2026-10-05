@@ -6,6 +6,7 @@ const legal = await getLegalContent("privacy-policy");
 const bodyHtml = asHTML(legal.body as RichTextField);
 const hasAttributionDisclosure = bodyHtml.includes("attr_first");
 const hasRb2bDisclosure = bodyHtml.includes("app.retention.com/optout");
+const hasConsentDisclosure = bodyHtml.includes("Global Privacy Control");
 const renderedBodyHtml = hasRb2bDisclosure
   ? bodyHtml
   : bodyHtml
@@ -17,13 +18,14 @@ const renderedBodyHtml = hasRb2bDisclosure
         "We do not sell inquiry information or use it for cross-context advertising.",
         "We do not sell inquiry information.",
       );
-const displayedLegal = hasAttributionDisclosure && hasRb2bDisclosure
-  ? legal
-  : {
-      ...legal,
-      updated: "2026-09-18",
-      updated_label: "September 18, 2026",
-    };
+const displayedLegal =
+  hasAttributionDisclosure && hasRb2bDisclosure && hasConsentDisclosure
+    ? legal
+    : {
+        ...legal,
+        updated: "2026-10-05",
+        updated_label: "October 5, 2026",
+      };
 ---
 
 <LegalLayout
@@ -47,6 +49,28 @@ const displayedLegal = hasAttributionDisclosure && hasRb2bDisclosure
       </p>
     </>
   )}
+  {!hasConsentDisclosure && (
+    <>
+      <h2>Cookies, analytics, and advertising choices</h2>
+      <p>
+        We use strictly necessary browser storage to remember your privacy
+        choices and operate the website. With your permission, PostHog may use
+        cookies and similar technologies for analytics, performance monitoring,
+        and conversion measurement. Advertising and attribution partners may
+        also use these technologies to measure campaigns, associate visits with
+        business contact information, or share conversion data with advertising
+        platforms.
+      </p>
+      <p>
+        You can opt out or choose categories through the “Privacy choices” link
+        in the site footer. We honor supported Global Privacy Control signals by
+        disabling analytics and advertising categories. Changing your choice
+        applies going forward and removes Rancher’s optional analytics and
+        attribution storage from your browser; providers may retain information
+        already collected as described in their policies and applicable law.
+      </p>
+    </>
+  )}
   {!hasRb2bDisclosure && (
     <>
       <h2>Website visitor identification and marketing</h2>
@@ -54,16 +78,19 @@ const displayedLegal = hasAttributionDisclosure && hasRb2bDisclosure
         When you visit or log in to our website, cookies and similar
         technologies may be used by our online data partners or vendors,
         including RB2B, to associate these activities with other personal
-        information they or others have about you, including by association
-        with your email. We or service providers acting on our behalf may then
-        use this information to send communications and marketing to those
-        email addresses. You may opt out of receiving this advertising by
-        visiting the <a href="https://app.retention.com/optout"
-          >Retention.com opt-out page</a
-        >. You may also opt out of RB2B’s collection of personal data by
-        visiting the <a href="https://www.rb2b.com/rb2b-gdpr-opt-out"
-          >RB2B GDPR opt-out page</a
-        >.
+        information they or others have about you, including by association with
+        your email. We or service providers acting on our behalf may then use
+        this information to send communications and marketing to those email
+        addresses. You may opt out of receiving this advertising by visiting the{" "}
+        <a href="https://app.retention.com/optout">
+          Retention.com opt-out page
+        </a>
+        . You may also opt out of RB2B’s collection of personal data by visiting
+        the{" "}
+        <a href="https://www.rb2b.com/rb2b-gdpr-opt-out">
+          RB2B GDPR opt-out page
+        </a>
+        .
       </p>
     </>
   )}
