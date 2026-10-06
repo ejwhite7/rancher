@@ -83,7 +83,6 @@ export async function readDealsSheet(send: typeof fetch = fetch) {
 }
 
 async function appendRow(values: string[], send: typeof fetch = fetch) {
-  if (serverEnv("GOOGLE_SHEETS_SYNC_ENABLED") !== "true") return;
   const token = await accessToken(send);
   const range = encodeURIComponent(`${TAB}!A:I`);
   const response = await send(

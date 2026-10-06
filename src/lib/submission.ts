@@ -3,7 +3,7 @@ import { attributionSchema, EMPTY_ATTRIBUTION } from "./attribution";
 
 export const CONSENT_VERSION = "communications-v1-2026-09-19";
 export const CONSENT_TEXT =
-  "Yes, B2B SaaS Inc. DBA Rancher may call or text me at the number provided about my partnership request and related opportunities, including through automated technology, artificial or prerecorded voice, and AI-generated voice. Consent is not a condition of submitting this request. Message and data rates may apply. Message frequency varies. Reply STOP to opt out or HELP for help.";
+  "Yes, Rancher Group Inc. may call or text me at the number provided about my partnership request and related opportunities, including through automated technology, artificial or prerecorded voice, and AI-generated voice. Consent is not a condition of submitting this request. Message and data rates may apply. Message frequency varies. Reply STOP to opt out or HELP for help.";
 
 export function normalizeUsPhone(value: string): string | null {
   const trimmed = value.trim();
