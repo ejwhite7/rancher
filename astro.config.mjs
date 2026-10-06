@@ -5,6 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import { loadEnv } from "vite";
 import {
   PUBLIC_SITE,
+  clientAssetsDir,
   includeInStaticSitemap,
   isIndexableDeployment,
 } from "./src/lib/site.ts";
@@ -36,7 +37,7 @@ export default defineConfig({
   },
   devToolbar: { enabled: false },
   adapter: vercel(),
-  build: { inlineStylesheets: "always" },
+  build: { inlineStylesheets: "always", assets: clientAssetsDir(process.env) },
   trailingSlash: "always",
   integrations: [
     react(),
