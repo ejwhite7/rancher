@@ -16,8 +16,9 @@ import { legal } from "../data/legal";
   <h2>Information you provide</h2>
   <p>
     The inquiry form collects your name, work email, job title, company, team size,
-    available data history, selected record types, additional context, and
-    outreach consent. If you select a calculator scenario before submitting, we
+    available data history, selected record types, and additional context. You
+    may also provide a US phone number and optionally consent to calls and texts.
+    If you select a calculator scenario before submitting, we
     also record its employee count, years, region, and the indicative estimate
     calculated by our server.
   </p>
@@ -30,10 +31,12 @@ import { legal } from "../data/legal";
   <h2>How we use submissions</h2>
   <p>
     We store your inquiry to assess potential data-licensing opportunities,
-    follow up about your request, and keep a record of your outreach preference.
-    The record includes submission time and the consent wording shown on the
-    form. The consent checkbox starts selected, and the form requires it to
-    remain selected before an inquiry can be sent.
+    follow up about your request, and keep a record of your communications
+    preference. Providing a phone number and consenting to calls or texts are
+    optional and are not conditions of submitting an inquiry. The consent
+    checkbox starts unchecked. If selected, we retain the normalized phone
+    number, exact disclosure version, and consent time. You can revoke consent
+    through any reasonable method; reply STOP to stop text messages.
   </p>
   <p>
     Submitting an inquiry does not grant Rancher a license to your underlying
@@ -85,11 +88,17 @@ import { legal } from "../data/legal";
     When you successfully submit the inquiry form, we identify the analytics
     record using your work email and send the submitted name, email, email domain,
     job title, company, company size, data-history range, record types, optional additional
-    context, outreach-consent status, calculator scenario, submission ID, and
-    server-calculated referral amount to PostHog. The application does not set
-    advertising cookies or save your form entries in local storage. Your browser
-    may separately retain autofill information according to its settings. We do
-    not sell inquiry information or use it for cross-context advertising.
+    context, optional normalized phone number, communications-consent status,
+    calculator scenario, submission ID, and server-calculated referral amount
+    to PostHog. We also place the same explicit
+    analytics events in the page's Google Tag Manager data layer. On a successful
+    inquiry, that event includes normalized email, first name, last name, and a
+    submission identifier so configured advertising platforms, including Meta,
+    can measure and match lead conversions. Google Tag Manager is deployed through
+    PostHog rather than loaded separately by the application. The application does
+    not save your form entries in local storage. Your browser may separately retain
+    autofill information according to its settings. We do not sell inquiry
+    information.
   </p>
   <h2>Your choices and external links</h2>
   <p>

@@ -1,0 +1,16 @@
+version: 2
+brand:
+  name: Rancher
+  description: Business data licensing that turns everyday company knowledge into privacy-safe datasets for AI labs.
+  root: ./brand_atomic_system
+contexts:
+  - base
+  - web
+  - product
+ignore:
+  - human/
+ingestion:
+  maxFileBytes: 16777216
+  maxTotalBytes: 134217728
+  maxFiles: 1000
+  maxDepth: 16

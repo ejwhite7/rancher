@@ -24,18 +24,18 @@ export type Estimate = {
   openEnded: boolean;
 };
 
+function isIntegerInRange(value: number, range: { min: number; max: number }) {
+  return Number.isInteger(value) && value >= range.min && value <= range.max;
+}
+
 export function calculateEstimate(
   employees: number,
   years: number,
   region: Region,
 ): Estimate {
   if (
-    !Number.isInteger(employees) ||
-    employees < EMPLOYEES.min ||
-    employees > EMPLOYEES.max ||
-    !Number.isInteger(years) ||
-    years < YEARS.min ||
-    years > YEARS.max ||
+    !isIntegerInRange(employees, EMPLOYEES) ||
+    !isIntegerInRange(years, YEARS) ||
     !Object.hasOwn(REGION_MULTIPLIERS, region)
   ) {
     throw new RangeError(

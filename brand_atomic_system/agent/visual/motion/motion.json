@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "principles": [
+    "Motion should explain growth, transformation, or state change.",
+    "Interface feedback should be brief and restrained.",
+    "Decorative sequences must stop or resolve predictably and respect reduced motion."
+  ],
+  "durations": {
+    "fast": 200,
+    "medium": 400,
+    "heroSunrise": 2600,
+    "heroGrowth": 3000
+  },
+  "easings": {
+    "interface": "ease",
+    "natural": "inOutSine",
+    "entrance": "outQuad"
+  },
+  "reducedMotion": {
+    "required": true,
+    "behavior": "Render the final state immediately with no translation, scale, rotation, or opacity transition."
+  }
+}

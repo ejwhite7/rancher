@@ -1,0 +1,39 @@
+assets:
+  - id: logo-lockup-svg
+    file: rancher-logo-lockup.svg
+    purpose: Preferred scalable logo lockup for light, paper-colored backgrounds.
+  - id: logo-symbol-svg
+    file: rancher-logo.svg
+    purpose: Standalone Rancher mark for compact placements and icons.
+  - id: wordmark-svg
+    file: rancher-wordmark.svg
+    purpose: Rancher wordmark when the symbol is shown separately or space is constrained.
+  - id: logo-lockup-png
+    file: rancher-logo-lockup.png
+    purpose: Raster fallback for tools that cannot use SVG.
+  - id: logo-symbol-png
+    file: rancher-logo.png
+    purpose: Raster standalone mark.
+  - id: wordmark-png
+    file: rancher-wordmark.png
+    purpose: Raster wordmark fallback.
+  - id: logo-symbol-white-svg
+    file: rancher-logo-white.svg
+    purpose: Scalable white standalone mark for dark backgrounds.
+  - id: logo-symbol-white-png
+    file: rancher-logo-white.png
+    purpose: Raster white standalone mark for dark backgrounds.
+  - id: wordmark-white-svg
+    file: rancher-wordmark-white.svg
+    purpose: Scalable white wordmark for dark backgrounds.
+  - id: wordmark-white-png
+    file: rancher-wordmark-white.png
+    purpose: Raster white wordmark for dark backgrounds.
+usage:
+  background: Use dark green artwork on warm paper or quiet light neutrals; use the supplied white variants on dark backgrounds.
+  clear_space: Keep at least one symbol-width of clear space around the complete lockup.
+  color: Use only the supplied dark green or white artwork; do not recolor with gradients or effects.
+  prohibited:
+    - Do not stretch, skew, rotate, outline, or add drop shadows.
+    - Do not place on visually busy imagery without sufficient contrast.
+    - Do not recreate the wordmark with a substitute typeface.

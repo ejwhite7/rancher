@@ -31,7 +31,7 @@ To review submissions, use an authorized SQL client or Supabase SQL editor:
 
 ```sql
 SELECT id, created_at, name, email, job_title, company, team_size, data_history,
-       record_types, records_description, referral_bonus_usd, outreach_consent, consent_text, calculator_scenario
+       record_types, records_description, referral_bonus_usd, phone_e164, outreach_consent, consent_text, consent_version, calculator_scenario
 FROM rancher.partnership_submissions
 ORDER BY created_at DESC;
 ```
@@ -61,5 +61,7 @@ New submissions are atomically queued in `rancher.webhook_outbox` and sent to Ho
 The calculator matches the audited Handshake AI benchmark for 20–200+ employees and 3–20+ years. See [the calculator audit](docs/calculator-audit.md) for regional factors and the Troveo comparison.
 
 `node scripts/generate-icons.mjs` regenerates the logo-based favicon, social image, and device icons. Asset provenance is in `ASSETS.md`.
+
+Every paid-social concept must be delivered as a separately composed 1200×630, 1080×1080, 1080×1350, and 1080×1920 set. Use the safe zones, copy-pastable request, claim rules, and QA checklist in [the social ad asset brief](docs/social-ad-asset-brief.md).
 
 The Privacy Policy and Terms of Use describe submitted inquiries and calendar handoff. `src/data/legal.ts` contains the operator name and contact email; verified legal business/contact details remain to be supplied. [FTC consumer privacy guidance](https://www.ftc.gov/business-guidance/privacy-security/consumer-privacy) informed the policy's focus on actual processing.

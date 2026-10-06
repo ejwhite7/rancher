@@ -1,0 +1,46 @@
+personas:
+  - id: business-owner
+    name: Business owner or founder
+    role: Owner, founder, or managing partner of an established company
+    goals:
+      - Create a new revenue stream without distracting the core business
+      - Understand whether existing company data has licensing value
+      - Retain ownership and control over what is shared
+    pain_points:
+      - Unclear market value for internal knowledge and records
+      - Concern about privacy, confidentiality, and reputation
+      - No internal team for preparing or licensing datasets
+    channels:
+      - Founder networks
+      - Direct outreach
+      - Professional services referrals
+  - id: operations-leader
+    name: Operations leader
+    role: COO, operations director, or business systems leader
+    goals:
+      - Put accumulated operational knowledge to productive use
+      - Minimize implementation effort and disruption
+      - Establish a controlled, repeatable data process
+    pain_points:
+      - Fragmented records across tools and formats
+      - Sensitive or identifying information mixed into useful data
+      - Limited time for one-off partnership requests
+    channels:
+      - Search
+      - Industry communities
+      - Partner referrals
+  - id: data-privacy-leader
+    name: Data or privacy leader
+    role: Data, security, legal, or privacy stakeholder
+    goals:
+      - Define and approve scope before data moves
+      - Verify privacy safeguards and contractual protections
+      - Preserve ownership and auditability
+    pain_points:
+      - Vague buyer requirements
+      - Uncontrolled downstream use
+      - Unsupported claims about anonymization or compliance
+    channels:
+      - Internal evaluation
+      - Documentation
+      - Contract and security review

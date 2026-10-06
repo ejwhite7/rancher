@@ -1,14 +1,16 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import handshakeCases from "./fixtures/handshake-calculator.json" with { type: "json" };
 
-test("calculator updates reference scenarios and submits before redirecting", async ({
-  page,
-}) => {
-  let submitted: Record<string, any> | undefined;
+async function recordBrowserAnalytics(page: Page) {
   const posthogCalls: unknown[][] = [];
+  const dataLayerCalls: Record<string, unknown>[] = [];
   page.on("console", (message) => {
-    if (!message.text().startsWith("__POSTHOG__")) return;
-    posthogCalls.push(JSON.parse(message.text().slice("__POSTHOG__".length)));
+    if (message.text().startsWith("__POSTHOG__"))
+      posthogCalls.push(JSON.parse(message.text().slice("__POSTHOG__".length)));
+    if (message.text().startsWith("__DATALAYER__"))
+      dataLayerCalls.push(
+        JSON.parse(message.text().slice("__DATALAYER__".length)),
+      );
   });
   await page.addInitScript(() => {
     const record = (...args: unknown[]) =>
@@ -17,7 +19,98 @@ test("calculator updates reference scenarios and submits before redirecting", as
       identify: (...args: unknown[]) => record("identify", ...args),
       capture: (...args: unknown[]) => record("capture", ...args),
     };
+    const dataLayer: Record<string, unknown>[] = [];
+    dataLayer.push = (...entries: Record<string, unknown>[]) => {
+      for (const entry of entries)
+        console.log(`__DATALAYER__${JSON.stringify(entry)}`);
+      return Array.prototype.push.apply(dataLayer, entries);
+    };
+    (window as any).dataLayer = dataLayer;
   });
+  return { posthogCalls, dataLayerCalls };
+}
+
+function expectPartnershipAnalytics(
+  submitted: Record<string, any> | undefined,
+  posthogCalls: unknown[][],
+  dataLayerCalls: Record<string, unknown>[],
+) {
+  expect(posthogCalls).toContainEqual([
+    "identify",
+    "alex@example.com",
+    {
+      email: "alex@example.com",
+      domain: "example.com",
+      job_title: "VP of Operations",
+      phone: "+12125550123",
+      communications_consent: true,
+    },
+  ]);
+  expect(posthogCalls).toContainEqual([
+    "capture",
+    "partnership_request_submitted",
+    expect.objectContaining({
+      submission_id: submitted?.idempotencyKey,
+      name: "Alex Morgan",
+      email: "alex@example.com",
+      domain: "example.com",
+      job_title: "VP of Operations",
+      company: "Example Company",
+      company_size: "500–999",
+      data_history: "20+ years",
+      record_types: ["Documents & files"],
+      additional_context: "Project histories and internal documentation.",
+      phone: "+12125550123",
+      communications_consent: true,
+      referral_bonus_usd: 75000,
+      calculator_scenario: {
+        employees: 200,
+        years: 20,
+        country: "Canada",
+      },
+    }),
+  ]);
+  expect(dataLayerCalls).toContainEqual(
+    expect.objectContaining({
+      event: "partnership_explored",
+      employee_count: "200_plus",
+      history_years: "20_plus",
+      company_region: "Canada",
+    }),
+  );
+  expect(dataLayerCalls).toContainEqual(
+    expect.objectContaining({
+      event: "partnership_request_submitted",
+      event_id: submitted?.idempotencyKey,
+      submission_id: submitted?.idempotencyKey,
+      referral_bonus_usd: 75000,
+      user_data: {
+        email_address: "alex@example.com",
+        address: {
+          first_name: "alex",
+          last_name: "morgan",
+        },
+      },
+      eventModel: {
+        currency: "USD",
+        value: 75000,
+        user_data: {
+          email_address: "alex@example.com",
+          address: {
+            first_name: "alex",
+            last_name: "morgan",
+          },
+        },
+      },
+    }),
+  );
+}
+
+test("calculator updates reference scenarios and submits before redirecting", async ({
+  page,
+}) => {
+  let submitted: Record<string, any> | undefined;
+  const { posthogCalls, dataLayerCalls } = await recordBrowserAnalytics(page);
   await page.route("**/api/submissions/", async (route) => {
     submitted = route.request().postDataJSON();
     await route.fulfill({
@@ -27,6 +120,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
         redirectUrl: "https://cal.com/growthcast/discovery",
         referralBonusUsd: 75000,
         domain: "example.com",
+        phone: "+12125550123",
       }),
     });
   });
@@ -77,50 +171,21 @@ test("calculator updates reference scenarios and submits before redirecting", as
     .locator('[name="records"]')
     .fill("Project histories and internal documentation.");
   await page.locator('[name="size"]').selectOption("500–999");
+  await page.getByLabel("US phone number").fill("(212) 555-0123");
   await page.locator(".consent input").check();
   await page.getByRole("button", { name: "Submit & book a call" }).click();
   await expect(page).toHaveURL("https://cal.com/growthcast/discovery");
   expect(submitted?.title).toBe("VP of Operations");
   expect(submitted?.company).toBe("Example Company");
-  expect(submitted?.outreachConsent).toBe(true);
+  expect(submitted?.phone).toBe("(212) 555-0123");
+  expect(submitted?.communicationsConsent).toBe(true);
   expect(submitted?.scenario).toEqual({
     employees: 200,
     years: 20,
     country: "Canada",
   });
   expect(submitted?.idempotencyKey).toMatch(/^[0-9a-f-]{36}$/);
-  expect(posthogCalls).toContainEqual([
-    "identify",
-    "alex@example.com",
-    {
-      email: "alex@example.com",
-      domain: "example.com",
-      job_title: "VP of Operations",
-    },
-  ]);
-  expect(posthogCalls).toContainEqual([
-    "capture",
-    "partnership_request_submitted",
-    expect.objectContaining({
-      submission_id: submitted?.idempotencyKey,
-      name: "Alex Morgan",
-      email: "alex@example.com",
-      domain: "example.com",
-      job_title: "VP of Operations",
-      company: "Example Company",
-      company_size: "500–999",
-      data_history: "20+ years",
-      record_types: ["Documents & files"],
-      additional_context: "Project histories and internal documentation.",
-      outreach_consent: true,
-      referral_bonus_usd: 75000,
-      calculator_scenario: {
-        employees: 200,
-        years: 20,
-        country: "Canada",
-      },
-    }),
-  ]);
+  expectPartnershipAnalytics(submitted, posthogCalls, dataLayerCalls);
   expect(range).toContain("$");
   expect(errors).toEqual([]);
 });

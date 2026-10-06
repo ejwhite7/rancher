@@ -82,6 +82,7 @@ export async function handleSubmission(
         redirectUrl: booking.href,
         referralBonusUsd: REFERRAL_BONUS_USD[validated.data.size],
         domain,
+        phone: validated.data.phone,
       },
       201,
     );
