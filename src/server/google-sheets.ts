@@ -82,7 +82,7 @@ export async function readDealsSheet(send: typeof fetch = fetch) {
   return body.values || [];
 }
 
-export async function writeSheetRow(
+async function writeSheetRow(
   row: number,
   values: string[],
   send: typeof fetch = fetch,
@@ -111,23 +111,13 @@ export async function writeSheetRow(
 }
 
 async function appendRow(values: string[], send: typeof fetch = fetch) {
-  const token = await accessToken(send);
-  const range = encodeURIComponent(`${TAB}!A:I`);
-  const response = await send(
-    `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId())}/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ majorDimension: "ROWS", values: [values] }),
-      signal: AbortSignal.timeout(10_000),
-    },
+  const rows = await readDealsSheet(send);
+  const empty = rows.findIndex(
+    (row, index) =>
+      index > 0 &&
+      [...row.slice(0, 6), row[7], row[8]].every((value) => !value),
   );
-  await response.body?.cancel();
-  if (!response.ok)
-    throw new Error(`Google Sheets append failed (${response.status})`);
+  await writeSheetRow(empty < 0 ? rows.length + 1 : empty + 1, values, send);
 }
 
 export const partnershipSheetRow = (submission: Submission) => [
