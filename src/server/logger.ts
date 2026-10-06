@@ -22,6 +22,18 @@ const severity = {
 
 let telemetry: Telemetry | null | undefined;
 
+function telemetryResource() {
+  return resourceFromAttributes({
+    "service.name": process.env.OTEL_SERVICE_NAME?.trim() || "rancher-web",
+    "service.version": process.env.VERCEL_GIT_COMMIT_SHA || "development",
+    "deployment.environment.name":
+      process.env.VERCEL_ENV || process.env.NODE_ENV || "development",
+    ...(process.env.VERCEL_REGION
+      ? { "cloud.region": process.env.VERCEL_REGION }
+      : {}),
+  });
+}
+
 function getTelemetry(): Telemetry | null {
   if (telemetry) return telemetry;
 
@@ -37,15 +49,7 @@ function getTelemetry(): Telemetry | null {
     concurrencyLimit: 1,
   });
   const provider = new LoggerProvider({
-    resource: resourceFromAttributes({
-      "service.name": process.env.OTEL_SERVICE_NAME?.trim() || "rancher-web",
-      "service.version": process.env.VERCEL_GIT_COMMIT_SHA || "development",
-      "deployment.environment.name":
-        process.env.VERCEL_ENV || process.env.NODE_ENV || "development",
-      ...(process.env.VERCEL_REGION
-        ? { "cloud.region": process.env.VERCEL_REGION }
-        : {}),
-    }),
+    resource: telemetryResource(),
     processors: [
       new BatchLogRecordProcessor({
         exporter,

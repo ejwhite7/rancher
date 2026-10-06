@@ -11,6 +11,44 @@ interface Props {
   children?: ReactNode;
   preview?: boolean;
 }
+function groupResults(results: GlossaryRecord[]) {
+  // Ranking determines the first group and the order inside it. Each letter remains
+  // a single anchor rather than another filter, even while searching.
+  const groups = new Map<string, GlossaryRecord[]>();
+  for (const record of results) {
+    const letter = record.term[0].toLocaleUpperCase("en-US");
+    groups.set(letter, [...(groups.get(letter) || []), record]);
+  }
+  return groups;
+}
+
+function useFilterTracking(
+  query: string,
+  category: string,
+  resultCount: number,
+  preview: boolean,
+) {
+  useEffect(() => {
+    if (preview) return;
+    if (!query && !category) return;
+    const timer = setTimeout(() => {
+      const posthog = (
+        window as unknown as {
+          posthog?: {
+            capture: (event: string, props: Record<string, unknown>) => void;
+          };
+        }
+      ).posthog;
+      posthog?.capture("glossary_filter_used", {
+        category: category || "all",
+        has_query: Boolean(query.trim()),
+        result_count: resultCount,
+      });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [query, category, resultCount, preview]);
+}
+
 export default function GlossarySearch({
   records,
   placeholder,
@@ -26,31 +64,8 @@ export default function GlossarySearch({
     () => filterGlossary(records, query, category),
     [records, query, category],
   );
-  // Ranking determines the first group and the order inside it. Each letter remains
-  // a single anchor rather than another filter, even while searching.
-  const groups = new Map<string, GlossaryRecord[]>();
-  for (const record of results) {
-    const letter = record.term[0].toLocaleUpperCase("en-US");
-    groups.set(letter, [...(groups.get(letter) || []), record]);
-  }
-  useEffect(() => {
-    if (preview || (!query && !category)) return;
-    const timer = setTimeout(() => {
-      const posthog = (
-        window as unknown as {
-          posthog?: {
-            capture: (event: string, props: Record<string, unknown>) => void;
-          };
-        }
-      ).posthog;
-      posthog?.capture("glossary_filter_used", {
-        category: category || "all",
-        has_query: Boolean(query.trim()),
-        result_count: results.length,
-      });
-    }, 500);
-    return () => clearTimeout(timer);
-  }, [query, category, results.length, preview]);
+  const groups = groupResults(results);
+  useFilterTracking(query, category, results.length, preview);
   return (
     <div className="glossary-browser">
       <noscript>

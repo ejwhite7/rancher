@@ -192,6 +192,22 @@ export function createBlogClient() {
     fetchOptions: { cache: "no-store" },
   });
 }
+function publicationDate(
+  id: string,
+  raw: Record<string, unknown>,
+  firstPublicationDate: string | null | undefined,
+  preview: boolean,
+): unknown {
+  const legacy = (
+    legacyDates as Record<string, { provisional: string; actual: string }>
+  )[id];
+  // Correct only the three original imports' exact stale provisional values.
+  // Subsequent CMS date edits still take effect normally.
+  if (!preview && legacy && raw.published_at === legacy.provisional)
+    return legacy.actual;
+  return raw.published_at || firstPublicationDate;
+}
+
 export function parseBlogRecords(
   documents: {
     id: string;
@@ -210,18 +226,14 @@ export function parseBlogRecords(
         doc.data && typeof doc.data === "object"
           ? (doc.data as Record<string, unknown>)
           : {};
-      const legacy = (
-        legacyDates as Record<string, { provisional: string; actual: string }>
-      )[doc.id];
-      // Correct only the three original imports' exact stale provisional values.
-      // Subsequent CMS date edits still take effect normally.
-      const publishedAt =
-        !preview && legacy && raw.published_at === legacy.provisional
-          ? legacy.actual
-          : raw.published_at || doc.first_publication_date;
       const data = blogArticleSchema.parse({
         ...raw,
-        published_at: publishedAt,
+        published_at: publicationDate(
+          doc.id,
+          raw,
+          doc.first_publication_date,
+          preview,
+        ),
       });
       return { id: doc.id, uid: doc.uid, data };
     })
@@ -279,17 +291,19 @@ export async function blogSiteContent(
   };
 }
 export function blogLink(doc: { type?: string; uid?: string | null }) {
-  return doc.type === "blog" && doc.uid && blogUID.test(doc.uid)
-    ? `/blog/${doc.uid}/`
-    : doc.type === "blog-index"
-      ? "/blog/"
-      : doc.type === "glossary" && doc.uid && blogUID.test(doc.uid)
-        ? `/glossary/${doc.uid}/`
-        : doc.type === "glossary-index"
-          ? "/glossary/"
-          : doc.type === "authors" && doc.uid && blogUID.test(doc.uid)
-            ? `/authors/${doc.uid}/`
-            : "/";
+  switch (doc.type) {
+    case "blog-index":
+      return "/blog/";
+    case "glossary-index":
+      return "/glossary/";
+    case "blog":
+    case "glossary":
+    case "authors":
+      if (doc.uid && blogUID.test(doc.uid)) return `/${doc.type}/${doc.uid}/`;
+      return "/";
+    default:
+      return "/";
+  }
 }
 export function readingMinutes(data: BlogArticle) {
   return Math.max(

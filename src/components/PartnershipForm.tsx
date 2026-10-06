@@ -24,25 +24,9 @@ function historyRange(years: number) {
   return "20+ years";
 }
 
-function PartnershipFields({
-  copy,
-  size,
-  setSize,
-  history,
-  setHistory,
-  recordTypes,
-  setRecordTypes,
-}: {
-  copy: FormContent;
-  size: string;
-  setSize: Dispatch<SetStateAction<string>>;
-  history: string;
-  setHistory: Dispatch<SetStateAction<string>>;
-  recordTypes: string[];
-  setRecordTypes: Dispatch<SetStateAction<string[]>>;
-}) {
+function PartnershipIdentityFields({ copy }: { copy: FormContent }) {
   return (
-    <div className="form-grid">
+    <>
       <label>
         {copy.name_label}
         <input
@@ -84,6 +68,180 @@ function PartnershipFields({
           maxLength={180}
         />
       </label>
+    </>
+  );
+}
+
+function submissionPayload(
+  form: HTMLFormElement,
+  scenario: ReturnType<typeof useScenario>,
+) {
+  const fields = new FormData(form);
+  return {
+    name: String(fields.get("name") ?? "").trim(),
+    email: String(fields.get("email") ?? "").trim(),
+    title: String(fields.get("title") ?? "").trim(),
+    company: String(fields.get("company") ?? "").trim(),
+    size: String(fields.get("size") ?? ""),
+    history: String(fields.get("history") ?? ""),
+    isBusinessActive: fields.get("is_business_active") === "yes",
+    recordTypes: fields.getAll("recordTypes").map(String),
+    records: String(fields.get("records") ?? "").trim(),
+    phone: String(fields.get("phone") ?? "").trim(),
+    communicationsConsent: fields.get("communications_consent") === "yes",
+    website: String(fields.get("website") ?? ""),
+    attribution: attributionFromForm(form),
+    scenario: scenario
+      ? {
+          employees: scenario.employees,
+          years: scenario.years,
+          country: scenario.country,
+        }
+      : null,
+  };
+}
+
+function isNullableString(value: unknown) {
+  return value === null || typeof value === "string";
+}
+
+function hasSubmissionResultFields(result: any) {
+  if (!isNullableString(result.redirectUrl)) return false;
+  if (!isNullableString(result.message)) return false;
+  if (typeof result.qualifies !== "boolean") return false;
+  if (typeof result.qualificationStatus !== "string") return false;
+  if (typeof result.referralBonusUsd !== "number") return false;
+  if (typeof result.domain !== "string") return false;
+  if (typeof result.consentVersion !== "string") return false;
+  return isNullableString(result.consentRecordedAt);
+}
+
+async function postSubmission(
+  payload: ReturnType<typeof submissionPayload>,
+  idempotencyKey: string,
+  saveError: string,
+) {
+  let posthogSessionId: string | undefined;
+  try {
+    posthogSessionId = window.posthog?.get_session_id?.();
+  } catch {
+    // Optional session attribution must not prevent saving the request.
+  }
+  const response = await fetch("/api/submissions/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      ...(posthogSessionId ? { "X-PostHog-Session-Id": posthogSessionId } : {}),
+    },
+    body: JSON.stringify({
+      ...payload,
+      idempotencyKey,
+    }),
+  });
+  const result = await response.json();
+  if (!response.ok || !hasSubmissionResultFields(result))
+    throw new Error(result.error || saveError);
+  return result;
+}
+
+function trackPartnershipSubmission(
+  payload: ReturnType<typeof submissionPayload>,
+  result: Awaited<ReturnType<typeof postSubmission>>,
+  idempotencyKey: string,
+) {
+  const [firstName, ...lastNameParts] = payload.name.split(/\s+/);
+  try {
+    window.posthog?.identify(payload.email, {
+      email: payload.email,
+      first_name: firstName,
+      last_name: lastNameParts.join(" "),
+      domain: result.domain,
+      job_title: payload.title,
+      company: payload.company,
+      phone: result.phone || undefined,
+      communications_consent: payload.communicationsConsent,
+      consent_version: result.consentVersion,
+      consent_recorded_at: result.consentRecordedAt,
+    });
+  } catch {
+    // A failed identify must not suppress the separate conversion event.
+  }
+  trackEvent(
+    "partnership_request_submitted",
+    {
+      submission_id: idempotencyKey,
+      name: payload.name,
+      first_name: firstName,
+      last_name: lastNameParts.join(" "),
+      email: payload.email,
+      domain: result.domain,
+      job_title: payload.title,
+      company: payload.company,
+      company_size: payload.size,
+      rancher_company_size: payload.size,
+      qualifies: result.qualifies,
+      qualification_status: result.qualificationStatus,
+      data_history: payload.history,
+      is_business_active: payload.isBusinessActive,
+      record_types: payload.recordTypes,
+      additional_context: payload.records,
+      phone: result.phone,
+      communications_consent: payload.communicationsConsent,
+      consent_version: result.consentVersion,
+      consent_recorded_at: result.consentRecordedAt,
+      referral_bonus_usd: result.referralBonusUsd,
+      calculator_scenario: payload.scenario,
+      attribution: payload.attribution,
+    },
+    {
+      eventId: idempotencyKey,
+      personProperties: {
+        setOnce: {
+          ...attributionPersonProperties(
+            "attribution_first",
+            payload.attribution.first,
+          ),
+          ...attributionPersonProperties(
+            "partnership_first",
+            payload.attribution.first,
+          ),
+          ...attributionPersonProperties(
+            "partnership_last",
+            payload.attribution.last,
+          ),
+        },
+      },
+      userData: {
+        emailAddress: payload.email,
+        firstName,
+        lastName: lastNameParts.join(" ") || undefined,
+      },
+      capturePostHog: false,
+    },
+  );
+}
+
+function PartnershipFields({
+  copy,
+  size,
+  setSize,
+  history,
+  setHistory,
+  recordTypes,
+  setRecordTypes,
+}: {
+  copy: FormContent;
+  size: string;
+  setSize: Dispatch<SetStateAction<string>>;
+  history: string;
+  setHistory: Dispatch<SetStateAction<string>>;
+  recordTypes: string[];
+  setRecordTypes: Dispatch<SetStateAction<string[]>>;
+}) {
+  return (
+    <div className="form-grid">
+      <PartnershipIdentityFields copy={copy} />
       <label>
         {copy.size_label}
         <select
@@ -165,11 +323,10 @@ function PartnershipFields({
   );
 }
 
-export default function PartnershipForm({ copy }: { copy: FormContent }) {
-  const scenario = useScenario();
-  const [size, setSize] = useState("");
-  const [history, setHistory] = useState("");
-  const [recordTypes, setRecordTypes] = useState<string[]>([]);
+function usePartnershipSubmission(
+  copy: FormContent,
+  scenario: ReturnType<typeof useScenario>,
+) {
   const [status, setStatus] = useState("");
   const [doesNotQualify, setDoesNotQualify] = useState(false);
   const [ready, setReady] = useState(false);
@@ -177,43 +334,12 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
   const pending = useRef(false);
   const submissionKey = useRef<{ payload: string; key: string } | null>(null);
   useEffect(() => setReady(true), []);
-  useEffect(() => {
-    if (!scenario) return;
-    const { employees, years } = scenario;
-    setSize(
-      // The 200+ slider limit does not identify an actual team-size band.
-      employees === EMPLOYEES.max ? "" : employees < 50 ? "20–49" : "50–199",
-    );
-    setHistory(historyRange(years));
-  }, [scenario]);
   async function submitRequest(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (pending.current) return;
     const form = event.currentTarget;
     if (!form.reportValidity()) return;
-    const fields = new FormData(form);
-    const payload = {
-      name: String(fields.get("name") ?? "").trim(),
-      email: String(fields.get("email") ?? "").trim(),
-      title: String(fields.get("title") ?? "").trim(),
-      company: String(fields.get("company") ?? "").trim(),
-      size: String(fields.get("size") ?? ""),
-      history: String(fields.get("history") ?? ""),
-      isBusinessActive: fields.get("is_business_active") === "yes",
-      recordTypes: fields.getAll("recordTypes").map(String),
-      records: String(fields.get("records") ?? "").trim(),
-      phone: String(fields.get("phone") ?? "").trim(),
-      communicationsConsent: fields.get("communications_consent") === "yes",
-      website: String(fields.get("website") ?? ""),
-      attribution: attributionFromForm(form),
-      scenario: scenario
-        ? {
-            employees: scenario.employees,
-            years: scenario.years,
-            country: scenario.country,
-          }
-        : null,
-    };
+    const payload = submissionPayload(form, scenario);
     const serialized = JSON.stringify(payload);
     if (submissionKey.current?.payload !== serialized)
       submissionKey.current = { payload: serialized, key: crypto.randomUUID() };
@@ -221,102 +347,16 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
     setSubmitting(true);
     setStatus("");
     try {
-      const posthogSessionId = window.posthog?.get_session_id?.();
-      const response = await fetch("/api/submissions/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          ...(posthogSessionId
-            ? { "X-PostHog-Session-Id": posthogSessionId }
-            : {}),
-        },
-        body: JSON.stringify({
-          ...payload,
-          idempotencyKey: submissionKey.current.key,
-        }),
-      });
-      const result = await response.json();
-      if (
-        !response.ok ||
-        (result.redirectUrl !== null &&
-          typeof result.redirectUrl !== "string") ||
-        (result.message !== null && typeof result.message !== "string") ||
-        typeof result.qualifies !== "boolean" ||
-        typeof result.qualificationStatus !== "string" ||
-        typeof result.referralBonusUsd !== "number" ||
-        typeof result.domain !== "string" ||
-        typeof result.consentVersion !== "string" ||
-        (result.consentRecordedAt !== null &&
-          typeof result.consentRecordedAt !== "string")
-      )
-        throw new Error(result.error || copy.save_error);
-      const [firstName, ...lastNameParts] = payload.name.split(/\s+/);
-      window.posthog?.identify(payload.email, {
-        email: payload.email,
-        first_name: firstName,
-        last_name: lastNameParts.join(" "),
-        domain: result.domain,
-        job_title: payload.title,
-        company: payload.company,
-        phone: result.phone || undefined,
-        communications_consent: payload.communicationsConsent,
-        consent_version: result.consentVersion,
-        consent_recorded_at: result.consentRecordedAt,
-      });
-      trackEvent(
-        "partnership_request_submitted",
-        {
-          submission_id: submissionKey.current.key,
-          name: payload.name,
-          first_name: firstName,
-          last_name: lastNameParts.join(" "),
-          email: payload.email,
-          domain: result.domain,
-          job_title: payload.title,
-          company: payload.company,
-          company_size: payload.size,
-          rancher_company_size: payload.size,
-          qualifies: result.qualifies,
-          qualification_status: result.qualificationStatus,
-          data_history: payload.history,
-          is_business_active: payload.isBusinessActive,
-          record_types: payload.recordTypes,
-          additional_context: payload.records,
-          phone: result.phone,
-          communications_consent: payload.communicationsConsent,
-          consent_version: result.consentVersion,
-          consent_recorded_at: result.consentRecordedAt,
-          referral_bonus_usd: result.referralBonusUsd,
-          calculator_scenario: payload.scenario,
-          attribution: payload.attribution,
-        },
-        {
-          eventId: submissionKey.current.key,
-          personProperties: {
-            setOnce: {
-              ...attributionPersonProperties(
-                "attribution_first",
-                payload.attribution.first,
-              ),
-              ...attributionPersonProperties(
-                "partnership_first",
-                payload.attribution.first,
-              ),
-              ...attributionPersonProperties(
-                "partnership_last",
-                payload.attribution.last,
-              ),
-            },
-          },
-          userData: {
-            emailAddress: payload.email,
-            firstName,
-            lastName: lastNameParts.join(" ") || undefined,
-          },
-          capturePostHog: false,
-        },
+      const result = await postSubmission(
+        payload,
+        submissionKey.current.key,
+        copy.save_error,
       );
+      try {
+        trackPartnershipSubmission(payload, result, submissionKey.current.key);
+      } catch {
+        // Delivery is confirmed; analytics must not turn it into a retry or block booking.
+      }
       setStatus(result.message || copy.success);
       setDoesNotQualify(!result.qualifies);
       if (result.qualifies && result.redirectUrl)
@@ -333,6 +373,25 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
       setSubmitting(false);
     }
   }
+  return { status, doesNotQualify, ready, submitting, submitRequest };
+}
+
+export default function PartnershipForm({ copy }: { copy: FormContent }) {
+  const scenario = useScenario();
+  const [size, setSize] = useState("");
+  const [history, setHistory] = useState("");
+  const [recordTypes, setRecordTypes] = useState<string[]>([]);
+  const { status, doesNotQualify, ready, submitting, submitRequest } =
+    usePartnershipSubmission(copy, scenario);
+  useEffect(() => {
+    if (!scenario) return;
+    const { employees, years } = scenario;
+    setSize(
+      // The 200+ slider limit does not identify an actual team-size band.
+      employees === EMPLOYEES.max ? "" : employees < 50 ? "20–49" : "50–199",
+    );
+    setHistory(historyRange(years));
+  }, [scenario]);
   return (
     <>
       <form

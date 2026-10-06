@@ -362,11 +362,7 @@ test("calculator is compact on desktop and layouts fit small screens", async ({
   ).toHaveAttribute("aria-expanded", "false");
 });
 
-test("server-rendered metadata, schema, social image, sitemap, and robots agree", async ({
-  page,
-  request,
-}) => {
-  await page.goto("/");
+async function expectHomepageMetadata(page: Page) {
   const canonical = await page
     .locator('link[rel="canonical"]')
     .getAttribute("href");
@@ -401,6 +397,15 @@ test("server-rendered metadata, schema, social image, sitemap, and robots agree"
       faq.acceptedAnswer.text,
     );
   await expect(page.locator(".h-card .p-name.u-url")).toHaveCount(1);
+  return canonical;
+}
+
+test("server-rendered metadata, schema, social image, sitemap, and robots agree", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/");
+  const canonical = await expectHomepageMetadata(page);
   const { readFile } = await import("node:fs/promises");
   const sitemap = await readFile("dist/client/sitemap-0.xml", "utf8");
   expect(sitemap).toContain(`<loc>${canonical}</loc>`);
@@ -444,6 +449,41 @@ test("content and initial island markup are available without JavaScript", async
   await context.close();
 });
 
+async function expectLegalMetadata(page: Page, label: string, path: string) {
+  await expect(page).toHaveURL(new RegExp(`${path}$`));
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(label);
+  await expect(page).toHaveTitle(`${label} | Rancher`);
+  const canonical = await page
+    .locator('link[rel="canonical"]')
+    .getAttribute("href");
+  expect(canonical).toContain(path);
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+    "content",
+    canonical!,
+  );
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+    "content",
+    `${label} | Rancher`,
+  );
+  const graph = JSON.parse(
+    await page.locator('script[type="application/ld+json"]').innerText(),
+  )["@graph"];
+  expect(
+    graph.some(
+      (entity: Record<string, string>) => entity["@type"] === "FAQPage",
+    ),
+  ).toBeFalsy();
+  expect(
+    graph.find(
+      (entity: Record<string, string>) => entity["@type"] === "WebPage",
+    ).name,
+  ).toBe(`${label} | Rancher`);
+  const { readFile } = await import("node:fs/promises");
+  expect(await readFile("dist/client/sitemap-0.xml", "utf8")).toContain(
+    `<loc>${canonical}</loc>`,
+  );
+}
+
 test("legal pages are linked, crawlable, and have page-specific metadata", async ({
   page,
 }) => {
@@ -456,38 +496,7 @@ test("legal pages are linked, crawlable, and have page-specific metadata", async
       .getByRole("navigation", { name: "Footer", exact: true })
       .getByRole("link", { name: label, exact: true })
       .click();
-    await expect(page).toHaveURL(new RegExp(`${path}$`));
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText(label);
-    await expect(page).toHaveTitle(`${label} | Rancher`);
-    const canonical = await page
-      .locator('link[rel="canonical"]')
-      .getAttribute("href");
-    expect(canonical).toContain(path);
-    await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
-      "content",
-      canonical!,
-    );
-    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
-      "content",
-      `${label} | Rancher`,
-    );
-    const graph = JSON.parse(
-      await page.locator('script[type="application/ld+json"]').innerText(),
-    )["@graph"];
-    expect(
-      graph.some(
-        (entity: Record<string, string>) => entity["@type"] === "FAQPage",
-      ),
-    ).toBeFalsy();
-    expect(
-      graph.find(
-        (entity: Record<string, string>) => entity["@type"] === "WebPage",
-      ).name,
-    ).toBe(`${label} | Rancher`);
-    const { readFile } = await import("node:fs/promises");
-    expect(await readFile("dist/client/sitemap-0.xml", "utf8")).toContain(
-      `<loc>${canonical}</loc>`,
-    );
+    await expectLegalMetadata(page, label, path);
     await expect(
       page
         .getByRole("navigation", { name: "Main navigation" })

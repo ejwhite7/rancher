@@ -50,15 +50,31 @@ addHandler("transform", (request) => {
     typeof request.body === "string" ? JSON.parse(request.body) : request.body;
   if (!lead || typeof lead !== "object" || Array.isArray(lead))
     throw new Error("Invalid Zapier lead");
+  const identity = leadIdentity(lead);
+  const companySize = canonicalSize(lead.company_size);
+  const values = attioValues(lead, identity, companySize);
+  Object.keys(values).forEach(
+    (key) => values[key] === undefined && delete values[key],
+  );
+
+  request.headers = { ...request.headers, "content-type": "application/json" };
+  request.query = "matching_attribute=email_addresses";
+  request.body = { data: { values } };
+  return request;
+});
+
+function leadIdentity(lead) {
   const leadId = text(lead.lead_id);
   const email = text(lead.email).toLowerCase();
   const name = text(lead.name);
   if (!leadId || !email || !name)
     throw new Error("lead_id, email, and name are required");
+  return { leadId, email, name };
+}
 
-  const companySize = canonicalSize(lead.company_size);
+function attioValues(lead, { leadId, email, name }, companySize) {
   const qualifies = bonuses[companySize] > 0;
-  const values = {
+  return {
     email_addresses: [email],
     name: [{ full_name: name }],
     job_title: optional(lead.job_title),
@@ -91,12 +107,4 @@ addHandler("transform", (request) => {
     ),
     conversion_attribution_id: optional(lead.conversion_utm_id),
   };
-  Object.keys(values).forEach(
-    (key) => values[key] === undefined && delete values[key],
-  );
-
-  request.headers = { ...request.headers, "content-type": "application/json" };
-  request.query = "matching_attribute=email_addresses";
-  request.body = { data: { values } };
-  return request;
-});
+}

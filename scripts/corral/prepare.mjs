@@ -52,8 +52,6 @@ const escape = (s) =>
         "'": "&apos;",
       })[c],
   );
-const rt = (...strings) =>
-  strings.map((text) => ({ type: "paragraph", text, spans: [] }));
 function linkedText(block) {
   let text = block.text;
   for (const span of [...block.spans]

@@ -68,6 +68,37 @@ function signatureMatches(
   );
 }
 
+function bookingState(trigger: TriggerEvent) {
+  switch (trigger) {
+    case "BOOKING_CREATED":
+    case "BOOKING_RESCHEDULED":
+    case "MEETING_STARTED":
+    case "MEETING_ENDED":
+      return true;
+    case "BOOKING_CANCELLED":
+    case "BOOKING_REJECTED":
+      return false;
+    default:
+      return undefined;
+  }
+}
+
+function attendeePersonProperties(
+  email: string | undefined,
+  name: string | undefined,
+  trigger: TriggerEvent,
+) {
+  if (!email) return {};
+  const state = bookingState(trigger);
+  return {
+    $set: {
+      email,
+      ...(name ? { name } : {}),
+      ...(state === undefined ? {} : { cal_booking_booked: state }),
+    },
+  };
+}
+
 function eventDetails(envelope: JsonObject, trigger: TriggerEvent) {
   const payload = object(envelope.payload);
   const booking =
@@ -83,15 +114,6 @@ function eventDetails(envelope: JsonObject, trigger: TriggerEvent) {
   const bookingId = number(booking.bookingId) ?? number(booking.id);
   const createdAt = string(envelope.createdAt) ?? string(booking.createdAt);
   const name = string(attendee.name);
-  const bookingState =
-    trigger === "BOOKING_CREATED" ||
-    trigger === "BOOKING_RESCHEDULED" ||
-    trigger === "MEETING_STARTED" ||
-    trigger === "MEETING_ENDED"
-      ? true
-      : trigger === "BOOKING_CANCELLED" || trigger === "BOOKING_REJECTED"
-        ? false
-        : undefined;
 
   const properties: JsonObject = {
     source: "cal.com",
@@ -116,17 +138,7 @@ function eventDetails(envelope: JsonObject, trigger: TriggerEvent) {
     $insert_id: [trigger, bookingUid ?? bookingId, createdAt]
       .filter(Boolean)
       .join(":"),
-    ...(email
-      ? {
-          $set: {
-            email,
-            ...(name ? { name } : {}),
-            ...(bookingState === undefined
-              ? {}
-              : { cal_booking_booked: bookingState }),
-          },
-        }
-      : {}),
+    ...attendeePersonProperties(email, name, trigger),
   };
   return {
     distinctId:
@@ -160,10 +172,37 @@ export async function capturePostHogEvent(
     throw new Error(`PostHog capture returned ${response.status}`);
 }
 
-export async function handleCalWebhook(
-  request: Request,
-  dependencies: Dependencies,
+async function notifyCreatedBooking(
+  properties: JsonObject,
+  notifyBooking: NonNullable<Dependencies["notifyBooking"]>,
 ) {
+  const bookingUid = string(properties.booking_uid);
+  const email = string(properties.attendee_email);
+  const startTime = string(properties.start_time);
+  if (!bookingUid || !email || !startTime) {
+    await serverLog("warn", "cal_slack_notification_data_missing");
+    return;
+  }
+  try {
+    await notifyBooking({
+      bookingUid,
+      email,
+      startTime,
+      timeZone: string(properties.attendee_time_zone),
+      name: string(properties.attendee_name),
+      eventTitle: string(properties.event_title),
+      eventType: string(properties.event_type),
+      endTime: string(properties.end_time),
+      durationMinutes: number(properties.duration_minutes),
+      status: string(properties.booking_status),
+    });
+  } catch {
+    await serverLog("error", "cal_slack_notification_failed");
+    return new Response("Notification delivery failed", { status: 502 });
+  }
+}
+
+function validateCalRequest(request: Request) {
   if (request.method !== "POST")
     return new Response("Method not allowed", {
       status: 405,
@@ -180,29 +219,68 @@ export async function handleCalWebhook(
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
   if (declaredLength > MAX_BODY_BYTES)
     return new Response("Payload too large", { status: 413 });
+}
 
-  const secret = dependencies.webhookSecret();
-  const token = dependencies.posthogToken();
-  const host = dependencies.posthogHost();
-  if (!secret || !token || !host) {
-    await serverLog("error", "cal_webhook_configuration_missing");
-    return new Response("Webhook unavailable", { status: 503 });
-  }
-
-  const body = await request.text();
+function validateCalBody(body: string, request: Request, secret: string) {
   if (Buffer.byteLength(body) > MAX_BODY_BYTES)
     return new Response("Payload too large", { status: 413 });
   if (
     !signatureMatches(body, request.headers.get("x-cal-signature-256"), secret)
   )
     return new Response("Invalid signature", { status: 401 });
+}
 
-  let envelope: JsonObject;
+function parseCalEnvelope(body: string) {
   try {
-    envelope = object(JSON.parse(body));
+    return object(JSON.parse(body));
   } catch {
     return new Response("Invalid JSON", { status: 400 });
   }
+}
+
+async function calConfiguration(dependencies: Dependencies) {
+  const secret = dependencies.webhookSecret();
+  const token = dependencies.posthogToken();
+  const host = dependencies.posthogHost();
+  if (!secret || !token || !host) {
+    await serverLog("error", "cal_webhook_configuration_missing");
+    return undefined;
+  }
+  return secret;
+}
+
+async function deliverCalEvent(
+  trigger: TriggerEvent,
+  details: ReturnType<typeof eventDetails>,
+  dependencies: Dependencies,
+) {
+  try {
+    await dependencies.capture({ event: EVENT_NAMES[trigger], ...details });
+  } catch {
+    await serverLog("error", "cal_posthog_capture_failed");
+    return new Response("Event delivery failed", { status: 502 });
+  }
+  if (trigger === "BOOKING_CREATED" && dependencies.notifyBooking) {
+    return notifyCreatedBooking(details.properties, dependencies.notifyBooking);
+  }
+}
+
+export async function handleCalWebhook(
+  request: Request,
+  dependencies: Dependencies,
+) {
+  const invalidRequest = validateCalRequest(request);
+  if (invalidRequest) return invalidRequest;
+
+  const secret = await calConfiguration(dependencies);
+  if (!secret) return new Response("Webhook unavailable", { status: 503 });
+
+  const body = await request.text();
+  const invalidBody = validateCalBody(body, request, secret);
+  if (invalidBody) return invalidBody;
+
+  const envelope = parseCalEnvelope(body);
+  if (envelope instanceof Response) return envelope;
   const trigger = string(envelope.triggerEvent);
   if (!trigger || !(trigger in EVENT_NAMES))
     return new Response(null, { status: 204 });
@@ -210,41 +288,11 @@ export async function handleCalWebhook(
   const details = eventDetails(envelope, trigger as TriggerEvent);
   details.properties.cal_webhook_version =
     request.headers.get("x-cal-webhook-version") ?? undefined;
-  try {
-    await dependencies.capture({
-      event: EVENT_NAMES[trigger as TriggerEvent],
-      ...details,
-    });
-  } catch {
-    await serverLog("error", "cal_posthog_capture_failed");
-    return new Response("Event delivery failed", { status: 502 });
-  }
-
-  if (trigger === "BOOKING_CREATED" && dependencies.notifyBooking) {
-    const bookingUid = string(details.properties.booking_uid);
-    const email = string(details.properties.attendee_email);
-    const startTime = string(details.properties.start_time);
-    if (bookingUid && email && startTime) {
-      try {
-        await dependencies.notifyBooking({
-          bookingUid,
-          email,
-          startTime,
-          timeZone: string(details.properties.attendee_time_zone),
-          name: string(details.properties.attendee_name),
-          eventTitle: string(details.properties.event_title),
-          eventType: string(details.properties.event_type),
-          endTime: string(details.properties.end_time),
-          durationMinutes: number(details.properties.duration_minutes),
-          status: string(details.properties.booking_status),
-        });
-      } catch {
-        await serverLog("error", "cal_slack_notification_failed");
-        return new Response("Notification delivery failed", { status: 502 });
-      }
-    } else {
-      await serverLog("warn", "cal_slack_notification_data_missing");
-    }
-  }
+  const failure = await deliverCalEvent(
+    trigger as TriggerEvent,
+    details,
+    dependencies,
+  );
+  if (failure) return failure;
   return Response.json({ received: true });
 }

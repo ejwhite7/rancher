@@ -191,12 +191,47 @@ export function resolveTerms(
   const seen = new Set<string>();
   return links.flatMap(({ term }) => {
     const record = byID.get(term.id);
-    if (term.isBroken || !record || record.id === self || seen.has(record.id))
-      return [];
+    if (term.isBroken) return [];
+    if (!record) return [];
+    if (record.id === self) return [];
+    if (seen.has(record.id)) return [];
     seen.add(record.id);
     return [record];
   });
 }
+function parseGlossaryDocuments(
+  docs: Awaited<ReturnType<Client["getAllByType"]>>,
+  lang: string,
+  preview: boolean,
+  warnings: string[],
+): GlossaryDocument[] {
+  const uids = new Set<string>();
+  return docs.map((doc) => {
+    const invalid = () => {
+      throw new Error("Invalid or duplicate glossary UID/locale");
+    };
+    if (doc.lang !== lang) return invalid();
+    if (!doc.uid) return invalid();
+    if (!glossaryUID.test(doc.uid)) return invalid();
+    if (uids.has(doc.uid)) return invalid();
+    uids.add(doc.uid);
+    const data = glossaryTermSchema.parse(doc.data);
+    if (isReviewed(data)) return { id: doc.id, uid: doc.uid, data };
+    if (!preview)
+      throw new Error(
+        `Published glossary entry has incomplete review: ${doc.uid}`,
+      );
+    warnings.push(`${data.term}: editorial review is incomplete.`);
+    return { id: doc.id, uid: doc.uid, data };
+  });
+}
+
+function needsRelatedReview(available: number, requested: number) {
+  if (available !== requested) return true;
+  if (available < 3) return true;
+  return available > 5;
+}
+
 export async function fetchGlossary(
   client: Client,
   { preview = false, lang = "en-us" } = {},
@@ -210,28 +245,9 @@ export async function fetchGlossary(
     throw new Error("Invalid glossary singleton locale or type");
   const index = glossaryIndexSchema.parse(singleton.data);
   const warnings: string[] = [];
-  const uids = new Set<string>();
-  const documents = docs
-    .flatMap((doc) => {
-      if (
-        doc.lang !== lang ||
-        !doc.uid ||
-        !glossaryUID.test(doc.uid) ||
-        uids.has(doc.uid)
-      )
-        throw new Error("Invalid or duplicate glossary UID/locale");
-      uids.add(doc.uid);
-      const data = glossaryTermSchema.parse(doc.data);
-      if (!isReviewed(data)) {
-        if (!preview)
-          throw new Error(
-            `Published glossary entry has incomplete review: ${doc.uid}`,
-          );
-        warnings.push(`${data.term}: editorial review is incomplete.`);
-      }
-      return [{ id: doc.id, uid: doc.uid, data }];
-    })
-    .sort((a, b) => compareTerms(a.data, b.data));
+  const documents = parseGlossaryDocuments(docs, lang, preview, warnings).sort(
+    (a, b) => compareTerms(a.data, b.data),
+  );
   const records = documents.map(({ id, uid, data }) => ({
     id,
     uid,
@@ -243,11 +259,7 @@ export async function fetchGlossary(
   }));
   for (const doc of documents) {
     const resolved = resolveTerms(doc.data.related_terms, records, doc.id);
-    if (
-      resolved.length !== doc.data.related_terms.length ||
-      resolved.length < 3 ||
-      resolved.length > 5
-    )
+    if (needsRelatedReview(resolved.length, doc.data.related_terms.length))
       warnings.push(
         `${doc.data.term}: check related terms (${resolved.length} available).`,
       );
@@ -293,17 +305,16 @@ export const glossaryHeaders = {
   "Vercel-CDN-Cache-Control": "no-store",
 };
 export function glossaryCTA(index: GlossaryIndex) {
-  return index.cta_heading?.trim() &&
-    index.cta_label?.trim() &&
-    index.cta_body.some((b) => b.text.trim()) &&
-    index.cta_link?.link_type === "Web"
-    ? {
-        heading: index.cta_heading,
-        label: index.cta_label,
-        body: index.cta_body,
-        url: index.cta_link.url,
-      }
-    : null;
+  if (!index.cta_heading?.trim()) return null;
+  if (!index.cta_label?.trim()) return null;
+  if (!index.cta_body.some((b) => b.text.trim())) return null;
+  if (index.cta_link?.link_type !== "Web") return null;
+  return {
+    heading: index.cta_heading,
+    label: index.cta_label,
+    body: index.cta_body,
+    url: index.cta_link.url,
+  };
 }
 export function glossaryRich(value: GlossaryIndex["intro"]): RichTextField {
   return value as RichTextField;

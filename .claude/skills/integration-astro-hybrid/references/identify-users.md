@@ -8,9 +8,9 @@ Copy page
 
 Linking events to specific users enables you to build a full picture of how they're using your product across different sessions, devices, and platforms.
 
-This is straightforward to do when [capturing backend events](/docs/product-analytics/capture-events?tab=Node.js.md), as you associate events to a specific user using a `distinct_id`, which is a required argument.
+This is straightforward to do when [capturing backend events](https://posthog.com/docs/product-analytics/capture-events?tab=Node.js), as you associate events to a specific user using a `distinct_id`, which is a required argument.
 
-However, in the frontend of a [web](/docs/libraries/js/usage.md#capturing-events) or [mobile app](/docs/libraries/ios.md#capturing-events), a `distinct_id` is not a required argument — PostHog's SDKs will generate an anonymous `distinct_id` for you automatically and you can capture events anonymously, provided you use the appropriate [configuration](/docs/libraries/js/usage.md#capturing-anonymous-events).
+However, in the frontend of a [web](https://posthog.com/docs/libraries/js/usage#capturing-events) or [mobile app](https://posthog.com/docs/libraries/ios#capturing-events), a `distinct_id` is not a required argument — PostHog's SDKs will generate an anonymous `distinct_id` for you automatically and you can capture events anonymously, provided you use the appropriate [configuration](https://posthog.com/docs/libraries/js/usage#capturing-anonymous-events).
 
 To link events to specific users, call `identify`:
 
@@ -74,7 +74,7 @@ Due to the cost of processing them, anonymous events can be up to 4x cheaper tha
 
 When a user starts browsing your website or app, PostHog automatically assigns them an **anonymous ID**, which is stored locally.
 
-Provided you've [configured persistence](/docs/libraries/js/persistence.md) to use cookies or `localStorage`, this enables us to track anonymous users – even across different sessions.
+Provided you've [configured persistence](https://posthog.com/docs/libraries/js/persistence) to use cookies or `localStorage`, this enables us to track anonymous users – even across different sessions.
 
 By calling `identify` with a `distinct_id` of your choice (usually the user's ID in your database, or their email), you link the anonymous ID and distinct ID together.
 
@@ -102,7 +102,7 @@ If you call `identify` multiple times with the same data without reloading the p
 
 #### Identify users when the web SDK loads
 
-If your app already knows the signed-in user when you initialize the JavaScript web SDK, the [`loaded` callback](/docs/libraries/js/config.md) is a convenient place to call `identify`. This identifies the user as soon as the SDK has loaded:
+If your app already knows the signed-in user when you initialize the JavaScript web SDK, the [`loaded` callback](https://posthog.com/docs/libraries/js/config) is a convenient place to call `identify`. This identifies the user as soon as the SDK has loaded:
 
 Web
 
@@ -190,7 +190,7 @@ posthog.reset(true)
 
 You'll notice that one of the parameters in the `identify` method is a `properties` object.
 
-This enables you to set [person properties](/docs/product-analytics/person-properties.md).
+This enables you to set [person properties](https://posthog.com/docs/product-analytics/person-properties).
 
 Whenever possible, we recommend passing in all person properties you have available each time you call identify, as this ensures their person profile on PostHog is up to date.
 
@@ -198,13 +198,13 @@ Person properties can also be set being adding a `$set` property to a event `cap
 
 **\`$set\` and \`$set\_once\` aren't stored on events**
 
-These properties only tell PostHog how to update person data during ingestion — they aren't kept on the stored event, so you can't filter, break down, or query events by them. To query the values you set, use [person properties](/docs/product-analytics/person-properties.md) instead.
+These properties only tell PostHog how to update person data during ingestion — they aren't kept on the stored event, so you can't filter, break down, or query events by them. To query the values you set, use [person properties](https://posthog.com/docs/product-analytics/person-properties) instead.
 
-See our [person properties docs](/docs/product-analytics/person-properties.md) for more details on how to work with them and best practices.
+See our [person properties docs](https://posthog.com/docs/product-analytics/person-properties) for more details on how to work with them and best practices.
 
 ### 5\. Use deep links between platforms
 
-We recommend you call `identify` [as soon as you're able](#1-call-identify-as-soon-as-youre-able), typically when a user signs up or logs in.
+We recommend you call `identify` [as soon as you're able](#1-call-identify-as-soon-as-youre-able-to), typically when a user signs up or logs in.
 
 This doesn't work if one or both platforms are unauthenticated. Some examples of such cases are:
 
@@ -218,8 +218,8 @@ In these cases, you can use a [deep link](https://developer.android.com/training
 2.  Add the distinct ID to the deep link as query parameters, along with other properties like UTM parameters.
 3.  When the user is redirected to the app, parse the deep link and handle the following cases:
 
--   The mobile app is already authenticated. In this case, call [`posthog.alias()`](/docs/libraries/js/usage.md#alias) with the distinct ID from the web. This associates the two distinct IDs as a single person.
--   The mobile app is unauthenticated. In this case, call [`posthog.identify()`](/docs/libraries/js/usage.md#identifying-users) with the distinct ID from the web so pre-login mobile events stay connected to the web session. When the user later logs in on mobile, call `identify()` again with your canonical user ID.
+-   The mobile app is already authenticated. In this case, call [`posthog.alias()`](https://posthog.com/docs/libraries/js/usage#alias) with the distinct ID from the web. This associates the two distinct IDs as a single person.
+-   The mobile app is unauthenticated. In this case, call [`posthog.identify()`](https://posthog.com/docs/libraries/js/usage#identifying-users) with the distinct ID from the web so pre-login mobile events stay connected to the web session. When the user later logs in on mobile, call `identify()` again with your canonical user ID.
 
 As long as you associate the distinct IDs with `posthog.identify()` or `posthog.alias()`, you can track events generated across platforms.
 
@@ -294,9 +294,9 @@ object DeepLinkIdentityManager {
 
 ## Further reading
 
--   [Identifying users docs](/docs/product-analytics/identify.md)
--   [How person processing works](/docs/how-posthog-works/ingestion-pipeline.md#2-person-processing)
--   [An introductory guide to identifying users in PostHog](/tutorials/identifying-users-guide.md)
+-   [Identifying users docs](https://posthog.com/docs/product-analytics/identify)
+-   [How person processing works](https://posthog.com/docs/how-posthog-works/ingestion-pipeline#2-person-processing)
+-   [An introductory guide to identifying users in PostHog](https://posthog.com/tutorials/identifying-users-guide)
 
 ### Still have questions?
 

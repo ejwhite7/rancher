@@ -42,6 +42,23 @@ export function zonedInstant(
   }
   return new Date(guess).toISOString();
 }
+function appendDaySlots(slots, keys, day, random) {
+  if (!schedulePolicy.weekdays.includes(day.getUTCDay())) return;
+  for (const window of schedulePolicy.windows) {
+    if (slots.length === keys.length) break;
+    const minute = random(0, 60);
+    if (!Number.isInteger(minute) || minute < 0 || minute > 59)
+      throw Error("Invalid random minute");
+    const localDay = day.toISOString().slice(0, 10);
+    slots.push({
+      content_key: keys[slots.length],
+      local_date: localDay,
+      window: `${window.start}:00–${window.end}:00`,
+      scheduled_at: zonedInstant(localDay, window.start, minute),
+      timezone: schedulePolicy.timezone,
+    });
+  }
+}
 /** @param {string[]} keys @param {{startDay?: string, random?: (min: number, max: number) => number}} options */
 export function planSchedule(keys, { startDay, random = randomInt } = {}) {
   if (!startDay || !/^\d{4}-\d{2}-\d{2}$/.test(startDay))
@@ -49,21 +66,7 @@ export function planSchedule(keys, { startDay, random = randomInt } = {}) {
   const day = new Date(startDay + "T12:00:00Z"),
     slots = [];
   while (slots.length < keys.length) {
-    if (schedulePolicy.weekdays.includes(day.getUTCDay()))
-      for (const window of schedulePolicy.windows) {
-        if (slots.length === keys.length) break;
-        const minute = random(0, 60);
-        if (!Number.isInteger(minute) || minute < 0 || minute > 59)
-          throw Error("Invalid random minute");
-        const localDay = day.toISOString().slice(0, 10);
-        slots.push({
-          content_key: keys[slots.length],
-          local_date: localDay,
-          window: `${window.start}:00–${window.end}:00`,
-          scheduled_at: zonedInstant(localDay, window.start, minute),
-          timezone: schedulePolicy.timezone,
-        });
-      }
+    appendDaySlots(slots, keys, day, random);
     day.setUTCDate(day.getUTCDate() + 1);
   }
   return slots;

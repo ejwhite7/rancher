@@ -34,6 +34,19 @@ const phrases = {
   23: ["stop decision", "blockers", "readiness"],
   24: ["readiness plan", "readiness"],
 };
+function canLinkBlock(block, claims) {
+  for (const prefix of [
+    "The scikit-learn documentation",
+    "The ICO explains",
+    "NIST describes",
+    "The U.S. Copyright Office",
+  ])
+    if (block.text.startsWith(prefix)) return false;
+  if (block.spans.some((s) => s.type === "hyperlink")) return false;
+  return !claims.some((c) =>
+    block.text.includes(c.statement || c.claim_text || "___NONE___"),
+  );
+}
 const report = [];
 for (const b of manifest.articles.filter(
   (b) => b.workflow_state !== "published",
@@ -65,17 +78,7 @@ for (const b of manifest.articles.filter(
         "ig",
       );
       for (const block of blocks) {
-        if (
-          block.text.startsWith("The scikit-learn documentation") ||
-          block.text.startsWith("The ICO explains") ||
-          block.text.startsWith("NIST describes") ||
-          block.text.startsWith("The U.S. Copyright Office") ||
-          block.spans.some((s) => s.type === "hyperlink") ||
-          (d.claims || []).some((c) =>
-            block.text.includes(c.statement || c.claim_text || "___NONE___"),
-          )
-        )
-          continue;
+        if (!canLinkBlock(block, d.claims || [])) continue;
         const match = re.exec(block.text);
         re.lastIndex = 0;
         if (!match) continue;

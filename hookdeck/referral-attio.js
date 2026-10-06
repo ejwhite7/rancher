@@ -20,10 +20,7 @@ const attioEmployeeRange = (companySize) => {
   if (!value) throw new Error("Unsupported Rancher company size");
   return value;
 };
-addHandler("transform", (request) => {
-  const event =
-    typeof request.body === "string" ? JSON.parse(request.body) : request.body;
-  const submission = event?.data;
+const validateReferralEvent = (event, submission) => {
   const required = [
     "submission_id",
     "referrer_first_name",
@@ -38,13 +35,23 @@ addHandler("transform", (request) => {
   if (
     event?.type !== "referral.submission.created" ||
     (event?.event_name !== undefined &&
-      event.event_name !== "referral_form_submitted") ||
+      event.event_name !== "referral_form_submitted")
+  ) {
+    throw new Error("Invalid Rancher referral submission");
+  }
+  if (
     required.some(
       (key) => typeof submission?.[key] !== "string" || !submission[key].trim(),
     )
   ) {
     throw new Error("Invalid Rancher referral submission");
   }
+};
+addHandler("transform", (request) => {
+  const event =
+    typeof request.body === "string" ? JSON.parse(request.body) : request.body;
+  const submission = event?.data;
+  validateReferralEvent(event, submission);
   const email = submission.referral_email.trim().toLowerCase();
   const rancherCompanySize =
     submission.rancher_company_size || submission.company_size;

@@ -38,6 +38,15 @@ const posthogIdHeader = (request: Request, name: string) => {
   return value && uuidV7.test(value) ? value.toLowerCase() : undefined;
 };
 
+function personUpdates(input: CaptureInput): JsonObject {
+  return {
+    ...(input.set && Object.keys(input.set).length ? { $set: input.set } : {}),
+    ...(input.setOnce && Object.keys(input.setOnce).length
+      ? { $set_once: input.setOnce }
+      : {}),
+  };
+}
+
 export async function captureFormEvent(input: CaptureInput) {
   const token = serverEnv("PUBLIC_POSTHOG_PROJECT_TOKEN");
   if (!token) {
@@ -63,10 +72,7 @@ export async function captureFormEvent(input: CaptureInput) {
       input.request.headers.get("referer") || new URL(input.request.url).origin,
     $raw_user_agent: input.request.headers.get("user-agent") || undefined,
     $ip: forwarded || undefined,
-    ...(input.set && Object.keys(input.set).length ? { $set: input.set } : {}),
-    ...(input.setOnce && Object.keys(input.setOnce).length
-      ? { $set_once: input.setOnce }
-      : {}),
+    ...personUpdates(input),
   };
   const response = await fetch(endpoint(), {
     method: "POST",

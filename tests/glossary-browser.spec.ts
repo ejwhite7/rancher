@@ -73,6 +73,62 @@ test("aliases, ranking, category AND query, clear, zero state, and privacy", asy
   await expect(search).toHaveClass(/ph-no-capture/);
   await expect(search).toHaveAttribute("data-ph-mask", "true");
 });
+test("filter tracking debounces, cancels on clear and stays disabled in preview", async ({
+  page,
+}) => {
+  await page.goto("/glossary/");
+  const search = page.getByLabel("Search glossary terms", { exact: true });
+  await expect(search).toBeVisible();
+  await page.clock.install();
+  await page.clock.pauseAt(new Date(Date.now() + 1000));
+  await page.evaluate(() => {
+    (window as any).filterEvents = [];
+    (window as any).posthog.capture = (event: string, props: unknown) => {
+      if (event === "glossary_filter_used")
+        (window as any).filterEvents.push(props);
+    };
+  });
+  await search.fill("PII");
+  await expect(page.locator(".glossary-letter")).toHaveCount(1);
+  await expect(page.locator(".glossary-az a")).toHaveAttribute(
+    "href",
+    "#letter-P",
+  );
+  await page.clock.runFor(499);
+  expect(await page.evaluate(() => (window as any).filterEvents)).toEqual([]);
+  await search.fill("absent private query");
+  await expect(page.getByRole("status")).toContainText("0 terms");
+  await page.clock.runFor(500);
+  expect(await page.evaluate(() => (window as any).filterEvents)).toEqual([
+    { category: "all", has_query: true, result_count: 0 },
+  ]);
+  await search.fill("PII");
+  await page.getByRole("button", { name: "Clear filters" }).click();
+  await page.clock.runFor(500);
+  expect(await page.evaluate(() => (window as any).filterEvents.length)).toBe(
+    1,
+  );
+  await page.context().addCookies([
+    {
+      name: "io.prismic.preview",
+      value: "draft-ref",
+      url: "http://127.0.0.1:4333",
+    },
+  ]);
+  await page.goto("/preview/view/glossary/");
+  await expect(search).toBeVisible();
+  await page.evaluate(() => {
+    (window as any).filterEvents = [];
+    (window as any).posthog = {
+      capture: (...args: unknown[]) => (window as any).filterEvents.push(args),
+    };
+  });
+  await search.fill("PII");
+  await expect(page.locator(".glossary-card")).toHaveCount(1);
+  await page.clock.runFor(500);
+  expect(await page.evaluate(() => (window as any).filterEvents)).toEqual([]);
+});
+
 test("draft session is isolated, related navigation stays in preview, expired refs fail closed", async ({
   page,
   context,

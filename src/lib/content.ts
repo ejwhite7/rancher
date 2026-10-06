@@ -248,6 +248,13 @@ export interface SiteContent {
 const formSchema = z.object(
   Object.fromEntries(Object.keys(formSeed).map((key) => [key, text])),
 );
+function hasRequiredSections(order: SectionName[]) {
+  return (
+    new Set(order).size === SECTION_ORDER.length &&
+    order.length === SECTION_ORDER.length
+  );
+}
+
 export function parseHomepage(data: unknown): HomepageContent {
   const raw = z
     .object({
@@ -269,8 +276,7 @@ export function parseHomepage(data: unknown): HomepageContent {
     .parse(data);
   const order = raw.slices.map((s) => s.slice_type);
   if (
-    new Set(order).size !== SECTION_ORDER.length ||
-    order.length !== SECTION_ORDER.length ||
+    !hasRequiredSections(order) ||
     order[0] !== "hero" ||
     order.at(-1) !== "contact"
   )

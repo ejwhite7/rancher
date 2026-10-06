@@ -53,10 +53,117 @@ test("referral normalizes both emails, waits for storage, and reports failure or
     ).toBe(status);
   }
 });
+test("referral streamed input preserves byte limits, cancellation and read errors", async () => {
+  let saved = 0;
+  const dependencies = {
+    save: async () => {
+      saved++;
+    },
+  };
+  const bytes = new TextEncoder().encode(JSON.stringify(input));
+  const padded = new Uint8Array(16_384).fill(32);
+  padded.set(bytes);
+  let cancelled = false;
+  const streamed = (chunks: Uint8Array[], fail = false) =>
+    new Request("https://www.gorancher.com/api/referral/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: new ReadableStream({
+        start(controller) {
+          if (fail) {
+            controller.error(Error("read failure"));
+            return;
+          }
+          for (const chunk of chunks) controller.enqueue(chunk);
+          // Leave oversize streams open so cancellation is observable.
+          if (chunks.reduce((size, chunk) => size + chunk.length, 0) <= 16_384)
+            controller.close();
+        },
+        cancel() {
+          cancelled = true;
+        },
+      }),
+      duplex: "half",
+    } as RequestInit);
+  expect(
+    (
+      await handleReferralSubmission(
+        streamed([padded.slice(0, 100), padded.slice(100)]),
+        dependencies,
+      )
+    ).status,
+  ).toBe(201);
+  const oversized = await handleReferralSubmission(
+    streamed([padded, new Uint8Array([32])]),
+    dependencies,
+  );
+  expect(oversized.status).toBe(413);
+  expect(await oversized.json()).toEqual({ error: "Submission is too large." });
+  expect(cancelled).toBe(true);
+  for (const req of [
+    streamed([new TextEncoder().encode("not-json")]),
+    streamed([], true),
+    new Request("https://www.gorancher.com/api/referral/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }),
+  ]) {
+    const response = await handleReferralSubmission(req, dependencies);
+    expect(response.status).toBe(400);
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
+  }
+  expect(saved).toBe(1);
+});
+
+test("referral delivery order and failure boundaries retain retry behavior", async () => {
+  for (const created of [true, false]) {
+    const calls: string[] = [];
+    const response = await handleReferralSubmission(request(input), {
+      save: async () => {
+        calls.push("save");
+        return created;
+      },
+      capture: async () => {
+        calls.push("capture");
+      },
+      syncSheet: async () => {
+        calls.push("sheet");
+      },
+    });
+    expect(await response.json()).toEqual({ saved: true });
+    expect(calls).toEqual(
+      created ? ["save", "capture", "sheet"] : ["save", "capture"],
+    );
+  }
+  for (const failure of ["capture", "sheet"]) {
+    const calls: string[] = [];
+    const run = async (step: string) => {
+      calls.push(step);
+      if (step === failure) throw Error("offline");
+    };
+    const response = await handleReferralSubmission(request(input), {
+      save: async () => {
+        await run("save");
+        return true;
+      },
+      capture: async () => run("capture"),
+      syncSheet: async () => run("sheet"),
+    });
+    expect(response.status).toBe(503);
+    expect(calls).toEqual(
+      failure === "capture"
+        ? ["save", "capture"]
+        : ["save", "capture", "sheet"],
+    );
+  }
+});
+
 test("referral appends only newly created submissions to the sheet", async () => {
   let appended = 0;
   const dependencies = {
-    syncSheet: async () => { appended++; },
+    syncSheet: async () => {
+      appended++;
+    },
   };
   await handleReferralSubmission(request(input), {
     ...dependencies,
@@ -118,9 +225,9 @@ test("referral normalizes the legacy small-company option in CMS content", () =>
   expect(content.company_size_options.map((option) => option.value)).toEqual(
     expect.arrayContaining(["1–10", "11–19"]),
   );
-  expect(content.company_size_options.map((option) => option.value)).not.toContain(
-    "1–19",
-  );
+  expect(
+    content.company_size_options.map((option) => option.value),
+  ).not.toContain("1–19");
 });
 
 test("referral CMS relationships, editable options and both preview entry points are validated", () => {
@@ -162,30 +269,7 @@ async function fill(page: import("@playwright/test").Page) {
     .getByLabel("Industry", { exact: true })
     .selectOption(input.industry);
 }
-test("referral retries safely, identifies only the referrer, tracks once after save, and fits mobile", async ({
-  page,
-}) => {
-  const bodies: any[] = [];
-  await page.route("**/api/referral/", async (route) => {
-    bodies.push(route.request().postDataJSON());
-    await route.fulfill({
-      status: bodies.length === 1 ? 503 : 201,
-      contentType: "application/json",
-      body: JSON.stringify(
-        bodies.length === 1 ? { error: "offline" } : { saved: true },
-      ),
-    });
-  });
-  await page.goto(
-    "/referral/?utm_source=partner&utm_medium=referral&utm_campaign=referral-test",
-  );
-  await expect(page.locator("link[rel=canonical]")).toHaveAttribute(
-    "href",
-    "https://www.gorancher.com/referral/",
-  );
-  await expect(
-    page.locator("footer").getByRole("link", { name: "Referral", exact: true }),
-  ).toHaveAttribute("href", "/referral/");
+async function recordReferralAnalytics(page: import("@playwright/test").Page) {
   await page.evaluate(() => {
     const events: unknown[] = [];
     Object.assign(window, {
@@ -199,24 +283,12 @@ test("referral retries safely, identifies only the referrer, tracks once after s
       },
     });
   });
-  await fill(page);
-  await page
-    .getByRole("button", { name: "Submit referral", exact: true })
-    .click();
-  await expect(page.getByRole("alert")).toContainText("try again");
-  expect(await page.evaluate(() => (window as any).referralAnalytics)).toEqual(
-    [],
-  );
-  await expect(page.getByLabel("Referral email", { exact: true })).toHaveValue(
-    input.referral_email,
-  );
-  await page
-    .getByRole("button", { name: "Submit referral", exact: true })
-    .click();
-  await expect(page.getByRole("status")).toContainText(
-    "referral has been received",
-  );
-  expect(bodies[0].idempotencyKey).toBe(bodies[1].idempotencyKey);
+}
+
+async function expectReferralAnalytics(
+  page: import("@playwright/test").Page,
+  body: any,
+) {
   expect(await page.evaluate(() => (window as any).referralAnalytics)).toEqual([
     {
       method: "identify",
@@ -232,9 +304,9 @@ test("referral retries safely, identifies only the referrer, tracks once after s
       event: "referral_form_submitted",
       properties: {
         form: "referral",
-        submission_id: bodies[1].idempotencyKey,
-        event_id: bodies[1].idempotencyKey,
-        $insert_id: bodies[1].idempotencyKey,
+        submission_id: body.idempotencyKey,
+        event_id: body.idempotencyKey,
+        $insert_id: body.idempotencyKey,
         referrer_first_name: input.referrer_first_name,
         referrer_last_name: input.referrer_last_name,
         referrer_email: input.referrer_email,
@@ -272,10 +344,60 @@ test("referral retries safely, identifies only the referrer, tracks once after s
   expect(await page.evaluate(() => (window as any).dataLayer)).toContainEqual(
     expect.objectContaining({
       event: "referral_form_submitted",
-      event_id: bodies[1].idempotencyKey,
-      attribution: bodies[1].attribution,
+      event_id: body.idempotencyKey,
+      attribution: body.attribution,
     }),
   );
+}
+
+test("referral retries safely, identifies only the referrer, tracks once after save, and fits mobile", async ({
+  page,
+}) => {
+  const bodies: any[] = [];
+  await page.route("**/api/referral/", async (route) => {
+    bodies.push(route.request().postDataJSON());
+    await route.fulfill({
+      status: bodies.length === 1 ? 503 : 201,
+      contentType: "application/json",
+      body: JSON.stringify(
+        bodies.length === 1 ? { error: "offline" } : { saved: true },
+      ),
+    });
+  });
+  await page.goto(
+    "/referral/?utm_source=partner&utm_medium=referral&utm_campaign=referral-test",
+  );
+  await expect(page.locator("link[rel=canonical]")).toHaveAttribute(
+    "href",
+    "https://www.gorancher.com/referral/",
+  );
+  await expect(
+    page.locator("footer").getByRole("link", { name: "Referral", exact: true }),
+  ).toHaveAttribute("href", "/referral/");
+  await recordReferralAnalytics(page);
+  await fill(page);
+  await page
+    .getByRole("button", { name: "Submit referral", exact: true })
+    .click();
+  await expect(page.getByRole("alert")).toContainText("try again");
+  expect(await page.evaluate(() => (window as any).referralAnalytics)).toEqual(
+    [],
+  );
+  await expect(page.getByLabel("Referral email", { exact: true })).toHaveValue(
+    input.referral_email,
+  );
+  await page
+    .getByRole("button", { name: "Submit referral", exact: true })
+    .click();
+  await expect(page.getByRole("status")).toContainText(
+    "referral has been received",
+  );
+  expect(bodies[0].idempotencyKey).toBe(bodies[1].idempotencyKey);
+  await expectReferralAnalytics(page, bodies[1]);
+  await expectReferralLayouts(page);
+});
+
+async function expectReferralLayouts(page: import("@playwright/test").Page) {
   await page.goto("/referral/");
   await expect(
     page.getByRole("button", { name: "Submit referral", exact: true }),
@@ -293,7 +415,54 @@ test("referral retries safely, identifies only the referrer, tracks once after s
     path: test.info().outputPath("referral-mobile.png"),
     fullPage: true,
   });
+}
+test("referral rejects malformed save responses and renews retry identity only for changed fields", async ({
+  page,
+}) => {
+  const bodies: any[] = [];
+  const responses = [
+    "null",
+    "{}",
+    '{"saved":false}',
+    "not-json",
+    '{"saved":true}',
+  ];
+  await page.route("**/api/referral/", async (route) => {
+    bodies.push(route.request().postDataJSON());
+    await route.fulfill({
+      status: 201,
+      contentType: "application/json",
+      body: responses[bodies.length - 1],
+    });
+  });
+  await page.goto("/referral/");
+  await recordReferralAnalytics(page);
+  await fill(page);
+  const button = page.getByRole("button", {
+    name: "Submit referral",
+    exact: true,
+  });
+  for (let attempt = 0; attempt < 4; attempt++) {
+    await button.click();
+    await expect(page.getByRole("alert")).toContainText("try again");
+    await expect(button).toBeEnabled();
+    expect(
+      await page.evaluate(() => (window as any).referralAnalytics),
+    ).toEqual([]);
+  }
+  expect(new Set(bodies.map((body) => body.idempotencyKey)).size).toBe(1);
+  await page
+    .getByLabel("Referral email", { exact: true })
+    .fill("changed@example.org");
+  await button.click();
+  await expect(page.getByRole("status")).toContainText(
+    "referral has been received",
+  );
+  expect(bodies[4].idempotencyKey).not.toBe(bodies[0].idempotencyKey);
+  expect(bodies[4].referral_email).toBe("changed@example.org");
+  await expect(page.locator("form.referral-form")).toHaveCount(0);
 });
+
 test("analytics failures do not hide a successful referral", async ({
   page,
 }) => {

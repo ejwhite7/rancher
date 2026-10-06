@@ -28,24 +28,30 @@ export function normalizedContent(value) {
   if (Array.isArray(value))
     return value.length ? value.map(normalizedContent) : null;
   if (typeof value === "object") {
-    if (value.kind === "document" || value.link_type === "Document")
-      return { id: value.id };
-    if (value.kind === "web" || value.link_type === "Web")
-      return { url: value.url };
-    if (value.type && value.content?.text !== undefined)
-      return normalizedContent({ type: value.type, ...value.content });
-    const entries = Object.entries(value)
-      .filter(
-        ([key]) =>
-          !/(?:_TYPE|_POSITION|_KEY|_INTERNAL)$/.test(key) &&
-          !["direction", "key"].includes(key),
-      )
-      .map(([key, v]) => [key, normalizedContent(v)])
-      .filter(([, v]) => v !== null)
-      .sort(([a], [b]) => a.localeCompare(b));
-    return entries.length ? Object.fromEntries(entries) : null;
+    return normalizedObject(value);
   }
   return value;
+}
+function normalizedObject(value) {
+  if (value.kind === "document" || value.link_type === "Document")
+    return { id: value.id };
+  if (value.kind === "web" || value.link_type === "Web")
+    return { url: value.url };
+  if (value.type && value.content?.text !== undefined)
+    return normalizedContent({ type: value.type, ...value.content });
+  return normalizedEntries(value);
+}
+function normalizedEntries(value) {
+  const entries = Object.entries(value)
+    .filter(
+      ([key]) =>
+        !/(?:_TYPE|_POSITION|_KEY|_INTERNAL)$/.test(key) &&
+        !["direction", "key"].includes(key),
+    )
+    .map(([key, v]) => [key, normalizedContent(v)])
+    .filter(([, v]) => v !== null)
+    .sort(([a], [b]) => a.localeCompare(b));
+  return entries.length ? Object.fromEntries(entries) : null;
 }
 export function assertUnchanged(actual, expected, label) {
   if (
@@ -62,6 +68,19 @@ export function assertUnchanged(actual, expected, label) {
     );
   }
 }
+function trackedDocument(doc, checkpoint, lang) {
+  if (doc.locale !== lang)
+    throw Error("Unexpected glossary locale; reconcile before import");
+  const key =
+    doc.custom_type_id === "glossary-index" ? "index" : doc.versions[0]?.uid;
+  const tracked = checkpoint.documents[key];
+  if (!tracked || tracked.id !== doc.id)
+    throw Error(
+      `Untracked glossary document ${key || doc.id}; refusing overwrite`,
+    );
+  return { key, tracked };
+}
+
 export async function auditTracked(editor, checkpoint, lang) {
   const response = await editor("core/documents/search", {
     customTypes: ["glossary", "glossary-index"],
@@ -72,15 +91,7 @@ export async function auditTracked(editor, checkpoint, lang) {
   const visible = new Set();
   const snapshots = [];
   for (const doc of response.results) {
-    if (doc.locale !== lang)
-      throw Error("Unexpected glossary locale; reconcile before import");
-    const key =
-      doc.custom_type_id === "glossary-index" ? "index" : doc.versions[0]?.uid;
-    const tracked = checkpoint.documents[key];
-    if (!tracked || tracked.id !== doc.id)
-      throw Error(
-        `Untracked glossary document ${key || doc.id}; refusing overwrite`,
-      );
+    const { key, tracked } = trackedDocument(doc, checkpoint, lang);
     visible.add(doc.id);
     for (const version of doc.versions) {
       const data = await editor(`core/documents/data/${version.version_id}`);

@@ -74,6 +74,99 @@ test("contact rejects invalid data, spam, oversized and cross-origin requests", 
   ).toBe(403);
   expect(saved).toBe(0);
 });
+test("contact stream boundaries, request guards and capture failure preserve responses", async () => {
+  const calls: string[] = [];
+  const dependencies = {
+    save: async () => {
+      calls.push("save");
+    },
+    capture: async () => {
+      calls.push("capture");
+    },
+  };
+  const streamed = (text: string, fail = false, cancel?: () => void) =>
+    new Request("https://www.gorancher.com/api/contact/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: new ReadableStream({
+        start(controller) {
+          if (fail) return controller.error(Error("read failed"));
+          const bytes = new TextEncoder().encode(text);
+          controller.enqueue(bytes.slice(0, 100));
+          controller.enqueue(bytes.slice(100));
+          controller.close();
+        },
+        cancel,
+      }),
+      duplex: "half",
+    } as RequestInit);
+  const text = JSON.stringify(input);
+  const response = await handleContactSubmission(
+    streamed(text.padEnd(16_384)),
+    dependencies,
+  );
+  expect(response.status).toBe(201);
+  expect(response.headers.get("Cache-Control")).toBe("no-store");
+  expect(calls).toEqual(["save", "capture"]);
+  calls.length = 0;
+  let cancelled = false;
+  const oversized = new Request("https://www.gorancher.com/api/contact/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: new ReadableStream({
+      start(controller) {
+        controller.enqueue(new Uint8Array(16_385));
+      },
+      cancel() {
+        cancelled = true;
+      },
+    }),
+    duplex: "half",
+  } as RequestInit);
+  expect((await handleContactSubmission(oversized, dependencies)).status).toBe(
+    413,
+  );
+  expect(cancelled).toBe(true);
+  for (const [req, status, error] of [
+    [streamed(text.padEnd(16_385)), 413, "Submission is too large."],
+    [streamed("{"), 400, "Submission could not be read."],
+    [streamed("", true), 400, "Submission could not be read."],
+    [
+      new Request("https://www.gorancher.com/api/contact/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }),
+      400,
+      "Submission is empty.",
+    ],
+    [
+      new Request("https://www.gorancher.com/api/contact/", { method: "POST" }),
+      415,
+      "Send a JSON submission.",
+    ],
+  ] as const) {
+    const result = await handleContactSubmission(req, dependencies);
+    expect(result.status).toBe(status);
+    expect(await result.json()).toEqual({ error });
+  }
+  const method = await handleContactSubmission(
+    new Request("https://www.gorancher.com/api/contact/"),
+    dependencies,
+  );
+  expect(method.status).toBe(405);
+  expect(method.headers.get("Allow")).toBe("POST");
+  expect(calls).toEqual([]);
+  const failedCapture = await handleContactSubmission(request(input), {
+    ...dependencies,
+    capture: async () => {
+      calls.push("capture");
+      throw Error("capture failed");
+    },
+  });
+  expect(failedCapture.status).toBe(503);
+  expect(calls).toEqual(["save", "capture"]);
+});
+
 test("contact CMS relationships and preview routes are validated", () => {
   expect(contactSchema.parse(contact).form.type).toBe("form");
   expect(contactFormSchema.parse(form).message_label).toBe("How can we help?");

@@ -119,50 +119,68 @@ const shared = {
   navigation: { link_type: "Document", id: navigation.id, type: "navigation" },
   footer: { link_type: "Document", id: footer.id, type: "footer" },
 };
+function sourceLabel(url) {
+  if (url.includes("ico.org")) return "ICO";
+  if (url.includes("nist.gov")) return "NIST";
+  if (url.includes("copyright.gov")) return "Copyright Office";
+  return null;
+}
+function addSourceSpan(block, src) {
+  const label = sourceLabel(src.source_url.url);
+  if (!label) return;
+  const at = block.text.indexOf(label);
+  if (at < 0 || block.spans.some((span) => span.type === "hyperlink")) return;
+  block.spans.push({
+    type: "hyperlink",
+    start: at,
+    end: at + label.length,
+    data: src.source_url,
+  });
+}
 function addInlineSources(draft) {
   for (const s of draft.slices) {
     for (const block of s.primary.body || []) {
       for (const src of draft.sources) {
-        const label = src.source_url.url.includes("ico.org")
-          ? "ICO"
-          : src.source_url.url.includes("nist.gov")
-            ? "NIST"
-            : src.source_url.url.includes("copyright.gov")
-              ? "Copyright Office"
-              : null;
-        if (!label) continue;
-        const at = block.text.indexOf(label);
-        if (at >= 0 && !block.spans.some((span) => span.type === "hyperlink"))
-          block.spans.push({
-            type: "hyperlink",
-            start: at,
-            end: at + label.length,
-            data: src.source_url,
-          });
+        addSourceSpan(block, src);
       }
     }
   }
   return draft;
 }
+function sameData(existing, data) {
+  return JSON.stringify(existing.data) === JSON.stringify(data);
+}
+function assertPublishedUpdate(meta, existing, type, data) {
+  if (!meta.versions.some((v) => v.status === "published")) return;
+  if (["authors", "blog-index"].includes(type) && sameData(existing, data))
+    return;
+  throw Error("This draft importer never updates published articles");
+}
+async function recordMigrationResult(
+  pending,
+  { key, type, uid, data, complete, existing },
+) {
+  if (!pending.document.id) return;
+  checkpoint.documents[key] = {
+    id: pending.document.id,
+    type,
+    uid,
+    data: complete ? data : existing?.data || {},
+  };
+  await save();
+}
 async function upsert(key, type, uid, data, title) {
   const existing = checkpoint.documents[key];
   if (existing) {
     const meta = await editor("core/documents/" + existing.id);
-    if (
-      meta.versions.some((v) => v.status === "published") &&
-      !(
-        ["authors", "blog-index"].includes(type) &&
-        JSON.stringify(existing.data) === JSON.stringify(data)
-      )
-    )
-      throw Error("This draft importer never updates published articles");
+    assertPublishedUpdate(meta, existing, type, data);
     for (const v of meta.versions)
       assertCorralUnchanged(
         await editor("core/documents/data/" + v.version_id),
         { ...existing.data, ...(uid ? { uid } : {}) },
         key + " draft",
       );
-    if (JSON.stringify(existing.data) === JSON.stringify(data)) {
+    if (sameData(existing, data)) {
       console.log(key + ": unchanged");
       return existing.id;
     }
@@ -177,15 +195,14 @@ async function upsert(key, type, uid, data, title) {
     await writer.migrate(m);
     complete = true;
   } finally {
-    if (pending.document.id) {
-      checkpoint.documents[key] = {
-        id: pending.document.id,
-        type,
-        uid,
-        data: complete ? data : existing?.data || {},
-      };
-      await save();
-    }
+    await recordMigrationResult(pending, {
+      key,
+      type,
+      uid,
+      data,
+      complete,
+      existing,
+    });
   }
   return pending.document.id;
 }

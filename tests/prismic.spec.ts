@@ -154,6 +154,28 @@ test("missing documents, broken relationships, and incomplete copy fail instead 
   ).toBe(formSeed.consent);
 });
 
+test("homepage section guards retain the exact refusal for missing, duplicate and misplaced sections", () => {
+  const slices = homepageSeed.slices;
+  const error =
+    "Homepage requires all 9 unique page sections, with Hero first and Contact last.";
+  for (const invalid of [
+    slices.slice(1),
+    [...slices, slices[0]],
+    [slices[0], slices[0], ...slices.slice(2)],
+    [slices[1], slices[0], ...slices.slice(2)],
+    [...slices.slice(0, -2), slices.at(-1)!, slices.at(-2)!],
+  ]) {
+    expect(() =>
+      validateContent(
+        { ...homepageSeed, slices: invalid },
+        formSeed,
+        navigationSeed,
+        footerSeed,
+      ),
+    ).toThrow(error);
+  }
+});
+
 test("every seed field is modeled and the homepage is a singleton linked to a repeatable form", () => {
   expect(homepageModel.repeatable).toBe(false);
   expect(formModel.repeatable).toBe(true);

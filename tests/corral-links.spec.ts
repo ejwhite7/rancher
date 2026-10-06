@@ -49,6 +49,72 @@ test("glossary, contact, external and library links remain available", () => {
     ).toContain(`href="${url}"`);
 });
 
+test("publication gating preserves host, document and malformed-URL boundaries", () => {
+  for (const host of ["gorancher.com", "staging.gorancher.com"]) {
+    const content = rich({
+      link_type: "Web",
+      url: `https://${host}/blog/companion?x=1#part`,
+    });
+    expect(asHTML(availableBlogLinks(content, []))).not.toContain("<a");
+    expect(
+      asHTML(availableBlogLinks(content, [{ id: "one", uid: "companion" }])),
+    ).toContain("<a");
+  }
+  for (const [type, id, isBroken, available] of [
+    ["blog", "one", false, true],
+    ["blog", "missing", false, false],
+    ["authors", "one", true, false],
+    ["unknown", "one", false, false],
+    ["blog-index", "missing", false, true],
+    ["glossary-index", "missing", false, true],
+  ] as const) {
+    const result = availableBlogLinks(
+      rich({ link_type: "Document", type, id, isBroken }),
+      [{ id: "one", uid: "companion" }],
+    );
+    expect((result[0] as { spans: unknown[] }).spans).toHaveLength(
+      available ? 1 : 0,
+    );
+  }
+  const content = [
+    {
+      type: "image",
+      id: "image-one",
+      copyright: null,
+      edit: { x: 0, y: 0, zoom: 1, background: "transparent" },
+      url: "https://example.com/image.png",
+      alt: null,
+      dimensions: { width: 1, height: 1 },
+    },
+    { type: "paragraph", text, spans: [{ type: "strong", start: 0, end: 4 }] },
+  ] as RichTextField;
+  const result = availableBlogLinks(content, []);
+  expect(result).toEqual(content);
+  expect(result[0]).toBe(content[0]);
+  expect(() =>
+    availableBlogLinks(rich({ link_type: "Web", url: "http://[" }), []),
+  ).toThrow(TypeError);
+});
+
+test("document resolver preserves index routes and rejects unsafe or unknown UIDs", () => {
+  for (const type of ["blog", "glossary", "authors"]) {
+    expect(blogLink({ type, uid: "safe-entry" })).toBe(`/${type}/safe-entry/`);
+    for (const uid of [
+      undefined,
+      null,
+      "",
+      "Uppercase",
+      "../escape",
+      "two--hyphens",
+    ])
+      expect(blogLink({ type, uid })).toBe("/");
+  }
+  expect(blogLink({ type: "blog-index", uid: "../ignored" })).toBe("/blog/");
+  expect(blogLink({ type: "glossary-index", uid: null })).toBe("/glossary/");
+  expect(blogLink({ type: "unknown", uid: "safe-entry" })).toBe("/");
+  expect(blogLink({})).toBe("/");
+});
+
 test("Prismic glossary and author document links resolve to their own routes", () => {
   for (const [type, uid, path] of [
     ["glossary", "data-licensing", "/glossary/data-licensing/"],

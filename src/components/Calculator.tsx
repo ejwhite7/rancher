@@ -18,13 +18,17 @@ export default function Calculator({ copy }: { copy: CalculatorContent }) {
   const [country, setCountry] = useState<Region>("USA");
   const estimate = calculateEstimate(employees, years, country);
   function buildBrief() {
-    trackEvent("partnership_explored", {
-      employee_count: employees === EMPLOYEES.max ? "200_plus" : employees,
-      history_years: years === YEARS.max ? "20_plus" : years,
-      company_region: country,
-      estimate_below_floor: estimate.belowFloor,
-      estimate_open_ended: estimate.openEnded,
-    });
+    try {
+      trackEvent("partnership_explored", {
+        employee_count: employees === EMPLOYEES.max ? "200_plus" : employees,
+        history_years: years === YEARS.max ? "20_plus" : years,
+        company_region: country,
+        estimate_below_floor: estimate.belowFloor,
+        estimate_open_ended: estimate.openEnded,
+      });
+    } catch {
+      // Analytics must not discard the scenario selected for the partnership form.
+    }
     setScenario({
       employees,
       years,

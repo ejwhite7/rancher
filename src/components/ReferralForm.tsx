@@ -6,13 +6,78 @@ import {
   attributionPersonProperties,
 } from "../lib/attribution";
 import { trackEvent } from "../lib/analytics";
-export default function ReferralForm({
-  copy,
-  preview = false,
-}: {
-  copy: ReferralFormContent;
-  preview?: boolean;
-}) {
+function referralField(fields: FormData, name: string) {
+  return String(fields.get(name) || "").trim();
+}
+
+function referralPayload(form: HTMLFormElement) {
+  const fields = new FormData(form);
+  return {
+    referrer_first_name: referralField(fields, "referrer_first_name"),
+    referrer_last_name: referralField(fields, "referrer_last_name"),
+    referrer_email: referralField(fields, "referrer_email"),
+    referral_first_name: referralField(fields, "referral_first_name"),
+    referral_last_name: referralField(fields, "referral_last_name"),
+    referral_email: referralField(fields, "referral_email"),
+    company_size: referralField(fields, "company_size"),
+    industry: referralField(fields, "industry"),
+    website: String(fields.get("website") || ""),
+    attribution: attributionFromForm(form),
+  };
+}
+
+function captureReferral(
+  payload: ReturnType<typeof referralPayload>,
+  key: string,
+) {
+  const email = payload.referrer_email.toLowerCase();
+  // Analytics must never turn a saved referral into a failed submission.
+  try {
+    window.posthog?.identify(email, {
+      email,
+      name: `${payload.referrer_first_name} ${payload.referrer_last_name}`,
+      domain: email.split("@")[1],
+    });
+  } catch {
+    /* Keep the confirmation visible if analytics is unavailable. */
+  }
+  try {
+    trackEvent(
+      "referral_form_submitted",
+      {
+        form: "referral",
+        submission_id: key,
+        referrer_first_name: payload.referrer_first_name,
+        referrer_last_name: payload.referrer_last_name,
+        referrer_email: payload.referrer_email,
+        referral_first_name: payload.referral_first_name,
+        referral_last_name: payload.referral_last_name,
+        referral_email: payload.referral_email,
+        company_size: payload.company_size,
+        rancher_company_size: payload.company_size,
+        industry: payload.industry,
+        attribution: payload.attribution,
+      },
+      {
+        eventId: key,
+        personProperties: {
+          set: attributionPersonProperties(
+            "attribution_last",
+            payload.attribution.last,
+          ),
+          setOnce: attributionPersonProperties(
+            "attribution_first",
+            payload.attribution.first,
+          ),
+        },
+      },
+    );
+  } catch {
+    /* Delivery was already confirmed by the server. */
+  }
+}
+
+function useReferralSubmission(copy: ReferralFormContent, preview: boolean) {
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
@@ -25,23 +90,7 @@ export default function ReferralForm({
     if (preview || pending.current || sent) return;
     const form = event.currentTarget;
     if (!form.reportValidity()) return;
-    const fields = new FormData(form);
-    const payload = {
-      referrer_first_name: String(
-        fields.get("referrer_first_name") || "",
-      ).trim(),
-      referrer_last_name: String(fields.get("referrer_last_name") || "").trim(),
-      referrer_email: String(fields.get("referrer_email") || "").trim(),
-      referral_first_name: String(
-        fields.get("referral_first_name") || "",
-      ).trim(),
-      referral_last_name: String(fields.get("referral_last_name") || "").trim(),
-      referral_email: String(fields.get("referral_email") || "").trim(),
-      company_size: String(fields.get("company_size") || "").trim(),
-      industry: String(fields.get("industry") || "").trim(),
-      website: String(fields.get("website") || ""),
-      attribution: attributionFromForm(form),
-    };
+    const payload = referralPayload(form);
     const serialized = JSON.stringify(payload);
     if (submission.current?.payload !== serialized)
       submission.current = { payload: serialized, key: crypto.randomUUID() };
@@ -60,51 +109,7 @@ export default function ReferralForm({
       if (!response.ok || (await response.json()).saved !== true)
         throw Error("Could not save referral");
       setSent(true);
-      const email = payload.referrer_email.toLowerCase();
-      // Analytics must never turn a saved referral into a failed submission.
-      try {
-        window.posthog?.identify(email, {
-          email,
-          name: `${payload.referrer_first_name} ${payload.referrer_last_name}`,
-          domain: email.split("@")[1],
-        });
-      } catch {
-        /* Keep the confirmation visible if analytics is unavailable. */
-      }
-      try {
-        trackEvent(
-          "referral_form_submitted",
-          {
-            form: "referral",
-            submission_id: submission.current.key,
-            referrer_first_name: payload.referrer_first_name,
-            referrer_last_name: payload.referrer_last_name,
-            referrer_email: payload.referrer_email,
-            referral_first_name: payload.referral_first_name,
-            referral_last_name: payload.referral_last_name,
-            referral_email: payload.referral_email,
-            company_size: payload.company_size,
-            rancher_company_size: payload.company_size,
-            industry: payload.industry,
-            attribution: payload.attribution,
-          },
-          {
-            eventId: submission.current.key,
-            personProperties: {
-              set: attributionPersonProperties(
-                "attribution_last",
-                payload.attribution.last,
-              ),
-              setOnce: attributionPersonProperties(
-                "attribution_first",
-                payload.attribution.first,
-              ),
-            },
-          },
-        );
-      } catch {
-        /* Delivery was already confirmed by the server. */
-      }
+      captureReferral(payload, submission.current.key);
     } catch {
       setError(copy.save_error);
     } finally {
@@ -112,6 +117,20 @@ export default function ReferralForm({
       setBusy(false);
     }
   }
+  return { ready, busy, sent, error, submit };
+}
+
+export default function ReferralForm({
+  copy,
+  preview = false,
+}: {
+  copy: ReferralFormContent;
+  preview?: boolean;
+}) {
+  const { ready, busy, sent, error, submit } = useReferralSubmission(
+    copy,
+    preview,
+  );
   return (
     <section
       className="form referral-form-panel"

@@ -1,7 +1,55 @@
 import { test, expect } from "@playwright/test";
 import { createClient } from "@prismicio/client";
+import { readFileSync } from "node:fs";
+import { runInNewContext } from "node:vm";
+import ts from "typescript";
 import seed from "../prismic/seed/homepage.json" with { type: "json" };
 import { previewLinkResolver, validPreviewToken } from "../src/lib/preview";
+
+test("preview entry preserves existing sessions without resolving or resetting cookies", async () => {
+  const source = readFileSync("src/pages/preview/index.ts", "utf8")
+    .replace(/import[\s\S]*?from [^;]+;\n/g, "")
+    .replace(/export /g, "");
+  const headers = {
+    "Cache-Control": "private, no-store, max-age=0",
+    "X-Robots-Tag": "noindex, nofollow",
+  };
+  const get = runInNewContext(
+    ts.transpileModule(source + "\nGET;", {
+      compilerOptions: { target: ts.ScriptTarget.ES2022 },
+    }).outputText,
+    {
+      Response,
+      PREVIEW_COOKIE: "io.prismic.preview",
+      previewHeaders: headers,
+      createPreviewClient: () => {
+        throw Error("Unexpected client resolution");
+      },
+    },
+  );
+  for (const hasSession of [false, true]) {
+    const response = await get({
+      url: new URL("https://example.test/preview/"),
+      cookies: {
+        has: (name: string) => {
+          expect(name).toBe("io.prismic.preview");
+          return hasSession;
+        },
+        set: () => {
+          throw Error("Unexpected cookie reset");
+        },
+      },
+      redirect: (path: string, status: number) =>
+        new Response(null, { status, headers: { Location: path } }),
+    });
+    expect(response.status).toBe(hasSession ? 302 : 200);
+    for (const [name, value] of Object.entries(headers))
+      expect(response.headers.get(name)).toBe(value);
+    if (hasSession)
+      expect(response.headers.get("Location")).toBe("/preview/view/");
+    else expect(await response.text()).toContain("Prismic preview is ready");
+  }
+});
 
 test("preview entry and exit are uncached, unindexed, and validate input", async ({
   request,

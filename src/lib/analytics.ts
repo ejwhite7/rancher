@@ -16,6 +16,34 @@ type TrackOptions = {
   capturePostHog?: boolean;
 };
 
+function postHogProperties(
+  properties: EventProperties,
+  eventId: TrackOptions["eventId"],
+  set: EventProperties | undefined,
+  setOnce: EventProperties | undefined,
+) {
+  return {
+    ...properties,
+    ...(eventId ? { $insert_id: eventId, event_id: eventId } : {}),
+    ...(set && Object.keys(set).length ? { $set: set } : {}),
+    ...(setOnce && Object.keys(setOnce).length ? { $set_once: setOnce } : {}),
+  };
+}
+
+function normalizedUserData(userData: UserData) {
+  return {
+    email_address: userData.emailAddress.trim().toLowerCase(),
+    address: {
+      ...(userData.firstName
+        ? { first_name: userData.firstName.trim().toLowerCase() }
+        : {}),
+      ...(userData.lastName
+        ? { last_name: userData.lastName.trim().toLowerCase() }
+        : {}),
+    },
+  };
+}
+
 export function trackEvent(
   event: string,
   properties: EventProperties = {},
@@ -24,27 +52,12 @@ export function trackEvent(
   const set = options.personProperties?.set;
   const setOnce = options.personProperties?.setOnce;
   if (options.capturePostHog !== false)
-    window.posthog?.capture(event, {
-      ...properties,
-      ...(options.eventId
-        ? { $insert_id: options.eventId, event_id: options.eventId }
-        : {}),
-      ...(set && Object.keys(set).length ? { $set: set } : {}),
-      ...(setOnce && Object.keys(setOnce).length ? { $set_once: setOnce } : {}),
-    });
-
+    window.posthog?.capture(
+      event,
+      postHogProperties(properties, options.eventId, set, setOnce),
+    );
   const userData = options.userData
-    ? {
-        email_address: options.userData.emailAddress.trim().toLowerCase(),
-        address: {
-          ...(options.userData.firstName
-            ? { first_name: options.userData.firstName.trim().toLowerCase() }
-            : {}),
-          ...(options.userData.lastName
-            ? { last_name: options.userData.lastName.trim().toLowerCase() }
-            : {}),
-        },
-      }
+    ? normalizedUserData(options.userData)
     : undefined;
   const value = properties.referral_bonus_usd;
 

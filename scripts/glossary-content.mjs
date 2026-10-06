@@ -119,6 +119,48 @@ export function indexData(shared, ids = {}) {
     social_image: {},
   };
 }
+function invalidRelatedTerms(draft, known) {
+  if (!draft.related) return true;
+  if (draft.related.length < 3 || draft.related.length > 5) return true;
+  if (new Set(draft.related).size !== draft.related.length) return true;
+  return draft.related.some((uid) => uid === draft.uid || !known.has(uid));
+}
+
+function incompleteReview(draft) {
+  if (!draft.reviewer_name?.trim()) return true;
+  if (!draft.last_reviewed) return true;
+  return draft.last_reviewed > new Date().toISOString().slice(0, 10);
+}
+
+function requiredTextErrors(d, errors) {
+  for (const field of [
+    "short",
+    "definition",
+    "how",
+    "relevance",
+    "example",
+    "limitations",
+  ])
+    if (!d[field]?.trim()) errors.push(`${d.uid}: empty ${field}`);
+}
+
+function draftErrors(d, known, errors) {
+  requiredTextErrors(d, errors);
+  if (!/fictional example:/i.test(d.example || ""))
+    errors.push(`${d.uid}: label the fictional example`);
+  if (!d.sources?.length || d.sources.some((k) => !sourceCatalog[k]))
+    errors.push(`${d.uid}: invalid sources`);
+  if (invalidRelatedTerms(d, known))
+    errors.push(`${d.uid}: invalid related terms`);
+  if (!d.questions?.length)
+    errors.push(`${d.uid}: missing practical questions`);
+}
+
+function reviewErrors(draft, reviewed, errors) {
+  if (reviewed && incompleteReview(draft))
+    errors.push(`${draft.uid}: completed review required`);
+}
+
 export function validateDrafts(
   drafts,
   { complete = false, reviewed = false } = {},
@@ -130,36 +172,8 @@ export function validateDrafts(
     if (!known.has(d.uid) || seen.has(d.uid))
       errors.push(`${d.uid}: unknown or duplicate`);
     seen.add(d.uid);
-    for (const field of [
-      "short",
-      "definition",
-      "how",
-      "relevance",
-      "example",
-      "limitations",
-    ])
-      if (!d[field]?.trim()) errors.push(`${d.uid}: empty ${field}`);
-    if (!/fictional example:/i.test(d.example || ""))
-      errors.push(`${d.uid}: label the fictional example`);
-    if (!d.sources?.length || d.sources.some((k) => !sourceCatalog[k]))
-      errors.push(`${d.uid}: invalid sources`);
-    if (
-      !d.related ||
-      d.related.length < 3 ||
-      d.related.length > 5 ||
-      new Set(d.related).size !== d.related.length ||
-      d.related.some((uid) => uid === d.uid || !known.has(uid))
-    )
-      errors.push(`${d.uid}: invalid related terms`);
-    if (!d.questions?.length)
-      errors.push(`${d.uid}: missing practical questions`);
-    if (
-      reviewed &&
-      (!d.reviewer_name?.trim() ||
-        !d.last_reviewed ||
-        d.last_reviewed > new Date().toISOString().slice(0, 10))
-    )
-      errors.push(`${d.uid}: completed review required`);
+    draftErrors(d, known, errors);
+    reviewErrors(d, reviewed, errors);
   }
   if (complete && seen.size !== 60)
     errors.push(`Expected 60 entries; found ${seen.size}`);

@@ -8,15 +8,15 @@ Copy page
 
 PostHog makes it easy to get data about traffic and usage of your [Astro](https://astro.build/) app. Integrating PostHog into your site enables analytics about user behavior, custom events capture, session recordings, feature flags, and more.
 
-This guide walks you through integrating PostHog into your Astro app using the [JavaScript Web SDK](/docs/libraries/js.md).
+This guide walks you through integrating PostHog into your Astro app using the [JavaScript Web SDK](https://posthog.com/docs/libraries/js).
 
 ## Beta: integration via LLM
 
-Install PostHog for Astro in seconds with our wizard by running this prompt with [LLM coding agents](/blog/envoy-wizard-llm-agent.md) like Cursor and Bolt, or by running it in your terminal.
+Install PostHog for Astro in seconds with our wizard by running this prompt with [LLM coding agents](https://posthog.com/blog/envoy-wizard-llm-agent) like Cursor and Bolt, or by running it in your terminal.
 
 `npx @posthog/wizard`
 
-[Learn more](/wizard.md)
+[Learn more](https://posthog.com/wizard)
 
 Or, to integrate manually, continue with the rest of this guide.
 
@@ -60,7 +60,7 @@ PostHog AI
 > worker-src 'self' blob: data:;
 > ```
 >
-> `script-src` covers the snippet and the lazy-loaded bundles, `connect-src` covers event ingestion and feature flags, and `worker-src` covers session replay. The [toolbar needs a few more](/docs/advanced/content-security-policy.md), or use a [reverse proxy](/docs/advanced/proxy.md) so everything is first-party. Failing to do so causes silent failures where `capture` and `identify` calls never send, so the integration looks complete while zero events arrive. Remember `connect-src` falls back to `default-src`, so `default-src 'self'` blocks event delivery even when the script itself is bundled.
+> `script-src` covers the snippet and the lazy-loaded bundles, `connect-src` covers event ingestion and feature flags, and `worker-src` covers session replay. The [toolbar needs a few more](https://posthog.com/docs/advanced/content-security-policy), or use a [reverse proxy](https://posthog.com/docs/advanced/proxy) so everything is first-party. Failing to do so causes silent failures where `capture` and `identify` calls never send, so the integration looks complete while zero events arrive. Remember `connect-src` falls back to `default-src`, so `default-src 'self'` blocks event delivery even when the script itself is bundled.
 
 **Using with Astro's view transitions (ClientRouter)**
 
@@ -136,13 +136,13 @@ import PostHogLayout from '../layouts/PostHogLayout.astro';
 
 ## Identifying users
 
-> **Identifying users is required.** Call `posthog.identify('your-user-id')` after login to link events to a known user. This is what connects frontend event captures, [session replays](/docs/session-replay.md), [LLM traces](/docs/ai-engineering.md), and [error tracking](/docs/error-tracking.md) to the same person — and lets backend events link back too.
+> **Identifying users is required.** Call `posthog.identify('your-user-id')` after login to link events to a known user. This is what connects frontend event captures, [session replays](https://posthog.com/docs/session-replay), [LLM traces](https://posthog.com/docs/ai-engineering), and [error tracking](https://posthog.com/docs/error-tracking) to the same person — and lets backend events link back too.
 >
 > Use a stable ID from your auth system when possible, not an email or display name. Send those as person properties instead. If your app has no other stable key, email works as a fallback if they are unique. Never a shared literal like `"anonymous"` or `"user"`, which pools many people onto one person and corrupts their data. When no ID is available at all, skip the identify and retain the anonymous distinct ID that's automatically assigned.
 >
 > Call `posthog.reset()` on logout, so the next person to use the browser doesn't inherit the last one's identity.
 >
-> See our guide on [identifying users](/docs/getting-started/identify-users.md) for how to set this up.
+> See our guide on [identifying users](https://posthog.com/docs/getting-started/identify-users) for how to set this up.
 
 If your app calls your own backend, `tracing_headers` adds `X-POSTHOG-DISTINCT-ID` and `X-POSTHOG-SESSION-ID` to matching `fetch` and `XMLHttpRequest` requests. This lets server-side SDKs link backend events, errors, and LLM traces back to frontend sessions and replays. Use hostnames only, without protocols or paths.
 
@@ -164,21 +164,21 @@ Tracing headers help you attribute events across front and backend consistently.
 
 Set up a reverse proxy (recommended)
 
-We recommend [setting up a reverse proxy](/docs/advanced/proxy.md), so that events are less likely to be intercepted by tracking blockers.
+We recommend [setting up a reverse proxy](https://posthog.com/docs/advanced/proxy), so that events are less likely to be intercepted by tracking blockers.
 
-We have our [own managed reverse proxy service](/docs/advanced/proxy/managed-reverse-proxy.md), which is free for all PostHog Cloud users, routes through our infrastructure, and makes setting up your proxy easy.
+We have our [own managed reverse proxy service](https://posthog.com/docs/advanced/proxy/managed-reverse-proxy), which is free for all PostHog Cloud users, routes through our infrastructure, and makes setting up your proxy easy.
 
-If you don't want to use our managed service then there are several other options for creating a reverse proxy, including using [Cloudflare](/docs/advanced/proxy/cloudflare.md), [AWS Cloudfront](/docs/advanced/proxy/cloudfront.md), and [Vercel](/docs/advanced/proxy/vercel.md).
+If you don't want to use our managed service then there are several other options for creating a reverse proxy, including using [Cloudflare](https://posthog.com/docs/advanced/proxy/cloudflare), [AWS Cloudfront](https://posthog.com/docs/advanced/proxy/cloudfront), and [Vercel](https://posthog.com/docs/advanced/proxy/vercel).
 
 Grouping products in one project (recommended)
 
-If you have multiple customer-facing products (e.g. a marketing website + mobile app + web app), it's best to install PostHog on them all and [group them in one project](/docs/settings/projects.md).
+If you have multiple customer-facing products (e.g. a marketing website + mobile app + web app), it's best to install PostHog on them all and [group them in one project](https://posthog.com/docs/settings/projects).
 
 This makes it possible to track users across their entire journey (e.g. from visiting your marketing website to signing up for your product), or how they use your product across multiple platforms.
 
 Add IPs to Firewall/WAF allowlists (recommended)
 
-For certain features like [heatmaps](/docs/toolbar/heatmaps.md), your Web Application Firewall (WAF) may be blocking PostHog's requests to your site. Add these IP addresses to your WAF allowlist or rules to let PostHog access your site.
+For certain features like [heatmaps](https://posthog.com/docs/toolbar/heatmaps), your Web Application Firewall (WAF) may be blocking PostHog's requests to your site. Add these IP addresses to your WAF allowlist or rules to let PostHog access your site.
 
 **EU**: `3.75.65.221`, `18.197.246.42`, `3.120.223.253`
 
@@ -188,17 +188,17 @@ These are public, stable IPs used by PostHog services.
 
 PostHog captures heatmap screenshots using [Browserless](https://www.browserless.io), which has its own IP addresses. Browserless [publishes the current list here](https://docs.browserless.io/baas/troubleshooting/whitelisting-ips).
 
-An allowlist does not help when your app has a private address. For apps on an internal network, see [internal and intranet applications](/docs/session-replay/troubleshooting.md#internal-and-intranet-applications).
+An allowlist does not help when your app has a private address. For apps on an internal network, see [internal and intranet applications](https://posthog.com/docs/session-replay/troubleshooting#internal-and-intranet-applications).
 
 ## Next steps
 
-For any technical questions for how to integrate specific PostHog features into Astro (such as analytics, feature flags, A/B testing, surveys, etc.), have a look at our [JavaScript Web SDK docs](/docs/libraries/js/usage.md).
+For any technical questions for how to integrate specific PostHog features into Astro (such as analytics, feature flags, A/B testing, surveys, etc.), have a look at our [JavaScript Web SDK docs](https://posthog.com/docs/libraries/js/usage).
 
 Alternatively, the following tutorials can help you get started:
 
--   [How to set up Astro analytics, feature flags, and more](/tutorials/astro-analytics.md)
--   [How to set up A/B tests in Astro](/tutorials/astro-ab-tests.md)
--   [How to set up surveys in Astro](/tutorials/astro-surveys.md)
+-   [How to set up Astro analytics, feature flags, and more](https://posthog.com/tutorials/astro-analytics)
+-   [How to set up A/B tests in Astro](https://posthog.com/tutorials/astro-ab-tests)
+-   [How to set up surveys in Astro](https://posthog.com/tutorials/astro-surveys)
 
 ### Still have questions?
 

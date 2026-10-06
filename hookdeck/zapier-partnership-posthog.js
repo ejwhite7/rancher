@@ -49,16 +49,38 @@ addHandler("transform", (request) => {
   const token = text(process.env.POSTHOG_PROJECT_TOKEN);
   if (!token || token.indexOf("phx_") === 0)
     throw new Error("Invalid POSTHOG_PROJECT_TOKEN");
+  const identity = leadIdentity(lead);
+  const companySize = canonicalSize(lead.company_size);
+  const properties = postHogProperties(lead, identity, companySize);
+
+  return {
+    headers: { "content-type": "application/json" },
+    path: "",
+    query: "",
+    parsed_query: {},
+    body: {
+      api_key: token,
+      event: "partnership_request_submitted",
+      distinct_id: identity.email,
+      timestamp: isoTime(lead.created_at),
+      properties,
+    },
+  };
+});
+
+function leadIdentity(lead) {
   const leadId = text(lead.lead_id);
   const email = text(lead.email).toLowerCase();
   const name = text(lead.name);
   if (!leadId || !email || !name)
     throw new Error("lead_id, email, and name are required");
+  return { leadId, email, name };
+}
 
-  const companySize = canonicalSize(lead.company_size);
+function postHogProperties(lead, { leadId, email, name }, companySize) {
   const qualifies = bonuses[companySize] > 0;
   const submissionId = `zapier:${leadId}`;
-  const properties = {
+  return {
     submission_id: submissionId,
     name,
     email,
@@ -103,18 +125,4 @@ addHandler("transform", (request) => {
       job_title: text(lead.job_title),
     },
   };
-
-  return {
-    headers: { "content-type": "application/json" },
-    path: "",
-    query: "",
-    parsed_query: {},
-    body: {
-      api_key: token,
-      event: "partnership_request_submitted",
-      distinct_id: email,
-      timestamp: isoTime(lead.created_at),
-      properties,
-    },
-  };
-});
+}

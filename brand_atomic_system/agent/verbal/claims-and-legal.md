@@ -22,6 +22,6 @@ Rancher can describe a possible licensing opportunity and a process for evaluati
 
 ## Consent and forms
 
-“Anything else to know?” is optional. All other visible partnership fields are required in the current flow. Describe outreach consent plainly and do not broaden it beyond data-licensing opportunities. Never place sensitive, personal, confidential, or production records in examples or ad creative.
+Phone number and “Anything else to know?” are optional. Required fields and communications consent follow the current partnership form. Describe outreach consent plainly and do not broaden it beyond data-licensing opportunities. Never place sensitive, personal, confidential, or production records in examples or ad creative.
 
-Legal policy copy in `src/data/legal.ts` and the legal pages is canonical application content and requires appropriate review before substantive changes.
+Published Prismic legal documents, loaded through `src/lib/prismic.ts`, are canonical application content and require appropriate review before substantive changes. Offline policy snapshots are in `prismic/seed/privacy-policy.json` and `prismic/seed/terms-of-use.json`; the legal pages render the selected source.

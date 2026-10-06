@@ -181,22 +181,29 @@ for (const { brief, article } of items) {
       brief.content_key,
     );
 }
+function releaseVersion(versions, releaseId) {
+  return (
+    versions.find(
+      (v) => v.status === "release" && v.release_id === releaseId,
+    ) || versions.find((v) => v.status === "release")
+  );
+}
+async function verifyPublishedAuthor(meta, d) {
+  const published = meta.versions.find((v) => v.status === "published");
+  if (!published) throw Error("Author is neither published nor staged");
+  assertUnchanged(
+    await editor("documents/data/" + published.version_id),
+    { ...d.data, uid: d.uid },
+    "Published author",
+  );
+}
 async function move(key, releaseId) {
   const d = checkpoint.documents[key];
   if (!d) throw Error("Missing launch document " + key);
   const meta = await editor("documents/" + d.id);
-  const version =
-    meta.versions.find(
-      (v) => v.status === "release" && v.release_id === releaseId,
-    ) || meta.versions.find((v) => v.status === "release");
+  const version = releaseVersion(meta.versions, releaseId);
   if (!version && key === "author-edward-white") {
-    const published = meta.versions.find((v) => v.status === "published");
-    if (!published) throw Error("Author is neither published nor staged");
-    assertUnchanged(
-      await editor("documents/data/" + published.version_id),
-      { ...d.data, uid: d.uid },
-      "Published author",
-    );
+    await verifyPublishedAuthor(meta, d);
     return 0;
   }
   if (!version) throw Error("No release draft for " + key);

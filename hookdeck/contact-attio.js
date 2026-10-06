@@ -5,21 +5,30 @@ const attributionLines = (attribution) =>
       ([key, value]) => `Attribution ${touch} ${key}: ${String(value)}`,
     ),
   );
-addHandler("transform", (request) => {
-  const event =
-    typeof request.body === "string" ? JSON.parse(request.body) : request.body;
-  const submission = event?.data;
+const validateContactEvent = (event, submission) => {
   if (
     event?.type !== "contact.submission.created" ||
     (event?.event_name !== undefined &&
-      event.event_name !== "contact_form_submitted") ||
-    !submission?.submission_id ||
+      event.event_name !== "contact_form_submitted")
+  ) {
+    throw new Error("Invalid Rancher contact submission");
+  }
+  if (!submission?.submission_id) {
+    throw new Error("Invalid Rancher contact submission");
+  }
+  if (
     typeof submission.email !== "string" ||
     typeof submission.name !== "string" ||
     typeof submission.message !== "string"
   ) {
     throw new Error("Invalid Rancher contact submission");
   }
+};
+addHandler("transform", (request) => {
+  const event =
+    typeof request.body === "string" ? JSON.parse(request.body) : request.body;
+  const submission = event?.data;
+  validateContactEvent(event, submission);
   const email = submission.email.trim().toLowerCase();
   request.headers = { ...request.headers, "content-type": "application/json" };
   request.query = "matching_attribute=email_addresses";

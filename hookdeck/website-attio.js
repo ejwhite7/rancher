@@ -59,25 +59,28 @@ const attioEmployeeRange = (companySize) => {
   if (!value) throw new Error("Unsupported Rancher company size");
   return value;
 };
-addHandler("transform", (request) => {
-  const event =
-    typeof request.body === "string" ? JSON.parse(request.body) : request.body;
-  const submission = event?.data;
+const validatePartnershipEvent = (event, submission) => {
   if (
     event?.type !== "submission.created" ||
     (event?.event_name !== undefined &&
-      event.event_name !== "partnership_request_submitted") ||
-    !submission?.submission_id ||
+      event.event_name !== "partnership_request_submitted")
+  ) {
+    throw new Error("Invalid Rancher partnership submission");
+  }
+  if (!submission?.submission_id) {
+    throw new Error("Invalid Rancher partnership submission");
+  }
+  if (
     typeof submission.email !== "string" ||
     typeof submission.name !== "string"
   ) {
     throw new Error("Invalid Rancher partnership submission");
   }
-  request.headers = { ...request.headers, "content-type": "application/json" };
-  request.query = "matching_attribute=email_addresses";
+};
+const partnershipBody = (submission, event) => {
   const rancherCompanySize =
     submission.rancher_company_size || submission.company_size;
-  request.body = {
+  return {
     data: {
       values: {
         email_addresses: [submission.email.trim().toLowerCase()],
@@ -113,5 +116,14 @@ addHandler("transform", (request) => {
       },
     },
   };
+};
+addHandler("transform", (request) => {
+  const event =
+    typeof request.body === "string" ? JSON.parse(request.body) : request.body;
+  const submission = event?.data;
+  validatePartnershipEvent(event, submission);
+  request.headers = { ...request.headers, "content-type": "application/json" };
+  request.query = "matching_attribute=email_addresses";
+  request.body = partnershipBody(submission, event);
   return request;
 });

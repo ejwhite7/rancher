@@ -105,6 +105,93 @@ test("contact transformation maps the message without writing partnership or con
   ).toThrow("Invalid Rancher contact submission");
 });
 
+async function expectContactOrPartnershipValidation(kind: string) {
+  const code = await readFile(`hookdeck/${kind}-attio.js`, "utf8");
+  const sample = JSON.parse(
+    await readFile(`hookdeck/${kind}-sample.json`, "utf8"),
+  );
+  let transform: any;
+  runInNewContext(code, {
+    addHandler: (_event: string, handler: unknown) => {
+      transform = handler;
+    },
+  });
+  const message = `Invalid Rancher ${kind === "contact" ? "contact" : "partnership"} submission`;
+  for (const body of [
+    null,
+    {},
+    { ...sample.body, event_name: null },
+    { ...sample.body, data: null },
+    ...[
+      "submission_id",
+      "email",
+      "name",
+      ...(kind === "contact" ? ["message"] : []),
+    ].map((key) => ({
+      ...sample.body,
+      data: { ...sample.body.data, [key]: null },
+    })),
+  ]) {
+    const request = {
+      headers: { original: "retained" },
+      query: "original",
+      body,
+    };
+    expect(() => transform(request)).toThrow(message);
+    expect(request).toEqual({
+      headers: { original: "retained" },
+      query: "original",
+      body,
+    });
+  }
+  expect(() => transform({ body: "{" })).toThrow();
+  const legacy = { ...sample.body };
+  delete legacy.event_name;
+  const output = transform({
+    headers: { original: "retained" },
+    body: JSON.stringify(legacy),
+  });
+  expect(output.headers).toEqual({
+    original: "retained",
+    "content-type": "application/json",
+  });
+  expect(output.body.data.values.email_addresses).toEqual([
+    sample.body.data.email.trim().toLowerCase(),
+  ]);
+  if (kind === "website") expectPartnershipOptionalFields(transform, sample);
+}
+
+function expectPartnershipOptionalFields(transform: any, sample: any) {
+  const data = {
+    ...sample.body.data,
+    communications_consent: false,
+    phone: "",
+  };
+  const values = transform({ body: { ...sample.body, data } }).body.data.values;
+  expect(values.rancher_communications_consent).toBe(false);
+  expect(values.rancher_consent_recorded_at).toBeUndefined();
+  expect(values.consent_recorded_at).toBeUndefined();
+  expect(values.phone_numbers).toBeUndefined();
+  expect(() =>
+    transform({
+      body: {
+        ...sample.body,
+        data: {
+          ...data,
+          company_size: "unknown",
+          rancher_company_size: "unknown",
+        },
+      },
+    }),
+  ).toThrow("Unsupported Rancher company size");
+}
+
+test("contact and partnership validation retain legacy events, errors, and request mutation boundaries", async () => {
+  for (const kind of ["contact", "website"]) {
+    await expectContactOrPartnershipValidation(kind);
+  }
+});
+
 test("HeyReach transformation normalizes the approved campaign and rejects other campaigns", async () => {
   const code = await readFile("hookdeck/heyreach-attio.js", "utf8");
   const sample = JSON.parse(
@@ -154,6 +241,54 @@ test("HeyReach transformation normalizes the approved campaign and rejects other
   ).toThrow("Unexpected HeyReach campaign");
 });
 
+test("HeyReach preserves ordered errors, fallback identity, and mutation boundaries", async () => {
+  const code = await readFile("hookdeck/heyreach-attio.js", "utf8");
+  let transform: any;
+  runInNewContext(code, {
+    Date,
+    addHandler: (_event: string, handler: unknown) => {
+      transform = handler;
+    },
+  });
+  for (const [body, message] of [
+    [null, "Invalid HeyReach webhook body"],
+    [{ campaignId: 123 }, "Unexpected HeyReach campaign"],
+    [{ campaignId: 608725 }, "Missing HeyReach event type"],
+    [{ eventType: "REPLY" }, "Missing stable HeyReach event identifier"],
+  ]) {
+    const request = { headers: { original: "retained" }, body };
+    expect(() => transform(request)).toThrow(message as string);
+    expect(request).toEqual({ headers: { original: "retained" }, body });
+  }
+  expect(() => transform({ body: "{" })).toThrow();
+  const output = transform({
+    headers: { original: "retained" },
+    body: {
+      data: {
+        campaign_id: "608725",
+        event_type: " REPLY ",
+        timestamp: "fixed-time",
+        lead: {
+          email: " USER@EXAMPLE.COM ",
+          company: { name: " Example ", domain: " EXAMPLE.COM " },
+        },
+      },
+    },
+  });
+  expect(output.headers).toEqual({
+    original: "retained",
+    "content-type": "application/json",
+  });
+  expect(output.body.event_id).toBe(
+    "heyreach:608725:reply:USER@EXAMPLE.COM:fixed-time",
+  );
+  expect(output.body.person).toEqual({ email: "user@example.com" });
+  expect(output.body.company).toEqual({
+    name: "Example",
+    domain: "example.com",
+  });
+});
+
 test("referral transformation targets the referred person and preserves referrer attribution without granting consent", async () => {
   const code = await readFile("hookdeck/referral-attio.js", "utf8");
   const sample = JSON.parse(
@@ -179,6 +314,58 @@ test("referral transformation targets the referred person and preserves referrer
         "Rancher referral\nReferred by: Test Referrer <referrer@example.com>\nReferral: Test Referral <referred@example.org>\nCompany size: 50–199\nIndustry: Technology\nAttribution first source: google\nAttribution first medium: cpc\nAttribution first campaign: spring\nAttribution last source: newsletter\nAttribution last medium: email\nAttribution last campaign: partner-update",
     });
   }
+  expectReferralInvalidBodies(transform, sample);
+  expectReferralLegacyAndErrors(transform, sample);
+});
+
+function expectReferralInvalidBodies(transform: any, sample: any) {
+  for (const body of [
+    null,
+    {},
+    { ...sample.body, event_name: null },
+    { ...sample.body, data: null },
+    ...Object.keys(sample.body.data)
+      .filter(
+        (key) => !["form", "rancher_company_size", "attribution"].includes(key),
+      )
+      .flatMap((key) =>
+        [null, "   "].map((value) => ({
+          ...sample.body,
+          data: { ...sample.body.data, [key]: value },
+        })),
+      ),
+  ]) {
+    const request = {
+      headers: { original: "retained" },
+      query: "original",
+      body,
+    };
+    expect(() => transform(request)).toThrow(
+      "Invalid Rancher referral submission",
+    );
+    expect(request).toEqual({
+      headers: { original: "retained" },
+      query: "original",
+      body,
+    });
+  }
+}
+
+function expectReferralLegacyAndErrors(transform: any, sample: any) {
+  const legacy = { ...sample.body };
+  delete legacy.event_name;
+  const legacyOutput = transform({
+    headers: { original: "retained" },
+    body: JSON.stringify(legacy),
+  });
+  expect(legacyOutput.headers).toEqual({
+    original: "retained",
+    "content-type": "application/json",
+  });
+  expect(legacyOutput.body.data.values.email_addresses).toEqual([
+    "referred@example.org",
+  ]);
+  expect(() => transform({ body: "{" })).toThrow();
   expect(() =>
     transform({ body: { ...sample.body, type: "contact.submission.created" } }),
   ).toThrow("Invalid Rancher referral submission");
@@ -202,7 +389,7 @@ test("referral transformation targets the referred person and preserves referrer
       },
     }),
   ).toThrow("Unsupported Rancher company size");
-});
+}
 
 test("partnership and referral transformations normalize small-company ranges while preserving raw values", async () => {
   for (const [script, fixture] of [

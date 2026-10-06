@@ -66,6 +66,136 @@ test("webhook worker requires authentication and valid source configuration", as
   expect(calls).toBe(2);
 });
 
+type Sql = ReturnType<typeof database>;
+
+async function initializeWebhookDatabase(sql: Sql) {
+  const files = (await readdir("db/migrations"))
+    .filter((name) => name.endsWith(".sql"))
+    .sort();
+  const migrations = await Promise.all(
+    files.map((file) => readFile(`db/migrations/${file}`, "utf8")),
+  );
+  for (let run = 0; run < 2; run++)
+    await sql.begin(async (tx) => {
+      for (const migration of migrations) await tx.unsafe(migration);
+    });
+  await sql.begin(async (tx) => {
+    await tx.unsafe(await readFile("db/tests/contact_webhooks.sql", "utf8"));
+    await tx.unsafe(await readFile("db/tests/referral_webhooks.sql", "utf8"));
+  });
+}
+
+async function expectRollback(sql: Sql, rollbackId: string) {
+  await expect(
+    sql.begin(async (tx) => {
+      await tx`INSERT INTO rancher.partnership_submissions (id,name,email,company,team_size,data_history,records_description,outreach_consent,consent_text,request_hash)
+        VALUES (${rollbackId},'Rollback','rollback@example.com','Synthetic','20–49','3–5 years','None',true,'test',${"0".repeat(64)})`;
+      throw new Error("rollback");
+    }),
+  ).rejects.toThrow("rollback");
+  expect(
+    await sql`SELECT id FROM rancher.webhook_outbox WHERE id=${rollbackId}`,
+  ).toHaveLength(0);
+}
+
+async function expectPartnershipPayload(
+  sql: Sql,
+  id: string,
+  attribution: { first: object; last: object },
+) {
+  const [event] =
+    await sql`SELECT * FROM rancher.webhook_outbox WHERE id=${id}`;
+  expect(event.payload.type).toBe("submission.created");
+  expect(event.payload.event_name).toBe("partnership_request_submitted");
+  expect(event.payload.schema_version).toBe(10);
+  expect(event.payload.data.domain).toBe("example.com");
+  expect(event.payload.data.phone).toBe("+12125550123");
+  expect(event.payload.data.communications_consent).toBe(true);
+  expect(event.payload.data.consent_prechecked).toBe(false);
+  expect(event.payload.data.job_title).toBe("VP of Operations");
+  expect(event.payload.data.referral_bonus_usd).toBe(8000);
+  expect(event.payload.data.rancher_company_size).toBe("20–49");
+  expect(event.payload.data.is_business_active).toBe(true);
+  expect(event.payload.data.qualifies).toBe(true);
+  expect(event.payload.data.qualification_status).toBe("qualified");
+  expect(event.payload.data.attribution).toEqual(attribution);
+  expect(event.payload.data.conversion_attribution).toEqual({
+    schema_version: 1,
+    submission_id: id,
+    converted_at: event.payload.created_at,
+    first_touch: attribution.first,
+    conversion_touch: attribution.last,
+  });
+  expect(event.payload.data.request_hash).toBeUndefined();
+  expect(event.payload.id).toBe(id);
+}
+
+async function expectDeliveryRecovery(sql: Sql, id: string, url: URL) {
+  // Other test files may create events concurrently; isolate delivery candidates to this event.
+  await sql`UPDATE rancher.webhook_outbox SET available_at = now() + interval '1 day' WHERE id <> ${id}`;
+  const headers: string[] = [];
+  const fail: typeof fetch = async (_url, init) => {
+    headers.push(new Headers(init?.headers).get("Idempotency-Key")!);
+    expect(JSON.parse(String(init?.body)).id).toBe(id);
+    return new Response(null, {
+      status: 429,
+      headers: { "Retry-After": "3600" },
+    });
+  };
+  const first = await drainWebhookOutbox(url, sql, fail);
+  expect(first.retrying).toBe(1);
+  const [pending] =
+    await sql`SELECT * FROM rancher.webhook_outbox WHERE id=${id}`;
+  expect(pending.status).toBe("pending");
+  expect(pending.attempts).toBe(1);
+  expect(pending.last_http_status).toBe(429);
+  expect(new Date(pending.available_at).getTime() - Date.now()).toBeGreaterThan(
+    3500000,
+  );
+  await sql`UPDATE rancher.webhook_outbox SET available_at=now() WHERE id=${id}`;
+  // Concurrent invocations cannot claim the same active lease.
+  let acknowledge!: () => void;
+  const success: typeof fetch = async (_url, init) => {
+    headers.push(new Headers(init?.headers).get("Idempotency-Key")!);
+    await new Promise<void>((resolve) => {
+      acknowledge = resolve;
+    });
+    return new Response(null, { status: 202 });
+  };
+  const active = drainWebhookOutbox(url, sql, success);
+  await expect.poll(() => typeof acknowledge).toBe("function");
+  expect((await drainWebhookOutbox(url, sql, fail)).claimed).toBe(0);
+  acknowledge();
+  expect((await active).delivered).toBe(1);
+  expect(headers).toEqual([id, id]);
+  expect(
+    (await sql`SELECT status FROM rancher.webhook_outbox WHERE id=${id}`)[0]
+      .status,
+  ).toBe("delivered");
+  await sql`UPDATE rancher.webhook_outbox SET status='processing', lease_until=now()-interval '1 minute' WHERE id=${id}`;
+  expect(
+    (
+      await drainWebhookOutbox(url, sql, async () => {
+        throw new Error("network");
+      })
+    ).retrying,
+  ).toBe(1);
+  expect(
+    (await sql`SELECT last_error FROM rancher.webhook_outbox WHERE id=${id}`)[0]
+      .last_error,
+  ).toBe("network_or_timeout");
+  await sql`UPDATE rancher.webhook_outbox SET attempts=12, status='processing', lease_until=now()-interval '1 minute' WHERE id=${id}`;
+  await drainWebhookOutbox(url, sql, fail);
+  expect(
+    (await sql`SELECT status FROM rancher.webhook_outbox WHERE id=${id}`)[0]
+      .status,
+  ).toBe("failed");
+  await sql`DELETE FROM rancher.partnership_submissions WHERE id=${id}`;
+  expect(
+    await sql`SELECT id FROM rancher.webhook_outbox WHERE id=${id}`,
+  ).toHaveLength(0);
+}
+
 test("outbox is atomic, retries failures, deduplicates inserts, and recovers leases", async () => {
   test.skip(
     process.env.RUN_DATABASE_TESTS !== "1",
@@ -98,118 +228,11 @@ test("outbox is atomic, retries failures, deduplicates inserts, and recovers lea
     scenario: null,
   };
   try {
-    const files = (await readdir("db/migrations"))
-      .filter((name) => name.endsWith(".sql"))
-      .sort();
-    for (let run = 0; run < 2; run++)
-      await sql.begin(async (tx) => {
-        for (const file of files)
-          await tx.unsafe(await readFile(`db/migrations/${file}`, "utf8"));
-      });
-    await sql.begin(async (tx) => {
-      await tx.unsafe(await readFile("db/tests/contact_webhooks.sql", "utf8"));
-      await tx.unsafe(await readFile("db/tests/referral_webhooks.sql", "utf8"));
-    });
-    await expect(
-      sql.begin(async (tx) => {
-        await tx`INSERT INTO rancher.partnership_submissions (id,name,email,company,team_size,data_history,records_description,outreach_consent,consent_text,request_hash)
-        VALUES (${rollbackId},'Rollback','rollback@example.com','Synthetic','20–49','3–5 years','None',true,'test',${"0".repeat(64)})`;
-        throw new Error("rollback");
-      }),
-    ).rejects.toThrow("rollback");
-    expect(
-      await sql`SELECT id FROM rancher.webhook_outbox WHERE id=${rollbackId}`,
-    ).toHaveLength(0);
+    await initializeWebhookDatabase(sql);
+    await expectRollback(sql, rollbackId);
     await Promise.all([saveSubmission(input), saveSubmission(input)]);
-    const [event] =
-      await sql`SELECT * FROM rancher.webhook_outbox WHERE id=${id}`;
-    expect(event.payload.type).toBe("submission.created");
-    expect(event.payload.event_name).toBe("partnership_request_submitted");
-    expect(event.payload.schema_version).toBe(10);
-    expect(event.payload.data.domain).toBe("example.com");
-    expect(event.payload.data.phone).toBe("+12125550123");
-    expect(event.payload.data.communications_consent).toBe(true);
-    expect(event.payload.data.consent_prechecked).toBe(false);
-    expect(event.payload.data.job_title).toBe("VP of Operations");
-    expect(event.payload.data.referral_bonus_usd).toBe(8000);
-    expect(event.payload.data.rancher_company_size).toBe("20–49");
-    expect(event.payload.data.is_business_active).toBe(true);
-    expect(event.payload.data.qualifies).toBe(true);
-    expect(event.payload.data.qualification_status).toBe("qualified");
-    expect(event.payload.data.attribution).toEqual(input.attribution);
-    expect(event.payload.data.conversion_attribution).toEqual({
-      schema_version: 1,
-      submission_id: id,
-      converted_at: event.payload.created_at,
-      first_touch: input.attribution.first,
-      conversion_touch: input.attribution.last,
-    });
-    expect(event.payload.data.request_hash).toBeUndefined();
-    expect(event.payload.id).toBe(id);
-    // Other test files may create events concurrently; isolate delivery candidates to this event.
-    await sql`UPDATE rancher.webhook_outbox SET available_at = now() + interval '1 day' WHERE id <> ${id}`;
-    const headers: string[] = [];
-    const fail: typeof fetch = async (_url, init) => {
-      headers.push(new Headers(init?.headers).get("Idempotency-Key")!);
-      expect(JSON.parse(String(init?.body)).id).toBe(id);
-      return new Response(null, {
-        status: 429,
-        headers: { "Retry-After": "3600" },
-      });
-    };
-    const first = await drainWebhookOutbox(url, sql, fail);
-    expect(first.retrying).toBe(1);
-    const [pending] =
-      await sql`SELECT * FROM rancher.webhook_outbox WHERE id=${id}`;
-    expect(pending.status).toBe("pending");
-    expect(pending.attempts).toBe(1);
-    expect(pending.last_http_status).toBe(429);
-    expect(
-      new Date(pending.available_at).getTime() - Date.now(),
-    ).toBeGreaterThan(3500000);
-    await sql`UPDATE rancher.webhook_outbox SET available_at=now() WHERE id=${id}`;
-    // Concurrent invocations cannot claim the same active lease.
-    let acknowledge!: () => void;
-    const success: typeof fetch = async (_url, init) => {
-      headers.push(new Headers(init?.headers).get("Idempotency-Key")!);
-      await new Promise<void>((resolve) => {
-        acknowledge = resolve;
-      });
-      return new Response(null, { status: 202 });
-    };
-    const active = drainWebhookOutbox(url, sql, success);
-    await expect.poll(() => typeof acknowledge).toBe("function");
-    expect((await drainWebhookOutbox(url, sql, fail)).claimed).toBe(0);
-    acknowledge();
-    expect((await active).delivered).toBe(1);
-    expect(headers).toEqual([id, id]);
-    expect(
-      (await sql`SELECT status FROM rancher.webhook_outbox WHERE id=${id}`)[0]
-        .status,
-    ).toBe("delivered");
-    await sql`UPDATE rancher.webhook_outbox SET status='processing', lease_until=now()-interval '1 minute' WHERE id=${id}`;
-    expect(
-      (
-        await drainWebhookOutbox(url, sql, async () => {
-          throw new Error("network");
-        })
-      ).retrying,
-    ).toBe(1);
-    expect(
-      (
-        await sql`SELECT last_error FROM rancher.webhook_outbox WHERE id=${id}`
-      )[0].last_error,
-    ).toBe("network_or_timeout");
-    await sql`UPDATE rancher.webhook_outbox SET attempts=12, status='processing', lease_until=now()-interval '1 minute' WHERE id=${id}`;
-    await drainWebhookOutbox(url, sql, fail);
-    expect(
-      (await sql`SELECT status FROM rancher.webhook_outbox WHERE id=${id}`)[0]
-        .status,
-    ).toBe("failed");
-    await sql`DELETE FROM rancher.partnership_submissions WHERE id=${id}`;
-    expect(
-      await sql`SELECT id FROM rancher.webhook_outbox WHERE id=${id}`,
-    ).toHaveLength(0);
+    await expectPartnershipPayload(sql, id, input.attribution);
+    await expectDeliveryRecovery(sql, id, url);
   } finally {
     await sql`DELETE FROM rancher.partnership_submissions WHERE id IN (${id},${rollbackId})`;
     // The Playwright worker owns the shared database connection pool.

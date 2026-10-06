@@ -158,6 +158,61 @@ test("ignores unsubscribed Cal event types", async () => {
   expect(captures).toBe(0);
 });
 
+test("booking states, meeting envelopes and missing notification fields preserve delivery contracts", async () => {
+  const cases = [
+    ["BOOKING_REQUESTED", undefined],
+    ["BOOKING_REJECTED", false],
+    ["BOOKING_RESCHEDULED", true],
+    ["MEETING_STARTED", true],
+    ["MEETING_ENDED", true],
+    ["BOOKING_NO_SHOW_UPDATED", undefined],
+  ] as const;
+  for (const [triggerEvent, state] of cases) {
+    let captured: any;
+    let notifications = 0;
+    const meeting = triggerEvent.startsWith("MEETING_");
+    const envelope = meeting
+      ? { ...payload.payload, triggerEvent, createdAt: payload.createdAt }
+      : { ...payload, triggerEvent };
+    const response = await handleCalWebhook(request(envelope), {
+      ...dependencies(async (input) => {
+        captured = input;
+      }),
+      notifyBooking: async () => {
+        notifications++;
+      },
+    });
+    expect(response.status).toBe(200);
+    expect(captured.distinctId).toBe("alex@example.com");
+    expect(captured.properties.$set.cal_booking_booked).toBe(state);
+    expect(Object.hasOwn(captured.properties.$set, "cal_booking_booked")).toBe(
+      state !== undefined,
+    );
+    expect(notifications).toBe(0);
+  }
+  let captures = 0;
+  let notifications = 0;
+  const response = await handleCalWebhook(
+    request({
+      ...payload,
+      payload: { ...payload.payload, attendees: [] },
+    }),
+    {
+      ...dependencies(async (input) => {
+        captures++;
+        expect(input.distinctId).toBe("cal:booking-uid");
+        expect(Object.hasOwn(input.properties, "$set")).toBe(false);
+      }),
+      notifyBooking: async () => {
+        notifications++;
+      },
+    },
+  );
+  expect(response.status).toBe(200);
+  expect(captures).toBe(1);
+  expect(notifications).toBe(0);
+});
+
 test("returns a retryable error when PostHog rejects delivery", async () => {
   const response = await handleCalWebhook(
     request(payload),

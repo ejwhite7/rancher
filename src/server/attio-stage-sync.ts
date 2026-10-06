@@ -45,6 +45,24 @@ async function attio(path: string, init: RequestInit, send: typeof fetch) {
   return body.data;
 }
 
+function associatedDealIds(person: AttioRecord) {
+  const deals = person.values?.associated_deals || [];
+  return [
+    ...new Set(
+      deals
+        .map((value) => value.target_record_id)
+        .filter((id): id is string => typeof id === "string"),
+    ),
+  ];
+}
+
+function currentStageTitle(deal: AttioRecord | undefined) {
+  const current = deal?.values?.stage?.[0]?.status;
+  return current && typeof current === "object" && "title" in current
+    ? String(current.title)
+    : "";
+}
+
 async function syncOne(
   email: string,
   desiredStage: string,
@@ -60,26 +78,14 @@ async function syncOne(
   )) as AttioRecord[] | undefined;
   if (!people || people.length !== 1)
     return people?.length ? "ambiguous" : "missing";
-  const deals = people[0].values?.associated_deals || [];
-  const dealIds = [
-    ...new Set(
-      deals
-        .map((value) => value.target_record_id)
-        .filter((id): id is string => typeof id === "string"),
-    ),
-  ];
+  const dealIds = associatedDealIds(people[0]);
   if (dealIds.length !== 1) return dealIds.length ? "ambiguous" : "missing";
   const deal = (await attio(
     `/objects/deals/records/${dealIds[0]}`,
     { method: "GET" },
     send,
   )) as AttioRecord | undefined;
-  const current = deal?.values?.stage?.[0]?.status;
-  const currentTitle =
-    current && typeof current === "object" && "title" in current
-      ? String(current.title)
-      : "";
-  if (currentTitle === desiredStage) return "unchanged";
+  if (currentStageTitle(deal) === desiredStage) return "unchanged";
   await attio(
     `/objects/deals/records/${dealIds[0]}`,
     {

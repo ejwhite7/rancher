@@ -82,6 +82,36 @@ test("server partnership attribution exposes standard and explicit UTM propertie
   ).toEqual({});
 });
 
+test("malformed optional consent cookies preserve linker fallback and explicit click-ID precedence", () => {
+  for (const consent of ["{", "%E0%A4%A", "null", "", "[]"]) {
+    const request = new Request("https://www.gorancher.com/api/submissions/", {
+      headers: {
+        cookie: `_gcl_aw=GCL.123.cookie-click; _fbc=fb.1.123.meta-click; rancher_consent=${consent}`,
+      },
+    });
+    expect(
+      attributionEventProperties(
+        { first: { gclid: "first-click" }, last: { gclid: "explicit-click" } },
+        request,
+      ),
+    ).toEqual({
+      first_gclid: "first-click",
+      conversion_gclid: "explicit-click",
+      gclid: "explicit-click",
+      conversion_fbclid: "meta-click",
+      fbclid: "meta-click",
+    });
+    expect(
+      attributionEventProperties({ first: {}, last: {} }, request),
+    ).toEqual({
+      conversion_gclid: "cookie-click",
+      gclid: "cookie-click",
+      conversion_fbclid: "meta-click",
+      fbclid: "meta-click",
+    });
+  }
+});
+
 test("server form capture uses the submission id for PostHog deduplication", async () => {
   const originalFetch = globalThis.fetch;
   const originalToken = process.env.PUBLIC_POSTHOG_PROJECT_TOKEN;
@@ -102,6 +132,8 @@ test("server form capture uses the submission id for PostHog deduplication", asy
       distinctId: "person@example.com",
       submissionId: "11111111-2222-4333-8444-555555555555",
       properties: { submission_id: "11111111-2222-4333-8444-555555555555" },
+      set: { email: "person@example.com" },
+      setOnce: {},
       request: new Request("https://www.gorancher.com/api/contact/", {
         headers: {
           referer: "https://www.gorancher.com/contact/",
@@ -119,12 +151,14 @@ test("server form capture uses the submission id for PostHog deduplication", asy
     if (originalHost === undefined) delete process.env.PUBLIC_POSTHOG_HOST;
     else process.env.PUBLIC_POSTHOG_HOST = originalHost;
   }
+  expect(request?.body.properties).not.toHaveProperty("$set_once");
   expect(request?.url).toBe("https://posthog.test/i/v0/e/");
   expect(request?.body).toMatchObject({
     api_key: "phc_test",
     event: "contact_form_submitted",
     distinct_id: "person@example.com",
     properties: {
+      $set: { email: "person@example.com" },
       $lib: "rancher-server",
       $lib_version: "1",
       capture_source: "server",

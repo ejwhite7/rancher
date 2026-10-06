@@ -7,7 +7,10 @@ import {
 } from "../src/lib/blog";
 import { previewLinkResolver, supportedPreviewPath } from "../src/lib/preview";
 import { includeInStaticSitemap } from "../src/lib/site";
-import { assertCorralUnchanged } from "../scripts/corral/audit.mjs";
+import {
+  assertCorralUnchanged,
+  normalizeCorral,
+} from "../scripts/corral/audit.mjs";
 import {
   canonicalArticleHash,
   publicationPreflight,
@@ -103,6 +106,36 @@ test("original imported articles retain their actual dates while later CMS resch
     ),
   ).toHaveLength(0);
 });
+test("record parsing preserves preview dates, stable ties and validation failures", () => {
+  const original = {
+    id: "aqnKBRUAACsAVXwk",
+    uid: "original",
+    data: { ...data, published_at: "2026-09-17T13:03:00+0000" },
+    first_publication_date: "2026-09-16T03:20:56+0000",
+  };
+  expect(parseBlogRecords([original], true, 0)[0].data.published_at).toBe(
+    "2026-09-17T13:03:00+00:00",
+  );
+  const docs = ["zebra", "alpha"].map((uid) => ({
+    ...original,
+    id: uid,
+    uid,
+    data,
+  }));
+  expect(
+    parseBlogRecords(docs, false, Date.parse("2026-10-01T00:00:00Z")).map(
+      (doc) => doc.uid,
+    ),
+  ).toEqual(["alpha", "zebra"]);
+  expect(() =>
+    parseBlogRecords([{ ...original, uid: "../invalid" }], true),
+  ).toThrow("Invalid blog UID");
+  for (const invalid of [null, "not an object", {}])
+    expect(() =>
+      parseBlogRecords([{ ...original, data: invalid }], true),
+    ).toThrow();
+});
+
 test("Corral rejects unsafe links, incomplete table cells and missing required social metadata", () => {
   expect(() => blogArticleSchema.parse({ ...data, meta_image: {} })).toThrow();
   expect(() =>
@@ -162,6 +195,78 @@ test("Core editor normalization preserves content and refuses a changed table va
   actual.slices[0].value.repeat[0].cell_1 = "Changed";
   expect(() => assertCorralUnchanged(actual, expected, "fixture")).toThrow();
 });
+test("Corral normalization preserves image precedence, media and recursive shapes", () => {
+  const image = {
+    url: "image",
+    origin: { id: "origin" },
+    width: 100,
+    height: 50,
+    kind: "file",
+  };
+  expect(normalizeCorral(image)).toEqual({
+    id: "origin",
+    url: "image",
+    alt: null,
+    dimensions: { width: 100, height: 50 },
+    edit: { background: "transparent", crop: { x: 0, y: 0 }, zoom: 1 },
+  });
+  const edit = { zoom: 2 };
+  expect(
+    normalizeCorral({
+      ...image,
+      id: "id",
+      alt: "alt",
+      dimensions: { width: 200, height: 80 },
+      edit,
+    }),
+  ).toEqual({
+    id: "id",
+    url: "image",
+    alt: "alt",
+    dimensions: { width: 200, height: 80 },
+    edit,
+  });
+  expect(
+    normalizeCorral({
+      link_type: "Media",
+      id: "file",
+      url: "https://prismic-io.s3.amazonaws.com/rancher/file",
+      name: "file",
+      size: 42,
+    }),
+  ).toEqual({
+    id: "file",
+    url: "https://rancher.cdn.prismic.io/rancher/file",
+    name: "file",
+    size: "42",
+  });
+  expect(
+    normalizeCorral([
+      null,
+      7,
+      {
+        date: "2026-09-16T13:00:00+0000",
+        invalid: "2026-99-99T00:00:00",
+        plain: "2026-09-16",
+      },
+    ]),
+  ).toEqual([
+    null,
+    7,
+    {
+      date: "2026-09-16T13:00:00.000Z",
+      invalid: "2026-99-99T00:00:00",
+      plain: "2026-09-16",
+    },
+  ]);
+  expect(
+    normalizeCorral({
+      key: "text$uuid",
+      value: { "non-repeat": { title: "Title" } },
+    }),
+  ).toEqual({ slice_type: "text", primary: { title: "Title" }, items: [] });
+});
+
 test("Content Engine accepts the explicit Rancher contract extension and blocks unapproved publication", async () => {
   const article = JSON.parse(
     await readFile("content/corral/articles/corral-01.json", "utf8"),

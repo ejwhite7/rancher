@@ -8,27 +8,32 @@ import {
   supportedPreviewPath,
 } from "../../lib/preview";
 export const prerender = false;
-export const GET: APIRoute = async ({ url, cookies, redirect }) => {
+function previewEntry({ cookies, redirect }: Parameters<APIRoute>[0]) {
+  if (cookies.has(PREVIEW_COOKIE)) {
+    const response = redirect("/preview/view/", 302);
+    for (const [k, v] of Object.entries(previewHeaders))
+      response.headers.set(k, v);
+    return response;
+  }
+  return new Response(
+    '<!doctype html><html lang="en"><head><meta name="robots" content="noindex"><title>Prismic preview</title></head><body><h1>Prismic preview is ready</h1><p>Open a document in Prismic and select Preview to view unpublished content.</p><a href="/">Return to the website</a></body></html>',
+    {
+      headers: {
+        ...previewHeaders,
+        "Content-Type": "text/html; charset=utf-8",
+      },
+    },
+  );
+}
+function validPreviewInput(token: string | null, documentID: string | null) {
+  return token && documentID && validPreviewToken(token);
+}
+export const GET: APIRoute = async (context) => {
+  const { url, cookies, redirect } = context;
   const token = url.searchParams.get("token");
   const documentID = url.searchParams.get("documentId");
-  if (!token && !documentID) {
-    if (cookies.has(PREVIEW_COOKIE)) {
-      const response = redirect("/preview/view/", 302);
-      for (const [k, v] of Object.entries(previewHeaders))
-        response.headers.set(k, v);
-      return response;
-    }
-    return new Response(
-      '<!doctype html><html lang="en"><head><meta name="robots" content="noindex"><title>Prismic preview</title></head><body><h1>Prismic preview is ready</h1><p>Open a document in Prismic and select Preview to view unpublished content.</p><a href="/">Return to the website</a></body></html>',
-      {
-        headers: {
-          ...previewHeaders,
-          "Content-Type": "text/html; charset=utf-8",
-        },
-      },
-    );
-  }
-  if (!token || !documentID || !validPreviewToken(token))
+  if (!token && !documentID) return previewEntry(context);
+  if (!validPreviewInput(token, documentID))
     return new Response("A valid Prismic token and documentId are required.", {
       status: 400,
       headers: previewHeaders,
@@ -36,14 +41,14 @@ export const GET: APIRoute = async ({ url, cookies, redirect }) => {
   try {
     const client = createPreviewClient();
     const path = await client.resolvePreviewURL({
-      previewToken: token,
-      documentID,
+      previewToken: token!,
+      documentID: documentID!,
       defaultURL: "/",
       linkResolver: previewLinkResolver,
     });
     if (!supportedPreviewPath(path))
       throw new Error("Unsupported preview path.");
-    cookies.set(PREVIEW_COOKIE, token, {
+    cookies.set(PREVIEW_COOKIE, token!, {
       path: "/",
       sameSite: "lax",
       secure: url.protocol === "https:",

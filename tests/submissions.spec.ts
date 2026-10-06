@@ -72,7 +72,9 @@ test("appends newly created submissions to the sheet once", async () => {
   const dependencies = {
     bookingUrl: () => booking,
     capture: async () => {},
-    syncSheet: async () => { appended++; },
+    syncSheet: async () => {
+      appended++;
+    },
   };
   await handleSubmission(request(valid), {
     ...dependencies,
@@ -90,6 +92,46 @@ test("appends newly created submissions to the sheet once", async () => {
     }),
   });
   expect(appended).toBe(1);
+});
+
+test("preserves saved consent and save-capture-sheet ordering and failure boundaries", async () => {
+  for (const failure of [null, "capture", "sheet"] as const) {
+    const order: string[] = [];
+    const evidence = {
+      consentVersion: "stored-version",
+      consentRecordedAt: "2026-09-19T12:00:00Z",
+      created: true,
+    };
+    const response = await handleSubmission(request(valid), {
+      bookingUrl: () => booking,
+      save: async () => {
+        order.push("save");
+        return evidence;
+      },
+      capture: async (_submission, _request, consent) => {
+        order.push("capture");
+        expect(consent).toBe(evidence);
+        if (failure === "capture") throw new Error("capture failed");
+      },
+      syncSheet: async () => {
+        order.push("sheet");
+        if (failure === "sheet") throw new Error("sheet failed");
+      },
+    });
+    expect(order).toEqual(
+      failure === "capture"
+        ? ["save", "capture"]
+        : ["save", "capture", "sheet"],
+    );
+    expect(response.status).toBe(failure ? 503 : 201);
+    const body = await response.json();
+    if (failure) expect(body).not.toHaveProperty("redirectUrl");
+    else
+      expect(body).toMatchObject({
+        consentVersion: evidence.consentVersion,
+        consentRecordedAt: evidence.consentRecordedAt,
+      });
+  }
 });
 
 test("preserves booking parameters and omits an unavailable phone", async () => {
@@ -246,6 +288,81 @@ test("rejects cross-origin and oversized requests without writing", async () => 
   expect(writes).toBe(0);
 });
 
+test("preserves streamed body boundaries and read-error responses", async () => {
+  let writes = 0;
+  const dependencies = {
+    bookingUrl: () => booking,
+    save: async () => {
+      writes++;
+    },
+  };
+  const streamed = (body: ReadableStream<Uint8Array> | null) =>
+    new Request("https://rancher.example/api/submissions/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+      duplex: "half",
+    } as RequestInit);
+  const bytes = new TextEncoder().encode(JSON.stringify(valid));
+  const boundary = new Uint8Array(16_384).fill(32);
+  boundary.set(bytes);
+  const accepted = await handleSubmission(
+    streamed(
+      new ReadableStream({
+        start(controller) {
+          controller.enqueue(boundary.slice(0, 100));
+          controller.enqueue(boundary.slice(100));
+          controller.close();
+        },
+      }),
+    ),
+    dependencies,
+  );
+  expect(accepted.status).toBe(201);
+  let cancelled = false;
+  const oversized = await handleSubmission(
+    streamed(
+      new ReadableStream({
+        start(controller) {
+          controller.enqueue(new Uint8Array(16_385));
+        },
+        cancel() {
+          cancelled = true;
+        },
+      }),
+    ),
+    dependencies,
+  );
+  expect(oversized.status).toBe(413);
+  expect(await oversized.json()).toEqual({ error: "Submission is too large." });
+  expect(cancelled).toBe(true);
+  for (const body of [
+    null,
+    new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.error(new Error("read failure"));
+      },
+    }),
+    new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("{"));
+        controller.close();
+      },
+    }),
+  ]) {
+    const response = await handleSubmission(streamed(body), dependencies);
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({
+      error:
+        body === null
+          ? "Submission is empty."
+          : "Submission could not be read.",
+    });
+    expect(response.headers.get("Cache-Control")).toBe("no-store");
+  }
+  expect(writes).toBe(1);
+});
+
 test("database failures, conflicting retries, and invalid booking configuration do not redirect", async () => {
   for (const error of [new Error("DB unavailable"), new SubmissionConflict()]) {
     const response = await handleSubmission(request(valid), {
@@ -299,6 +416,7 @@ test("form displays the nonqualifying message without redirecting", async ({
     }),
   );
   await page.goto("/");
+  await expect(page.locator("#intake button")).toBeEnabled();
   await page.evaluate(() => {
     Object.assign(window, {
       partnershipAnalytics: [] as unknown[],
