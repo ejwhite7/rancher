@@ -1,0 +1,22 @@
+:root {
+  --motion-duration-fast: 200ms;
+  --motion-duration-medium: 400ms;
+  --motion-ease-interface: ease;
+}
+
+.brand-interactive {
+  transition:
+    transform var(--motion-duration-fast) var(--motion-ease-interface),
+    background-color var(--motion-duration-fast) var(--motion-ease-interface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

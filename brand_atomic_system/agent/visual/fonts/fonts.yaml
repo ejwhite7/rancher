@@ -1,0 +1,19 @@
+fonts:
+  - id: display-system
+    family: Georgia
+    fallbacks:
+      - Times New Roman
+      - serif
+    source: system
+    usage: Display headlines and major section headings at regular weight; italic is used selectively for emphasis.
+  - id: body-system
+    family: Arial
+    fallbacks:
+      - Helvetica
+      - sans-serif
+    source: system
+    usage: Body copy, navigation, labels, controls, data, and utility text.
+rules:
+  - Do not introduce webfont downloads without an approved brand change.
+  - Display headings use regular weight, tight tracking, and compact line height.
+  - Utility labels may use uppercase, bold weight, and increased tracking.

@@ -25,11 +25,20 @@ test("rejects unsupported inputs rather than extrapolating the benchmark", () =>
     [100, 21, "USA"],
     [NaN, 10, "USA"],
     [100, Infinity, "USA"],
+    [Infinity, 10, "USA"],
+    [-Infinity, 10, "USA"],
+    [100, NaN, "USA"],
+    [100, -Infinity, "USA"],
     [20.5, 10, "USA"],
+    [100, 10.5, "USA"],
     [100, 10, "Unknown"],
+    [100, 10, "toString"],
+    [100, 10, "__proto__"],
   ] as const) {
     expect(() => calculateEstimate(employees, years, region as Region)).toThrow(
-      RangeError,
+      new RangeError(
+        "Estimate inputs must be 20–200 employees, 3–20 years, and a supported region.",
+      ),
     );
   }
 });

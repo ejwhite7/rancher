@@ -1,9 +1,159 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { database } from "../src/server/database";
 import { saveSubmission, SubmissionConflict } from "../src/server/submissions";
 import type { Submission } from "../src/lib/submission";
+
+type Sql = ReturnType<typeof database>;
+
+async function verifyMigrationReruns(sql: Sql) {
+  const migrations = await Promise.all(
+    [
+      "001_partnership_submissions.sql",
+      "002_record_types_and_history.sql",
+      "003_company_size_referral.sql",
+      "004_submission_webhook_outbox.sql",
+      "005_job_title.sql",
+      "006_submission_domain.sql",
+      "007_contact_submissions.sql",
+      "008_contact_webhooks.sql",
+      "009_referral_submissions.sql",
+      "010_submission_attribution.sql",
+      "011_webhook_event_names.sql",
+      "012_phone_communications_consent.sql",
+      "013_structured_conversion_attribution.sql",
+      "014_small_company_sizes.sql",
+      "015_qualification_and_operating_history.sql",
+      "016_flatten_attribution_for_cdc.sql",
+      "018_business_active.sql",
+    ].map((file) => readFile(`db/migrations/${file}`, "utf8")),
+  );
+  for (let run = 0; run < 2; run++) {
+    await sql.begin(async (tx) => {
+      await tx.unsafe(migrations[0]);
+      await tx.unsafe(migrations[1]);
+    });
+  }
+  for (let run = 0; run < 2; run++) {
+    for (const migration of migrations.slice(2)) await sql.unsafe(migration);
+  }
+}
+
+async function verifyReferralAmounts(sql: Sql, row: Submission) {
+  for (const [size, amount] of [
+    ["1–10", 0],
+    ["11–19", 0],
+    ["20–49", 8000],
+    ["50–199", 14000],
+    ["200–499", 28000],
+    ["500–999", 42000],
+    ["1,000–4,999", 54000],
+    ["5,000+", 75000],
+  ] as const) {
+    const caseId = randomUUID();
+    try {
+      await saveSubmission({ ...row, idempotencyKey: caseId, size });
+      const [saved] =
+        await sql`SELECT referral_bonus_usd FROM rancher.partnership_submissions WHERE id = ${caseId}`;
+      expect(saved.referral_bonus_usd).toBe(amount);
+    } finally {
+      await sql`DELETE FROM rancher.partnership_submissions WHERE id = ${caseId}`;
+    }
+  }
+}
+
+async function verifyAttribution(sql: Sql, row: Submission) {
+  const id = row.idempotencyKey;
+  const [snapshot] =
+    await sql`SELECT * FROM rancher.submission_attribution WHERE submission_id = ${id}`;
+  expect(snapshot.email).toBe("test@example.com");
+  expect(snapshot.first_touch).toEqual(row.attribution.first);
+  expect(snapshot.first_source).toBe("google");
+  expect(snapshot.first_source_platform).toBe("google_ads");
+  expect(snapshot.first_marketing_tactic).toBe("prospecting");
+  expect(snapshot.first_network).toBe("search");
+  expect(snapshot.last_source).toBe("linkedin");
+  expect(snapshot.last_source_platform).toBe("linkedin_ads");
+  expect(snapshot.last_network).toBeNull();
+  const primaryKeys = await sql`
+      SELECT relation.relname AS table_name,
+             array_agg(attribute.attname ORDER BY key_column.ordinality) AS columns
+      FROM pg_constraint constraint_record
+      JOIN pg_class relation ON relation.oid = constraint_record.conrelid
+      JOIN pg_namespace namespace ON namespace.oid = relation.relnamespace
+      CROSS JOIN LATERAL unnest(constraint_record.conkey)
+        WITH ORDINALITY AS key_column(attribute_number, ordinality)
+      JOIN pg_attribute attribute
+        ON attribute.attrelid = relation.oid
+       AND attribute.attnum = key_column.attribute_number
+      WHERE namespace.nspname = 'rancher'
+        AND relation.relname IN ('submission_attribution', 'user_attribution')
+        AND constraint_record.contype = 'p'
+      GROUP BY relation.relname
+      ORDER BY relation.relname
+    `;
+  expect(primaryKeys).toEqual([
+    { table_name: "submission_attribution", columns: ["submission_id"] },
+    { table_name: "user_attribution", columns: ["email"] },
+  ]);
+  const [initialUserAttribution] =
+    await sql`SELECT * FROM rancher.user_attribution WHERE email = 'test@example.com'`;
+  expect(initialUserAttribution.partnership_submission_id).toBe(id);
+  expect(initialUserAttribution.partnership_last_touch).toEqual(
+    row.attribution.last,
+  );
+  expect(initialUserAttribution.first_campaignid).toBe("campaign-123");
+  expect(initialUserAttribution.partnership_first_adgroupid).toBe("ag-123");
+  expect(initialUserAttribution.partnership_last_source_platform).toBe(
+    "linkedin_ads",
+  );
+  const laterId = randomUUID();
+  await sql`SELECT rancher.record_submission_attribution(
+      'test@example.com', ${laterId}, 'contact',
+      ${sql.json({ source: "ignored-first" })},
+      ${sql.json({ source: "newsletter", medium: "email" })}
+    )`;
+  const [updatedUserAttribution] =
+    await sql`SELECT * FROM rancher.user_attribution WHERE email = 'test@example.com'`;
+  expect(updatedUserAttribution.first_touch).toEqual(row.attribution.first);
+  expect(updatedUserAttribution.last_touch).toEqual({
+    source: "newsletter",
+    medium: "email",
+  });
+  expect(updatedUserAttribution.last_source).toBe("newsletter");
+  expect(updatedUserAttribution.last_medium).toBe("email");
+  expect(updatedUserAttribution.last_source_platform).toBeNull();
+  expect(updatedUserAttribution.first_source_platform).toBe("google_ads");
+  expect(updatedUserAttribution.partnership_submission_id).toBe(id);
+}
+
+async function submitBrowserRequest(page: Page, browserEmail: string) {
+  await page.route("https://cal.com/rancher/discovery**", (route) =>
+    route.fulfill({ body: "Booking calendar" }),
+  );
+  await page.goto("/");
+  await expect(page.locator("#intake button")).toBeEnabled();
+  await page.getByLabel("Your name").fill("Automated browser test");
+  await page.getByLabel("Work email").fill(browserEmail);
+  await page.getByLabel("Job title").fill("VP of Operations");
+  await page
+    .getByLabel("Company", { exact: true })
+    .fill("Synthetic test company");
+  await page.locator('[name="size"]').selectOption("20–49");
+  await page.locator('[name="history"]').selectOption("3–5 years");
+  await page.getByLabel("Documents & files", { exact: true }).check();
+  await page
+    .locator('[name="records"]')
+    .fill("Synthetic browser persistence test");
+  await page.getByRole("button", { name: "Submit & book a call" }).click();
+  await expect(page).toHaveURL(
+    (url) =>
+      `${url.origin}${url.pathname}` === "https://cal.com/rancher/discovery" &&
+      url.searchParams.get("name") === "Automated browser test" &&
+      url.searchParams.get("email") === browserEmail,
+  );
+}
 
 // Opt-in only: this test creates a read-only test role in an isolated local DB.
 test.skip(
@@ -66,183 +216,21 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     scenario: { employees: 100, years: 10, country: "Canada" },
   };
   try {
-    const migration = await readFile(
-      "db/migrations/001_partnership_submissions.sql",
-      "utf8",
-    );
-    await sql.begin(async (tx) => {
-      await tx.unsafe(migration);
-      await tx.unsafe(
-        await readFile(
-          "db/migrations/002_record_types_and_history.sql",
-          "utf8",
-        ),
-      );
-    });
-    await sql.begin(async (tx) => {
-      await tx.unsafe(migration);
-      await tx.unsafe(
-        await readFile(
-          "db/migrations/002_record_types_and_history.sql",
-          "utf8",
-        ),
-      );
-    });
-    for (let run = 0; run < 2; run++) {
-      await sql.unsafe(
-        await readFile("db/migrations/003_company_size_referral.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile(
-          "db/migrations/004_submission_webhook_outbox.sql",
-          "utf8",
-        ),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/005_job_title.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/006_submission_domain.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/007_contact_submissions.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/008_contact_webhooks.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/009_referral_submissions.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/010_submission_attribution.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/011_webhook_event_names.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile(
-          "db/migrations/012_phone_communications_consent.sql",
-          "utf8",
-        ),
-      );
-      await sql.unsafe(
-        await readFile(
-          "db/migrations/013_structured_conversion_attribution.sql",
-          "utf8",
-        ),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/014_small_company_sizes.sql", "utf8"),
-      );
-      await sql.unsafe(
-        await readFile(
-          "db/migrations/015_qualification_and_operating_history.sql",
-          "utf8",
-        ),
-      );
-      await sql.unsafe(
-        await readFile(
-          "db/migrations/016_flatten_attribution_for_cdc.sql",
-          "utf8",
-        ),
-      );
-      await sql.unsafe(
-        await readFile("db/migrations/018_business_active.sql", "utf8"),
-      );
-    }
+    await verifyMigrationReruns(sql);
     await Promise.all([saveSubmission(row), saveSubmission(row)]);
     const records =
       await sql`SELECT * FROM rancher.partnership_submissions WHERE id = ${id}`;
     expect(records).toHaveLength(1);
     expect(records[0].company).toBe(row.company);
     expect(records[0].referral_bonus_usd).toBe(8000);
-    for (const [size, amount] of [
-      ["1–10", 0],
-      ["11–19", 0],
-      ["20–49", 8000],
-      ["50–199", 14000],
-      ["200–499", 28000],
-      ["500–999", 42000],
-      ["1,000–4,999", 54000],
-      ["5,000+", 75000],
-    ] as const) {
-      const caseId = randomUUID();
-      try {
-        await saveSubmission({ ...row, idempotencyKey: caseId, size });
-        const [saved] =
-          await sql`SELECT referral_bonus_usd FROM rancher.partnership_submissions WHERE id = ${caseId}`;
-        expect(saved.referral_bonus_usd).toBe(amount);
-      } finally {
-        await sql`DELETE FROM rancher.partnership_submissions WHERE id = ${caseId}`;
-      }
-    }
+    await verifyReferralAmounts(sql, row);
     expect(records[0].calculator_scenario.estimate.low).toBe(287313);
     expect(records[0].phone_e164).toBe("+12125550123");
     expect(records[0].outreach_consent).toBe(true);
     expect(records[0].consent_prechecked).toBe(false);
     expect(records[0].consent_version).toBe("communications-v1-2026-09-19");
     expect(records[0].consent_recorded_at).toBeTruthy();
-    const [snapshot] =
-      await sql`SELECT * FROM rancher.submission_attribution WHERE submission_id = ${id}`;
-    expect(snapshot.email).toBe("test@example.com");
-    expect(snapshot.first_touch).toEqual(row.attribution.first);
-    expect(snapshot.first_source).toBe("google");
-    expect(snapshot.first_source_platform).toBe("google_ads");
-    expect(snapshot.first_marketing_tactic).toBe("prospecting");
-    expect(snapshot.first_network).toBe("search");
-    expect(snapshot.last_source).toBe("linkedin");
-    expect(snapshot.last_source_platform).toBe("linkedin_ads");
-    expect(snapshot.last_network).toBeNull();
-    const primaryKeys = await sql`
-      SELECT relation.relname AS table_name,
-             array_agg(attribute.attname ORDER BY key_column.ordinality) AS columns
-      FROM pg_constraint constraint_record
-      JOIN pg_class relation ON relation.oid = constraint_record.conrelid
-      JOIN pg_namespace namespace ON namespace.oid = relation.relnamespace
-      CROSS JOIN LATERAL unnest(constraint_record.conkey)
-        WITH ORDINALITY AS key_column(attribute_number, ordinality)
-      JOIN pg_attribute attribute
-        ON attribute.attrelid = relation.oid
-       AND attribute.attnum = key_column.attribute_number
-      WHERE namespace.nspname = 'rancher'
-        AND relation.relname IN ('submission_attribution', 'user_attribution')
-        AND constraint_record.contype = 'p'
-      GROUP BY relation.relname
-      ORDER BY relation.relname
-    `;
-    expect(primaryKeys).toEqual([
-      { table_name: "submission_attribution", columns: ["submission_id"] },
-      { table_name: "user_attribution", columns: ["email"] },
-    ]);
-    const [initialUserAttribution] =
-      await sql`SELECT * FROM rancher.user_attribution WHERE email = 'test@example.com'`;
-    expect(initialUserAttribution.partnership_submission_id).toBe(id);
-    expect(initialUserAttribution.partnership_last_touch).toEqual(
-      row.attribution.last,
-    );
-    expect(initialUserAttribution.first_campaignid).toBe("campaign-123");
-    expect(initialUserAttribution.partnership_first_adgroupid).toBe("ag-123");
-    expect(initialUserAttribution.partnership_last_source_platform).toBe(
-      "linkedin_ads",
-    );
-    const laterId = randomUUID();
-    await sql`SELECT rancher.record_submission_attribution(
-      'test@example.com', ${laterId}, 'contact',
-      ${sql.json({ source: "ignored-first" })},
-      ${sql.json({ source: "newsletter", medium: "email" })}
-    )`;
-    const [updatedUserAttribution] =
-      await sql`SELECT * FROM rancher.user_attribution WHERE email = 'test@example.com'`;
-    expect(updatedUserAttribution.first_touch).toEqual(row.attribution.first);
-    expect(updatedUserAttribution.last_touch).toEqual({
-      source: "newsletter",
-      medium: "email",
-    });
-    expect(updatedUserAttribution.last_source).toBe("newsletter");
-    expect(updatedUserAttribution.last_medium).toBe("email");
-    expect(updatedUserAttribution.last_source_platform).toBeNull();
-    expect(updatedUserAttribution.first_source_platform).toBe("google_ads");
-    expect(updatedUserAttribution.partnership_submission_id).toBe(id);
+    await verifyAttribution(sql, row);
     await expect(
       saveSubmission({ ...row, company: "Different company" }),
     ).rejects.toBeInstanceOf(SubmissionConflict);
@@ -257,31 +245,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
         await tx`SELECT * FROM rancher.partnership_submissions`,
       ).toHaveLength(0);
     });
-    await page.route("https://cal.com/rancher/discovery", (route) =>
-      route.fulfill({ body: "Booking calendar" }),
-    );
-    await page.goto("/");
-    await expect(page.locator("#intake button")).toBeEnabled();
-    await page.getByLabel("Your name").fill("Automated browser test");
-    await page.getByLabel("Work email").fill(browserEmail);
-    await page.getByLabel("Job title").fill("VP of Operations");
-    await page
-      .getByLabel("Company", { exact: true })
-      .fill("Synthetic test company");
-    await page.locator('[name="size"]').selectOption("20–49");
-    await page.locator('[name="history"]').selectOption("3–5 years");
-    await page.getByLabel("Documents & files", { exact: true }).check();
-    await page
-      .locator('[name="records"]')
-      .fill("Synthetic browser persistence test");
-    await page.getByRole("button", { name: "Submit & book a call" }).click();
-    await expect(page).toHaveURL(
-      (url) =>
-        `${url.origin}${url.pathname}` ===
-          "https://cal.com/rancher/discovery" &&
-        url.searchParams.get("name") === "Automated browser test" &&
-        url.searchParams.get("email") === browserEmail,
-    );
+    await submitBrowserRequest(page, browserEmail);
     const browserRows =
       await sql`SELECT * FROM rancher.partnership_submissions WHERE email = ${browserEmail}`;
     expect(browserRows).toHaveLength(1);

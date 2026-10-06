@@ -1,22 +1,7 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import handshakeCases from "./fixtures/handshake-calculator.json" with { type: "json" };
 
-test("provides an empty in-flow mount for the paid-campaign notification", async ({
-  page,
-}) => {
-  await page.goto("/");
-  const notificationBar = page.locator("#notification-bar");
-  await expect(notificationBar).toHaveCount(1);
-  await expect(notificationBar).toBeEmpty();
-  await expect(notificationBar).toHaveAttribute("aria-live", "polite");
-  await expect(notificationBar).toHaveCSS("height", "0px");
-});
-
-test("calculator updates reference scenarios and submits before redirecting", async ({
-  page,
-}) => {
-  let submitted: Record<string, any> | undefined;
-  let submissionHeaders: Record<string, string> = {};
+async function recordBrowserAnalytics(page: Page) {
   const posthogCalls: unknown[][] = [];
   const dataLayerCalls: Record<string, unknown>[] = [];
   page.on("console", (message) => {
@@ -45,6 +30,101 @@ test("calculator updates reference scenarios and submits before redirecting", as
     };
     (window as any).dataLayer = dataLayer;
   });
+  return { posthogCalls, dataLayerCalls };
+}
+
+function expectPartnershipAnalytics(
+  submitted: Record<string, any> | undefined,
+  posthogCalls: unknown[][],
+  dataLayerCalls: Record<string, unknown>[],
+) {
+  expect(posthogCalls).toContainEqual([
+    "capture",
+    "partnership_explored",
+    {
+      employee_count: "200_plus",
+      history_years: "20_plus",
+      company_region: "Canada",
+      estimate_below_floor: false,
+      estimate_open_ended: true,
+    },
+  ]);
+  expect(posthogCalls).toContainEqual([
+    "identify",
+    "alex@example.com",
+    {
+      email: "alex@example.com",
+      first_name: "Alex",
+      last_name: "Morgan",
+      company: "Example Company",
+      domain: "example.com",
+      job_title: "VP of Operations",
+      phone: "+12125550123",
+      communications_consent: true,
+      consent_version: "communications-v1-2026-09-19",
+      consent_recorded_at: "2026-09-20T18:00:00.000Z",
+    },
+  ]);
+  expect(
+    posthogCalls.filter(
+      (call) =>
+        call[0] === "capture" && call[1] === "partnership_request_submitted",
+    ),
+  ).toEqual([]);
+  expect(dataLayerCalls).toContainEqual(
+    expect.objectContaining({
+      event: "partnership_explored",
+      employee_count: "200_plus",
+      history_years: "20_plus",
+      company_region: "Canada",
+    }),
+  );
+  expect(dataLayerCalls).toContainEqual(
+    expect.objectContaining({
+      event: "partnership_request_submitted",
+      event_id: submitted?.idempotencyKey,
+      submission_id: submitted?.idempotencyKey,
+      referral_bonus_usd: 75000,
+      attribution: submitted?.attribution,
+      user_data: {
+        email_address: "alex@example.com",
+        address: {
+          first_name: "alex",
+          last_name: "morgan",
+        },
+      },
+      eventModel: {
+        currency: "USD",
+        value: 75000,
+        user_data: {
+          email_address: "alex@example.com",
+          address: {
+            first_name: "alex",
+            last_name: "morgan",
+          },
+        },
+      },
+    }),
+  );
+}
+
+test("provides an empty in-flow mount for the paid-campaign notification", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const notificationBar = page.locator("#notification-bar");
+  await expect(notificationBar).toHaveCount(1);
+  await expect(notificationBar).toBeEmpty();
+  await expect(notificationBar).toHaveAttribute("aria-live", "polite");
+  await expect(notificationBar).toHaveCSS("height", "0px");
+});
+
+test("calculator updates reference scenarios and submits before redirecting", async ({
+  page,
+}) => {
+  let submitted: Record<string, any> | undefined;
+  let submissionHeaders: Record<string, string> = {};
+  const { posthogCalls, dataLayerCalls } = await recordBrowserAnalytics(page);
   await page.route("**/api/submissions/", async (route) => {
     submitted = route.request().postDataJSON();
     submissionHeaders = await route.request().allHeaders();
@@ -147,74 +227,7 @@ test("calculator updates reference scenarios and submits before redirecting", as
       content: "hero",
     },
   });
-  expect(posthogCalls).toContainEqual([
-    "capture",
-    "partnership_explored",
-    {
-      employee_count: "200_plus",
-      history_years: "20_plus",
-      company_region: "Canada",
-      estimate_below_floor: false,
-      estimate_open_ended: true,
-    },
-  ]);
-  expect(posthogCalls).toContainEqual([
-    "identify",
-    "alex@example.com",
-    {
-      email: "alex@example.com",
-      first_name: "Alex",
-      last_name: "Morgan",
-      company: "Example Company",
-      domain: "example.com",
-      job_title: "VP of Operations",
-      phone: "+12125550123",
-      communications_consent: true,
-      consent_version: "communications-v1-2026-09-19",
-      consent_recorded_at: "2026-09-20T18:00:00.000Z",
-    },
-  ]);
-  expect(
-    posthogCalls.filter(
-      (call) =>
-        call[0] === "capture" && call[1] === "partnership_request_submitted",
-    ),
-  ).toEqual([]);
-  expect(dataLayerCalls).toContainEqual(
-    expect.objectContaining({
-      event: "partnership_explored",
-      employee_count: "200_plus",
-      history_years: "20_plus",
-      company_region: "Canada",
-    }),
-  );
-  expect(dataLayerCalls).toContainEqual(
-    expect.objectContaining({
-      event: "partnership_request_submitted",
-      event_id: submitted?.idempotencyKey,
-      submission_id: submitted?.idempotencyKey,
-      referral_bonus_usd: 75000,
-      attribution: submitted?.attribution,
-      user_data: {
-        email_address: "alex@example.com",
-        address: {
-          first_name: "alex",
-          last_name: "morgan",
-        },
-      },
-      eventModel: {
-        currency: "USD",
-        value: 75000,
-        user_data: {
-          email_address: "alex@example.com",
-          address: {
-            first_name: "alex",
-            last_name: "morgan",
-          },
-        },
-      },
-    }),
-  );
+  expectPartnershipAnalytics(submitted, posthogCalls, dataLayerCalls);
   expect(range).toContain("$");
   expect(errors).toEqual([]);
 });

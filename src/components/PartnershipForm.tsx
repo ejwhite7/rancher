@@ -1,5 +1,12 @@
 import type { FormContent } from "../lib/content";
-import { useEffect, useRef, useState, type SubmitEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+  type SubmitEvent,
+} from "react";
 import { useScenario } from "../lib/scenario";
 import { HISTORY_RANGES, RECORD_TYPES, TEAM_SIZES } from "../lib/submission";
 import { EMPLOYEES } from "../lib/estimate";
@@ -9,6 +16,155 @@ import {
   attributionPersonProperties,
 } from "../lib/attribution";
 import AttributionFields from "./AttributionFields";
+function historyRange(years: number) {
+  if (years <= 5) return "3–5 years";
+  if (years <= 10) return "6–10 years";
+  if (years <= 15) return "11–15 years";
+  if (years < 20) return "16–19 years";
+  return "20+ years";
+}
+
+function PartnershipFields({
+  copy,
+  size,
+  setSize,
+  history,
+  setHistory,
+  recordTypes,
+  setRecordTypes,
+}: {
+  copy: FormContent;
+  size: string;
+  setSize: Dispatch<SetStateAction<string>>;
+  history: string;
+  setHistory: Dispatch<SetStateAction<string>>;
+  recordTypes: string[];
+  setRecordTypes: Dispatch<SetStateAction<string[]>>;
+}) {
+  return (
+    <div className="form-grid">
+      <label>
+        {copy.name_label}
+        <input
+          name="name"
+          autoComplete="name"
+          placeholder={copy.name_placeholder}
+          required
+          maxLength={120}
+        />
+      </label>
+      <label>
+        {copy.email_label}
+        <input
+          name="email"
+          type="email"
+          autoComplete="email"
+          placeholder={copy.email_placeholder}
+          required
+          maxLength={180}
+        />
+      </label>
+      <label>
+        {copy.job_title_label}
+        <input
+          name="title"
+          autoComplete="organization-title"
+          placeholder={copy.job_title_placeholder}
+          required
+          maxLength={120}
+        />
+      </label>
+      <label>
+        {copy.company_label}
+        <input
+          name="company"
+          autoComplete="organization"
+          placeholder={copy.company_placeholder}
+          required
+          maxLength={180}
+        />
+      </label>
+      <label>
+        {copy.size_label}
+        <select
+          name="size"
+          required
+          value={size}
+          onChange={(event) => setSize(event.target.value)}
+        >
+          <option value="">{copy.select_placeholder}</option>
+          {TEAM_SIZES.map((range) => (
+            <option key={range}>{range}</option>
+          ))}
+        </select>
+      </label>
+      <label>
+        {copy.history_label}
+        <select
+          name="history"
+          required
+          value={history}
+          onChange={(event) => setHistory(event.target.value)}
+        >
+          <option value="">{copy.select_placeholder}</option>
+          {HISTORY_RANGES.map((range) => (
+            <option key={range}>{range}</option>
+          ))}
+        </select>
+      </label>
+      <label className="consent full">
+        <input type="checkbox" name="is_business_active" value="yes" />
+        <span>Is this business active?</span>
+      </label>
+      <fieldset className="record-types full">
+        <legend>{copy.records_label}</legend>
+        <p>{copy.records_hint}</p>
+        <div className="record-type-options">
+          {RECORD_TYPES.map((type, index) => (
+            <label key={type}>
+              <input
+                type="checkbox"
+                name="recordTypes"
+                value={type}
+                checked={recordTypes.includes(type)}
+                required={index === 0 && recordTypes.length === 0}
+                onChange={(event) =>
+                  setRecordTypes((current) =>
+                    event.target.checked
+                      ? [...current, type]
+                      : current.filter((value) => value !== type),
+                  )
+                }
+              />
+              <span>{type}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <label>
+        US phone number <span className="optional">Optional</span>
+        <input
+          name="phone"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel-national"
+          placeholder="(555) 555-0123"
+          maxLength={40}
+        />
+      </label>
+      <label className="full">
+        {copy.context_label}{" "}
+        <span className="optional">{copy.optional_label}</span>
+        <textarea
+          name="records"
+          placeholder={copy.context_placeholder}
+          maxLength={2000}
+        ></textarea>
+      </label>
+    </div>
+  );
+}
+
 export default function PartnershipForm({ copy }: { copy: FormContent }) {
   const scenario = useScenario();
   const [size, setSize] = useState("");
@@ -28,17 +184,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
       // The 200+ slider limit does not identify an actual team-size band.
       employees === EMPLOYEES.max ? "" : employees < 50 ? "20–49" : "50–199",
     );
-    setHistory(
-      years <= 5
-        ? "3–5 years"
-        : years <= 10
-          ? "6–10 years"
-          : years <= 15
-            ? "11–15 years"
-            : years < 20
-              ? "16–19 years"
-              : "20+ years",
-    );
+    setHistory(historyRange(years));
   }, [scenario]);
   async function submitRequest(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -207,126 +353,15 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
             <input name="website" autoComplete="off" tabIndex={-1} />
           </label>
         </div>
-        <div className="form-grid">
-          <label>
-            {copy.name_label}
-            <input
-              name="name"
-              autoComplete="name"
-              placeholder={copy.name_placeholder}
-              required
-              maxLength={120}
-            />
-          </label>
-          <label>
-            {copy.email_label}
-            <input
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder={copy.email_placeholder}
-              required
-              maxLength={180}
-            />
-          </label>
-          <label>
-            {copy.job_title_label}
-            <input
-              name="title"
-              autoComplete="organization-title"
-              placeholder={copy.job_title_placeholder}
-              required
-              maxLength={120}
-            />
-          </label>
-          <label>
-            {copy.company_label}
-            <input
-              name="company"
-              autoComplete="organization"
-              placeholder={copy.company_placeholder}
-              required
-              maxLength={180}
-            />
-          </label>
-          <label>
-            {copy.size_label}
-            <select
-              name="size"
-              required
-              value={size}
-              onChange={(event) => setSize(event.target.value)}
-            >
-              <option value="">{copy.select_placeholder}</option>
-              {TEAM_SIZES.map((range) => (
-                <option key={range}>{range}</option>
-              ))}
-            </select>
-          </label>
-          <label>
-            {copy.history_label}
-            <select
-              name="history"
-              required
-              value={history}
-              onChange={(event) => setHistory(event.target.value)}
-            >
-              <option value="">{copy.select_placeholder}</option>
-              {HISTORY_RANGES.map((range) => (
-                <option key={range}>{range}</option>
-              ))}
-            </select>
-          </label>
-          <label className="consent full">
-            <input type="checkbox" name="is_business_active" value="yes" />
-            <span>Is this business active?</span>
-          </label>
-          <fieldset className="record-types full">
-            <legend>{copy.records_label}</legend>
-            <p>{copy.records_hint}</p>
-            <div className="record-type-options">
-              {RECORD_TYPES.map((type, index) => (
-                <label key={type}>
-                  <input
-                    type="checkbox"
-                    name="recordTypes"
-                    value={type}
-                    checked={recordTypes.includes(type)}
-                    required={index === 0 && recordTypes.length === 0}
-                    onChange={(event) =>
-                      setRecordTypes((current) =>
-                        event.target.checked
-                          ? [...current, type]
-                          : current.filter((value) => value !== type),
-                      )
-                    }
-                  />
-                  <span>{type}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-          <label>
-            US phone number <span className="optional">Optional</span>
-            <input
-              name="phone"
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel-national"
-              placeholder="(555) 555-0123"
-              maxLength={40}
-            />
-          </label>
-          <label className="full">
-            {copy.context_label}{" "}
-            <span className="optional">{copy.optional_label}</span>
-            <textarea
-              name="records"
-              placeholder={copy.context_placeholder}
-              maxLength={2000}
-            ></textarea>
-          </label>
-        </div>
+        <PartnershipFields
+          copy={copy}
+          size={size}
+          setSize={setSize}
+          history={history}
+          setHistory={setHistory}
+          recordTypes={recordTypes}
+          setRecordTypes={setRecordTypes}
+        />
         <label className="consent">
           <input type="checkbox" name="communications_consent" value="yes" />
           <span>{copy.consent}</span>

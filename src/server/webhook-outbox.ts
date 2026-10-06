@@ -11,22 +11,73 @@ type Sql = ReturnType<typeof database>;
 
 export function hookdeckUrl(value: string | undefined): URL {
   const url = new URL(value || "");
-  if (
-    url.protocol !== "https:" ||
-    ![
-      "hkdk.events",
-      "events.hookdeck.com",
-      "hooks.gorancher.com",
-    ].includes(url.hostname) ||
-    url.username ||
-    url.password ||
-    url.port ||
-    url.hash ||
-    url.pathname === "/"
-  ) {
+  const validSource =
+    url.protocol === "https:" &&
+    ["hkdk.events", "events.hookdeck.com", "hooks.gorancher.com"].includes(
+      url.hostname,
+    ) &&
+    url.pathname !== "/";
+  const hasUnsafeParts = [url.username, url.password, url.port, url.hash].some(
+    Boolean,
+  );
+  if (!validSource || hasUnsafeParts) {
     throw new Error("Invalid Hookdeck source configuration");
   }
   return url;
+}
+
+function retryAfterSeconds(retry: string | null): number {
+  if (!retry) return 0;
+  const seconds = /^\d+$/.test(retry)
+    ? Number(retry)
+    : (Date.parse(retry) - Date.now()) / 1000;
+  return Number.isFinite(seconds) ? Math.max(0, Math.min(86400, seconds)) : 0;
+}
+
+async function deliverWebhook(
+  delivery: Delivery,
+  destination: URL,
+  sql: Sql,
+  send: typeof fetch,
+) {
+  let httpStatus: number | null = null;
+  let accepted = false;
+  let retryAfter = 0;
+  try {
+    const response = await send(destination, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Idempotency-Key": delivery.id,
+        "X-Rancher-Event-Id": delivery.id,
+      },
+      body: JSON.stringify(delivery.payload),
+      signal: AbortSignal.timeout(10_000),
+      redirect: "error",
+    });
+    httpStatus = response.status;
+    accepted = response.ok;
+    retryAfter = retryAfterSeconds(response.headers.get("retry-after"));
+    // Never persist response bodies, which may echo submitted personal information.
+    await response.body?.cancel();
+  } catch {
+    // Timeouts, redirects and network failures are retryable; don't log source URLs or payloads.
+  }
+  if (accepted) {
+    await sql`UPDATE rancher.webhook_outbox SET status = 'delivered', delivered_at = now(),
+        lease_token = NULL, lease_until = NULL, last_http_status = ${httpStatus}, last_error = NULL
+        WHERE id = ${delivery.id} AND status = 'processing' AND lease_token = ${delivery.lease_token}`;
+    return "delivered";
+  }
+  const failed = delivery.attempts >= MAX_ATTEMPTS;
+  const delay = Math.ceil(
+    Math.max(retryAfter, Math.min(3600, 60 * 2 ** (delivery.attempts - 1))),
+  );
+  await sql`UPDATE rancher.webhook_outbox SET status = ${failed ? "failed" : "pending"},
+      available_at = now() + ${delay} * interval '1 second', lease_token = NULL, lease_until = NULL,
+      last_http_status = ${httpStatus}, last_error = ${httpStatus === null ? "network_or_timeout" : "http_" + httpStatus}
+      WHERE id = ${delivery.id} AND status = 'processing' AND lease_token = ${delivery.lease_token}`;
+  return failed ? "failed" : "retrying";
 }
 
 export async function drainWebhookOutbox(
@@ -55,53 +106,9 @@ export async function drainWebhookOutbox(
     `;
   });
   const outcomes = await Promise.all(
-    deliveries.map(async (delivery) => {
-      let httpStatus: number | null = null;
-      let accepted = false;
-      let retryAfter = 0;
-      try {
-        const response = await send(destination, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Idempotency-Key": delivery.id,
-            "X-Rancher-Event-Id": delivery.id,
-          },
-          body: JSON.stringify(delivery.payload),
-          signal: AbortSignal.timeout(10_000),
-          redirect: "error",
-        });
-        httpStatus = response.status;
-        accepted = response.ok;
-        const retry = response.headers.get("retry-after");
-        if (retry) {
-          const seconds = /^\d+$/.test(retry)
-            ? Number(retry)
-            : (Date.parse(retry) - Date.now()) / 1000;
-          if (Number.isFinite(seconds))
-            retryAfter = Math.max(0, Math.min(86400, seconds));
-        }
-        // Never persist response bodies, which may echo submitted personal information.
-        await response.body?.cancel();
-      } catch {
-        // Timeouts, redirects and network failures are retryable; don't log source URLs or payloads.
-      }
-      if (accepted) {
-        await sql`UPDATE rancher.webhook_outbox SET status = 'delivered', delivered_at = now(),
-        lease_token = NULL, lease_until = NULL, last_http_status = ${httpStatus}, last_error = NULL
-        WHERE id = ${delivery.id} AND status = 'processing' AND lease_token = ${delivery.lease_token}`;
-        return "delivered";
-      }
-      const failed = delivery.attempts >= MAX_ATTEMPTS;
-      const delay = Math.ceil(
-        Math.max(retryAfter, Math.min(3600, 60 * 2 ** (delivery.attempts - 1))),
-      );
-      await sql`UPDATE rancher.webhook_outbox SET status = ${failed ? "failed" : "pending"},
-      available_at = now() + ${delay} * interval '1 second', lease_token = NULL, lease_until = NULL,
-      last_http_status = ${httpStatus}, last_error = ${httpStatus === null ? "network_or_timeout" : "http_" + httpStatus}
-      WHERE id = ${delivery.id} AND status = 'processing' AND lease_token = ${delivery.lease_token}`;
-      return failed ? "failed" : "retrying";
-    }),
+    deliveries.map((delivery) =>
+      deliverWebhook(delivery, destination, sql, send),
+    ),
   );
   return {
     claimed: deliveries.length,
