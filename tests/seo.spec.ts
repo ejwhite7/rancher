@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import {
   canonicalUrl,
+  clientAssetsDir,
   includeInStaticSitemap,
   isIndexableDeployment,
 } from "../src/lib/site";
@@ -60,4 +61,24 @@ test("deployment indexing is resolved at build time independently of private run
   expect(isIndexableDeployment("development", publicSite)).toBe(false);
   expect(isIndexableDeployment(undefined, local)).toBe(false);
   expect(isIndexableDeployment(undefined, publicSite)).toBe(true);
+});
+
+test("skew-protected deployments publish client assets under a deployment directory", () => {
+  const deployment = "dpl_8qogq8XpQinpaEQJHGYr6viLYRmk";
+  expect(
+    clientAssetsDir({
+      VERCEL_SKEW_PROTECTION_ENABLED: "1",
+      VERCEL_DEPLOYMENT_ID: deployment,
+    }),
+  ).toBe(`_astro/${deployment}`);
+  expect(clientAssetsDir({ VERCEL_DEPLOYMENT_ID: deployment })).toBe("_astro");
+  expect(clientAssetsDir({ VERCEL_SKEW_PROTECTION_ENABLED: "1" })).toBe(
+    "_astro",
+  );
+  expect(
+    clientAssetsDir({
+      VERCEL_SKEW_PROTECTION_ENABLED: "1",
+      VERCEL_DEPLOYMENT_ID: "../dpl",
+    }),
+  ).toBe("_astro");
 });
