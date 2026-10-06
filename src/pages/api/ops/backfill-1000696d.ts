@@ -30,7 +30,9 @@ export const POST: APIRoute = async () => {
     ];
     const existing = rows.findIndex((row) => row[2] === submission.email);
     const empty = rows.findIndex(
-      (row, index) => index > 0 && row.slice(0, 9).every((value) => !value),
+      (row, index) =>
+        index > 0 &&
+        [...row.slice(0, 6), row[7], row[8]].every((value) => !value),
     );
     const row = (empty < 0 ? rows.length : empty) + 1;
     if (existing === row - 1)
