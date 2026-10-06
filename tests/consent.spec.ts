@@ -36,6 +36,18 @@ test("offers persistent US opt-out choices and honors GPC", async ({
 
   await page.getByRole("button", { name: "Opt out" }).click();
   await expect(banner).not.toBeVisible();
+  const cookieButton = page.locator('[data-consent-tpl="settingsButton"]');
+  await expect(cookieButton).toHaveAttribute("role", "button");
+  await expect(cookieButton).toHaveAttribute("aria-label", "Cookie settings");
+  await expect(cookieButton).toHaveAttribute("aria-haspopup", "dialog");
+  await expect(cookieButton).toHaveAttribute("type", "button");
+  await cookieButton.focus();
+  await expect(cookieButton).toBeFocused();
+  await page.keyboard.press("Enter");
+  const cookieModal = page.locator('[data-consent-tpl="modal"]');
+  await expect(cookieModal).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(cookieModal).not.toBeVisible();
   const stored = JSON.parse(
     (await context.cookies()).find(
       (cookie) => cookie.name === "rancher_consent",

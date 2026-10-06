@@ -113,6 +113,15 @@ import "../styles/consent.css";
     },
     onInit(settings: Record<string, boolean>) {
       advertising = settings.advertising;
+      const cookieButton = document.querySelector<HTMLButtonElement>(
+        '[data-consent-tpl="settingsButton"]',
+      );
+      if (cookieButton) {
+        cookieButton.type = "button";
+        cookieButton.setAttribute("role", "button");
+        cookieButton.setAttribute("aria-label", "Cookie settings");
+        cookieButton.setAttribute("aria-haspopup", "dialog");
+      }
       document
         .querySelector('[data-consent-tpl="modal"]')
         ?.setAttribute("aria-modal", "true");

@@ -6,6 +6,14 @@
   "regions": ["iad1"],
   "rewrites": [
     {
+      "source": "/ingest/i/v1/logs{/}?",
+      "destination": "https://us.i.posthog.com/i/v1/logs"
+    },
+    {
+      "source": "/ingest/api/conversations/:path(.*[^/]){/}?",
+      "destination": "https://us.i.posthog.com/api/conversations/:path"
+    },
+    {
       "source": "/ingest/static/:path(.*)",
       "destination": "https://us-assets.i.posthog.com/static/:path"
     },
