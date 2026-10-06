@@ -16,10 +16,7 @@ export const POST: APIRoute = async () => {
   `;
   if (!submission) return Response.json({ error: "missing" }, { status: 404 });
   const rows = await readDealsSheet();
-  const existing = rows.findIndex((row) => row[2] === submission.email);
-  if (existing >= 0) return Response.json({ found: true, row: existing + 1 });
-  const row = rows.length + 1;
-  await writeSheetRow(row, [
+  const values = [
     submission.company,
     submission.name,
     submission.email,
@@ -31,6 +28,16 @@ export const POST: APIRoute = async () => {
       .filter(Boolean)
       .join("; "),
     String(submission.business_active),
-  ]);
-  return Response.json({ found: false, added: true, row });
+  ];
+  const existing = rows.findIndex((row) => row[2] === submission.email);
+  const empty = rows.findIndex(
+    (row, index) => index > 0 && row.slice(0, 9).every((value) => !value),
+  );
+  const row = (empty < 0 ? rows.length : empty) + 1;
+  if (existing === row - 1)
+    return Response.json({ found: true, row: existing + 1 });
+  await writeSheetRow(row, values);
+  if (existing >= 0)
+    await writeSheetRow(existing + 1, Array<string>(9).fill(""));
+  return Response.json({ moved: existing >= 0, row });
 };
