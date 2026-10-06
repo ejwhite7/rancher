@@ -101,9 +101,13 @@ export async function writeSheetRow(
       signal: AbortSignal.timeout(10_000),
     },
   );
+  if (!response.ok) {
+    const body = (await response.json()) as { error?: { message?: string } };
+    throw new Error(
+      `Google Sheets update failed (${response.status}): ${body.error?.message || "unknown"}`,
+    );
+  }
   await response.body?.cancel();
-  if (!response.ok)
-    throw new Error(`Google Sheets update failed (${response.status})`);
 }
 
 async function appendRow(values: string[], send: typeof fetch = fetch) {
