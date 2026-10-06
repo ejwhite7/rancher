@@ -339,6 +339,11 @@ Attributor.prototype = {
 
     });
 
+    ['gclid', 'gclsrc', 'dclid', 'wbraid', 'gbraid', 'gad_source', 'fbclid', 'msclkid', 'li_fat_id', 'ttclid', 'twclid'].forEach(function(item) {
+      if (_self.parameters.has(item))
+        parsed[item] = _self.parameters.get(item);
+    });
+
     // Forcing proper source/mediums for autotagging in case manual UTM tagging hasn't been implemented
     if (!this.parameters.has('utm_source') && !this.parameters.has('utm_medium')) {
 

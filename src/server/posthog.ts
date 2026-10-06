@@ -127,7 +127,7 @@ export function capturePartnershipSubmission(
       referral_bonus_usd: REFERRAL_BONUS_USD[submission.size],
       currency: "USD",
       calculator_scenario: submission.scenario,
-      ...attributionEventProperties(submission.attribution),
+      ...attributionEventProperties(submission.attribution, request),
       attribution: submission.attribution,
     },
     set: {

@@ -219,7 +219,7 @@ test("attribution keeps first touch and updates the latest non-direct touch", as
   page,
 }) => {
   await page.goto(
-    "/?utm_source=google&utm_medium=cpc&utm_campaign=first-campaign",
+    "/?utm_source=google&utm_medium=cpc&utm_campaign=first-campaign&gclid=google-click-123",
   );
   await page.goto(
     "/contact/?utm_source=linkedin&utm_medium=paid-social&utm_campaign=latest-campaign",
@@ -241,6 +241,7 @@ test("attribution keeps first touch and updates the latest non-direct touch", as
       source: "google",
       medium: "cpc",
       campaign: "first-campaign",
+      gclid: "google-click-123",
     }),
   );
   expect(attribution.last).toEqual(
@@ -258,6 +259,9 @@ test("attribution keeps first touch and updates the latest non-direct touch", as
   await expect(
     page.locator('input[name="attribution_first_source"]'),
   ).toHaveValue("google");
+  await expect(
+    page.locator('input[name="attribution_first_gclid"]'),
+  ).toHaveValue("google-click-123");
   await expect(
     page.locator('input[name="attribution_last_source"]'),
   ).toHaveValue("linkedin");
