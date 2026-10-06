@@ -82,6 +82,30 @@ export async function readDealsSheet(send: typeof fetch = fetch) {
   return body.values || [];
 }
 
+export async function writeSheetRow(
+  row: number,
+  values: string[],
+  send: typeof fetch = fetch,
+) {
+  const token = await accessToken(send);
+  const range = encodeURIComponent(`${TAB}!A${row}:I${row}`);
+  const response = await send(
+    `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId())}/values/${range}?valueInputOption=RAW`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ majorDimension: "ROWS", values: [values] }),
+      signal: AbortSignal.timeout(10_000),
+    },
+  );
+  await response.body?.cancel();
+  if (!response.ok)
+    throw new Error(`Google Sheets update failed (${response.status})`);
+}
+
 async function appendRow(values: string[], send: typeof fetch = fetch) {
   const token = await accessToken(send);
   const range = encodeURIComponent(`${TAB}!A:I`);
