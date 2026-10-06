@@ -82,7 +82,7 @@ export async function readDealsSheet(send: typeof fetch = fetch) {
   return body.values || [];
 }
 
-export async function appendRow(values: string[], send: typeof fetch = fetch) {
+async function appendRow(values: string[], send: typeof fetch = fetch) {
   const token = await accessToken(send);
   const range = encodeURIComponent(`${TAB}!A:I`);
   const response = await send(
