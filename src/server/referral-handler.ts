@@ -6,8 +6,9 @@ import { serverLog } from "./logger";
 import { SubmissionConflict } from "./submissions";
 
 type Dependencies = {
-  save: (submission: Submission) => Promise<void>;
+  save: (submission: Submission) => Promise<boolean | void>;
   capture?: (submission: Submission, request: Request) => Promise<void>;
+  syncSheet?: (submission: Submission) => Promise<void>;
 };
 const MAX_BODY_BYTES = 16_384;
 const json = (body: object, status: number) =>
@@ -62,8 +63,9 @@ export async function handleReferralSubmission(
       400,
     );
   try {
-    await dependencies.save(validated.data);
+    const created = await dependencies.save(validated.data);
     await dependencies.capture?.(validated.data, request);
+    if (created) await dependencies.syncSheet?.(validated.data);
     return json({ saved: true }, 201);
   } catch (error) {
     if (error instanceof SubmissionConflict)

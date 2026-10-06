@@ -11,6 +11,7 @@ import { database } from "./database";
 export type SubmissionConsentEvidence = {
   consentVersion: string;
   consentRecordedAt: string | null;
+  created?: boolean;
 };
 
 type ConsentEvidenceRow = {
@@ -63,7 +64,10 @@ export async function saveSubmission(
       RETURNING consent_version, consent_recorded_at
     `;
     if (rows.length)
-      return consentEvidence(rows[0] as unknown as ConsentEvidenceRow);
+      return {
+        ...consentEvidence(rows[0] as unknown as ConsentEvidenceRow),
+        created: true,
+      };
     const [existing] = await tx`
       SELECT request_hash, consent_version, consent_recorded_at
       FROM rancher.partnership_submissions WHERE id = ${id}

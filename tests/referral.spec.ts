@@ -53,6 +53,22 @@ test("referral normalizes both emails, waits for storage, and reports failure or
     ).toBe(status);
   }
 });
+test("referral appends only newly created submissions to the sheet", async () => {
+  let appended = 0;
+  const dependencies = {
+    syncSheet: async () => { appended++; },
+  };
+  await handleReferralSubmission(request(input), {
+    ...dependencies,
+    save: async () => true,
+  });
+  await handleReferralSubmission(request(input), {
+    ...dependencies,
+    save: async () => false,
+  });
+  expect(appended).toBe(1);
+});
+
 test("referral rejects missing fields, invalid emails, spam, oversized and cross-origin requests", async () => {
   let saved = 0;
   const deps = {
