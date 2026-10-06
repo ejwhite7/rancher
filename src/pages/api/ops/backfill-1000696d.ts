@@ -29,14 +29,14 @@ export const POST: APIRoute = async () => {
       String(submission.business_active),
     ];
     const existing = rows.findIndex((row) => row[2] === submission.email);
+    if (existing >= 0 && existing < 999)
+      return Response.json({ found: true, row: existing + 1 });
     const empty = rows.findIndex(
       (row, index) =>
         index > 0 &&
         [...row.slice(0, 6), row[7], row[8]].every((value) => !value),
     );
     const row = (empty < 0 ? rows.length : empty) + 1;
-    if (existing === row - 1)
-      return Response.json({ found: true, row: existing + 1 });
     await writeSheetRow(row, values);
     if (existing >= 0)
       await writeSheetRow(existing + 1, Array<string>(9).fill(""));
