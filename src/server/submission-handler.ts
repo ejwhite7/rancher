@@ -14,14 +14,13 @@ import {
 } from "./submissions";
 
 type Dependencies = {
-  save: (
-    submission: Submission,
-  ) => Promise<SubmissionConsentEvidence | void>;
+  save: (submission: Submission) => Promise<SubmissionConsentEvidence | void>;
   capture?: (
     submission: Submission,
     request: Request,
     consent: SubmissionConsentEvidence,
   ) => Promise<void>;
+  syncSheet?: (submission: Submission) => Promise<void>;
   bookingUrl: () => string | undefined;
 };
 const MAX_BODY_BYTES = 16_384;
@@ -95,7 +94,8 @@ export async function handleSubmission(
     } catch {
       return json(
         {
-          error: "Booking is temporarily unavailable. Please try again shortly.",
+          error:
+            "Booking is temporarily unavailable. Please try again shortly.",
         },
         503,
       );
@@ -110,6 +110,7 @@ export async function handleSubmission(
         : null,
     };
     await dependencies.capture?.(validated.data, request, consent);
+    if (saved?.created) await dependencies.syncSheet?.(validated.data);
     return json(
       {
         redirectUrl: booking?.href ?? null,

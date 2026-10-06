@@ -2,11 +2,11 @@
 
 Successful Rancher form submissions trigger three active PostHog Workflows that post to Slack channel `#form-submissions` (`C0C2HJ89ZUM`). Each workflow deduplicates on `submission_id`, aborts if Slack delivery fails, and sends one message immediately after the matching event.
 
-| Form | PostHog event | Slack fields |
-| --- | --- | --- |
-| Partnership | `partnership_request_submitted` | Qualification status, submission ID, name, email, domain, job title, company, company size, data history, record types, additional context, outreach consent, referral bonus, calculator scenario |
-| Contact | `contact_form_submitted` | Submission ID, name, email, message |
-| Referral | `referral_form_submitted` | Submission ID, referrer first name, referrer last name, referrer email, referred first name, referred last name, referred email, company size, industry |
+| Form        | PostHog event                   | Slack fields                                                                                                                                                                                                              |
+| ----------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Partnership | `partnership_request_submitted` | Qualification status, submission ID, name, email, domain, job title, company, company size, data history, active-business status, record types, additional context, outreach consent, referral bonus, calculator scenario |
+| Contact     | `contact_form_submitted`        | Submission ID, name, email, message                                                                                                                                                                                       |
+| Referral    | `referral_form_submitted`       | Submission ID, referrer first name, referrer last name, referrer email, referred first name, referred last name, referred email, company size, industry                                                                   |
 
 The partnership Slack workflow renders qualifying submissions with a green accent and no pre-header. It renders `1–10` and `11–19` submissions with a red accent and `*DOES NOT QUALIFY*` as the first line. The discovery-call email workflow requires `qualifies = true`; nonqualifying events remain available to analytics and paid-ad destinations with `referral_bonus_usd = 0` but do not receive that email.
 

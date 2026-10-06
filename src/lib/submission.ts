@@ -60,6 +60,7 @@ export const submissionSchema = z
     company: z.string().trim().min(1, "Company is required.").max(180),
     size: z.enum(TEAM_SIZES),
     history: z.enum(HISTORY_RANGES),
+    isBusinessActive: z.boolean(),
     recordTypes: z
       .array(z.enum(RECORD_TYPES))
       .min(1)

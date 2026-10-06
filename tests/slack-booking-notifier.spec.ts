@@ -6,6 +6,12 @@ const booking = {
   email: "Alex@Example.com",
   startTime: "2026-09-18T12:00:00.000Z",
   timeZone: "America/New_York",
+  name: "Alex Morgan",
+  eventTitle: "Discovery",
+  eventType: "discovery",
+  endTime: "2026-09-18T12:30:00.000Z",
+  durationMinutes: 30,
+  status: "ACCEPTED",
 };
 
 const json = (value: unknown, status = 200) =>
@@ -112,16 +118,19 @@ test("uses a stable Slack client message id for webhook retries", async () => {
   ]);
 });
 
-test("returns not_found without posting when no email field matches", async () => {
-  let posted = false;
-  const fetcher: typeof fetch = async (input) => {
+test("posts a complete top-level booking when no email field matches", async () => {
+  const calls: Array<{ method: string; body: any }> = [];
+  const fetcher: typeof fetch = async (input, init) => {
     const method = String(input).split("/").pop()!;
-    if (method === "chat.postMessage") posted = true;
-    return json({
-      ok: true,
-      messages: [{ ts: "1", text: "*Email:* alex@example.co" }],
-      response_metadata: { next_cursor: "" },
-    });
+    const body = JSON.parse(String(init?.body));
+    calls.push({ method, body });
+    if (method === "conversations.history")
+      return json({
+        ok: true,
+        messages: [{ ts: "1", text: "*Email:* alex@example.co" }],
+        response_metadata: { next_cursor: "" },
+      });
+    return json({ ok: true, ts: "2" });
   };
   const result = await notifySlackBooking(
     booking,
@@ -129,8 +138,27 @@ test("returns not_found without posting when no email field matches", async () =
     "C0C2HJ89ZUM",
     fetcher,
   );
-  expect(result.status).toBe("not_found");
-  expect(posted).toBe(false);
+  expect(result.status).toBe("posted_standalone");
+  expect(calls.at(-1)).toEqual({
+    method: "chat.postMessage",
+    body: {
+      channel: "C0C2HJ89ZUM",
+      text: [
+        "*New call booking*",
+        "*Name:* Alex Morgan",
+        "*Email:* alex@example.com",
+        "*Call:* Discovery",
+        "*Event type:* discovery",
+        "*Date and time:* Sep 18, 2026 at 8:00 AM EDT",
+        "*End time:* Sep 18, 2026 at 8:30 AM EDT",
+        "*Duration:* 30 minutes",
+        "*Time zone:* America/New_York",
+        "*Status:* ACCEPTED",
+        "*Booking UID:* booking-uid",
+      ].join("\n"),
+      client_msg_id: "6638b6c9-e1a1-5a3f-a178-db5a50420bbb",
+    },
+  });
 });
 
 test("throws a privacy-safe error when Slack rejects a request", async () => {

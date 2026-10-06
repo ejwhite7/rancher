@@ -118,6 +118,7 @@ export function capturePartnershipSubmission(
       qualifies: qualifiesTeamSize(submission.size),
       qualification_status: qualificationStatus(submission.size),
       data_history: submission.history,
+      is_business_active: submission.isBusinessActive,
       record_types: submission.recordTypes,
       additional_context: submission.records,
       phone: submission.phone,

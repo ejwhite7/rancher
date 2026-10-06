@@ -9,6 +9,7 @@ const valid = {
   company: "Example Company",
   size: "20–49",
   history: "3–5 years",
+  isBusinessActive: true,
   records: "Project histories",
   recordTypes: ["Documents & files", "Projects & knowledge"],
   phone: "(212) 555-0123",
@@ -95,7 +96,9 @@ test("accepts both small-company ranges without returning a booking redirect", a
     let captured = false;
     const result = await handleSubmission(request({ ...valid, size }), {
       bookingUrl: () => {
-        throw new Error("Nonqualifying submissions must not request a booking URL");
+        throw new Error(
+          "Nonqualifying submissions must not request a booking URL",
+        );
       },
       save: async (submission) => {
         expect(submission.size).toBe(size);
@@ -287,7 +290,8 @@ test("form displays the nonqualifying message without redirecting", async ({
   await page.getByLabel("Company", { exact: true }).fill(valid.company);
   await page.locator('[name="size"]').selectOption("1–10");
   await page.locator('[name="history"]').selectOption("0–3 years");
-  await page.getByLabel("Documents & files", { exact: true }).check();
+  await page.getByLabel("Chat & messaging", { exact: true }).check();
+  await expect(page.locator('[name="recordTypes"][required]')).toHaveCount(0);
   await page.getByRole("button", { name: "Submit & book a call" }).click();
   const status = page.locator("#form-status");
   await expect(status).toHaveText(
@@ -300,19 +304,14 @@ test("form displays the nonqualifying message without redirecting", async ({
     page.getByRole("button", { name: "Submit & book a call" }),
   ).toBeHidden();
   expect(
-    await status.evaluate((element) => parseFloat(getComputedStyle(element).fontSize)),
+    await status.evaluate((element) =>
+      parseFloat(getComputedStyle(element).fontSize),
+    ),
   ).toBeGreaterThanOrEqual(20);
   await expect(page).toHaveURL("http://127.0.0.1:4322/");
-  expect(await page.evaluate(() => (window as any).partnershipAnalytics)).toEqual([
-    expect.objectContaining({
-      event: "partnership_request_submitted",
-      properties: expect.objectContaining({
-        qualifies: false,
-        qualification_status: "does_not_qualify",
-        referral_bonus_usd: 0,
-      }),
-    }),
-  ]);
+  expect(
+    await page.evaluate(() => (window as any).partnershipAnalytics),
+  ).toEqual([]);
 });
 
 test("form preserves entries on failure and reuses its retry key", async ({
@@ -337,6 +336,7 @@ test("form preserves entries on failure and reuses its retry key", async ({
   await page.getByLabel("Company", { exact: true }).fill(valid.company);
   await page.locator('[name="size"]').selectOption(valid.size);
   await page.locator('[name="history"]').selectOption(valid.history);
+  await page.getByLabel("Is this business active?").check();
   await page.getByLabel("Documents & files", { exact: true }).check();
   await page.locator('[name="records"]').fill(valid.records);
   for (let attempt = 0; attempt < 2; attempt++) {
@@ -345,6 +345,7 @@ test("form preserves entries on failure and reuses its retry key", async ({
     await expect(page.getByLabel("Your name")).toHaveValue(valid.name);
   }
   expect(payloads).toHaveLength(2);
+  expect(payloads[0].isBusinessActive).toBe(true);
   expect(payloads[0].idempotencyKey).toBe(payloads[1].idempotencyKey);
   await expect(page).toHaveURL("http://127.0.0.1:4322/");
 });

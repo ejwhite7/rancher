@@ -36,9 +36,10 @@ const attioAttributionValues = (submission, event) => {
       attributionFieldNames,
     )) {
       const value = touch?.[sourceKey];
-      if (typeof value === "string" && value.length > 0) {
-        values[`${prefix}_${targetKey}`] = value;
-      }
+      values[`${prefix}_${targetKey}`] =
+        typeof value === "string" && value.trim().length > 0
+          ? value
+          : "(not set)";
     }
   }
   return values;
@@ -88,9 +89,7 @@ addHandler("transform", (request) => {
         company_size: attioEmployeeRange(rancherCompanySize),
         rancher_company_size: rancherCompanySize,
         qualifies: !["1–10", "11–19"].includes(rancherCompanySize),
-        qualification_status: ["1–10", "11–19"].includes(
-          rancherCompanySize,
-        )
+        qualification_status: ["1–10", "11–19"].includes(rancherCompanySize)
           ? "does_not_qualify"
           : "qualified",
         phone_numbers: submission.phone ? [submission.phone] : undefined,
@@ -102,6 +101,7 @@ addHandler("transform", (request) => {
           : undefined,
         rancher_consent_source: "Rancher partnership form",
         data_history: submission.data_history,
+        is_business_active: submission.is_business_active === true,
         record_types: submission.record_types,
         referral_bonus_usd: submission.referral_bonus_usd,
         additional_context: submission.additional_context || undefined,

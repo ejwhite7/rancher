@@ -21,6 +21,12 @@ type BookingNotification = {
   email: string;
   startTime: string;
   timeZone?: string;
+  name?: string;
+  eventTitle?: string;
+  eventType?: string;
+  endTime?: string;
+  durationMinutes?: number;
+  status?: string;
 };
 
 type Dependencies = {
@@ -225,6 +231,12 @@ export async function handleCalWebhook(
           email,
           startTime,
           timeZone: string(details.properties.attendee_time_zone),
+          name: string(details.properties.attendee_name),
+          eventTitle: string(details.properties.event_title),
+          eventType: string(details.properties.event_type),
+          endTime: string(details.properties.end_time),
+          durationMinutes: number(details.properties.duration_minutes),
+          status: string(details.properties.booking_status),
         });
       } catch {
         await serverLog("error", "cal_slack_notification_failed");

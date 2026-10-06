@@ -12,6 +12,12 @@ export type BookingNotification = {
   email: string;
   startTime: string;
   timeZone?: string;
+  name?: string;
+  eventTitle?: string;
+  eventType?: string;
+  endTime?: string;
+  durationMinutes?: number;
+  status?: string;
 };
 
 const object = (value: unknown): JsonObject =>
@@ -111,6 +117,35 @@ function slackClientMessageId(bookingUid: string) {
   return `${hash.slice(0, 8)}-${hash.slice(8, 12)}-5${hash.slice(13, 16)}-a${hash.slice(17, 20)}-${hash.slice(20)}`;
 }
 
+function standaloneBookingMessage(booking: BookingNotification) {
+  const fields = [
+    ["Name", booking.name],
+    ["Email", booking.email.trim().toLowerCase()],
+    ["Call", booking.eventTitle],
+    ["Event type", booking.eventType],
+    ["Date and time", slackDateTime(booking.startTime, booking.timeZone)],
+    [
+      "End time",
+      booking.endTime
+        ? slackDateTime(booking.endTime, booking.timeZone)
+        : undefined,
+    ],
+    [
+      "Duration",
+      booking.durationMinutes === undefined
+        ? undefined
+        : `${booking.durationMinutes} minutes`,
+    ],
+    ["Time zone", booking.timeZone],
+    ["Status", booking.status],
+    ["Booking UID", booking.bookingUid],
+  ].filter((field): field is [string, string] => Boolean(field[1]));
+  return [
+    "*New call booking*",
+    ...fields.map(([label, value]) => `*${label}:* ${value}`),
+  ].join("\n");
+}
+
 export async function notifySlackBooking(
   booking: BookingNotification,
   token: string,
@@ -119,21 +154,22 @@ export async function notifySlackBooking(
 ) {
   const email = booking.email.trim().toLowerCase();
   const threadTs = await findParentTimestamp(token, channel, email, fetcher);
-  if (!threadTs) {
-    await serverLog("warn", "cal_slack_parent_not_found");
-    return { status: "not_found" as const };
-  }
-  const text = `Meeting booked for ${slackDateTime(booking.startTime, booking.timeZone)}`;
+  const text = threadTs
+    ? `Meeting booked for ${slackDateTime(booking.startTime, booking.timeZone)}`
+    : standaloneBookingMessage(booking);
+  if (!threadTs) await serverLog("warn", "cal_slack_parent_not_found");
   await slackApi(
     "chat.postMessage",
     token,
     {
       channel,
-      thread_ts: threadTs,
+      ...(threadTs ? { thread_ts: threadTs } : {}),
       text,
       client_msg_id: slackClientMessageId(booking.bookingUid),
     },
     fetcher,
   );
-  return { status: "posted" as const, threadTs, text };
+  return threadTs
+    ? { status: "posted" as const, threadTs, text }
+    : { status: "posted_standalone" as const, text };
 }

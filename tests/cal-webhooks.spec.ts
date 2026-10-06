@@ -102,6 +102,12 @@ test("notifies Slack only after a created booking is captured", async () => {
     email: "alex@example.com",
     startTime: "2026-09-18T12:00:00.000Z",
     timeZone: "America/New_York",
+    name: "Alex Morgan",
+    eventTitle: "Discovery",
+    eventType: "discovery",
+    endTime: "2026-09-18T12:30:00.000Z",
+    durationMinutes: 30,
+    status: "ACCEPTED",
   });
 });
 

@@ -24,6 +24,7 @@ test("partnership transformation emits structured Attio attribution and preserve
   expect(output.body.data.values.rancher_company_size).toBe("50–199");
   expect(output.body.data.values.qualifies).toBe(true);
   expect(output.body.data.values.qualification_status).toBe("qualified");
+  expect(output.body.data.values.is_business_active).toBe(true);
   expect(output.body.data.values.phone_numbers).toEqual(["+12125550123"]);
   expect(output.body.data.values.rancher_communications_consent).toBe(true);
   expect(output.body.data.values.rancher_consent_version).toBe(
@@ -45,9 +46,7 @@ test("partnership transformation emits structured Attio attribution and preserve
     "2026-09-17T18:00:00Z",
   );
   expect(output.body.data.values.first_utm_source).toBe("google");
-  expect(output.body.data.values.first_attribution_id).toBe(
-    "gclid-first-123",
-  );
+  expect(output.body.data.values.first_attribution_id).toBe("gclid-first-123");
   expect(output.body.data.values.first_ad_group_id).toBe("ag-101");
   expect(output.body.data.values.conversion_utm_source).toBe("linkedin");
   expect(output.body.data.values.conversion_utm_campaign).toBe("retargeting");
@@ -58,6 +57,20 @@ test("partnership transformation emits structured Attio attribution and preserve
   expect(output.body.data.values.additional_context).not.toContain(
     "Attribution",
   );
+
+  const incomplete = JSON.parse(JSON.stringify(sample.body));
+  delete incomplete.data.conversion_attribution.first_touch.source_platform;
+  incomplete.data.conversion_attribution.conversion_touch.network = "";
+  const incompleteOutput = JSON.parse(
+    JSON.stringify(transform({ headers: {}, body: incomplete })),
+  );
+  expect(incompleteOutput.body.data.values.first_source_platform).toBe(
+    "(not set)",
+  );
+  expect(incompleteOutput.body.data.values.conversion_network).toBe(
+    "(not set)",
+  );
+  expect(incompleteOutput.body.data.values.first_utm_source).toBe("google");
 });
 
 test("contact transformation maps the message without writing partnership or consent fields", async () => {

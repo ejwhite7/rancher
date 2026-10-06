@@ -53,6 +53,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
       company: String(fields.get("company") ?? "").trim(),
       size: String(fields.get("size") ?? ""),
       history: String(fields.get("history") ?? ""),
+      isBusinessActive: fields.get("is_business_active") === "yes",
       recordTypes: fields.getAll("recordTypes").map(String),
       records: String(fields.get("records") ?? "").trim(),
       phone: String(fields.get("phone") ?? "").trim(),
@@ -133,6 +134,7 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
           qualifies: result.qualifies,
           qualification_status: result.qualificationStatus,
           data_history: payload.history,
+          is_business_active: payload.isBusinessActive,
           record_types: payload.recordTypes,
           additional_context: payload.records,
           phone: result.phone,
@@ -274,6 +276,10 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
                 <option key={range}>{range}</option>
               ))}
             </select>
+          </label>
+          <label className="consent full">
+            <input type="checkbox" name="is_business_active" value="yes" />
+            <span>Is this business active?</span>
           </label>
           <fieldset className="record-types full">
             <legend>{copy.records_label}</legend>

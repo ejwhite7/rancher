@@ -38,11 +38,11 @@ Booking-created, rescheduled, meeting-started, and meeting-ended events set the 
 
 ## Slack booking replies
 
-After capturing `BOOKING_CREATED`, the endpoint searches the newest 500 top-level messages in `#form-submissions` (`C0C2HJ89ZUM`) for an exact, case-insensitive `Email:` field matching the normalized attendee email. It posts `Meeting booked for [date and time]` as a reply to the newest match, formatting the start time in the attendee's Cal.com time zone.
+After capturing `BOOKING_CREATED`, the endpoint searches the newest 500 top-level messages in `#form-submissions` (`C0C2HJ89ZUM`) for an exact, case-insensitive `Email:` field matching the normalized attendee email. It posts `Meeting booked for [date and time]` as a reply to the newest match, formatting the start time in the attendee's Cal.com time zone. If no matching form message exists, it posts a new top-level `New call booking` message in the same channel with every available safe booking field: attendee name and email, call title and event type, localized start and end times, duration, time zone, status, and booking UID.
 
 Configure server-only `SLACK_FORM_SUBMISSIONS_BOT_TOKEN` and, if the channel changes, `SLACK_FORM_SUBMISSIONS_CHANNEL_ID`. The dedicated bot needs `chat:write` and `channels:history`, and it must be a member of the channel. For a private channel, use `groups:history` instead of `channels:history`.
 
-Each reply uses a deterministic Slack `client_msg_id` derived from the Cal.com booking UID, allowing Slack to deduplicate retried message submissions without requiring user-token-only thread-history access. A missing form message is logged without an email address and treated as a no-op; Slack API failures are logged without payload data and return HTTP 502.
+Each thread reply or standalone booking message uses a deterministic Slack `client_msg_id` derived from the Cal.com booking UID, allowing Slack to deduplicate retried message submissions without requiring user-token-only thread-history access. A missing form message is logged without an email address before the standalone fallback is posted. Slack API failures are logged without payload data and return HTTP 502.
 
 ## Verification
 

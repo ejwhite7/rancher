@@ -27,6 +27,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
     company: "Example'); DROP TABLE rancher.partnership_submissions; --",
     size: "20–49",
     history: "3–5 years",
+    isBusinessActive: true,
     records: "Synthetic test data",
     recordTypes: ["Documents & files"],
     phone: "+12125550123",
@@ -144,6 +145,9 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
           "db/migrations/016_flatten_attribution_for_cdc.sql",
           "utf8",
         ),
+      );
+      await sql.unsafe(
+        await readFile("db/migrations/017_business_active.sql", "utf8"),
       );
     }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);

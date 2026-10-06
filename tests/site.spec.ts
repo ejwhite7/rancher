@@ -113,12 +113,14 @@ test("calculator updates reference scenarios and submits before redirecting", as
     .fill("Project histories and internal documentation.");
   await page.locator('[name="size"]').selectOption("500–999");
   await page.getByLabel("US phone number").fill("(212) 555-0123");
-  await page.locator(".consent input").check();
+  await page.getByLabel("Is this business active?").check();
+  await page.locator('[name="communications_consent"]').check();
   await page.getByRole("button", { name: "Submit & book a call" }).click();
   await expect(page).toHaveURL("https://cal.com/rancher/discovery");
   expect(submitted?.title).toBe("VP of Operations");
   expect(submitted?.company).toBe("Example Company");
   expect(submitted?.phone).toBe("(212) 555-0123");
+  expect(submitted?.isBusinessActive).toBe(true);
   expect(submitted?.communicationsConsent).toBe(true);
   expect(submitted?.scenario).toEqual({
     employees: 200,
