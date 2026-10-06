@@ -10,16 +10,22 @@ const isDevelopment = import.meta.env.DEV;
   is:inline
   define:vars={{ projectToken, host, apiHost, uiHost, isDevelopment }}
 >
-  if (!projectToken || !host) {
-    if (isDevelopment) {
-      const variable = !projectToken
-        ? "PUBLIC_POSTHOG_PROJECT_TOKEN"
-        : "PUBLIC_POSTHOG_HOST";
-      throw new Error(
-        `${variable} variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once ${variable} is configured`,
-      );
+  let posthogInitialized = false;
+
+  function initializePostHog(advertising) {
+    if (posthogInitialized) return;
+    if (!projectToken || !host) {
+      if (isDevelopment) {
+        const variable = !projectToken
+          ? "PUBLIC_POSTHOG_PROJECT_TOKEN"
+          : "PUBLIC_POSTHOG_HOST";
+        throw new Error(
+          `${variable} variable required by PostHog is missing or un-configured, this causes events to be silently missed. This error stops appearing once ${variable} is configured`,
+        );
+      }
+      return;
     }
-  } else {
+
     // POSTHOG_BROWSER_SNIPPET_START
     !(function (t, e) {
       var o, n, p, r;
@@ -84,7 +90,7 @@ const isDevelopment = import.meta.env.DEV;
     window.posthog.init(projectToken, {
       api_host: apiHost,
       ui_host: uiHost,
-      opt_in_site_apps: true,
+      opt_in_site_apps: advertising,
       defaults: "2026-01-30",
       capture_exceptions: {
         capture_unhandled_errors: true,
@@ -93,5 +99,16 @@ const isDevelopment = import.meta.env.DEV;
       },
       tracing_headers: [window.location.hostname],
     });
+    posthogInitialized = true;
   }
+
+  window.addEventListener("rancher:consent", (event) => {
+    const settings = event.detail;
+    if (settings.analytics_storage) {
+      initializePostHog(settings.advertising);
+      window.posthog?.opt_in_capturing?.();
+    } else if (posthogInitialized) {
+      window.posthog?.opt_out_capturing?.({ clear_persistence: true });
+    }
+  });
 </script>

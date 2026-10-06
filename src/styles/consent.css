@@ -1,0 +1,97 @@
+:root {
+  --consent-color-body: var(--ink);
+  --consent-color-primary: var(--ink);
+  --consent-color-primary-hover: #285648;
+  --consent-color-secondary: var(--muted);
+  --consent-color-secondary-hover: var(--ink);
+  --consent-color-secondary-focus-shadow-rgb: 101, 138, 46;
+  --consent-color-light-grey: #eef0e5;
+  --consent-color-success: #739444;
+  --consent-background-color: var(--white);
+  --consent-banner-max-width: 31rem;
+  --consent-banner-offset: 1rem;
+  --consent-border: 1px solid var(--line);
+  --consent-border-radius: 8px;
+  --consent-box-shadow: 0 18px 50px #193e3426;
+  --consent-button-border: 1px solid var(--ink);
+  --consent-button-border-radius: 5px;
+  --consent-button-color: var(--white);
+  --consent-button-padding: 0.65rem 0.9rem;
+  --consent-heading-font-family: Georgia, "Times New Roman", serif;
+  --consent-heading-font-weight: 400;
+  --consent-modal-backdrop-color: #102d29a8;
+}
+
+.simple-consent .consent-ui__content {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.simple-consent .consent-banner__heading,
+.simple-consent .consent-modal__heading {
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.simple-consent [data-consent-action="denyAll"]:not([class]) {
+  background: transparent;
+  color: var(--ink);
+}
+
+.simple-consent [data-consent-action="denyAll"]:hover:not([class]),
+.simple-consent [data-consent-action="denyAll"]:focus:not([class]) {
+  background: #eef0e5;
+}
+
+.simple-consent [data-consent-action="showSettings"]:not([class]) {
+  color: var(--ink);
+}
+
+.simple-consent [data-consent-notice="info"] {
+  background: #eaf0dc;
+  border-color: #cdd5c6;
+  color: var(--ink);
+}
+
+.simple-consent [data-consent-tpl="settingsButton"] {
+  display: none !important;
+}
+
+.privacy-choices {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.privacy-choices:hover {
+  text-decoration: underline;
+}
+
+.privacy-choices:focus-visible {
+  outline: 2px solid #658a2e;
+  outline-offset: 5px;
+}
+
+@media (max-width: 35.99rem) {
+  .simple-consent .consent-banner {
+    max-width: calc(100vw - 2rem);
+  }
+
+  .simple-consent [data-consent-actions] {
+    align-items: stretch;
+  }
+
+  .simple-consent [data-consent-action]:not([class]) {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .simple-consent * {
+    transition: none !important;
+  }
+}

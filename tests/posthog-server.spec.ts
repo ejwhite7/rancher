@@ -10,12 +10,15 @@ test("server partnership attribution exposes standard and explicit UTM propertie
         medium: "cpc",
         campaign: "partner-search",
         term: "business data",
+        gclid: "first-google-click",
       },
       last: {
         source: "linkedin",
         medium: "paid-social",
         campaign: "retargeting",
         content: "control-your-data",
+        gclid: "conversion-google-click",
+        fbclid: "conversion-meta-click",
       },
     }),
   ).toEqual({
@@ -31,13 +34,26 @@ test("server partnership attribution exposes standard and explicit UTM propertie
     first_utm_term: "business data",
     conversion_utm_content: "control-your-data",
     utm_content: "control-your-data",
+    first_gclid: "first-google-click",
+    conversion_gclid: "conversion-google-click",
+    gclid: "conversion-google-click",
+    conversion_fbclid: "conversion-meta-click",
+    fbclid: "conversion-meta-click",
   });
 
   expect(
-    attributionEventProperties({
-      first: { source: "(direct)", medium: "(none)" },
-      last: { source: "(direct)", medium: "(none)" },
-    }),
+    attributionEventProperties(
+      {
+        first: { source: "(direct)", medium: "(none)" },
+        last: { source: "(direct)", medium: "(none)" },
+      },
+      new Request("https://www.gorancher.com/api/submissions/", {
+        headers: {
+          cookie:
+            "_gcl_aw=GCL.123456.cookie-google-click; _fbc=fb.1.123456.cookie-meta-click; _uetmsclkid=cookie-bing-click",
+        },
+      }),
+    ),
   ).toEqual({
     first_utm_source: "(direct)",
     conversion_utm_source: "(direct)",
@@ -45,7 +61,25 @@ test("server partnership attribution exposes standard and explicit UTM propertie
     first_utm_medium: "(none)",
     conversion_utm_medium: "(none)",
     utm_medium: "(none)",
+    conversion_gclid: "cookie-google-click",
+    gclid: "cookie-google-click",
+    conversion_fbclid: "cookie-meta-click",
+    fbclid: "cookie-meta-click",
+    conversion_msclkid: "cookie-bing-click",
+    msclkid: "cookie-bing-click",
   });
+
+  expect(
+    attributionEventProperties(
+      { first: {}, last: {} },
+      new Request("https://www.gorancher.com/api/submissions/", {
+        headers: {
+          cookie:
+            '_gcl_aw=GCL.123456.blocked-click; rancher_consent={"advertising":false}',
+        },
+      }),
+    ),
+  ).toEqual({});
 });
 
 test("server form capture uses the submission id for PostHog deduplication", async () => {

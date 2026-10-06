@@ -6,6 +6,7 @@ const STATUS_TO_STAGE: Record<string, string> = {
   introduced: "Introduced",
   inventory: "Inventory",
   rejected: "Lost",
+  "closed lost": "Lost",
   "closed won": "Won 🎉",
 };
 

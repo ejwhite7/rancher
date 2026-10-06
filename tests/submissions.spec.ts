@@ -67,6 +67,31 @@ test("accepts valid submissions only after persistence resolves", async () => {
   });
 });
 
+test("appends newly created submissions to the sheet once", async () => {
+  let appended = 0;
+  const dependencies = {
+    bookingUrl: () => booking,
+    capture: async () => {},
+    syncSheet: async () => { appended++; },
+  };
+  await handleSubmission(request(valid), {
+    ...dependencies,
+    save: async () => ({
+      consentVersion: "test",
+      consentRecordedAt: null,
+      created: true,
+    }),
+  });
+  await handleSubmission(request(valid), {
+    ...dependencies,
+    save: async () => ({
+      consentVersion: "test",
+      consentRecordedAt: null,
+    }),
+  });
+  expect(appended).toBe(1);
+});
+
 test("preserves booking parameters and omits an unavailable phone", async () => {
   const result = await handleSubmission(
     request({

@@ -21,6 +21,17 @@ export const ATTRIBUTION_KEYS = [
   "device",
   "matchtype",
   "network",
+  "gclid",
+  "gclsrc",
+  "dclid",
+  "wbraid",
+  "gbraid",
+  "gad_source",
+  "fbclid",
+  "msclkid",
+  "li_fat_id",
+  "ttclid",
+  "twclid",
 ] as const;
 
 export type AttributionKey = (typeof ATTRIBUTION_KEYS)[number];
@@ -76,10 +87,61 @@ export function attributionPersonProperties(
 }
 
 const UTM_KEYS = ["source", "medium", "campaign", "term", "content"] as const;
+const CLICK_ID_KEYS = [
+  "gclid",
+  "gclsrc",
+  "dclid",
+  "wbraid",
+  "gbraid",
+  "gad_source",
+  "fbclid",
+  "msclkid",
+  "li_fat_id",
+  "ttclid",
+  "twclid",
+] as const;
 
-export function attributionEventProperties(attribution: Attribution) {
-  return Object.fromEntries(
-    UTM_KEYS.flatMap((key) => {
+function clickIdsFromCookies(request?: Request) {
+  const decode = (value: string) => {
+    try {
+      return decodeURIComponent(value);
+    } catch {
+      return "";
+    }
+  };
+  const cookies = Object.fromEntries(
+    (request?.headers.get("cookie") || "").split(/;\s*/).flatMap((part) => {
+      const index = part.indexOf("=");
+      return index > 0
+        ? [[part.slice(0, index), decode(part.slice(index + 1))]]
+        : [];
+    }),
+  );
+  try {
+    if (
+      cookies.rancher_consent &&
+      JSON.parse(cookies.rancher_consent).advertising === false
+    )
+      return {};
+  } catch {}
+  const tagged = (value: string | undefined, prefixParts = 2) =>
+    value?.split(".").slice(prefixParts).join(".") || undefined;
+  return {
+    gclid: tagged(cookies._gcl_aw),
+    dclid: tagged(cookies._gcl_dc),
+    fbclid: tagged(cookies._fbc, 3),
+    msclkid: cookies._uetmsclkid,
+    li_fat_id: cookies.li_fat_id,
+  };
+}
+
+export function attributionEventProperties(
+  attribution: Attribution,
+  request?: Request,
+) {
+  const cookieIds = clickIdsFromCookies(request);
+  return Object.fromEntries([
+    ...UTM_KEYS.flatMap((key) => {
       const first = attribution.first[key];
       const conversion = attribution.last[key];
       return [
@@ -92,5 +154,19 @@ export function attributionEventProperties(attribution: Attribution) {
           : []),
       ];
     }),
-  );
+    ...CLICK_ID_KEYS.flatMap((key) => {
+      const first = attribution.first[key];
+      const conversion =
+        attribution.last[key] || cookieIds[key as keyof typeof cookieIds];
+      return [
+        ...(first ? [[`first_${key}`, first]] : []),
+        ...(conversion
+          ? [
+              [`conversion_${key}`, conversion],
+              [key, conversion],
+            ]
+          : []),
+      ];
+    }),
+  ]);
 }

@@ -31,6 +31,8 @@ test("calculator updates reference scenarios and submits before redirecting", as
     const record = (...args: unknown[]) =>
       console.log(`__POSTHOG__${JSON.stringify(args)}`);
     (window as any).posthog = {
+      __SV: 1,
+      init: () => undefined,
       identify: (...args: unknown[]) => record("identify", ...args),
       capture: (...args: unknown[]) => record("capture", ...args),
       get_session_id: () => "018f47a2-9b3c-7def-8123-456789abcdef",
@@ -221,7 +223,7 @@ test("attribution keeps first touch and updates the latest non-direct touch", as
   page,
 }) => {
   await page.goto(
-    "/?utm_source=google&utm_medium=cpc&utm_campaign=first-campaign",
+    "/?utm_source=google&utm_medium=cpc&utm_campaign=first-campaign&gclid=google-click-123",
   );
   await page.goto(
     "/contact/?utm_source=linkedin&utm_medium=paid-social&utm_campaign=latest-campaign",
@@ -243,6 +245,7 @@ test("attribution keeps first touch and updates the latest non-direct touch", as
       source: "google",
       medium: "cpc",
       campaign: "first-campaign",
+      gclid: "google-click-123",
     }),
   );
   expect(attribution.last).toEqual(
@@ -260,6 +263,9 @@ test("attribution keeps first touch and updates the latest non-direct touch", as
   await expect(
     page.locator('input[name="attribution_first_source"]'),
   ).toHaveValue("google");
+  await expect(
+    page.locator('input[name="attribution_first_gclid"]'),
+  ).toHaveValue("google-click-123");
   await expect(
     page.locator('input[name="attribution_last_source"]'),
   ).toHaveValue("linkedin");

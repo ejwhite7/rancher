@@ -21,5 +21,7 @@ interface Window {
     ) => void;
     capture: (event: string, properties?: Record<string, unknown>) => void;
     get_session_id?: () => string | undefined;
+    opt_in_capturing?: () => void;
+    opt_out_capturing?: (options?: { clear_persistence?: boolean }) => void;
   };
 }

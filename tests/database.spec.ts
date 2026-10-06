@@ -147,7 +147,7 @@ test("Postgres migration, idempotent insertion, server estimates, and RLS", asyn
         ),
       );
       await sql.unsafe(
-        await readFile("db/migrations/017_business_active.sql", "utf8"),
+        await readFile("db/migrations/018_business_active.sql", "utf8"),
       );
     }
     await Promise.all([saveSubmission(row), saveSubmission(row)]);

@@ -1,0 +1,131 @@
+---
+import "@derekcavaliero/simple-consent/css";
+import "../styles/consent.css";
+---
+
+<script>
+  import SimpleConsent from "@derekcavaliero/simple-consent";
+
+  let advertising: boolean | undefined;
+  const cookieDomain = location.hostname.endsWith("gorancher.com")
+    ? "gorancher.com"
+    : location.hostname;
+  const notify = (settings: Record<string, boolean>) =>
+    window.dispatchEvent(
+      new CustomEvent("rancher:consent", { detail: settings }),
+    );
+
+  new SimpleConsent({
+    consentModel: "opt-out",
+    storageMethod: "cookie",
+    storageName: "rancher_consent",
+    cookieDomain,
+    cookieExpiryDays: 365,
+    actions: {
+      banner: {
+        _order: ["showSettings", "denyAll", "acceptAll"],
+        showSettings: true,
+        denyAll: true,
+        acceptAll: true,
+      },
+      modal: {
+        _order: ["denyAll", "saveSettings", "acceptSelected", "acceptAll"],
+        acceptAll: true,
+        acceptSelected: true,
+        saveSettings: true,
+        denyAll: true,
+      },
+    },
+    content: {
+      banner: {
+        heading: "Your privacy choices",
+        description:
+          "We use cookies and similar technologies to understand site use and measure advertising. You can opt out now or change your choices at any time.",
+        actions: {
+          acceptAll: "Allow all",
+          denyAll: "Opt out",
+          showSettings: "Manage choices",
+        },
+      },
+      links: {
+        privacyPolicy: { text: "Privacy Policy", url: "/privacy-policy/" },
+        termsOfService: { text: "Terms of Use", url: "/terms-of-use/" },
+        cookiePolicy: null,
+      },
+      modal: {
+        heading: "Your privacy choices",
+        description:
+          "Choose how Rancher may use cookies and similar technologies. Strictly necessary services remain enabled.",
+        actions: {
+          acceptAll: "Allow all",
+          acceptSelected: "Save choices",
+          denyAll: "Opt out",
+          saveSettings: "Save choices",
+        },
+      },
+      notices: {
+        gpc: {
+          badge: "Global Privacy Control detected",
+          description:
+            "Your browser sent a Global Privacy Control signal, so analytics and advertising are disabled.",
+        },
+      },
+    },
+    types: {
+      analytics_storage: {
+        name: "Analytics and performance",
+        description:
+          "Helps us understand visits, site usage, errors, and form conversions so we can improve Rancher.",
+        gpc: true,
+      },
+      advertising: {
+        name: "Advertising measurement and targeting",
+        description:
+          "Allows campaign attribution, visitor identification, and sharing conversion data with advertising partners.",
+        mapTo: ["ad_storage", "ad_personalization", "ad_user_data"],
+        gpc: true,
+      },
+    },
+    services: {
+      posthog: {
+        name: "PostHog",
+        description:
+          "Provides product analytics, session diagnostics, and conversion measurement.",
+        domain: "posthog.com",
+        storage: {},
+        types: ["analytics_storage"],
+      },
+      advertising_partners: {
+        name: "Advertising and attribution partners",
+        description:
+          "Measures campaigns and may associate visits with advertising platforms or business contact information.",
+        domain: "gorancher.com",
+        storage: {},
+        types: ["advertising"],
+      },
+    },
+    ui: {
+      placement: {
+        banner: ["bottom", "left"],
+        settingsButton: ["bottom", "left"],
+      },
+      showBranding: false,
+    },
+    onInit(settings: Record<string, boolean>) {
+      advertising = settings.advertising;
+      document
+        .querySelector('[data-consent-tpl="modal"]')
+        ?.setAttribute("aria-modal", "true");
+      document
+        .querySelectorAll(
+          '[data-consent-tpl="banner"], [data-consent-tpl="banner"] [role="alert"]',
+        )
+        .forEach((element) => element.setAttribute("role", "region"));
+      notify(settings);
+    },
+    onUpdateAfter(settings: Record<string, boolean>) {
+      notify(settings);
+      if (advertising !== settings.advertising) location.reload();
+    },
+  });
+</script>

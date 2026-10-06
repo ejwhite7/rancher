@@ -6,6 +6,7 @@ const { homepage } = Astro.props.content || (await getSiteContent());
 const preview = Astro.props.preview || false;
 const repository = import.meta.env.PRISMIC_REPOSITORY_NAME;
 import Attributor from "../components/Attributor.astro";
+import Consent from "../components/Consent.astro";
 import PostHog from "../components/posthog.astro";
 import { canonicalUrl } from "../lib/site";
 import { structuredData } from "../lib/seo";
@@ -109,6 +110,7 @@ const robots =
     <meta name="twitter:image:alt" content={imageAlt} />
     <Attributor />
     <PostHog />
+    <Consent />
     {Astro.props.glossarySchema && (
       <script
         is:inline

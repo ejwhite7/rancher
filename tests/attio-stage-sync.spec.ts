@@ -8,6 +8,7 @@ test("maps supported sheet statuses to Attio deal stages", () => {
   expect(stageForSheetStatus("Introduced")).toBe("Introduced");
   expect(stageForSheetStatus("inventory")).toBe("Inventory");
   expect(stageForSheetStatus("Rejected")).toBe("Lost");
+  expect(stageForSheetStatus(" Closed Lost ")).toBe("Lost");
   expect(stageForSheetStatus("Closed Won")).toBe("Won 🎉");
 });
 
