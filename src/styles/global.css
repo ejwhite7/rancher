@@ -14,6 +14,10 @@ html {
   scroll-padding-top: 95px;
 }
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   background: var(--paper);
   color: var(--ink);
@@ -21,6 +25,9 @@ body {
     16px/1.6 Arial,
     Helvetica,
     sans-serif;
+}
+body > main {
+  flex: 1;
 }
 button,
 input,
