@@ -1,4 +1,4 @@
-// Shared only by the three first-party form submission endpoints.
+// Shared bounded JSON transport for submissions, quiz classification and staff labels.
 const MAX_BODY_BYTES = 16_384;
 export const submissionJson = (body: object, status: number) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });

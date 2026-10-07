@@ -1,0 +1,24 @@
+---
+import "../../styles/global.css";
+import "../../styles/quiz.css";
+import QuizDashboard from "../../components/QuizDashboard";
+import { quiz } from "../../lib/quiz";
+---
+
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Quiz dashboard · Rancher staff</title>
+  </head>
+  <body>
+    <main class="quiz-main">
+      <QuizDashboard
+        questions={quiz.questions.map(({ id, text }) => ({ id, text }))}
+        archetypes={quiz.archetypes}
+        client:load
+      />
+    </main>
+  </body>
+</html>

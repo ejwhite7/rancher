@@ -1,0 +1,42 @@
+{
+  "AO": {
+    "title": "Your company history might have a next chapter.",
+    "pain": "You have the records. You need to know whether they’re useful, what’s involved, and which rights you’d be giving up.",
+    "quote": "I know we're a little under your typical minimum, but I hope the depth and\nbreadth of the archive earns a favorable review.",
+    "quote_id": "Q02",
+    "quote_source": "Archive owner · anonymized research email",
+    "offer": "An archive-fit conversation",
+    "description": "Ask Rancher to discuss your existing archive: the history you have, the systems it lives in, and the rights and access you’re comfortable considering.",
+    "cta": "Discuss my archive"
+  },
+  "OS": {
+    "title": "You have an offer. You want the terms to make sense.",
+    "pain": "The headline fee isn’t the whole decision. Exclusivity, licensing rights and timing matter too.",
+    "quote": "We’re currently shopping it around to a number of services and would be happy to offer an exclusive for the right license fee, or a non-exclusive for a fair fee and terms.",
+    "quote_id": "Q07",
+    "quote_source": "Offer shopper · anonymized research email",
+    "offer": "A second licensing conversation",
+    "description": "Ask about another estimate and discuss how non-exclusive and exclusive terms compare with the offer you’re considering.",
+    "cta": "Discuss my existing offer"
+  },
+  "MC": {
+    "title": "More than one company. More than one set of records.",
+    "pain": "You need a way to work through the companies separately, without losing sight of the bigger picture.",
+    "quote": "I don’t want to waste your time or mine but, I also don’t want to waste opportunities either.",
+    "quote_id": "Q10",
+    "quote_source": "Multi-company dealmaker · anonymized research email",
+    "offer": "A multi-company scoping conversation",
+    "description": "Discuss which companies to start with, what history each holds, and who can authorize access. Treat each company’s rights and records separately.",
+    "cta": "Discuss my companies"
+  },
+  "AP": {
+    "title": "Actionable opportunities, not another vague introduction.",
+    "pain": "Your buyers need a usable corpus. Company history, systems, authority, asking price, delivery and acceptance all matter—not just another name in a spreadsheet.",
+    "quote": "We only consider actionable opportunities-",
+    "quote_id": "Q20",
+    "quote_source": "Acquisition partner · anonymized research call",
+    "offer": "An acquisition-criteria conversation",
+    "description": "Discuss the datasets your buyers need, the inventory and authority required to assess them, and your delivery and acceptance conditions. Define whether the relationship calls for a referrer or a contracting broker.",
+    "cta": "Discuss our acquisition criteria"
+  }
+}

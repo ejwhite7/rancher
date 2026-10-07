@@ -1,0 +1,18 @@
+services:
+  quiz:
+    image: node:22-bookworm
+    working_dir: /app
+    ports:
+      - "127.0.0.1:4324:4324"
+    volumes:
+      - .:/app
+      - quiz_node_modules:/app/node_modules
+    environment:
+      PRISMIC_CONTENT_MODE: snapshot
+      ASTRO_TELEMETRY_DISABLED: "1"
+      ASTRO_DEV_BACKGROUND: "1"
+      TYPESAFE_API_KEY: ${TYPESAFE_API_KEY:-}
+      TYPESAFE_MODEL: ${TYPESAFE_MODEL:-jev-latest}
+    command: npm run dev -- --host 0.0.0.0 --port 4324 --ignore-lock
+volumes:
+  quiz_node_modules:

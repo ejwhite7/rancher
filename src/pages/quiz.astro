@@ -1,0 +1,43 @@
+---
+import "../styles/global.css";
+import "../styles/quiz.css";
+import QuizFunnel from "../components/QuizFunnel";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import Consent from "../components/Consent.astro";
+import { getSiteContent } from "../lib/prismic";
+const content = await getSiteContent();
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#193e34" />
+    <title>Find your next step · Rancher</title>
+    <link rel="icon" type="image/svg+xml" href="/images/rancher-logo.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#quiz-main">
+      Skip to quiz
+    </a>
+    <Navigation copy={content.navigation} homeLinks />
+    <main id="quiz-main" class="quiz-main">
+      <QuizFunnel
+        token={import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN}
+        host={import.meta.env.PUBLIC_POSTHOG_HOST}
+        client:load
+      />
+      <noscript>
+        <p>
+          This quiz needs JavaScript.{" "}
+          <a href="/contact/">Contact Rancher directly</a> instead.
+        </p>
+      </noscript>
+    </main>
+    <Footer copy={content.footer} />
+    <Consent />
+  </body>
+</html>

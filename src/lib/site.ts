@@ -10,8 +10,8 @@ export function canonicalUrl(path: string) {
 }
 
 export function includeInStaticSitemap(url: string) {
-  // Glossary URLs belong exclusively to the live Prismic sitemap.
-  return !/^\/(?:preview|slice-simulator|api|glossary|blog|authors)(?:\/|$)/.test(
+  // Content collections have live sitemaps; utilities and the noindex quiz stay out.
+  return !/^\/(?:preview|slice-simulator|api|quiz|glossary|blog|authors)(?:\/|$)/.test(
     new URL(url).pathname,
   );
 }

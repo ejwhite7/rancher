@@ -43,6 +43,7 @@ test("static sitemap discovers page routes while excluding utilities and live gl
     "/slice-simulator/",
     "/slice-simulator/render/",
     "/api/submit/",
+    "/quiz/",
     "/glossary/",
     "/glossary/new-term/",
   ]) {
