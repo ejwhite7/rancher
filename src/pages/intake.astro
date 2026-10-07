@@ -1,0 +1,31 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import RichText from "../components/RichText.astro";
+import PartnershipForm from "../components/PartnershipForm";
+import { getSiteContent } from "../lib/prismic";
+import "../styles/intake.css";
+const content = await getSiteContent();
+const { homepage, form, navigation, footer } = content;
+---
+
+<SiteLayout
+  content={content}
+  title="Partnership intake | Rancher"
+  description={form.description}
+>
+  <Navigation copy={navigation} homeLinks />
+  <main id="main-content" class="intake-page">
+    <section class="section">
+      <div class="wrap contact-grid">
+        <header class="contact-copy">
+          <h1>Start your partnership</h1>
+          <RichText value={homepage.contact.description} />
+        </header>
+        <PartnershipForm copy={form} wizard client:load />
+      </div>
+    </section>
+  </main>
+  <Footer copy={footer} />
+</SiteLayout>

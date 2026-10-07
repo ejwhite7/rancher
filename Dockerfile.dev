@@ -1,0 +1,9 @@
+FROM node:22-bookworm
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY vendor ./vendor
+RUN npm ci
+COPY . .
+ENV PRISMIC_CONTENT_MODE=snapshot ASTRO_TELEMETRY_DISABLED=1
+EXPOSE 4323
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "4323"]

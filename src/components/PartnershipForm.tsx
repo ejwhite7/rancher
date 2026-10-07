@@ -4,6 +4,7 @@ import {
   useRef,
   useState,
   type Dispatch,
+  type RefObject,
   type SetStateAction,
   type SubmitEvent,
 } from "react";
@@ -16,6 +17,11 @@ import {
   attributionPersonProperties,
 } from "../lib/attribution";
 import AttributionFields from "./AttributionFields";
+import {
+  INTAKE_STEPS,
+  intakePrefill,
+  useIntakeWizard,
+} from "./useIntakeWizard";
 function historyRange(years: number) {
   if (years <= 5) return "3–5 years";
   if (years <= 10) return "6–10 years";
@@ -222,6 +228,84 @@ function trackPartnershipSubmission(
   );
 }
 
+function RecordTypeFields({
+  copy,
+  recordTypes,
+  setRecordTypes,
+}: {
+  copy: FormContent;
+  recordTypes: string[];
+  setRecordTypes: Dispatch<SetStateAction<string[]>>;
+}) {
+  return (
+    <fieldset className="record-types full">
+      <legend>{copy.records_label}</legend>
+      <p>{copy.records_hint}</p>
+      <div className="record-type-options">
+        {RECORD_TYPES.map((type, index) => (
+          <label key={type}>
+            <input
+              type="checkbox"
+              name="recordTypes"
+              value={type}
+              checked={recordTypes.includes(type)}
+              required={index === 0 && recordTypes.length === 0}
+              onChange={(event) =>
+                setRecordTypes((current) =>
+                  event.target.checked
+                    ? [...current, type]
+                    : current.filter((value) => value !== type),
+                )
+              }
+            />
+            <span>{type}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+function PartnershipIntro({
+  copy,
+  wizard,
+  scenario,
+}: {
+  copy: FormContent;
+  wizard: boolean;
+  scenario: ReturnType<typeof useScenario>;
+}) {
+  return (
+    <>
+      {" "}
+      {!wizard && <h3>{copy.title}</h3>}
+      <p id="calc-context" role="status" hidden={wizard && !scenario?.brief}>
+        {scenario?.brief}
+      </p>
+      {!wizard && <p>{copy.description}</p>}
+    </>
+  );
+}
+
+function useCalculatorDefaults(
+  wizard: boolean,
+  scenario: ReturnType<typeof useScenario>,
+  setSize: Dispatch<SetStateAction<string>>,
+  setHistory: Dispatch<SetStateAction<string>>,
+) {
+  useEffect(() => {
+    if (!scenario) return;
+    const { employees, years } = scenario;
+    // The 200+ slider limit does not identify an actual team-size band.
+    const scenarioSize =
+      employees === EMPLOYEES.max ? "" : employees < 50 ? "20–49" : "50–199";
+    setSize((current) => (wizard && current ? current : scenarioSize));
+    setHistory((current) =>
+      wizard && current ? current : historyRange(years),
+    );
+  }, [scenario, wizard, setSize, setHistory]);
+}
+
 function PartnershipFields({
   copy,
   size,
@@ -230,7 +314,9 @@ function PartnershipFields({
   setHistory,
   recordTypes,
   setRecordTypes,
+  step,
 }: {
+  step?: number;
   copy: FormContent;
   size: string;
   setSize: Dispatch<SetStateAction<string>>;
@@ -240,86 +326,86 @@ function PartnershipFields({
   setRecordTypes: Dispatch<SetStateAction<string[]>>;
 }) {
   return (
-    <div className="form-grid">
-      <PartnershipIdentityFields copy={copy} />
-      <label>
-        {copy.size_label}
-        <select
-          name="size"
-          required
-          value={size}
-          onChange={(event) => setSize(event.target.value)}
-        >
-          <option value="">{copy.select_placeholder}</option>
-          {TEAM_SIZES.map((range) => (
-            <option key={range}>{range}</option>
-          ))}
-        </select>
-      </label>
-      <label>
-        {copy.history_label}
-        <select
-          name="history"
-          required
-          value={history}
-          onChange={(event) => setHistory(event.target.value)}
-        >
-          <option value="">{copy.select_placeholder}</option>
-          {HISTORY_RANGES.map((range) => (
-            <option key={range}>{range}</option>
-          ))}
-        </select>
-      </label>
-      <label className="consent full">
-        <input type="checkbox" name="is_business_active" value="yes" />
-        <span>Is this business active?</span>
-      </label>
-      <fieldset className="record-types full">
-        <legend>{copy.records_label}</legend>
-        <p>{copy.records_hint}</p>
-        <div className="record-type-options">
-          {RECORD_TYPES.map((type, index) => (
-            <label key={type}>
-              <input
-                type="checkbox"
-                name="recordTypes"
-                value={type}
-                checked={recordTypes.includes(type)}
-                required={index === 0 && recordTypes.length === 0}
-                onChange={(event) =>
-                  setRecordTypes((current) =>
-                    event.target.checked
-                      ? [...current, type]
-                      : current.filter((value) => value !== type),
-                  )
-                }
-              />
-              <span>{type}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-      <label>
-        US phone number <span className="optional">Optional</span>
-        <input
-          name="phone"
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel-national"
-          placeholder="(555) 555-0123"
-          maxLength={40}
+    <>
+      <div
+        className="form-grid"
+        data-step="0"
+        hidden={step !== undefined && step !== 0}
+      >
+        <PartnershipIdentityFields copy={copy} />
+      </div>
+      <div
+        className="form-grid"
+        data-step="1"
+        hidden={step !== undefined && step !== 1}
+      >
+        <label>
+          {copy.size_label}
+          <select
+            name="size"
+            required
+            value={size}
+            onChange={(event) => setSize(event.target.value)}
+          >
+            <option value="">{copy.select_placeholder}</option>
+            {TEAM_SIZES.map((range) => (
+              <option key={range}>{range}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          {copy.history_label}
+          <select
+            name="history"
+            required
+            value={history}
+            onChange={(event) => setHistory(event.target.value)}
+          >
+            <option value="">{copy.select_placeholder}</option>
+            {HISTORY_RANGES.map((range) => (
+              <option key={range}>{range}</option>
+            ))}
+          </select>
+        </label>
+        <label className="consent full">
+          <input type="checkbox" name="is_business_active" value="yes" />
+          <span>Is this business active?</span>
+        </label>
+        <RecordTypeFields
+          copy={copy}
+          recordTypes={recordTypes}
+          setRecordTypes={setRecordTypes}
         />
-      </label>
-      <label className="full">
-        {copy.context_label}{" "}
-        <span className="optional">{copy.optional_label}</span>
-        <textarea
-          name="records"
-          placeholder={copy.context_placeholder}
-          maxLength={2000}
-        ></textarea>
-      </label>
-    </div>
+      </div>
+      <div
+        className="form-grid"
+        data-step="2"
+        hidden={step !== undefined && step !== 2}
+      >
+        <label>
+          US phone number <span className="optional">Optional</span>
+          <input
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel-national"
+            placeholder="(555) 555-0123"
+            maxLength={40}
+          />
+        </label>
+        {step === undefined && (
+          <label className="full">
+            {copy.context_label}{" "}
+            <span className="optional">{copy.optional_label}</span>
+            <textarea
+              name="records"
+              placeholder={copy.context_placeholder}
+              maxLength={2000}
+            ></textarea>
+          </label>
+        )}
+      </div>
+    </>
   );
 }
 
@@ -376,35 +462,129 @@ function usePartnershipSubmission(
   return { status, doesNotQualify, ready, submitting, submitRequest };
 }
 
-export default function PartnershipForm({ copy }: { copy: FormContent }) {
-  const scenario = useScenario();
+function usePartnershipFields(
+  wizard: boolean,
+  scenario: ReturnType<typeof useScenario>,
+) {
+  const formRef = useRef<HTMLFormElement>(null);
   const [size, setSize] = useState("");
   const [history, setHistory] = useState("");
   const [recordTypes, setRecordTypes] = useState<string[]>([]);
+  useEffect(() => {
+    if (!wizard || !formRef.current) return;
+    const prefill = intakePrefill(formRef.current);
+    setSize((current) => current || prefill.size);
+    setHistory((current) => current || prefill.history);
+    setRecordTypes((current) =>
+      current.length ? current : prefill.recordTypes,
+    );
+  }, [wizard]);
+  useCalculatorDefaults(wizard, scenario, setSize, setHistory);
+  return {
+    formRef,
+    size,
+    setSize,
+    history,
+    setHistory,
+    recordTypes,
+    setRecordTypes,
+  };
+}
+
+function WizardProgress({
+  step,
+  heading,
+}: {
+  step: number;
+  heading: RefObject<HTMLHeadingElement | null>;
+}) {
+  return (
+    <div className="wizard-progress">
+      <p aria-live="polite">
+        Step {step + 1} of {INTAKE_STEPS.length}
+      </p>
+      <progress
+        aria-label="Intake progress"
+        value={step + 1}
+        max={INTAKE_STEPS.length}
+      />
+      <h4 ref={heading} tabIndex={-1}>
+        {INTAKE_STEPS[step]}
+      </h4>
+    </div>
+  );
+}
+
+function PartnershipActions({
+  copy,
+  wizard,
+  step,
+  ready,
+  submitting,
+  back,
+}: {
+  copy: FormContent;
+  wizard: boolean;
+  step: number;
+  ready: boolean;
+  submitting: boolean;
+  back: () => void;
+}) {
+  const label = wizard
+    ? step < INTAKE_STEPS.length - 1
+      ? "Continue"
+      : "Submit"
+    : copy.submit_label;
+  return (
+    <div className="wizard-actions">
+      {wizard && step > 0 && (
+        <button
+          className="btn btn-secondary"
+          type="button"
+          disabled={submitting}
+          onClick={back}
+        >
+          Back
+        </button>
+      )}
+      <button className="btn" type="submit" disabled={!ready || submitting}>
+        {submitting ? copy.submitting_label : label}
+        {!wizard && <span aria-hidden="true">↗</span>}
+      </button>
+    </div>
+  );
+}
+
+export default function PartnershipForm({
+  copy,
+  wizard = false,
+}: {
+  copy: FormContent;
+  wizard?: boolean;
+}) {
+  const scenario = useScenario();
+  const { formRef, ...fields } = usePartnershipFields(wizard, scenario);
   const { status, doesNotQualify, ready, submitting, submitRequest } =
     usePartnershipSubmission(copy, scenario);
-  useEffect(() => {
-    if (!scenario) return;
-    const { employees, years } = scenario;
-    setSize(
-      // The 200+ slider limit does not identify an actual team-size band.
-      employees === EMPLOYEES.max ? "" : employees < 50 ? "20–49" : "50–199",
-    );
-    setHistory(historyRange(years));
-  }, [scenario]);
+  const { step, stepHeading, advance, back } = useIntakeWizard(
+    wizard,
+    ready,
+    submitting,
+    submitRequest,
+  );
   return (
     <>
       <form
-        className={`form${doesNotQualify ? " form--nonqualifying" : ""}`}
+        className={`form${wizard ? " intake-wizard" : ""}${doesNotQualify ? " form--nonqualifying" : ""}`}
         id="intake"
-        onSubmit={submitRequest}
+        ref={formRef}
+        autoComplete="on"
+        noValidate={wizard}
+        onSubmit={advance}
         aria-busy={submitting}
       >
-        <h3>{copy.title}</h3>
-        <p id="calc-context" role="status">
-          {scenario?.brief}
-        </p>
-        <p>{copy.description}</p>
+        <PartnershipIntro copy={copy} wizard={wizard} scenario={scenario} />
+        {wizard && <WizardProgress step={step} heading={stepHeading} />}
         <AttributionFields />
         <div className="form-honeypot" aria-hidden="true">
           <label>
@@ -414,21 +594,24 @@ export default function PartnershipForm({ copy }: { copy: FormContent }) {
         </div>
         <PartnershipFields
           copy={copy}
-          size={size}
-          setSize={setSize}
-          history={history}
-          setHistory={setHistory}
-          recordTypes={recordTypes}
-          setRecordTypes={setRecordTypes}
+          step={wizard ? step : undefined}
+          {...fields}
         />
-        <label className="consent">
+        <label
+          className="consent"
+          hidden={wizard && step !== INTAKE_STEPS.length - 1}
+        >
           <input type="checkbox" name="communications_consent" value="yes" />
           <span>{copy.consent}</span>
         </label>
-        <button className="btn" type="submit" disabled={!ready || submitting}>
-          {submitting ? copy.submitting_label : copy.submit_label}{" "}
-          <span aria-hidden="true">↗</span>
-        </button>
+        <PartnershipActions
+          copy={copy}
+          wizard={wizard}
+          step={step}
+          ready={ready}
+          submitting={submitting}
+          back={back}
+        />
         <div
           className={`status${doesNotQualify ? " status--nonqualifying" : ""}`}
           id="form-status"
