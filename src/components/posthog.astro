@@ -6,11 +6,17 @@ const uiHost = "https://us.posthog.com";
 const isDevelopment = import.meta.env.DEV;
 ---
 
+<script>
+  import { enrichAdvertisingEvent } from "../lib/advertising-cookies";
+  window.__enrichAdvertisingEvent = enrichAdvertisingEvent;
+</script>
+
 <script
   is:inline
   define:vars={{ projectToken, host, apiHost, uiHost, isDevelopment }}
 >
   let posthogInitialized = false;
+  let advertisingAllowed = false;
 
   function initializePostHog(advertising) {
     if (posthogInitialized) return;
@@ -91,6 +97,11 @@ const isDevelopment = import.meta.env.DEV;
       api_host: apiHost,
       ui_host: uiHost,
       opt_in_site_apps: advertising,
+      person_profiles: advertising ? "always" : "identified_only",
+      before_send: (event) =>
+        advertisingAllowed
+          ? (window.__enrichAdvertisingEvent?.(event, document.cookie) ?? event)
+          : event,
       defaults: "2026-01-30",
       capture_exceptions: {
         capture_unhandled_errors: true,
@@ -104,6 +115,8 @@ const isDevelopment = import.meta.env.DEV;
 
   window.addEventListener("rancher:consent", (event) => {
     const settings = event.detail;
+    advertisingAllowed =
+      settings.advertising && !navigator.globalPrivacyControl;
     if (settings.analytics_storage) {
       initializePostHog(settings.advertising);
       window.posthog?.opt_in_capturing?.();

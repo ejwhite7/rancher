@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { advertisingRequestProperties } from "./advertising-cookies";
 
 export const ATTRIBUTION_KEYS = [
   "source",
@@ -101,45 +102,11 @@ const CLICK_ID_KEYS = [
   "twclid",
 ] as const;
 
-function clickIdsFromCookies(request?: Request) {
-  const decode = (value: string) => {
-    try {
-      return decodeURIComponent(value);
-    } catch {
-      return "";
-    }
-  };
-  const cookies = Object.fromEntries(
-    (request?.headers.get("cookie") || "").split(/;\s*/).flatMap((part) => {
-      const index = part.indexOf("=");
-      return index > 0
-        ? [[part.slice(0, index), decode(part.slice(index + 1))]]
-        : [];
-    }),
-  );
-  try {
-    if (
-      cookies.rancher_consent &&
-      JSON.parse(cookies.rancher_consent).advertising === false
-    )
-      return {};
-  } catch {}
-  const tagged = (value: string | undefined, prefixParts = 2) =>
-    value?.split(".").slice(prefixParts).join(".") || undefined;
-  return {
-    gclid: tagged(cookies._gcl_aw),
-    dclid: tagged(cookies._gcl_dc),
-    fbclid: tagged(cookies._fbc, 3),
-    msclkid: cookies._uetmsclkid,
-    li_fat_id: cookies.li_fat_id,
-  };
-}
-
 export function attributionEventProperties(
   attribution: Attribution,
   request?: Request,
 ) {
-  const cookieIds = clickIdsFromCookies(request);
+  const cookieIds = advertisingRequestProperties(request);
   return Object.fromEntries([
     ...UTM_KEYS.flatMap((key) => {
       const first = attribution.first[key];

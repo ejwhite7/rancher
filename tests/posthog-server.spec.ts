@@ -112,7 +112,7 @@ test("malformed optional consent cookies preserve linker fallback and explicit c
   }
 });
 
-test("server form capture uses the submission id for PostHog deduplication", async () => {
+async function captureTestFormEvent(headers: Record<string, string> = {}) {
   const originalFetch = globalThis.fetch;
   const originalToken = process.env.PUBLIC_POSTHOG_PROJECT_TOKEN;
   const originalHost = process.env.PUBLIC_POSTHOG_HOST;
@@ -138,8 +138,11 @@ test("server form capture uses the submission id for PostHog deduplication", asy
         headers: {
           referer: "https://www.gorancher.com/contact/",
           "user-agent": "test-agent",
+          cookie:
+            "_fbp=fb.1.1791408000000.12345; _fbc=fb.1.1791408000000.synthetic-click; _gcl_aw=GCL.1791408000.synthetic-google-click",
           "x-forwarded-for": "203.0.113.1, 10.0.0.1",
           "x-posthog-session-id": "018f47a2-9b3c-7def-8123-456789abcdef",
+          ...headers,
         },
       }),
     });
@@ -151,9 +154,26 @@ test("server form capture uses the submission id for PostHog deduplication", asy
     if (originalHost === undefined) delete process.env.PUBLIC_POSTHOG_HOST;
     else process.env.PUBLIC_POSTHOG_HOST = originalHost;
   }
-  expect(request?.body.properties).not.toHaveProperty("$set_once");
-  expect(request?.url).toBe("https://posthog.test/i/v0/e/");
-  expect(request?.body).toMatchObject({
+  expect(request).toBeDefined();
+  return request!;
+}
+
+test("server form capture uses the submission id for PostHog deduplication", async () => {
+  const request = await captureTestFormEvent();
+  expect(request.body.properties).toMatchObject({
+    $fbp: "fb.1.1791408000000.12345",
+    $fbc: "fb.1.1791408000000.synthetic-click",
+    gclid: "synthetic-google-click",
+    $set: {
+      email: "person@example.com",
+      $fbp: "fb.1.1791408000000.12345",
+      $fbc: "fb.1.1791408000000.synthetic-click",
+      gclid: "synthetic-google-click",
+    },
+  });
+  expect(request.body.properties).not.toHaveProperty("$set_once");
+  expect(request.url).toBe("https://posthog.test/i/v0/e/");
+  expect(request.body).toMatchObject({
     api_key: "phc_test",
     event: "contact_form_submitted",
     distinct_id: "person@example.com",
@@ -170,4 +190,24 @@ test("server form capture uses the submission id for PostHog deduplication", asy
       $ip: "203.0.113.1",
     },
   });
+});
+
+function expectNoMatchingCookies(body: Record<string, any>) {
+  expect(body.properties.$set).toEqual({ email: "person@example.com" });
+  for (const key of ["_fbp", "_fbc", "_gcl_aw", "$fbp", "$fbc", "gclid"]) {
+    expect(body.properties).not.toHaveProperty(key);
+  }
+}
+
+test("server capture suppresses cookie enrichment for request GPC", async () => {
+  const { body } = await captureTestFormEvent({ "sec-gpc": "1" });
+  expectNoMatchingCookies(body);
+});
+
+test("server capture suppresses cookie enrichment for advertising opt-out", async () => {
+  const { body } = await captureTestFormEvent({
+    cookie:
+      '_fbp=fb.1.1791408000000.12345; rancher_consent={"advertising":false}',
+  });
+  expectNoMatchingCookies(body);
 });

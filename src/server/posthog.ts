@@ -2,6 +2,7 @@ import {
   attributionEventProperties,
   attributionPersonProperties,
 } from "../lib/attribution";
+import { advertisingRequestProperties } from "../lib/advertising-cookies";
 import type { ContactSubmission } from "../lib/contact-submission";
 import type { ReferralSubmission } from "../lib/referral-submission";
 import {
@@ -38,9 +39,10 @@ const posthogIdHeader = (request: Request, name: string) => {
   return value && uuidV7.test(value) ? value.toLowerCase() : undefined;
 };
 
-function personUpdates(input: CaptureInput): JsonObject {
+function personUpdates(input: CaptureInput, matching: JsonObject): JsonObject {
+  const set = { ...matching, ...input.set };
   return {
-    ...(input.set && Object.keys(input.set).length ? { $set: input.set } : {}),
+    ...(Object.keys(set).length ? { $set: set } : {}),
     ...(input.setOnce && Object.keys(input.setOnce).length
       ? { $set_once: input.setOnce }
       : {}),
@@ -60,7 +62,9 @@ export async function captureFormEvent(input: CaptureInput) {
     ?.split(",")[0]
     ?.trim();
   const sessionId = posthogIdHeader(input.request, "x-posthog-session-id");
+  const matching = advertisingRequestProperties(input.request);
   const properties: JsonObject = {
+    ...matching,
     ...input.properties,
     ...(sessionId ? { $session_id: sessionId } : {}),
     $lib: "rancher-server",
@@ -72,7 +76,7 @@ export async function captureFormEvent(input: CaptureInput) {
       input.request.headers.get("referer") || new URL(input.request.url).origin,
     $raw_user_agent: input.request.headers.get("user-agent") || undefined,
     $ip: forwarded || undefined,
-    ...personUpdates(input),
+    ...personUpdates(input, matching),
   };
   const response = await fetch(endpoint(), {
     method: "POST",

@@ -1,4 +1,5 @@
 interface Window {
+  __enrichAdvertisingEvent?: typeof import("../lib/advertising-cookies").enrichAdvertisingEvent;
   Attributor?: new (config: Record<string, unknown>) => {
     fillFormFields: (settings?: {
       scope?: ParentNode;
