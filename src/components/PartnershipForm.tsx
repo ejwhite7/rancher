@@ -340,7 +340,10 @@ function PartnershipFields({
         hidden={step !== undefined && step !== 1}
       >
         <label>
-          {copy.size_label}
+          {copy.size_label.replace(
+            /Company size \(full-time employees\)/i,
+            "Company Size (FTE Count)",
+          )}
           <select
             name="size"
             required

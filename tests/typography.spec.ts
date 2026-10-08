@@ -40,6 +40,12 @@ test("homepage omits the requested copy and keeps privacy controls readable", as
   ]) {
     await expect(page.getByText(text, { exact: false })).toHaveCount(0);
   }
+  await expect(
+    page.getByRole("combobox", {
+      name: "Company Size (FTE Count)",
+      exact: true,
+    }),
+  ).toHaveCount(1);
   await page.getByRole("button", { name: "Manage choices" }).click();
   await expect(page.locator('[data-consent-tpl="modal"]')).toBeVisible();
   await expectReadableText(page);

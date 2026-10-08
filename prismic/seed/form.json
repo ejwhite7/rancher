@@ -10,7 +10,7 @@
   "job_title_placeholder": "Your role",
   "company_label": "Company",
   "company_placeholder": "Company name",
-  "size_label": "Company size (full-time employees)",
+  "size_label": "Company Size (FTE Count)",
   "select_placeholder": "Select range",
   "history_label": "Available data history",
   "records_label": "What types of records could be in scope?",
