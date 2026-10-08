@@ -2,7 +2,7 @@ import { timingSafeEqual } from "node:crypto";
 import type { APIRoute } from "astro";
 import { syncSheetStages } from "../../../server/attio-stage-sync";
 import { serverEnv } from "../../../server/database";
-import { serverLog } from "../../../server/logger";
+import { sanitizedErrorCode, serverLog } from "../../../server/logger";
 
 export const prerender = false;
 export const GET: APIRoute = async ({ request }) => {
@@ -15,15 +15,13 @@ export const GET: APIRoute = async ({ request }) => {
   )
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   try {
-    return Response.json(await syncSheetStages(), {
+    const dryRun = new URL(request.url).searchParams.get("dry_run") === "1";
+    return Response.json(await syncSheetStages(fetch, dryRun), {
       headers: { "Cache-Control": "no-store" },
     });
   } catch (error) {
     await serverLog("error", "attio_stage_sync_failed", {
-      error_code:
-        error instanceof Error
-          ? error.message.replace(/[^a-zA-Z0-9_ ()-]/g, "").slice(0, 120)
-          : "unknown",
+      error_code: sanitizedErrorCode(error),
     });
     return Response.json(
       { error: "Stage synchronization failed." },

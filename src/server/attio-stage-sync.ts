@@ -5,7 +5,7 @@ const ATTIO_API = "https://api.attio.com/v2";
 const STATUS_TO_STAGE: Record<string, string> = {
   introduced: "Introduced",
   inventory: "Inventory",
-  rejected: "Lost",
+  rejected: "Unqualified",
   "closed lost": "Lost",
   "closed won": "Won 🎉",
 };
@@ -23,7 +23,7 @@ export function stageForSheetStatus(value: unknown) {
     : null;
 }
 
-export const stageForSheetRow = (row: unknown[]) => stageForSheetStatus(row[6]);
+export const stageForSheetRow = (row: unknown[]) => stageForSheetStatus(row[8]);
 
 async function attio(path: string, init: RequestInit, send: typeof fetch) {
   const key = serverEnv("ATTIO_API_KEY");
@@ -58,16 +58,12 @@ function associatedDealIds(person: AttioRecord) {
 
 function currentStageTitle(deal: AttioRecord | undefined) {
   const current = deal?.values?.stage?.[0]?.status;
-  return current && typeof current === "object" && "title" in current
-    ? String(current.title)
-    : "";
+  if (!current || typeof current !== "object") return "";
+  const title = "title" in current ? current.title : undefined;
+  return typeof title === "string" ? title : "";
 }
 
-async function syncOne(
-  email: string,
-  desiredStage: string,
-  send: typeof fetch,
-) {
+async function dealForEmail(email: string, send: typeof fetch) {
   const people = (await attio(
     "/objects/people/records/query",
     {
@@ -85,9 +81,23 @@ async function syncOne(
     { method: "GET" },
     send,
   )) as AttioRecord | undefined;
-  if (currentStageTitle(deal) === desiredStage) return "unchanged";
+  return { id: dealIds[0], stage: currentStageTitle(deal) };
+}
+
+async function syncOne(
+  email: string,
+  desiredStage: string,
+  send: typeof fetch,
+  dryRun = false,
+) {
+  const deal = await dealForEmail(email, send);
+  if (typeof deal === "string") return deal;
+  const currentStage = deal.stage;
+  if (!currentStage) return "missing";
+  if (currentStage === desiredStage) return "unchanged";
+  if (dryRun) return "wouldUpdate";
   await attio(
-    `/objects/deals/records/${dealIds[0]}`,
+    `/objects/deals/records/${deal.id}`,
     {
       method: "PATCH",
       body: JSON.stringify({
@@ -99,7 +109,10 @@ async function syncOne(
   return "updated";
 }
 
-export async function syncSheetStages(send: typeof fetch = fetch) {
+export async function syncSheetStages(
+  send: typeof fetch = fetch,
+  dryRun = false,
+) {
   const rows = await readDealsSheet(send);
   const candidates = rows.slice(1).flatMap((row) => {
     const email = typeof row[2] === "string" ? row[2].trim().toLowerCase() : "";
@@ -109,6 +122,7 @@ export async function syncSheetStages(send: typeof fetch = fetch) {
   const counts = {
     scanned: candidates.length,
     updated: 0,
+    wouldUpdate: 0,
     unchanged: 0,
     missing: 0,
     ambiguous: 0,
@@ -117,7 +131,7 @@ export async function syncSheetStages(send: typeof fetch = fetch) {
     const results = await Promise.all(
       candidates
         .slice(index, index + 4)
-        .map(({ email, stage }) => syncOne(email, stage, send)),
+        .map(({ email, stage }) => syncOne(email, stage, send, dryRun)),
     );
     for (const result of results) counts[result] += 1;
   }

@@ -30,9 +30,9 @@ test("maps partnership submissions to Deals A:I", () => {
     "",
     "20–49",
     "3–5 years",
-    "",
+    true,
     "Documents & files; Projects & knowledge; Project histories",
-    "true",
+    "",
   ]);
 });
 

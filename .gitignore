@@ -23,3 +23,5 @@ content/corral/runs/
 # Local code-health index and verification evidence
 .repowise/
 artifacts/intake-health/
+# Local lead reconciliation contains personal information.
+artifacts/sheet-reconciliation/

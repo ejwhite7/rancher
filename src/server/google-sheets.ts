@@ -1,12 +1,24 @@
 import { createSign } from "node:crypto";
 import type { ReferralSubmission } from "../lib/referral-submission";
 import type { Submission } from "../lib/submission";
-import { serverEnv } from "./database";
-import { serverLog } from "./logger";
+import { database, serverEnv } from "./database";
+import { sanitizedErrorCode, serverLog } from "./logger";
 
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets";
 const TAB = "Deals";
+type SheetCell = string | boolean;
+export const DEALS_HEADERS = [
+  "Company Name",
+  "Contact Name",
+  "Contact Email",
+  "Industry",
+  "Peak FTE",
+  "Operating History (years)",
+  "Operational (Y/N)",
+  "Data Sources",
+  "Status",
+];
 let tokenCache: { value: string; expiresAt: number } | undefined;
 
 const base64url = (value: string | Buffer) =>
@@ -79,12 +91,15 @@ export async function readDealsSheet(send: typeof fetch = fetch) {
   const body = (await response.json()) as { values?: unknown[][] };
   if (!response.ok)
     throw new Error(`Google Sheets read failed (${response.status})`);
-  return body.values || [];
+  const rows = body.values || [];
+  if (!DEALS_HEADERS.every((header, index) => rows[0]?.[index] === header))
+    throw new Error("Deals headers do not match the configured sheet schema");
+  return rows;
 }
 
 async function writeSheetRow(
   row: number,
-  values: string[],
+  values: SheetCell[],
   send: typeof fetch = fetch,
 ) {
   const token = await accessToken(send);
@@ -110,14 +125,42 @@ async function writeSheetRow(
   await response.body?.cancel();
 }
 
-async function appendRow(values: string[], send: typeof fetch = fetch) {
-  const rows = await readDealsSheet(send);
+const canonical = (value: unknown) =>
+  String(value ?? "")
+    .trim()
+    .toLowerCase();
+
+export function sheetRowTarget(rows: unknown[][], values: SheetCell[]) {
+  const existing = rows
+    .slice(1)
+    .some(
+      (row) =>
+        canonical(row[2]) === canonical(values[2]) &&
+        canonical(row[0]) === canonical(values[0]),
+    );
+  if (existing) return null; // Never reset an existing deal’s manually maintained status.
   const empty = rows.findIndex(
     (row, index) =>
       index > 0 &&
       [...row.slice(0, 6), row[7], row[8]].every((value) => !value),
   );
-  await writeSheetRow(empty < 0 ? rows.length + 1 : empty + 1, values, send);
+  return empty < 0 ? rows.length + 1 : empty + 1;
+}
+
+export async function ensureSheetRow(
+  values: SheetCell[],
+  send: typeof fetch = fetch,
+) {
+  if (canonical(values[2]) === "ewhite@growthcast.app") return "excluded";
+  // ponytail: one lock per spreadsheet; split by tab if write throughput grows.
+  return database().begin(async (sql) => {
+    await sql`SELECT pg_advisory_xact_lock(hashtextextended(${`rancher:sheet:${spreadsheetId()}`}, 0))`;
+    const rows = await readDealsSheet(send);
+    const row = sheetRowTarget(rows, values);
+    if (row === null) return "existing";
+    await writeSheetRow(row, values, send);
+    return "added";
+  });
 }
 
 export const partnershipSheetRow = (submission: Submission) => [
@@ -127,9 +170,9 @@ export const partnershipSheetRow = (submission: Submission) => [
   "",
   submission.size,
   submission.history,
-  "",
+  submission.isBusinessActive,
   [...submission.recordTypes, submission.records].filter(Boolean).join("; "),
-  String(submission.isBusinessActive),
+  "",
 ];
 
 export const referralSheetRow = (submission: ReferralSubmission) => [
@@ -144,15 +187,12 @@ export const referralSheetRow = (submission: ReferralSubmission) => [
   "",
 ];
 
-async function safelyAppend(values: string[]) {
+async function safelyAppend(values: SheetCell[]) {
   try {
-    await appendRow(values);
+    await ensureSheetRow(values);
   } catch (error) {
     await serverLog("error", "google_sheets_sync_failed", {
-      error_code:
-        error instanceof Error
-          ? error.message.replace(/[^a-zA-Z0-9_ ()-]/g, "").slice(0, 120)
-          : "unknown",
+      error_code: sanitizedErrorCode(error),
     });
   }
 }

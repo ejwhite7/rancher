@@ -6,6 +6,11 @@ import {
   LoggerProvider,
 } from "@opentelemetry/sdk-logs";
 
+export const sanitizedErrorCode = (error: unknown) =>
+  error instanceof Error
+    ? error.message.replace(/[^a-zA-Z0-9_ ()-]/g, "").slice(0, 120)
+    : "unknown";
+
 type LogAttributes = Record<string, string | number | boolean>;
 type LogLevel = "info" | "warn" | "error";
 

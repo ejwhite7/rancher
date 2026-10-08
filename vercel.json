@@ -37,7 +37,7 @@
     },
     {
       "path": "/api/cron/attio-stages/",
-      "schedule": "0 */4 * * *"
+      "schedule": "0 * * * *"
     }
   ]
 }

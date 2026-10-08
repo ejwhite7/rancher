@@ -26,8 +26,8 @@ function stageSyncHarness() {
     },
   );
   return {
-    sync: async (send: typeof fetch) =>
-      syncOne("person@example.com", "Lost", send),
+    sync: async (send: typeof fetch, dryRun = false) =>
+      syncOne("person@example.com", "Lost", send, dryRun),
     removeKey: () => {
       key = undefined;
     },
@@ -94,21 +94,63 @@ test("stage synchronization preserves relationship refusal and exact request con
     ]),
   ).toBe("unchanged");
   expect(calls).toHaveLength(2);
-  for (const deal of [
-    undefined,
-    {},
-    { values: { stage: [{ status: "Lost" }] } },
-    { values: { stage: [{ status: { title: 42 } }] } },
-  ]) {
-    expect(await run([[person(["one"])], deal, {}])).toBe("updated");
-    expectUpdatedStageRequest(calls);
-  }
+  expect(
+    await run([
+      [person(["one"])],
+      { values: { stage: [{ status: { title: "Lead" } }] } },
+      {},
+    ]),
+  ).toBe("updated");
+  expectUpdatedStageRequest(calls);
   harness.removeKey();
   calls.length = 0;
   await expect(harness.sync(send)).rejects.toThrow(
     "Attio API key is not configured",
   );
   expect(calls).toEqual([]);
+});
+
+test("stage synchronization refuses missing or unreadable current stages", async () => {
+  const { sync } = stageSyncHarness();
+  for (const deal of [
+    undefined,
+    {},
+    { values: { stage: [{ status: "Lost" }] } },
+    { values: { stage: [{ status: { title: 42 } }] } },
+  ]) {
+    const methods: string[] = [];
+    const data = [
+      [{ values: { associated_deals: [{ target_record_id: "one" }] } }],
+      deal,
+    ];
+    const send: typeof fetch = async (_, init) => {
+      methods.push(init!.method!);
+      return Response.json({ data: data.shift() });
+    };
+    expect(await sync(send)).toBe("missing");
+    expect(methods).toEqual(["POST", "GET"]);
+  }
+});
+
+test("stage dry run reads current stage without sending PATCH", async () => {
+  const { sync } = stageSyncHarness();
+  const methods: string[] = [];
+  const responses = [
+    [{ values: { associated_deals: [{ target_record_id: "one" }] } }],
+    { values: { stage: [{ status: { title: "Lead" } }] } },
+  ];
+  const send: typeof fetch = async (_, init) => {
+    methods.push(init!.method!);
+    return Response.json({ data: responses.shift() });
+  };
+  expect(await sync(send, true)).toBe("wouldUpdate");
+  expect(methods).toEqual(["POST", "GET"]);
+  const config = JSON.parse(readFileSync("vercel.json", "utf8"));
+  expect(
+    config.crons.find(
+      (cron: { path: string }) => cron.path === "/api/cron/attio-stages/",
+    ).schedule,
+  ).toBe("0 * * * *");
 });
 
 test("stage synchronization parses response before status refusal and never proceeds after failure", async () => {
@@ -139,24 +181,28 @@ test("stage synchronization parses response before status refusal and never proc
 test("maps supported sheet statuses to Attio deal stages", () => {
   expect(stageForSheetStatus("Introduced")).toBe("Introduced");
   expect(stageForSheetStatus("inventory")).toBe("Inventory");
-  expect(stageForSheetStatus("Rejected")).toBe("Lost");
+  expect(stageForSheetStatus("Rejected")).toBe("Unqualified");
   expect(stageForSheetStatus(" Closed Lost ")).toBe("Lost");
   expect(stageForSheetStatus("Closed Won")).toBe("Won 🎉");
 });
 
-test("reads status from column G, not data sources in column H", () => {
-  expect(stageForSheetRow(["", "", "", "", "", "", "Introduced", "CRM"])).toBe(
-    "Introduced",
-  );
+test("reads status from column I, not operational G or data sources H", () => {
   expect(
-    stageForSheetRow(["", "", "", "", "", "", "", "Closed Won"]),
+    stageForSheetRow(["", "", "", "", "", "", true, "CRM", "Introduced"]),
+  ).toBe("Introduced");
+  expect(
+    stageForSheetRow(["", "", "", "", "", "", "Inventory", "Closed Won", ""]),
   ).toBeNull();
+  expect(
+    stageForSheetRow(["", "", "", "", "", "", false, "", "Rejected"]),
+  ).toBe("Unqualified");
 });
 
 test("ignores empty and unsupported sheet statuses", () => {
   expect(stageForSheetStatus("")).toBeNull();
   expect(stageForSheetStatus("  ")).toBeNull();
   expect(stageForSheetStatus("Discovery")).toBeNull();
+  expect(stageForSheetStatus("Accepted")).toBeNull();
   expect(stageForSheetStatus("Maybe")).toBeNull();
   expect(stageForSheetStatus(42)).toBeNull();
 });
