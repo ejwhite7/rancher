@@ -24,9 +24,9 @@ const result = (
   model: "jev-1.13.0",
   confidence: 0.4,
   probabilities: Object.fromEntries(
-    ["AO", "OS", "MC", "AP"].map((id) => [
+    ["AO", "OS", "MC"].map((id) => [
       id,
-      id === top ? probability : (1 - probability) / 3,
+      id === top ? probability : (1 - probability) / 2,
     ]),
   ) as Classification["probabilities"],
 });
@@ -47,12 +47,13 @@ test("shared contract rejects invalid distributions, metadata, confidence and ch
     { confidence: Infinity },
     { top: "unknown" },
     { top: "AP" },
-    { probabilities: { AO: Infinity, OS: 0, MC: 0, AP: 0 } },
-    { probabilities: { AO: NaN, OS: 0, MC: 0, AP: 1 } },
-    { probabilities: { AO: -0.1, OS: 0.1, MC: 0, AP: 1 } },
-    { probabilities: { AO: 1, OS: 1, MC: 1, AP: 1 } },
-    { probabilities: { AO: 1, OS: 0, MC: 0 } },
-    { probabilities: { AO: 1, OS: 0, MC: 0, AP: 0, extra: 0 } },
+    { probabilities: { AO: Infinity, OS: 0, MC: 0 } },
+    { probabilities: { AO: NaN, OS: 0, MC: 1 } },
+    { probabilities: { AO: -0.1, OS: 0.1, MC: 1 } },
+    { probabilities: { AO: 1, OS: 1, MC: 1 } },
+    { probabilities: { AO: 1, OS: 0 } },
+    { probabilities: { AO: 1, OS: 0, MC: 0, extra: 0 } },
+    { probabilities: { AO: 1, OS: 0, MC: 0, AP: 0 } },
   ]) {
     const data = { ...result(), ...change };
     expect(classificationSchema.safeParse(data).success).toBe(false);
@@ -92,13 +93,13 @@ test("written corrections determine the final landing without another tailored q
   expect(state.path.at(-1)).toBe("q7_dataset");
   state = answer(
     state,
-    result("AP"),
-    "I acquire corpora for downstream buyers.",
+    result("MC"),
+    "I represent several companies with data to license to Rancher.",
   );
   expect(state.path.at(-1)).toBe("q8_discussion");
-  state = answer(state, result("AP"));
+  state = answer(state, result("MC"));
   expect(state.completed).toBe(true);
-  expect(state.classification?.top).toBe("AP");
+  expect(state.classification?.top).toBe("MC");
   expect(state.path).toHaveLength(8);
   const back = rewindQuiz(state);
   expect(back.completed).toBe(false);
@@ -115,13 +116,13 @@ test("back preserves unfinished drafts but editing an earlier answer clears futu
   expect(q2.cached).not.toHaveProperty("q2"); // Immutable transitions leave prior snapshots untouched.
 });
 test("uncertainty uses shared qualifying questions and written corrections never reopen a branch", () => {
-  let state = answer(initialQuizState, result("AP", 0.5));
-  state = answer(state, result("AP", 0.5));
+  let state = answer(initialQuizState, result("MC", 0.5));
+  state = answer(state, result("MC", 0.5));
   expect(state.path.at(-1)).toBe("q3_shared");
-  state = answer(state, result("AP", 0.5));
+  state = answer(state, result("MC", 0.5));
   expect(state.path.at(-1)).toBe("q4_shared");
-  state = answer(state, result("AP"));
-  expect(state.path.at(-1)).toBe("q5_AP");
+  state = answer(state, result("MC"));
+  expect(state.path.at(-1)).toBe("q5_transaction");
   state = answer(state, result("MC"));
   expect(state.path.at(-1)).toBe("q6_timing");
   state = answer(state, result("MC"));

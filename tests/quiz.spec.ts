@@ -89,7 +89,9 @@ function classification(
     probabilities: Object.fromEntries(
       archetypeIds.map((id) => [
         id,
-        id === top ? probability : (1 - probability) / 3,
+        id === top
+          ? probability
+          : (1 - probability) / (archetypeIds.length - 1),
       ]),
     ) as Classification["probabilities"],
     confidence: 0.4,
@@ -99,7 +101,7 @@ function classification(
 }
 test("all Jev routes terminate with 6–8 questions and two tailored choices when confident", () => {
   for (const top of archetypeIds)
-    for (const probability of [0.25, 0.85, 0.850001, 0.99]) {
+    for (const probability of [0.34, 0.85, 0.850001, 0.99]) {
       const result = classification(top, probability);
       const answers: Answers = {};
       const seen: string[] = [];
@@ -133,38 +135,38 @@ test("all Jev routes terminate with 6–8 questions and two tailored choices whe
 });
 test("uses the Jev probability, not confidence or option weights, for the strict cutoff", () => {
   const answers = { q1: "q1_0", q2: "q2_0" };
-  expect(nextQuestion("q2", answers, classification("AP", 0.85))).toBe(
+  expect(nextQuestion("q2", answers, classification("MC", 0.85))).toBe(
     "q3_shared",
   );
-  expect(nextQuestion("q2", answers, classification("AP", 0.850001))).toBe(
-    "q3_AP",
+  expect(nextQuestion("q2", answers, classification("MC", 0.850001))).toBe(
+    "q3_MC",
   );
-  expect(nextQuestion("q1", { q1: "q1_0" }, classification("AP"))).toBe("q2");
+  expect(nextQuestion("q1", { q1: "q1_0" }, classification("MC"))).toBe("q2");
 });
 test("written answers finish the flow, role changes switch the second follow-up, and back invalidates descendants", () => {
   const answers = {
     q1: "q1_0",
     q2: "q2_0",
     q3_AO: "q3_AO_0",
-    q4_AP: "q4_AP_0",
-    q5_AP: "q5_AP_0",
+    q4_MC: "q4_MC_0",
+    q5_transaction: "q5_transaction_0",
     q6_timing: "q6_timing_0",
-    q7_dataset: "I acquire data for buyers",
-    q8_discussion: "A usable corpus",
+    q7_dataset: "I represent several businesses with data to sell to Rancher.",
+    q8_discussion: "Licensing rights and seller compensation",
   };
-  expect(nextQuestion("q3_AO", answers, classification("AP"))).toBe("q4_AP");
-  expect(nextQuestion("q3_AO", answers, classification("AP", 0.85))).toBe(
+  expect(nextQuestion("q3_AO", answers, classification("MC"))).toBe("q4_MC");
+  expect(nextQuestion("q3_AO", answers, classification("MC", 0.85))).toBe(
     "q4_motivation",
   );
   expect(
-    nextQuestion("q8_discussion", answers, classification("AP")),
+    nextQuestion("q8_discussion", answers, classification("MC")),
   ).toBeNull();
   const edited = invalidateAfter(answers, Object.keys(answers), 1);
   expect(edited.answers).toEqual({ q1: "q1_0", q2: "q2_0" });
   expect(edited.invalidated).toEqual([
     "q3_AO",
-    "q4_AP",
-    "q5_AP",
+    "q4_MC",
+    "q5_transaction",
     "q6_timing",
     "q7_dataset",
     "q8_discussion",
@@ -333,6 +335,7 @@ test("staff labels validate input, require an opted-in session, and sign the cap
   for (const input of [
     null,
     { sessionId, archetype: "UNKNOWN", confirmedIndependent: true },
+    { sessionId, archetype: "AP", confirmedIndependent: true },
     { sessionId, archetype: "AO", confirmedIndependent: false },
   ]) {
     expect(
@@ -350,7 +353,7 @@ test("staff labels validate input, require an opted-in session, and sign the cap
       await handleQuizDashboard(
         request("POST", {
           sessionId: activeId,
-          archetype: "AP",
+          archetype: "MC",
           confirmedIndependent: true,
         }),
         { env, fetch: send, now: () => now },
@@ -358,7 +361,7 @@ test("staff labels validate input, require an opted-in session, and sign the cap
     ).status,
   ).toBe(404);
   const response = await handleQuizDashboard(
-    request("POST", { sessionId, archetype: "AP", confirmedIndependent: true }),
+    request("POST", { sessionId, archetype: "MC", confirmedIndependent: true }),
     { env, fetch: send, now: () => now },
   );
   expect(response.status).toBe(201);
@@ -366,7 +369,7 @@ test("staff labels validate input, require an opted-in session, and sign the cap
   expect(captured[0]).toMatchObject({
     event: "quiz_label_verified",
     properties: {
-      label_signature: labelSignature(signingKey, sessionId, "AP"),
+      label_signature: labelSignature(signingKey, sessionId, "MC"),
       $ip: null,
       $process_person_profile: false,
     },

@@ -25,11 +25,11 @@ export async function runQuizConsentBrowser({ browser, base }) {
         route.request().method() === "GET"
           ? { configured: true }
           : {
-              top: "AP",
+              top: "MC",
               source: "jev",
               model: "jev-1.13.0",
               confidence: 0.9,
-              probabilities: { AO: 0.01, OS: 0.02, MC: 0.03, AP: 0.94 },
+              probabilities: { AO: 0.02, OS: 0.04, MC: 0.94 },
             },
     });
   await page.route("**/api/quiz/classify/", mock);
@@ -45,7 +45,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
     );
   }
   await page.goto(`${base}/quiz/`);
-  await choice("q1", "q1_3");
+  await choice("q1", "q1_2");
   if (events.length)
     throw new Error("Shares answers before saved site consent");
   await page.getByRole("button", { name: "Allow all", exact: true }).click();
@@ -65,23 +65,23 @@ export async function runQuizConsentBrowser({ browser, base }) {
     instance.set_config({ opt_out_useragent_filter: true }); // Synthetic test instance only.
     instance.capture("quiz_session_started", {
       quiz_session_id: instance.get_distinct_id(),
-      quiz_version: "rancher-quiz-v4-jev",
+      quiz_version: "rancher-quiz-v5-sellers-jev",
     });
   });
-  await choice("q2", "q2_5");
+  await choice("q2", "q2_4");
   await page.waitForTimeout(200);
   const answered = events.find((event) => event.event === "quiz_answered");
   if (
     !answered ||
     answered.properties.scoring_source !== "jev" ||
     answered.properties.classifier_model !== "jev-1.13.0" ||
-    Object.keys(answered.properties.probabilities).length !== 4 ||
-    answered.properties.quiz_version !== "rancher-quiz-v4-jev"
+    Object.keys(answered.properties.probabilities).length !== 3 ||
+    answered.properties.quiz_version !== "rancher-quiz-v5-sellers-jev"
   )
     throw new Error("Consented answer lacks current Jev metadata");
-  await choice("q3_AP");
-  await choice("q4_AP");
-  await choice("q5_AP");
+  await choice("q3_MC");
+  await choice("q4_MC");
+  await choice("q5_transaction");
   await choice("q6_timing");
   await page
     .locator("#quiz-written")
@@ -112,7 +112,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
     .locator("#quiz-written")
     .fill("Nothing specific after withdrawal.");
   await page.getByRole("button", { name: "Continue", exact: false }).click();
-  await page.locator("#landing_AP").waitFor();
+  await page.locator("#landing_MC").waitFor();
   await page.waitForTimeout(200);
   if (events.length !== before)
     throw new Error("Analytics continue after withdrawal");
@@ -139,6 +139,6 @@ export async function runQuizConsentBrowser({ browser, base }) {
   if (captured) throw new Error("GPC permits quiz analytics");
   await gpcContext.close();
   console.log(
-    "New-prospect SDK saved-consent, written payload, withdrawal, GPC and v4-cohort checks passed.",
+    "New-prospect SDK saved-consent, written payload, withdrawal, GPC and seller-only v5-cohort checks passed.",
   );
 }

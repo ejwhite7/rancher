@@ -8,7 +8,6 @@ const probabilities = z.strictObject({
   AO: probability,
   OS: probability,
   MC: probability,
-  AP: probability,
 });
 
 export const classificationSchema = z

@@ -38,9 +38,9 @@ export async function runQuizBrowser({ page }) {
         model: "jev-1.13.0",
         confidence: 0.99,
         probabilities: Object.fromEntries(
-          ["AO", "OS", "MC", "AP"].map((id) => [
+          ["AO", "OS", "MC"].map((id) => [
             id,
-            id === top ? probability : (1 - probability) / 3,
+            id === top ? probability : (1 - probability) / 2,
           ]),
         ),
       },
@@ -69,6 +69,16 @@ export async function runQuizBrowser({ page }) {
       "Selection numbers remain",
     );
     check(
+      (await page.locator('input[name="answer"]').count()) === 4,
+      "Buyer option remains",
+    );
+    check(
+      !(await page.locator(".quiz-panel").innerText()).includes(
+        "Acquire business datasets",
+      ),
+      "Buyer copy remains",
+    );
+    check(
       (await page.locator(".footer").count()) === 1,
       "Missing main-site footer",
     );
@@ -82,7 +92,7 @@ export async function runQuizBrowser({ page }) {
         await page
           .locator('input[name="answer"]')
           .evaluateAll((inputs) => inputs.map((input) => input.value))
-      ).join(",") !== "q1_0,q1_1,q1_2,q1_3,q1_4",
+      ).join(",") !== "q1_0,q1_1,q1_2,q1_3",
       "Options were not shuffled",
     );
   }
@@ -108,30 +118,28 @@ export async function runQuizBrowser({ page }) {
       id,
     );
   }
-  for (const id of ["AO", "OS", "MC", "AP"]) {
+  for (const id of ["AO", "OS", "MC"]) {
     top = id;
     probability = 0.94;
     await start();
     const before = calls.length;
-    await answerChoice(`q1_${["AO", "OS", "MC", "AP"].indexOf(id)}`);
+    await answerChoice(`q1_${["AO", "OS", "MC"].indexOf(id)}`);
     check(
       (await title.innerText()) ===
         "Which describes where you are in the process?",
       "Wrong process question",
     );
-    await answerChoice(`q2_${{ AO: 0, OS: 3, MC: 4, AP: 5 }[id]}`);
+    await answerChoice(`q2_${{ AO: 0, OS: 3, MC: 4 }[id]}`);
     await answerChoice();
     const motivation = await current();
     check(
-      motivation ===
-        (id === "AP" ? "q4_AP" : id === "MC" ? "q4_MC" : "q4_motivation"),
+      motivation === (id === "MC" ? "q4_MC" : "q4_motivation"),
       "Wrong motivation branch",
     );
     await answerChoice();
     check(
-      (await title.innerText()).includes(
-        id === "AP" ? "budget" : "hoping to receive",
-      ),
+      (await title.innerText()) ===
+        "How much are you hoping to receive in a transaction?",
       "Wrong money question",
     );
     await answerChoice();
@@ -190,16 +198,16 @@ export async function runQuizBrowser({ page }) {
       await page.locator(".intake-wizard").waitFor();
     }
   }
-  top = "AP";
+  top = "MC";
   probability = 0.85;
   await start();
-  await answerChoice("q1_4");
-  await answerChoice("q2_6");
+  await answerChoice("q1_3");
+  await answerChoice("q2_5");
   check(
     (await current()) === "q3_shared",
     "Cutoff equality incorrectly branches",
   );
-  await answerChoice("q3_shared_5");
+  await answerChoice("q3_shared_3");
   check(
     (await current()) === "q4_shared",
     "Uncertainty did not use shared motivation",
@@ -207,8 +215,8 @@ export async function runQuizBrowser({ page }) {
   probability = 0.94;
   await answerChoice();
   check(
-    (await current()) === "q5_AP",
-    "Fresh Jev correction did not select buyer budget",
+    (await current()) === "q5_transaction",
+    "Fresh Jev correction did not select seller transaction expectations",
   );
   await answerChoice();
   await answerChoice();
@@ -300,6 +308,6 @@ export async function runQuizBrowser({ page }) {
   }
   check(errors.length === 0, `Browser errors: ${errors.join("; ")}`);
   console.log(
-    `New-prospect browser checks passed: shuffled stable IDs/order, no numbers, all four eight-question landings, written corrections, retry/back and responsive checks; ${calls.length} mocked classifications.`,
+    `New-prospect browser checks passed: shuffled stable IDs/order, no numbers, all three seller-only eight-question landings, written corrections, retry/back and responsive checks; ${calls.length} mocked classifications.`,
   );
 }

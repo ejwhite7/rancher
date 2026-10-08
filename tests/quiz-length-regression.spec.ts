@@ -23,13 +23,15 @@ function prediction(
     probabilities: Object.fromEntries(
       archetypeIds.map((id) => [
         id,
-        id === top ? probability : (1 - probability) / 3,
+        id === top
+          ? probability
+          : (1 - probability) / (archetypeIds.length - 1),
       ]),
     ) as Classification["probabilities"],
   };
 }
 
-test("all 33 new-prospect graph paths work in the router and server, including every mixed-role prefix", async () => {
+test("all 10 seller-only graph paths work in the router and server, including every mixed-role prefix", async () => {
   const paths: string[][] = [];
   function visit(id: string | null, path: string[] = []) {
     if (id === null) {
@@ -41,7 +43,7 @@ test("all 33 new-prospect graph paths work in the router and server, including e
       visit(next, [...path, id]);
   }
   visit("q1");
-  expect(paths).toHaveLength(33);
+  expect(paths).toHaveLength(10);
   let counter = 0;
   const receipts: string[] = [];
   const info = console.info;
@@ -135,7 +137,9 @@ test("every visitor answers 6–8 questions, mostly choices and exactly two open
         probabilities: Object.fromEntries(
           archetypeIds.map((id) => [
             id,
-            id === top ? probability : (1 - probability) / 3,
+            id === top
+              ? probability
+              : (1 - probability) / (archetypeIds.length - 1),
           ]),
         ) as Classification["probabilities"],
       };

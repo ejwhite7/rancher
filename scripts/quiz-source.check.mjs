@@ -47,5 +47,5 @@ for (const [id, landing] of Object.entries(landings)) {
 }
 assert.deepEqual(Object.keys(landings).sort(), [...copied.archetypes].sort());
 console.log(
-  `PASS: original map preserved; 4 exact anonymous quote blocks verified; report SHA-256 ${createHash("sha256").update(report).digest("hex")}`,
+  `PASS: original map preserved; ${Object.keys(landings).length} exact anonymous quote blocks verified; report SHA-256 ${createHash("sha256").update(report).digest("hex")}`,
 );

@@ -17,8 +17,8 @@ const fixture = (changes: object = {}) => ({
   answers: {
     archetype: {
       type: "choice",
-      choice: "AP",
-      probabilities: { AO: 0.01, OS: 0.02, MC: 0.03, AP: 0.94 },
+      choice: "MC",
+      probabilities: { AO: 0.02, OS: 0.04, MC: 0.94 },
       confidence: 0.9,
       ...changes,
     },
@@ -66,7 +66,7 @@ test("operational logging failure cannot block a valid Jev response", async () =
       fetch: async () => Response.json(fixture()),
     });
     expect(response.status).toBe(200);
-    expect(await response.json()).toMatchObject({ top: "AP", source: "jev" });
+    expect(await response.json()).toMatchObject({ top: "MC", source: "jev" });
     expect(warnings).toEqual(["quiz_jev_receipt_unavailable"]);
   } finally {
     console.info = info;
@@ -75,14 +75,15 @@ test("operational logging failure cannot block a valid Jev response", async () =
 });
 test("calls native Jev Choice with the entire history including written answers, never weights or client secrets", async () => {
   const answers = {
-    q1: "q1_0",
-    q2: "q2_0",
-    q3_AP: "q3_AP_0",
-    q4_AP: "q4_AP_0",
-    q5_AP: "q5_AP_0",
+    q1: "q1_2",
+    q2: "q2_4",
+    q3_MC: "q3_MC_0",
+    q4_MC: "q4_MC_0",
+    q5_transaction: "q5_transaction_0",
     q6_timing: "q6_timing_0",
-    q7_dataset: "Actually I acquire datasets for downstream buyers",
-    q8_discussion: "A full corpus delivered this quarter",
+    q7_dataset:
+      "I represent several businesses whose records could be useful for AI training.",
+    q8_discussion: "Seller compensation and licensing terms with Rancher",
   };
   const send: typeof fetch = async (url, init) => {
     expect(url).toBe("https://api.typesafe.ai/v1/systemone");
@@ -96,12 +97,17 @@ test("calls native Jev Choice with the entire history including written answers,
       "AO",
       "OS",
       "MC",
-      "AP",
     ]);
+    expect(body.state.business).toContain("Rancher is the buyer");
+    expect(body.questions.archetype.instructions).toContain(
+      "Choose only AO, OS or MC",
+    );
     expect(body.state.history).toHaveLength(8);
     expect(body.state.history[6].answer).toBe(answers.q7_dataset);
     expect(body.state.history[7].answer).toBe(answers.q8_discussion);
-    expect(body.state.history[0].answer).not.toBe("q1_0");
+    expect(body.state.history[0].answer).toContain(
+      "businesses with data to sell or license to Rancher",
+    );
     expect(String(init?.body)).not.toContain("weights");
     expect(String(init?.body)).not.toContain("synthetic-server-only-key");
     return Response.json(fixture());
@@ -114,10 +120,10 @@ test("calls native Jev Choice with the entire history including written answers,
   expect(response.headers.get("cache-control")).toBe("no-store");
   const data = await response.json();
   expect(data).toMatchObject({
-    top: "AP",
+    top: "MC",
     source: "jev",
     model: "jev-1.13.0",
-    probabilities: { AO: 0.01, OS: 0.02, MC: 0.03, AP: 0.94 },
+    probabilities: { AO: 0.02, OS: 0.04, MC: 0.94 },
   });
   expect(JSON.stringify(data)).not.toContain("synthetic-server-only-key");
 });
@@ -193,13 +199,14 @@ test("rejects cross-origin, malformed, oversized and unknown answers before invo
 test("rejects invalid provider distributions and choices rather than falling back", async () => {
   for (const change of [
     { choice: "unknown" },
+    { choice: "AP", probabilities: { AO: 0.01, OS: 0.02, MC: 0.03, AP: 0.94 } },
     { choice: "AO" },
     { type: "score" },
     { confidence: 2 },
     { probabilities: { AO: 0, OS: 0, MC: 0 } },
-    { probabilities: { AO: -0.1, OS: 0.1, MC: 0.1, AP: 0.9 } },
-    { probabilities: { AO: 1, OS: 1, MC: 1, AP: 1 } },
-    { probabilities: { AO: "0", OS: 0, MC: 0, AP: 1 } },
+    { probabilities: { AO: -0.1, OS: 0.2, MC: 0.9 } },
+    { probabilities: { AO: 1, OS: 1, MC: 1 } },
+    { probabilities: { AO: "0", OS: 0, MC: 1 } },
   ]) {
     const response = await handleQuizClassification(request(), {
       env,

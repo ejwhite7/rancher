@@ -28,15 +28,5 @@
     "offer": "A multi-company scoping conversation",
     "description": "Discuss which companies to start with, what history each holds, and who can authorize access. Treat each company’s rights and records separately.",
     "cta": "Discuss my companies"
-  },
-  "AP": {
-    "title": "Actionable opportunities, not another vague introduction.",
-    "pain": "Your buyers need a usable corpus. Company history, systems, authority, asking price, delivery and acceptance all matter—not just another name in a spreadsheet.",
-    "quote": "We only consider actionable opportunities-",
-    "quote_id": "Q20",
-    "quote_source": "Acquisition partner · anonymized research call",
-    "offer": "An acquisition-criteria conversation",
-    "description": "Discuss the datasets your buyers need, the inventory and authority required to assess them, and your delivery and acceptance conditions. Define whether the relationship calls for a referrer or a contracting broker.",
-    "cta": "Discuss our acquisition criteria"
   }
 }

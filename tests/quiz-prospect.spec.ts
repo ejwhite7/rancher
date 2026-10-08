@@ -1,5 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { questionById, quiz, shuffledOptions } from "../src/lib/quiz";
+import {
+  archetypeIds,
+  questionById,
+  quiz,
+  shuffledOptions,
+} from "../src/lib/quiz";
+import landings from "../src/data/quiz-landings.json" with { type: "json" };
 
 test("new-prospect questions qualify process, authority, motivation, value, timing and dataset details", () => {
   expect(questionById("q2").text).toBe(
@@ -62,12 +68,40 @@ test("new-prospect questions qualify process, authority, motivation, value, timi
     "q4_motivation",
     "q4_MC",
     "q5_transaction",
-    "q5_AP",
+    "q5_shared",
     "q6_timing",
   ]) {
     expect(
       questionById(id).options.every((option) =>
         Object.values(option.weights).every((weight) => weight === 0),
+      ),
+    ).toBe(true);
+  }
+});
+
+test("all active questions, options and endings are seller-only, including uncertain paths", () => {
+  expect(archetypeIds).toEqual(["AO", "OS", "MC"]);
+  expect(quiz.archetypes.map(({ id }) => id)).toEqual(archetypeIds);
+  expect(Object.keys(quiz.endings)).toEqual(archetypeIds);
+  expect(Object.keys(landings)).toEqual(archetypeIds);
+  const active = JSON.stringify({
+    questions: quiz.questions,
+    endings: quiz.endings,
+    landings,
+  });
+  expect(active).not.toMatch(
+    /"AP"|q[345]_AP|landing_AP|acquir|acquisition|budget|downstream|our buyers|your buyers/i,
+  );
+  expect(questionById("q1").options).toHaveLength(4);
+  expect(questionById("q5_shared").text).toBe(
+    "How much are you hoping to receive in a transaction?",
+  );
+  for (const question of quiz.questions) {
+    for (const option of question.options)
+      expect(Object.keys(option.weights)).toEqual(archetypeIds);
+    expect(
+      Object.keys(question.next_if_prob_gt?.archetype_to_question || {}).every(
+        (id) => archetypeIds.includes(id as (typeof archetypeIds)[number]),
       ),
     ).toBe(true);
   }

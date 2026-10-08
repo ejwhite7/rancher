@@ -1,46 +1,34 @@
 {
-  "archetypes": ["AO", "OS", "MC", "AP"],
+  "archetypes": ["AO", "OS", "MC"],
   "questions": [
     {
       "id": "q1",
-      "text": "What are you trying to do with business data?",
+      "text": "What would you like to do with your business data?",
       "type": "choice",
       "shared": true,
       "options": [
         {
-          "text": "License data from my business.",
+          "text": "Sell or license my business’s data to Rancher.",
           "weights": {
             "AO": 1,
             "OS": 0.1,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
-          "text": "Compare licensing options or an offer for data I can supply.",
+          "text": "Compare an existing offer with selling or licensing my data to Rancher.",
           "weights": {
             "AO": 0.2,
             "OS": 1,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
-          "text": "Represent or introduce several businesses with data to license.",
+          "text": "Represent or introduce several businesses with data to sell or license to Rancher.",
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Acquire business datasets for our buyers or projects.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
+            "MC": 1
           }
         },
         {
@@ -48,8 +36,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -69,8 +56,7 @@
           "weights": {
             "AO": 1,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -78,8 +64,7 @@
           "weights": {
             "AO": 1,
             "OS": 0.1,
-            "MC": 0.1,
-            "AP": 0
+            "MC": 0.1
           }
         },
         {
@@ -87,8 +72,7 @@
           "weights": {
             "AO": 0.3,
             "OS": 0.8,
-            "MC": 0.1,
-            "AP": 0
+            "MC": 0.1
           }
         },
         {
@@ -96,8 +80,7 @@
           "weights": {
             "AO": 0,
             "OS": 1,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -105,17 +88,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
-          }
-        },
-        {
-          "text": "I'm evaluating datasets to acquire for buyers or a project.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
+            "MC": 1
           }
         },
         {
@@ -123,8 +96,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -133,8 +105,7 @@
         "branch": {
           "AO": "q3_AO",
           "OS": "q3_OS",
-          "MC": "q3_MC",
-          "AP": "q3_AP"
+          "MC": "q3_MC"
         }
       }
     },
@@ -149,8 +120,7 @@
           "weights": {
             "AO": 0.7,
             "OS": 0.3,
-            "MC": 0.1,
-            "AP": 0
+            "MC": 0.1
           }
         },
         {
@@ -158,8 +128,7 @@
           "weights": {
             "AO": 0.7,
             "OS": 0.3,
-            "MC": 0.1,
-            "AP": 0
+            "MC": 0.1
           }
         },
         {
@@ -167,8 +136,7 @@
           "weights": {
             "AO": 0.6,
             "OS": 0.3,
-            "MC": 0.1,
-            "AP": 0
+            "MC": 0.1
           }
         },
         {
@@ -176,8 +144,7 @@
           "weights": {
             "AO": 0.2,
             "OS": 0.2,
-            "MC": 0.8,
-            "AP": 0
+            "MC": 0.8
           }
         },
         {
@@ -185,17 +152,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
-          }
-        },
-        {
-          "text": "I evaluate or acquire other businesses' data for buyers.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
+            "MC": 1
           }
         },
         {
@@ -203,8 +160,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -213,8 +169,7 @@
         "branch": {
           "AO": "q4_motivation",
           "OS": "q4_motivation",
-          "MC": "q4_MC",
-          "AP": "q4_AP"
+          "MC": "q4_MC"
         }
       }
     },
@@ -229,8 +184,7 @@
           "weights": {
             "AO": 1,
             "OS": 0.1,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -238,8 +192,7 @@
           "weights": {
             "AO": 0.8,
             "OS": 0.2,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -247,8 +200,7 @@
           "weights": {
             "AO": 0.8,
             "OS": 0.2,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -256,8 +208,7 @@
           "weights": {
             "AO": 0.7,
             "OS": 0.2,
-            "MC": 0.2,
-            "AP": 0
+            "MC": 0.2
           }
         },
         {
@@ -265,17 +216,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
-          }
-        },
-        {
-          "text": "I'm actually evaluating data to acquire for buyers.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
+            "MC": 1
           }
         },
         {
@@ -283,8 +224,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -293,8 +233,7 @@
         "branch": {
           "AO": "q4_motivation",
           "OS": "q4_motivation",
-          "MC": "q4_MC",
-          "AP": "q4_AP"
+          "MC": "q4_MC"
         }
       }
     },
@@ -309,8 +248,7 @@
           "weights": {
             "AO": 0.2,
             "OS": 1,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -318,8 +256,7 @@
           "weights": {
             "AO": 0.2,
             "OS": 0.9,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -327,8 +264,7 @@
           "weights": {
             "AO": 0.3,
             "OS": 0.8,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -336,8 +272,7 @@
           "weights": {
             "AO": 0.1,
             "OS": 1,
-            "MC": 0.2,
-            "AP": 0
+            "MC": 0.2
           }
         },
         {
@@ -345,17 +280,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
-          }
-        },
-        {
-          "text": "I'm actually evaluating data to acquire for buyers.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
+            "MC": 1
           }
         },
         {
@@ -363,8 +288,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -373,8 +297,7 @@
         "branch": {
           "AO": "q4_motivation",
           "OS": "q4_motivation",
-          "MC": "q4_MC",
-          "AP": "q4_AP"
+          "MC": "q4_MC"
         }
       }
     },
@@ -389,8 +312,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
+            "MC": 1
           }
         },
         {
@@ -398,8 +320,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
+            "MC": 1
           }
         },
         {
@@ -407,8 +328,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
+            "MC": 1
           }
         },
         {
@@ -416,8 +336,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 1,
-            "AP": 0
+            "MC": 1
           }
         },
         {
@@ -425,17 +344,7 @@
           "weights": {
             "AO": 1,
             "OS": 0.3,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Actually, I acquire datasets for buyers rather than represent suppliers.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
+            "MC": 0
           }
         },
         {
@@ -443,8 +352,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -453,94 +361,13 @@
         "branch": {
           "AO": "q4_motivation",
           "OS": "q4_motivation",
-          "MC": "q4_MC",
-          "AP": "q4_AP"
-        }
-      }
-    },
-    {
-      "id": "q3_AP",
-      "text": "Can you describe your role in acquiring datasets?",
-      "type": "choice",
-      "shared": false,
-      "options": [
-        {
-          "text": "I make acquisition decisions for our own organisation or project.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
-          }
-        },
-        {
-          "text": "I evaluate datasets for downstream buyers.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
-          }
-        },
-        {
-          "text": "I source datasets and pass them to our acquisition decision-maker.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
-          }
-        },
-        {
-          "text": "I represent a buyer in acquisition or licensing negotiations.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
-          }
-        },
-        {
-          "text": "Actually, I introduce suppliers but don't evaluate or acquire their data.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 1,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Actually, I want to license data from my own business.",
-          "weights": {
-            "AO": 1,
-            "OS": 0.3,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Another relationship.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        }
-      ],
-      "next": {
-        "default": "q4_AP",
-        "branch": {
-          "AO": "q4_motivation",
-          "OS": "q4_motivation",
-          "MC": "q4_MC",
-          "AP": "q4_AP"
+          "MC": "q4_MC"
         }
       }
     },
     {
       "id": "q4_shared",
-      "text": "What is your motivation for exploring a data transaction?",
+      "text": "What is your motivation for seeking a licensing agreement?",
       "type": "choice",
       "shared": true,
       "options": [
@@ -549,8 +376,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -558,8 +384,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -567,8 +392,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -576,8 +400,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -585,17 +408,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Find useful datasets for our buyers, products, or research.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 1
+            "MC": 0
           }
         },
         {
@@ -603,8 +416,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -612,8 +424,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -622,8 +433,7 @@
         "branch": {
           "AO": "q5_transaction",
           "OS": "q5_transaction",
-          "MC": "q5_transaction",
-          "AP": "q5_AP"
+          "MC": "q5_transaction"
         }
       }
     },
@@ -638,8 +448,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -647,8 +456,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -656,8 +464,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -665,8 +472,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -674,8 +480,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -683,8 +488,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -692,8 +496,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -702,8 +505,7 @@
         "branch": {
           "AO": "q5_transaction",
           "OS": "q5_transaction",
-          "MC": "q5_transaction",
-          "AP": "q5_AP"
+          "MC": "q5_transaction"
         }
       }
     },
@@ -718,8 +520,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -727,8 +528,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -736,8 +536,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -745,8 +544,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -754,8 +552,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -763,8 +560,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -772,8 +568,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -781,8 +576,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -791,85 +585,13 @@
         "branch": {
           "AO": "q5_transaction",
           "OS": "q5_transaction",
-          "MC": "q5_transaction",
-          "AP": "q5_AP"
-        }
-      }
-    },
-    {
-      "id": "q4_AP",
-      "text": "What is your motivation for acquiring a dataset?",
-      "type": "choice",
-      "shared": false,
-      "options": [
-        {
-          "text": "Build or improve a product or service.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Train, evaluate, or improve an AI model.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Support research or analysis.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Meet a downstream buyer's specific data requirements.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Expand our data coverage or acquire something difficult to source.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "Another reason.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        }
-      ],
-      "next": {
-        "default": "q5_AP",
-        "branch": {
-          "AO": "q5_transaction",
-          "OS": "q5_transaction",
-          "MC": "q5_transaction",
-          "AP": "q5_AP"
+          "MC": "q5_transaction"
         }
       }
     },
     {
       "id": "q5_shared",
-      "text": "What transaction value do you have in mind?",
+      "text": "How much are you hoping to receive in a transaction?",
       "type": "choice",
       "shared": true,
       "supporting_text": "An approximate amount is fine. Amounts are in US dollars.",
@@ -879,8 +601,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -888,8 +609,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -897,8 +617,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -906,8 +625,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -915,8 +633,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -924,8 +641,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -933,8 +649,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -955,8 +670,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -964,8 +678,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -973,8 +686,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -982,8 +694,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -991,8 +702,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -1000,8 +710,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -1009,84 +718,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        }
-      ],
-      "next": {
-        "default": "q6_timing",
-        "branch": {}
-      }
-    },
-    {
-      "id": "q5_AP",
-      "text": "What budget do you have in mind for a data acquisition?",
-      "type": "choice",
-      "shared": false,
-      "supporting_text": "An approximate budget is fine. Amounts are in US dollars.",
-      "options": [
-        {
-          "text": "Less than $10,000",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "$10,000 to less than $50,000",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "$50,000 to less than $100,000",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "$100,000 to less than $500,000",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "$500,000 or more",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "I don't have a target yet.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
-          }
-        },
-        {
-          "text": "I'd prefer to discuss the amount.",
-          "weights": {
-            "AO": 0,
-            "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -1106,8 +738,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -1115,8 +746,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -1124,8 +754,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -1133,8 +762,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         },
         {
@@ -1142,8 +770,7 @@
           "weights": {
             "AO": 0,
             "OS": 0,
-            "MC": 0,
-            "AP": 0
+            "MC": 0
           }
         }
       ],
@@ -1157,7 +784,7 @@
       "text": "Does your dataset contain any unique, sensitive, or hard-to-obtain data that may be useful?",
       "type": "open",
       "shared": true,
-      "supporting_text": "Describe the types or characteristics of the data, not the underlying records. If you're acquiring data, describe what you need.",
+      "supporting_text": "Describe the types or characteristics of the data your business owns or that you are authorised to represent, not the underlying records. Do not include personal information or confidential records.",
       "options": [],
       "next": {
         "default": "q8_discussion",
@@ -1180,7 +807,6 @@
   "endings": {
     "AO": "landing_AO",
     "OS": "landing_OS",
-    "MC": "landing_MC",
-    "AP": "landing_AP"
+    "MC": "landing_MC"
   }
 }

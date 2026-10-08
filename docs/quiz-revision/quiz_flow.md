@@ -1,80 +1,70 @@
-# Rancher new-prospect quiz
+# Rancher seller-prospect quiz
 
-## Current purpose
+## Audience and purpose
 
-This quiz is for people who are **new to Rancher**, not people following up on an introduction, inventory, review, or onboarding. The questions qualify the prospect's business relationship and authority, process stage, motivation, transaction expectations, decision timing, and data characteristics.
+**Rancher is the buyer. Visitors are sellers or people representing/introduction-routing sellers.** This funnel qualifies business data that they own or are authorised to offer to Rancher. It does not prospect downstream buyers or acquisition partners.
 
-The 2026-10-08 user-directed revision supersedes the previous archive-review and introduction-status questions. The motivation categories, timing choices, and USD expectation bands are **qualification design choices requested by the user**, not quotes or observed statistics from `archetypes.md`. USD and the amount boundaries are editable defaults, not Rancher pricing, valuation promises or guaranteed proceeds. The research remains the source for AO/OS/MC/AP role distinctions and landing offers.
+The 2026-10-08 seller-only correction supersedes the four-route v4 quiz. AO (one-business seller), OS (seller comparing offers), and MC (several seller businesses/introductions) remain. AP is removed entirely from the active map, shared choices, follow-up questions, landings, native Jev criteria and normalized response contract—not renamed, hidden, or heuristically mapped to a seller. All-contact research is unchanged; research categories are not automatically eligible funnel audiences.
 
-## Per-visitor contract
+## Eight questions per visitor
 
-Every path has **eight questions: six multiple-choice and exactly two free-form**. Eight is within the requested 6–8 limit and leaves room for all the requested qualification topics. Seventeen definitions support 33 structural paths, including later role corrections. There are no extra clarification questions that push a visitor beyond eight.
+Every path has **eight questions: six multiple-choice and exactly two free-form**. There are 14 definitions and 10 structural paths, including fresh seller-role corrections. Eight satisfies the 6–8 limit while collecting the requested qualifying information.
 
 ```text
-1. What are you trying to do with business data?                  [choice]
-   Licensing own records / comparing offers / several companies / acquiring
+1. What would you like to do with your business data?          [choice]
+   Sell/license my business's data to Rancher / compare an existing offer /
+   represent or introduce several seller businesses / not sure yet
    |
-2. Which describes where you are in the process?                  [choice]
-   Exploring / understanding value / preparing to compare / open offer /
-   several businesses / evaluating for buyers / unsure
+2. Which describes where you are in the process?              [choice]
+   Exploring / understanding value and terms / preparing to seek offers /
+   existing open offer / several seller businesses / unsure where to start
    |
-3. Relationship to the business or businesses                    [choice]
-   Owner / executive / employee / advisor / representative / introducer
-   Acquisition branch: decision-maker / evaluator / sourcing / buyer agent
+3. Can you describe your relationship to the business(es)?    [choice]
+   Owner / director or executive / employee researching for leadership /
+   advisor or representative / seller introducer / another relationship
    |
-4. Motivation                                                   [choice]
-   Suppliers: cash flow / expansion / retirement / legacy / shutting down /
-              exploring / another reason
-   Multi-company: these business goals plus referral/advisory income
-   Buyers: product / AI / research / downstream requirements / coverage
-   Uncertain: neutral data-transaction motivation
+4. What is your motivation for seeking a licensing agreement? [choice]
+   Cash flow / expansion / retirement / legacy / shutting down /
+   understand the opportunity / another reason
+   Several-business representatives also have referral/advisory income.
    |
-5. Transaction amount                                           [choice]
-   Supplier: How much are you hoping to receive in a transaction?
-   Buyer: What budget do you have in mind for a data acquisition?
-   Uncertain: What transaction value do you have in mind?
+5. How much are you hoping to receive in a transaction?       [choice]
+   USD expectation bands / no target yet / prefer to discuss
+   This seller question applies to both shared and tailored paths.
    |
-6. How quickly are you hoping to make a decision?                 [choice]
+6. How quickly are you hoping to make a decision?             [choice]
    Within 2 weeks / 2–4 weeks / 1–3 months / more than 3 months / no deadline
    |
 7. Does your dataset contain any unique, sensitive, or
-   hard-to-obtain data that may be useful?                       [free-form]
-   Describe categories and characteristics, not underlying records.
-   Buyers can describe the data they need.
+   hard-to-obtain data that may be useful?                    [free-form]
+   Describe characteristics of data owned/represented, not underlying records.
+   Do not include personal information or confidential records.
    |
 8. Is there anything in particular that you would like to discuss? [free-form]
-   If there are existing open offers, describe their terms and deadline here.
-   Otherwise discuss questions/topics, or write “Nothing specific”.
+   Existing open-offer terms and deadlines, if relevant; otherwise questions
+   or “Nothing specific”. This is not a third free-form answer.
    |
-Latest validated Jev result --> landing_AO / landing_OS / landing_MC / landing_AP
+Latest validated native Jev prediction --> landing_AO / landing_OS / landing_MC
 ```
 
-The offer-terms prompt is conditional within the final discussion answer, not a third free-form question. People can be new to Rancher while having an offer from another provider.
+## Native inference and role corrections
 
-## Native classification and branching
+Classify the complete active readable history after every answer, including both original free-form answers. Rancher’s buyer role is explicit in provider state/instructions. Native Choice criteria contain only AO/OS/MC. Both server and browser reject an AP choice or AP probability field. There is no buyer landing, acquisition budget, offline classifier, weight/keyword override, or manual role picker.
 
-- Reclassify complete active readable history with native Jev after **every answer**, including both free-form answers. No weights, keyword scoring, previous predictions, or manual role picker replace Jev.
-- Both opening questions precede branching. At the relationship, motivation and amount gates, follow a role branch only when the latest top probability is **strictly greater than 0.85**. Otherwise use the shared/default question at that same position.
-- Fresh explicit role corrections can change later question wording or the final landing, but never add/repeat questions. Both free-form questions remain last.
-- Money, timing and financial motivation are qualification details, not deterministic archetype signals. Their editorial weights are neutral. Demographics, monetary targets, retirement or closure must not override who is supplying, representing or acquiring the data.
-- Uncertain histories still complete automatically with Jev's latest best choice. Confidence/probability is not independently measured classification accuracy.
+The two shared opening questions always precede branching. Fresh top probability **strictly >0.85**, not confidence or rounded values, selects seller-specific relationship/motivation/amount wording. Otherwise the default/shared seller question occupies that same position. Corrections can change later seller wording or the final seller landing, never add/repeat questions. Potential uses of supplied data in AI, research or buyer products do not imply a buyer prospect. Financial motives, amounts and urgency are neutral editorial qualification signals, not deterministic seller-route rules. Written answers remain last.
 
-## Option presentation
+## Presentation, amount bands and preserved protections
 
-All multiple-choice lists use Fisher-Yates randomization **after hydration**, once per question per visit. The display contains no ordinal numbers. Canonical IDs, labels and weights stay unchanged; selection, back navigation and retries retain the same order and answer ID. A new visit generates new permutations. An identity permutation is a valid random outcome, not an error.
+Every choice list uses Fisher-Yates randomization after hydration, once per question per visit. There are no selection numbers. Canonical IDs/labels/weights stay unchanged during random display; order and selection persist on Back/retry. New visits generate new permutations; identity permutations are valid random outcomes.
 
-## Amount choices
+USD bands: below $10k; $10k–less than $50k; $50k–less than $100k; $100k–less than $500k; $500k+; no target; prefer to discuss. These and the user-requested cash-flow/expansion/retirement/legacy/closure motives are qualification design choices, not research quotes, Rancher prices, valuations, payment promises or guarantees.
 
-USD: less than $10,000; $10,000 to less than $50,000; $50,000 to less than $100,000; $100,000 to less than $500,000; $500,000 or more; no target yet; prefer to discuss. These are non-overlapping selectable expectation/budget bands. They do not assert what any dataset is worth.
+The exact site Navigation/logo/Footer/privacy controls, one question per screen, accessible fields, Back/progress, graph-prefix validation, eight-answer maximum, 16 KiB JSON limit, 2,000-character free-form limits, validated fresh inference/retry gating, saved analytics consent/GPC/withdrawal and metadata-only operational receipts are preserved. `rancher-quiz-v5-sellers-jev` isolates the seller-only cohort. Current staff labels accept only AO/OS/MC; historical events are not rewritten.
 
-## Preserved contracts and verification
+OS opens `/intake/`; AO/MC open `/contact/`. No answers or model/session identifiers appear in URLs. No public archetype labels, notes summary, research quote blocks, fabricated testimonials, commercial packages or purchase claims are added.
 
-The exact site Navigation/logo/Footer/privacy controls, one question per screen, accessible labels, back/progress, failure/retry gating, eight-answer graph-prefix server validation, 16 KiB input cap, 2,000-character free-form limits, saved analytics consent/GPC, and metadata-only operational receipts remain in place. Cohort version `rancher-quiz-v4-jev` separates the new questions from earlier meanings and IDs.
+## Checks and evidence limits
 
-Four inquiry offers remain: archive review (AO), existing-offer comparison (OS), multi-company review (MC), and acquisition-fit conversation (AP). OS opens `/intake/`; the others open `/contact/`. No answers or model/session identifiers enter CTA URLs. No public archetype labels, fabricated testimonials, prices, packages or payment claims.
+`node docs/quiz-revision/quiz_map.check.mjs` enumerates all 10 structural paths and requires eight questions, six choices and the dataset/discussion free-form pair last. Router/server tests exercise every path and prefix. Prospect regression tests scan all active questions/options/landings for acquisition/budget content; provider contract tests assert Rancher is the buyer, exactly three criteria, and reject buyer-category responses. Staff-label tests reject AP. Chromium checks all three seller landings, uncertain seller defaults, randomization/no numbers, Back/retry/drafts, written seller-role corrections, malformed responses, duplicate submissions, intake, responsive layouts and consent/withdrawal/GPC.
 
-```sh
-node docs/quiz-revision/quiz_map.check.mjs
-```
-
-The checker enumerates every structural path and requires eight questions, six choices, the two opening shared questions, and the dataset/discussion free-form pair last. Router/server tests exercise all 33 paths and every prefix. Additional tests check prospect-focused copy, every motivation category, neutral money/timing/motivation weights, shuffle correctness and canonical identity. Browser checks verify random display, stable order/selection on Back, failure/retry behavior, corrected question sequence, four landings, written corrections and consent. These checks use mocked Jev and do **not** establish real-provider accuracy or historical inference calls.
+Tests use mocked Jev and intercepted analytics. Neither path tests nor code health establishes live-provider accuracy or historical inference calls. Configuration-only readiness does not contact Jev.

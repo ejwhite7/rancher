@@ -7,10 +7,10 @@ const directory = path.dirname(fileURLToPath(import.meta.url));
 const map = JSON.parse(
   fs.readFileSync(path.join(directory, "quiz_map.json"), "utf8"),
 );
-const ids = ["AO", "OS", "MC", "AP"];
+const ids = ["AO", "OS", "MC"];
 assert.deepEqual(map.archetypes, ids);
 assert.deepEqual(Object.keys(map.endings), ids);
-assert.equal(new Set(Object.values(map.endings)).size, 4);
+assert.equal(new Set(Object.values(map.endings)).size, 3);
 const questions = new Map(
   map.questions.map((question) => [question.id, question]),
 );

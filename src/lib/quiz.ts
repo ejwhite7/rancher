@@ -1,6 +1,6 @@
 import source from "../data/quiz_map.json" with { type: "json" };
 
-export const QUIZ_VERSION = "rancher-quiz-v4-jev";
+export const QUIZ_VERSION = "rancher-quiz-v5-sellers-jev";
 export type Classification = {
   probabilities: Scores;
   top: ArchetypeId;
@@ -20,7 +20,7 @@ export function createQuizSessionId(): string {
   ).join("");
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
 }
-export const archetypeIds = ["AO", "OS", "MC", "AP"] as const;
+export const archetypeIds = ["AO", "OS", "MC"] as const;
 export type ArchetypeId = (typeof archetypeIds)[number];
 export type Scores = Record<ArchetypeId, number>;
 export type Answers = Record<string, string>;
@@ -41,7 +41,6 @@ const names = {
   AO: "Archive owners",
   OS: "Offer shoppers",
   MC: "Multi-company dealmakers",
-  AP: "Acquisition partners",
 };
 export const quiz = {
   endings: source.endings,
