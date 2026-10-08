@@ -46,6 +46,9 @@ test("homepage omits the requested copy and keeps privacy controls readable", as
       exact: true,
     }),
   ).toHaveCount(1);
+  const activeCompany = page.locator("label.business-active");
+  await expect(activeCompany).toHaveCSS("margin-top", "0px");
+  await expect(activeCompany).toHaveCSS("margin-bottom", "0px");
   await page.getByRole("button", { name: "Manage choices" }).click();
   await expect(page.locator('[data-consent-tpl="modal"]')).toBeVisible();
   await expectReadableText(page);

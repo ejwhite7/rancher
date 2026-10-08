@@ -370,7 +370,7 @@ function PartnershipFields({
             ))}
           </select>
         </label>
-        <label className="consent full">
+        <label className="consent full business-active">
           <input type="checkbox" name="is_business_active" value="yes" />
           <span>Is this business active?</span>
         </label>
