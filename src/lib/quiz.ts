@@ -1,6 +1,6 @@
 import source from "../data/quiz_map.json" with { type: "json" };
 
-export const QUIZ_VERSION = "rancher-quiz-v2-jev";
+export const QUIZ_VERSION = "rancher-quiz-v3-jev";
 export type Classification = {
   probabilities: Scores;
   top: ArchetypeId;
@@ -80,18 +80,47 @@ export function nextQuestion(
     answers.q1 &&
     answers.q2 &&
     branch &&
-    result.top &&
-    result.probabilities[result.top] > branch.threshold &&
-    !Object.keys(answers).some((key) => key.startsWith("q3_"))
+    result.probabilities[result.top] > branch.threshold
   ) {
-    const target = branch.archetype_to_question[result.top];
-    if (target && !answers[target]) return target;
+    return branch.archetype_to_question[result.top] || question.next_default;
   }
-  // Late branches return through shared nodes that may already be answered.
-  let next = question.next_default;
-  while (next && Object.hasOwn(answers, next))
-    next = questionById(next).next_default;
-  return next;
+  return question.next_default;
+}
+
+export function questionTargets(question: Question) {
+  return [
+    ...new Set([
+      question.next_default,
+      ...Object.values(question.next_if_prob_gt?.archetype_to_question || {}),
+    ]),
+  ];
+}
+
+// Validate graph prefixes: the server has no trusted prior predictions to verify thresholds.
+export function validQuizHistory(answers: Answers) {
+  const ids = Object.keys(answers);
+  if (ids.length < 1 || ids.length > 8 || ids[0] !== "q1") return false;
+  return ids.every((id, index) => {
+    const question = questionById(id);
+    if (!question) return false;
+    return (
+      index === 0 || questionTargets(questionById(ids[index - 1])).includes(id)
+    );
+  });
+}
+
+export function quizQuestionRange(path: string[]) {
+  function remaining(id: string | null): number[] {
+    if (!id) return [0];
+    return questionTargets(questionById(id)).flatMap((target) =>
+      remaining(target).map((length) => length + 1),
+    );
+  }
+  const lengths = remaining(path[path.length - 1]);
+  return {
+    min: path.length - 1 + Math.min(...lengths),
+    max: path.length - 1 + Math.max(...lengths),
+  };
 }
 
 export function invalidateAfter(

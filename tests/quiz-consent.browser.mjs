@@ -39,7 +39,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
   await page.waitForFunction(
     () =>
       document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 2",
+      "Question 2 of 6–8",
   );
   if (events.length)
     throw new Error("Shares quiz answers before a saved site privacy choice");
@@ -61,7 +61,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
     instance.set_config({ opt_out_useragent_filter: true });
     instance.capture("quiz_session_started", {
       quiz_session_id: instance.get_distinct_id(),
-      quiz_version: "rancher-quiz-v2-jev",
+      quiz_version: "rancher-quiz-v3-jev",
     });
   });
   await page.locator('input[name="answer"]').first().check();
@@ -69,7 +69,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
   await page.waitForFunction(
     () =>
       document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 3",
+      "Question 3 of 6",
   );
   await page.waitForTimeout(200);
   const answered = events.find((event) => event.event === "quiz_answered");
@@ -80,6 +80,13 @@ export async function runQuizConsentBrowser({ browser, base }) {
     Object.keys(answered.properties.probabilities).length !== 4
   )
     throw new Error("Consented answer lacks Jev scores/model");
+  await page.locator('input[name="answer"]').first().check();
+  await page.getByRole("button", { name: "Continue", exact: false }).click();
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".quiz-progress span")?.textContent ===
+      "Question 4 of 6",
+  );
   await page.locator('input[name="answer"]').first().check();
   await page.getByRole("button", { name: "Continue", exact: false }).click();
   await page.locator("#quiz-written").fill("Synthetic written obstacle.");
@@ -152,7 +159,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
   await gpcPage.waitForFunction(
     () =>
       document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 2",
+      "Question 2 of 6–8",
   );
   if (analyticsRequests) throw new Error("GPC permits quiz analytics");
   await gpcContext.close();

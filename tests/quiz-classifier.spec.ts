@@ -38,10 +38,47 @@ test("missing Jev configuration fails closed without making a provider request",
   expect(calls).toBe(0);
   expect(await response.json()).toMatchObject({ code: "jev_not_configured" });
 });
+test("configured readiness does not invoke Jev or generate a provider receipt", async () => {
+  const response = await handleQuizClassification(
+    new Request("https://quiz.test/api/quiz/classify/"),
+    {
+      env,
+      fetch: async () => {
+        throw new Error("Readiness must not call Jev");
+      },
+    },
+  );
+  expect(response.status).toBe(200);
+  expect(await response.json()).toEqual({ configured: true });
+  expect(response.headers.has("X-Quiz-Request-Id")).toBe(false);
+});
+test("operational logging failure cannot block a valid Jev response", async () => {
+  const info = console.info;
+  const warn = console.warn;
+  const warnings: string[] = [];
+  console.info = () => {
+    throw new Error("Synthetic log sink failure");
+  };
+  console.warn = (message) => warnings.push(String(message));
+  try {
+    const response = await handleQuizClassification(request(), {
+      env,
+      fetch: async () => Response.json(fixture()),
+    });
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ top: "AP", source: "jev" });
+    expect(warnings).toEqual(["quiz_jev_receipt_unavailable"]);
+  } finally {
+    console.info = info;
+    console.warn = warn;
+  }
+});
 test("calls native Jev Choice with the entire history including written answers, never weights or client secrets", async () => {
   const answers = {
     q1: "q1_0",
     q2: "q2_0",
+    q3_AP: "q3_AP_0",
+    q4_AP: "q4_AP_0",
     q4_problem: "Actually I acquire datasets for downstream buyers",
     q5_outcome: "A full corpus delivered this quarter",
   };
@@ -59,9 +96,9 @@ test("calls native Jev Choice with the entire history including written answers,
       "MC",
       "AP",
     ]);
-    expect(body.state.history).toHaveLength(4);
-    expect(body.state.history[2].answer).toBe(answers.q4_problem);
-    expect(body.state.history[3].answer).toBe(answers.q5_outcome);
+    expect(body.state.history).toHaveLength(6);
+    expect(body.state.history[4].answer).toBe(answers.q4_problem);
+    expect(body.state.history[5].answer).toBe(answers.q5_outcome);
     expect(body.state.history[0].answer).not.toBe("q1_0");
     expect(String(init?.body)).not.toContain("weights");
     expect(String(init?.body)).not.toContain("synthetic-server-only-key");
@@ -108,6 +145,15 @@ test("rejects cross-origin, malformed, oversized and unknown answers before invo
       q4_problem: "Problem later",
     },
     { q1: "q1_0", q2: "q2_0", unknown: "x" },
+    { q1: "q1_0", q2: "q2_0", q4_problem: "Skipped both follow-ups" },
+    { q1: "q1_0", q2: "q2_0", q4_AO: "q4_AO_0" },
+    { q1: "q1_0", q2: "q2_0", q3_AO: "q3_AO_0", q3_AP: "q3_AP_0" },
+    {
+      q1: "q1_0",
+      q2: "q2_0",
+      q3_shared: "q3_shared_0",
+      q4_problem: "Skipped clarification",
+    },
     { q1: "q1_0", q2: "q2_0", q4_problem: "x".repeat(2001) },
     { q1: "q1_0", q2: "q2_0", q4_problem: 123 },
   ]) {

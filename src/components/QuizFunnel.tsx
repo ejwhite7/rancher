@@ -1,5 +1,6 @@
 import { useEffect, useRef, type RefObject } from "react";
 import landings from "../data/quiz-landings.json";
+import { quizQuestionRange } from "../lib/quiz";
 import { useQuizFunnel, type QuizController } from "./useQuizFunnel";
 
 type ViewProps = {
@@ -80,13 +81,19 @@ function QuestionActions({ quiz }: { quiz: QuizController }) {
   );
 }
 function QuizQuestion({ quiz, heading }: ViewProps) {
+  const range = quizQuestionRange(quiz.path);
+  const total =
+    range.min === range.max ? `${range.max}` : `${range.min}–${range.max}`;
   return (
     <>
       <div className="quiz-progress">
-        <span>Question {quiz.path.length}</span>
+        <span>
+          Question {quiz.path.length} of {total}
+        </span>
         <progress
           aria-label="Quiz progress"
-          max={5}
+          aria-valuetext={`${quiz.path.length - 1} answered; ${total} questions total`}
+          max={range.max}
           value={quiz.path.length - 1}
         />
       </div>

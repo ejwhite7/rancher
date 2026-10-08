@@ -85,8 +85,8 @@ export async function runQuizBrowser({ page }) {
       "Intro screen remains",
     );
   }
-  async function answerChoice() {
-    await page.locator('input[name="answer"]').first().check();
+  async function answerChoice(index = 0) {
+    await page.locator('input[name="answer"]').nth(index).check();
     await continueButton.click();
     await page.waitForFunction(
       () =>
@@ -125,7 +125,10 @@ export async function runQuizBrowser({ page }) {
     top = id;
     probability = 0.94;
     await start();
-    await answerChoice();
+    const before = calls.length;
+    const roleIndex = ["AO", "OS", "MC", "AP"].indexOf(id);
+    await answerChoice(roleIndex);
+    await answerChoice(roleIndex);
     await answerChoice();
     await answerChoice();
     await write("Synthetic obstacle for this test.");
@@ -141,6 +144,7 @@ export async function runQuizBrowser({ page }) {
     );
     await write("Synthetic desired result.");
     await page.locator(`#landing_${id}`).waitFor();
+    check(calls.length - before === 6, `${id}: expected six submitted answers`);
     const visible = await page.locator(".quiz-panel").innerText();
     for (const text of banned)
       check(!visible.includes(text), `Rejected text remains: ${text}`);
@@ -164,8 +168,10 @@ export async function runQuizBrowser({ page }) {
   top = "AO";
   probability = 0.5;
   await start();
-  await answerChoice();
-  await answerChoice();
+  await answerChoice(4);
+  await answerChoice(4);
+  await answerChoice(4);
+  await answerChoice(4);
   await write("A less certain situation.");
   await write("A useful next conversation.");
   await page.locator("#landing_AO").waitFor();
@@ -179,6 +185,7 @@ export async function runQuizBrowser({ page }) {
   await answerChoice();
   await answerChoice();
   await answerChoice();
+  await answerChoice();
   top = "AP";
   await write("Actually I acquire corpora for downstream buyers.");
   await write("Full inventory and delivery terms.");
@@ -187,6 +194,33 @@ export async function runQuizBrowser({ page }) {
     calls.at(-1).q4_problem.includes("downstream buyers"),
     "Written answer not sent for classification",
   );
+  for (const sharedChoices of [3, 4]) {
+    top = "MC";
+    probability = 0.85;
+    await start();
+    const before = calls.length;
+    for (let index = 0; index < sharedChoices; index++) {
+      if (index === sharedChoices - 1) probability = 0.94;
+      await answerChoice(2);
+    }
+    top = "AP"; // A fresh high-probability correction switches only the second follow-up.
+    await answerChoice(4);
+    check(
+      (await title.innerText()).includes("checked before you can accept"),
+      "Second follow-up did not switch roles",
+    );
+    await answerChoice();
+    await write("Synthetic obstacle after a delayed branch.");
+    top = "OS";
+    await write(
+      "Actually, I supply my business archive and want another estimate for an existing licensing offer.",
+    );
+    await page.locator("#landing_OS").waitFor();
+    check(
+      calls.length - before === sharedChoices + 4,
+      "Delayed branch violated question count",
+    );
+  }
   await start();
   fail = true;
   const originalTitle = await title.innerText();
@@ -215,10 +249,10 @@ export async function runQuizBrowser({ page }) {
     form.requestSubmit();
     form.requestSubmit();
   });
-  await page.waitForFunction(
-    () =>
-      document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 2",
+  await page.waitForFunction(() =>
+    document
+      .querySelector(".quiz-progress span")
+      ?.textContent?.startsWith("Question 2 of"),
   );
   check(
     calls.length === beforeRetry + 1,

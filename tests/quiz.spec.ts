@@ -97,7 +97,7 @@ function classification(
     model: "jev-1.13.0",
   };
 }
-test("all Jev routes terminate, ask both written questions and branch only once", () => {
+test("all Jev routes terminate with 6–8 questions and two tailored choices when confident", () => {
   for (const top of archetypeIds)
     for (const probability of [0.25, 0.85, 0.850001, 0.99]) {
       const result = classification(top, probability);
@@ -113,49 +113,52 @@ test("all Jev routes terminate, ask both written questions and branch only once"
             ? question.options[0].id
             : "Synthetic written answer";
         current = nextQuestion(current, answers, result);
-        expect(seen.length).toBeLessThanOrEqual(5);
+        expect(seen.length).toBeLessThanOrEqual(8);
       }
       expect(seen).toContain("q4_problem");
       expect(seen).toContain("q5_outcome");
-      expect(seen.filter((id) => id.startsWith("q3_"))).toEqual(
-        probability > 0.85 ? [`q3_${top}`] : [],
+      expect(seen.length).toBeGreaterThanOrEqual(6);
+      expect(seen.slice(0, 2)).toEqual(["q1", "q2"]);
+      expect(seen.slice(-2)).toEqual(["q4_problem", "q5_outcome"]);
+      expect(seen.slice(2, 4)).toEqual(
+        probability > 0.85
+          ? [`q3_${top}`, `q4_${top}`]
+          : ["q3_shared", "q4_shared"],
       );
     }
 });
 test("uses the Jev probability, not confidence or option weights, for the strict cutoff", () => {
   const answers = { q1: "q1_0", q2: "q2_0" };
   expect(nextQuestion("q2", answers, classification("AP", 0.85))).toBe(
-    "q4_problem",
+    "q3_shared",
   );
   expect(nextQuestion("q2", answers, classification("AP", 0.850001))).toBe(
     "q3_AP",
   );
   expect(nextQuestion("q1", { q1: "q1_0" }, classification("AP"))).toBe("q2");
 });
-test("late written-answer branches skip completed questions and back invalidates descendants", () => {
+test("written answers finish the flow, role changes switch the second follow-up, and back invalidates descendants", () => {
   const answers = {
     q1: "q1_0",
     q2: "q2_0",
+    q3_AO: "q3_AO_0",
+    q4_AP: "q4_AP_0",
     q4_problem: "I acquire data for buyers",
     q5_outcome: "A usable corpus",
   };
-  expect(nextQuestion("q5_outcome", answers, classification("AP"))).toBe(
-    "q3_AP",
+  expect(nextQuestion("q3_AO", answers, classification("AP"))).toBe("q4_AP");
+  expect(nextQuestion("q3_AO", answers, classification("AP", 0.85))).toBe(
+    "q4_AO",
   );
-  expect(
-    nextQuestion(
-      "q3_AP",
-      { ...answers, q3_AP: "q3_AP_0" },
-      classification("AP"),
-    ),
-  ).toBeNull();
-  const edited = invalidateAfter(
-    { ...answers, q3_AP: "q3_AP_0" },
-    ["q1", "q2", "q4_problem", "q5_outcome", "q3_AP"],
-    1,
-  );
+  expect(nextQuestion("q5_outcome", answers, classification("AP"))).toBeNull();
+  const edited = invalidateAfter(answers, Object.keys(answers), 1);
   expect(edited.answers).toEqual({ q1: "q1_0", q2: "q2_0" });
-  expect(edited.invalidated).toEqual(["q4_problem", "q5_outcome", "q3_AP"]);
+  expect(edited.invalidated).toEqual([
+    "q3_AO",
+    "q4_AP",
+    "q4_problem",
+    "q5_outcome",
+  ]);
 });
 
 test("metrics deduplicate, exclude active sessions from drop-off, require independently verified labels and discard invalidated predictions", () => {
