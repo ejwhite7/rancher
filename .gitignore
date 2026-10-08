@@ -7,6 +7,7 @@ dist/
 .DS_Store
 test-results/
 playwright-report/
+coverage/
 
 .firecrawl/
 CONTINUITY.md
@@ -21,7 +22,8 @@ content/corral/runs/
 .env*
 
 # Local code-health index and verification evidence
-.repowise/
+.repowise/*
+!.repowise/config.yaml
 artifacts/intake-health/
 # Local lead reconciliation contains personal information.
 artifacts/sheet-reconciliation/

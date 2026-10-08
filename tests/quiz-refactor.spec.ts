@@ -278,6 +278,40 @@ test("an optional analytics capture failure cannot fail classification", async (
     console.warn = originalWarn;
   }
 });
+test("malformed saved consent denies capture and failed SDK creation remains non-blocking", async () => {
+  const browser = browserMock();
+  const warn = console.warn;
+  const warnings: string[] = [];
+  let creates = 0;
+  console.warn = (message) => warnings.push(String(message));
+  browser.document.cookie = "rancher_consent=%invalid";
+  const subscription = subscribeQuizAnalytics(
+    "synthetic",
+    "https://posthog.test",
+    () => ({}),
+    async () => {
+      creates++;
+      throw new Error("Synthetic SDK initialization failure");
+    },
+  );
+  try {
+    await settle();
+    subscription.capture("quiz_answered");
+    expect(creates).toBe(0);
+    browser.consent(true);
+    await settle();
+    expect(creates).toBe(1);
+    expect(warnings).toEqual([
+      "Quiz analytics are unavailable; classification is unaffected.",
+    ]);
+    expect(() => subscription.capture("quiz_answered")).not.toThrow();
+  } finally {
+    subscription.stop();
+    console.warn = warn;
+    browser.restore();
+  }
+});
+
 test("unmount during SDK initialization stops the late instance without events", async () => {
   const browser = browserMock();
   browser.consent(true);

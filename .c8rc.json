@@ -1,0 +1,24 @@
+{
+  "all": true,
+  "src": ["src", "scripts"],
+  "include": [
+    "src/components/QuizFunnel.tsx",
+    "src/components/useQuiz*.ts",
+    "src/lib/quiz*.ts",
+    "src/server/quiz*.ts",
+    "src/pages/api/quiz/*.ts",
+    "scripts/quiz-browser-coverage.mjs",
+    "coverage/browser-source/**"
+  ],
+  "exclude-after-remap": true,
+  "extension": [".js", ".mjs", ".ts", ".tsx"],
+  "temp-directory": "coverage/raw",
+  "reports-dir": "coverage/quiz",
+  "reporter": ["text", "lcov", "json", "json-summary"],
+  "check-coverage": true,
+  "per-file": true,
+  "lines": 90,
+  "statements": 90,
+  "functions": 90,
+  "branches": 80
+}

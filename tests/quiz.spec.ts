@@ -376,6 +376,165 @@ test("staff labels validate input, require an opted-in session, and sign the cap
   });
 });
 
+test("dashboard rejects unsupported methods, invalid configuration and out-of-range windows before I/O", async () => {
+  let calls = 0;
+  const send: typeof fetch = async () => {
+    calls++;
+    return Response.json({ results: [] });
+  };
+  expect(
+    (
+      await handleQuizDashboard(request("DELETE"), {
+        env,
+        fetch: send,
+        now: () => now,
+      })
+    ).status,
+  ).toBe(405);
+  for (const invalid of [
+    { POSTHOG_PROJECT_ID: "not-a-number" },
+    { POSTHOG_PERSONAL_API_KEY: "" },
+    { QUIZ_LABEL_SIGNING_KEY: "short" },
+    { POSTHOG_QUERY_HOST: "https://untrusted.test" },
+  ]) {
+    expect(
+      (
+        await handleQuizDashboard(request(), {
+          env: (name) =>
+            Object.hasOwn(invalid, name)
+              ? invalid[name as keyof typeof invalid]
+              : env(name),
+          fetch: send,
+          now: () => now,
+        })
+      ).status,
+    ).toBe(503);
+  }
+  for (const days of ["0", "31", "1.5"])
+    expect(
+      (
+        await handleQuizDashboard(
+          request("GET", undefined, `Bearer ${token}`, `?days=${days}`),
+          { env, fetch: send, now: () => now },
+        )
+      ).status,
+    ).toBe(400);
+  expect(calls).toBe(0);
+});
+
+test("dashboard refuses incomplete or broken query responses and filters malformed event rows", async () => {
+  for (const send of [
+    async () => Response.json({}),
+    async () => Response.json({ results: "pending" }),
+    async () => new Response("not-json"),
+    async () => {
+      throw new Error("Synthetic query timeout");
+    },
+  ]) {
+    expect(
+      (
+        await handleQuizDashboard(request(), {
+          env,
+          fetch: send,
+          now: () => now,
+        })
+      ).status,
+    ).toBe(502);
+  }
+  const valid = labelSignature(signingKey, sessionId, "AO");
+  const data: unknown[][] = rows([
+    event("quiz_session_started"),
+    event("quiz_question_viewed", { questionId: "q1" }),
+    event("quiz_completed"),
+    event("quiz_label_verified", { archetype: "AO", signature: valid }),
+  ]);
+  data.push(
+    [
+      "quiz_answered",
+      sessionId,
+      "q1",
+      "AP",
+      null,
+      null,
+      new Date(now).toISOString(),
+      [],
+    ],
+    [
+      "quiz_answers_invalidated",
+      sessionId,
+      null,
+      null,
+      null,
+      null,
+      new Date(now).toISOString(),
+      "broken-json",
+    ],
+    [
+      "quiz_answers_invalidated",
+      sessionId,
+      null,
+      null,
+      null,
+      null,
+      new Date(now).toISOString(),
+      '["q2",9]',
+    ],
+  );
+  const malformed: unknown[] = [
+    null,
+    ["unknown"],
+    ["quiz_session_started", 42],
+    ["quiz_session_started", "bad-session"],
+    ["quiz_session_started", sessionId, null, null, null, null, "bad-date"],
+  ];
+  const response = await handleQuizDashboard(request(), {
+    env,
+    fetch: async () => Response.json({ results: [...malformed, ...data] }),
+    now: () => now,
+  });
+  const metrics = await response.json();
+  expect(response.status).toBe(200);
+  expect(metrics).toMatchObject({ sessions: 1, completed: 1, verified: 1 });
+  expect(
+    metrics.questions.find((question: { id: string }) => question.id === "q1"),
+  ).toMatchObject({ answered: 1, labeled: 1, unclassified: 1, accuracy: 0 });
+});
+
+test("staff ingestion requires an approved configured host and reports failed saves without success", async () => {
+  for (const change of [
+    { PUBLIC_POSTHOG_HOST: "https://untrusted.test" },
+    { PUBLIC_POSTHOG_HOST: "" },
+    { PUBLIC_POSTHOG_PROJECT_TOKEN: "" },
+    {},
+  ]) {
+    let captures = 0;
+    const send: typeof fetch = async (url) => {
+      if (String(url).endsWith("/capture/")) {
+        captures++;
+        return new Response(null, { status: 500 });
+      }
+      return Response.json({ results: rows([event("quiz_session_started")]) });
+    };
+    const response = await handleQuizDashboard(
+      request("POST", {
+        sessionId,
+        archetype: "AO",
+        confirmedIndependent: true,
+      }),
+      {
+        env: (name) =>
+          Object.hasOwn(change, name)
+            ? change[name as keyof typeof change]
+            : env(name),
+        fetch: send,
+        now: () => now,
+      },
+    );
+    expect(response.status).toBe(Object.keys(change).length ? 503 : 502);
+    expect(captures).toBe(Object.keys(change).length ? 0 : 1);
+  }
+});
+
 test("upstream failures, oversized input and event truncation do not produce partial metrics", async () => {
   const limited: typeof fetch = async () =>
     Response.json({ results: Array.from({ length: 10001 }, () => []) });

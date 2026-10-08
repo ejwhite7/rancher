@@ -1,0 +1,48 @@
+name: Quiz coverage
+on:
+  pull_request:
+  push:
+    branches: [main, staging]
+permissions:
+  contents: read
+jobs:
+  quiz-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build isolated coverage tools
+        run: |
+          docker build -f scripts/quiz-coverage.Dockerfile -t quiz-coverage .
+          docker build -f scripts/quiz-coverage-repowise.Dockerfile -t quiz-repowise .
+      - name: Run source-mapped Node and Chromium coverage
+        run: |
+          docker create --name quiz-coverage --network none quiz-coverage
+          result=0
+          docker start -a quiz-coverage || result=$?
+          docker cp quiz-coverage:/app/coverage ./coverage
+          docker rm quiz-coverage
+          exit "$result"
+      - name: Gate changed-code coverage with Repowise
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          base="$BASE_SHA"
+          if [ -z "$base" ] || [ "$base" = "0000000000000000000000000000000000000000" ]; then
+            base=$(git rev-parse HEAD^)
+          fi
+          docker run --rm --network none -e DO_NOT_TRACK=1 -e HOME=/tmp \
+            -e GIT_CONFIG_COUNT=1 -e GIT_CONFIG_KEY_0=safe.directory -e GIT_CONFIG_VALUE_0=/repo \
+            -v "$PWD:/repo:ro" -w /repo quiz-repowise \
+            repowise coverage check "$base...HEAD" --fail-under-branches 80 --format json \
+            | tee coverage/quiz/repowise.json
+      - name: Retain coverage evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quiz-coverage
+          path: coverage/quiz/
+          if-no-files-found: warn
+          retention-days: 14

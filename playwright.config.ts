@@ -11,6 +11,8 @@ export default defineConfig({
     command: "npm run dev -- --host 127.0.0.1 --port 4322 --ignore-lock",
     env: {
       ASTRO_DEV_BACKGROUND: "1",
+      // Browser and Node transforms have different offsets; do not merge SSR V8 data with unit transforms.
+      NODE_V8_COVERAGE: "",
       PRISMIC_CONTENT_MODE: process.env.PRISMIC_CONTENT_MODE || "snapshot",
       PUBLIC_POSTHOG_PROJECT_TOKEN: "phc_test",
       PUBLIC_POSTHOG_HOST: "https://posthog.test",

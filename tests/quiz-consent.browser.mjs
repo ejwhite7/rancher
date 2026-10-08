@@ -1,7 +1,8 @@
-export async function runQuizConsentBrowser({ browser, base }) {
+export async function runQuizConsentBrowser({ browser, base, coverage }) {
   const { gunzipSync } = await import("node:zlib");
   const context = await browser.newContext({ ignoreHTTPSErrors: true });
   const page = await context.newPage();
+  const stopCoverage = await coverage?.(page);
   const events = [];
   await page.route("https://posthog.test/**", async (route) => {
     const buffer = route.request().postDataBuffer();
@@ -113,9 +114,18 @@ export async function runQuizConsentBrowser({ browser, base }) {
     .fill("Nothing specific after withdrawal.");
   await page.getByRole("button", { name: "Continue", exact: false }).click();
   await page.locator("#landing_MC").waitFor();
+  // Keep this page alive to observe whether a real CTA click leaks after withdrawal.
+  const cta = page.getByRole("link", { name: "Discuss my companies" });
+  await cta.evaluate((link) =>
+    link.addEventListener("click", (event) => event.preventDefault(), {
+      once: true,
+    }),
+  );
+  await cta.click();
   await page.waitForTimeout(200);
   if (events.length !== before)
     throw new Error("Analytics continue after withdrawal");
+  await stopCoverage?.();
   await context.close();
 
   const gpcContext = await browser.newContext({ ignoreHTTPSErrors: true });
@@ -126,6 +136,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
     }),
   );
   const gpcPage = await gpcContext.newPage();
+  const stopGpcCoverage = await coverage?.(gpcPage);
   let captured = 0;
   await gpcPage.route("https://posthog.test/**", (route) => {
     captured++;
@@ -137,6 +148,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
   await gpcPage.getByRole("button", { name: "Continue", exact: false }).click();
   await gpcPage.locator('form[data-question-id="q2"]').waitFor();
   if (captured) throw new Error("GPC permits quiz analytics");
+  await stopGpcCoverage?.();
   await gpcContext.close();
   console.log(
     "New-prospect SDK saved-consent, written payload, withdrawal, GPC and seller-only v5-cohort checks passed.",

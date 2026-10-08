@@ -196,6 +196,16 @@ export async function runQuizBrowser({ page }) {
       );
       await cta.click();
       await page.locator(".intake-wizard").waitFor();
+    } else {
+      const cta = page.getByRole("link", {
+        name: id === "AO" ? "Discuss my archive" : "Discuss my companies",
+      });
+      check(
+        (await cta.getAttribute("href")) === "/contact/",
+        "Seller CTA leaked data or has wrong destination",
+      );
+      await cta.click();
+      await page.waitForURL("**/contact/");
     }
   }
   top = "MC";

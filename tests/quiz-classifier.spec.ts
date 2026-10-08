@@ -216,6 +216,40 @@ test("rejects invalid provider distributions and choices rather than falling bac
     expect(await response.json()).not.toHaveProperty("probabilities");
   }
 });
+test("request rate limits block the 31st provider call and recover after the window expires", async () => {
+  const clock = Date.now;
+  const info = console.info;
+  let now = clock();
+  let calls = 0;
+  Date.now = () => now;
+  console.info = () => {};
+  const invoke = () => {
+    const input = request();
+    input.headers.set("x-forwarded-for", "coverage-rate-limit");
+    return handleQuizClassification(input, {
+      env,
+      fetch: async () => {
+        calls++;
+        return Response.json(fixture());
+      },
+    });
+  };
+  try {
+    for (let index = 0; index < 30; index++)
+      expect((await invoke()).status).toBe(200);
+    const blocked = await invoke();
+    expect(blocked.status).toBe(429);
+    expect(blocked.headers.get("Retry-After")).toBe("60");
+    expect(calls).toBe(30);
+    now += 60_001;
+    expect((await invoke()).status).toBe(200);
+    expect(calls).toBe(31);
+  } finally {
+    Date.now = clock;
+    console.info = info;
+  }
+});
+
 test("provider authentication, rate limit, overload and network errors all block progression", async () => {
   for (const status of [401, 429, 529])
     expect(

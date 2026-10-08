@@ -47,6 +47,8 @@ Events: `quiz_session_started`, `quiz_question_viewed`, `quiz_answered`, `quiz_a
 
 ## Local checks
 
+Measured line/function/branch coverage and the Repowise changed-code gate are documented in [quiz-coverage.md](quiz-coverage.md). Run `npm run coverage:quiz` inside its isolated Node 22/Chromium image; `.github/workflows/quiz-coverage.yml` runs the same checks in CI. Coverage is seller-quiz scoped, not repository-wide, and must not be confused with static Repowise health scores.
+
 ```sh
 docker compose -f compose.quiz.yaml run --rm quiz npm ci
 docker compose -f compose.quiz.yaml up -d
