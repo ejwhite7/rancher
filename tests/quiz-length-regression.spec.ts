@@ -29,7 +29,7 @@ function prediction(
   };
 }
 
-test("all 49 graph paths work in the router and server, including every mixed-role prefix", async () => {
+test("all 33 new-prospect graph paths work in the router and server, including every mixed-role prefix", async () => {
   const paths: string[][] = [];
   function visit(id: string | null, path: string[] = []) {
     if (id === null) {
@@ -41,7 +41,7 @@ test("all 49 graph paths work in the router and server, including every mixed-ro
       visit(next, [...path, id]);
   }
   visit("q1");
-  expect(paths).toHaveLength(49);
+  expect(paths).toHaveLength(33);
   let counter = 0;
   const receipts: string[] = [];
   const info = console.info;
@@ -49,8 +49,7 @@ test("all 49 graph paths work in the router and server, including every mixed-ro
     receipts.push(JSON.stringify({ event, ...attributes }));
   try {
     for (const path of paths) {
-      expect(path.length).toBeGreaterThanOrEqual(6);
-      expect(path.length).toBeLessThanOrEqual(8);
+      expect(path.length).toBe(8);
       expect(
         path.filter((id) => questionById(id).type === "open"),
       ).toHaveLength(2);
@@ -153,13 +152,13 @@ test("every visitor answers 6–8 questions, mostly choices and exactly two open
       expect(
         path.length,
         `${top} at ${probability}: ${path.map((question) => question.id).join(" → ")}`,
-      ).toBeGreaterThanOrEqual(6);
+      ).toBe(8);
       expect(path.filter((question) => question.type === "open")).toHaveLength(
         2,
       );
-      expect(
-        path.filter((question) => question.type === "choice").length,
-      ).toBeGreaterThanOrEqual(4);
+      expect(path.filter((question) => question.type === "choice").length).toBe(
+        6,
+      );
     }
   }
 });

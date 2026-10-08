@@ -89,10 +89,6 @@
   flex: 0 0 auto;
   accent-color: var(--ink);
 }
-.quiz-option-number {
-  color: var(--muted);
-  font-size: 10px;
-}
 .quiz-written {
   margin-block: 26px;
 }

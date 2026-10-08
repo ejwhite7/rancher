@@ -79,8 +79,10 @@ test("calls native Jev Choice with the entire history including written answers,
     q2: "q2_0",
     q3_AP: "q3_AP_0",
     q4_AP: "q4_AP_0",
-    q4_problem: "Actually I acquire datasets for downstream buyers",
-    q5_outcome: "A full corpus delivered this quarter",
+    q5_AP: "q5_AP_0",
+    q6_timing: "q6_timing_0",
+    q7_dataset: "Actually I acquire datasets for downstream buyers",
+    q8_discussion: "A full corpus delivered this quarter",
   };
   const send: typeof fetch = async (url, init) => {
     expect(url).toBe("https://api.typesafe.ai/v1/systemone");
@@ -96,9 +98,9 @@ test("calls native Jev Choice with the entire history including written answers,
       "MC",
       "AP",
     ]);
-    expect(body.state.history).toHaveLength(6);
-    expect(body.state.history[4].answer).toBe(answers.q4_problem);
-    expect(body.state.history[5].answer).toBe(answers.q5_outcome);
+    expect(body.state.history).toHaveLength(8);
+    expect(body.state.history[6].answer).toBe(answers.q7_dataset);
+    expect(body.state.history[7].answer).toBe(answers.q8_discussion);
     expect(body.state.history[0].answer).not.toBe("q1_0");
     expect(String(init?.body)).not.toContain("weights");
     expect(String(init?.body)).not.toContain("synthetic-server-only-key");
@@ -156,6 +158,23 @@ test("rejects cross-origin, malformed, oversized and unknown answers before invo
     },
     { q1: "q1_0", q2: "q2_0", q4_problem: "x".repeat(2001) },
     { q1: "q1_0", q2: "q2_0", q4_problem: 123 },
+    {
+      q1: "q1_0",
+      q2: "q2_0",
+      q3_AP: "q3_AP_0",
+      q4_AP: "q4_AP_0",
+      q5_AP: "q5_AP_0",
+      q7_dataset: "Skipped timing",
+    },
+    {
+      q1: "q1_0",
+      q2: "q2_0",
+      q3_AP: "q3_AP_0",
+      q4_AP: "q4_AP_0",
+      q5_AP: "q5_AP_0",
+      q6_timing: "q6_timing_0",
+      q7_dataset: "x".repeat(2001),
+    },
   ]) {
     expect(
       (await handleQuizClassification(request(answers), { env, fetch: never }))

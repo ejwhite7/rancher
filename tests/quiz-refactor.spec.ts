@@ -85,22 +85,25 @@ test("written corrections determine the final landing without another tailored q
   state = answer(state);
   expect(state.path.at(-1)).toBe("q3_AO");
   state = answer(state);
-  expect(state.path.at(-1)).toBe("q4_AO");
+  expect(state.path.at(-1)).toBe("q4_motivation");
   state = answer(state);
+  state = answer(state);
+  state = answer(state);
+  expect(state.path.at(-1)).toBe("q7_dataset");
   state = answer(
     state,
     result("AP"),
     "I acquire corpora for downstream buyers.",
   );
-  expect(state.path.at(-1)).toBe("q5_outcome");
+  expect(state.path.at(-1)).toBe("q8_discussion");
   state = answer(state, result("AP"));
   expect(state.completed).toBe(true);
   expect(state.classification?.top).toBe("AP");
-  expect(state.path).toHaveLength(6);
+  expect(state.path).toHaveLength(8);
   const back = rewindQuiz(state);
   expect(back.completed).toBe(false);
   expect(back.classification).toBeNull();
-  expect(back.draft).toBe(state.answers.q5_outcome);
+  expect(back.draft).toBe(state.answers.q8_discussion);
 });
 test("back preserves unfinished drafts but editing an earlier answer clears future drafts", () => {
   const q2 = answer(initialQuizState);
@@ -111,23 +114,23 @@ test("back preserves unfinished drafts but editing an earlier answer clears futu
   expect(answer(q1, result(), "q1_1").draft).toBe("");
   expect(q2.cached).not.toHaveProperty("q2"); // Immutable transitions leave prior snapshots untouched.
 });
-test("a last-gate branch asks eight questions and written corrections never reopen a branch", () => {
+test("uncertainty uses shared qualifying questions and written corrections never reopen a branch", () => {
   let state = answer(initialQuizState, result("AP", 0.5));
   state = answer(state, result("AP", 0.5));
   expect(state.path.at(-1)).toBe("q3_shared");
   state = answer(state, result("AP", 0.5));
   expect(state.path.at(-1)).toBe("q4_shared");
   state = answer(state, result("AP"));
-  expect(state.path.at(-1)).toBe("q3_AP");
+  expect(state.path.at(-1)).toBe("q5_AP");
   state = answer(state, result("MC"));
-  expect(state.path.at(-1)).toBe("q4_MC");
+  expect(state.path.at(-1)).toBe("q6_timing");
   state = answer(state, result("MC"));
   state = answer(state, result("AO"));
   state = answer(state, result("OS"));
   expect(state.completed).toBe(true);
   expect(state.path).toHaveLength(8);
   expect(state.classification?.top).toBe("OS");
-  expect(state.path.slice(-2)).toEqual(["q4_problem", "q5_outcome"]);
+  expect(state.path.slice(-2)).toEqual(["q7_dataset", "q8_discussion"]);
 });
 
 function browserMock() {

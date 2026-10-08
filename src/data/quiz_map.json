@@ -8,380 +8,1173 @@
       "shared": true,
       "options": [
         {
-          "text": "Find out whether the records from my business have valuable stuff worth licensing.",
-          "weights": { "AO": 1, "OS": 0.05, "MC": 0.05, "AP": 0 }
+          "text": "License data from my business.",
+          "weights": {
+            "AO": 1,
+            "OS": 0.1,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Get another estimate for records I can license and am already shopping around.",
-          "weights": { "AO": 0.1, "OS": 1, "MC": 0.05, "AP": 0 }
+          "text": "Compare licensing options or an offer for data I can supply.",
+          "weights": {
+            "AO": 0.2,
+            "OS": 1,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Bring several businesses, datasets, or companies I can introduce your way.",
-          "weights": { "AO": 0.1, "OS": 0.05, "MC": 1, "AP": 0 }
+          "text": "Represent or introduce several businesses with data to license.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
         },
         {
-          "text": "Acquire full company datasets for our downstream buyers, not license my own records.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0.05, "AP": 1 }
+          "text": "Acquire business datasets for our buyers or projects.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
         },
         {
-          "text": "I'm not sure which of these describes my situation.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0, "AP": 0 }
+          "text": "I'm not sure yet.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
-      "next": { "default": "q2", "branch": {} }
+      "next": {
+        "default": "q2",
+        "branch": {}
+      }
     },
     {
       "id": "q2",
-      "text": "What would be the most useful next step?",
+      "text": "Which describes where you are in the process?",
       "type": "choice",
       "shared": true,
       "options": [
         {
-          "text": "Review the depth and breadth of our archive and explain whether it fits.",
-          "weights": { "AO": 1, "OS": 0.1, "MC": 0.1, "AP": 0 }
+          "text": "I'm just exploring whether our business data could be licensed.",
+          "weights": {
+            "AO": 1,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Compare the offer on the table with a fair fee and terms.",
-          "weights": { "AO": 0.05, "OS": 1, "MC": 0.05, "AP": 0 }
+          "text": "I want to understand our data's value and what a licensing agreement would involve.",
+          "weights": {
+            "AO": 1,
+            "OS": 0.1,
+            "MC": 0.1,
+            "AP": 0
+          }
         },
         {
-          "text": "Work out which of several opportunities to pursue without repeating the same work.",
-          "weights": { "AO": 0.1, "OS": 0.05, "MC": 1, "AP": 0.05 }
+          "text": "I'm preparing to seek offers or compare licensing options.",
+          "weights": {
+            "AO": 0.3,
+            "OS": 0.8,
+            "MC": 0.1,
+            "AP": 0
+          }
         },
         {
-          "text": "Receive an actionable company inventory and seller asking price for our buyers to evaluate.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0.1, "AP": 1 }
+          "text": "I already have an open offer and want to compare its terms.",
+          "weights": {
+            "AO": 0,
+            "OS": 1,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "I'm still unsure what needs to happen next.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0, "AP": 0 }
+          "text": "I'm exploring opportunities for several businesses or companies I can introduce.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I'm evaluating datasets to acquire for buyers or a project.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
+        },
+        {
+          "text": "I'm not sure where to start.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
       "next": {
         "default": "q3_shared",
-        "branch": { "AO": "q3_AO", "OS": "q3_OS", "MC": "q3_MC", "AP": "q3_AP" }
+        "branch": {
+          "AO": "q3_AO",
+          "OS": "q3_OS",
+          "MC": "q3_MC",
+          "AP": "q3_AP"
+        }
       }
     },
     {
       "id": "q3_shared",
-      "text": "What is your role in getting the data into a deal?",
+      "text": "Can you describe your relationship to the business?",
       "type": "choice",
       "shared": true,
       "options": [
         {
-          "text": "I own or represent one business whose records could be licensed; we haven't received an offer.",
-          "weights": { "AO": 1, "OS": 0, "MC": 0.1, "AP": 0 }
+          "text": "I own or co-own the business.",
+          "weights": {
+            "AO": 0.7,
+            "OS": 0.3,
+            "MC": 0.1,
+            "AP": 0
+          }
         },
         {
-          "text": "I represent the supplier and am comparing an offer or licensing services.",
-          "weights": { "AO": 0.1, "OS": 1, "MC": 0.05, "AP": 0 }
+          "text": "I'm a director or executive authorised to represent it.",
+          "weights": {
+            "AO": 0.7,
+            "OS": 0.3,
+            "MC": 0.1,
+            "AP": 0
+          }
         },
         {
-          "text": "I represent several businesses or introduce companies through a referral or affiliate relationship.",
-          "weights": { "AO": 0.1, "OS": 0.05, "MC": 1, "AP": 0 }
+          "text": "I'm an employee gathering information for the decision-maker.",
+          "weights": {
+            "AO": 0.6,
+            "OS": 0.3,
+            "MC": 0.1,
+            "AP": 0
+          }
         },
         {
-          "text": "I evaluate or acquire other companies' datasets for downstream buyers.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0.05, "AP": 1 }
+          "text": "I'm an advisor or representative acting for one or more businesses.",
+          "weights": {
+            "AO": 0.2,
+            "OS": 0.2,
+            "MC": 0.8,
+            "AP": 0
+          }
         },
         {
-          "text": "My role or permission to proceed still needs to be worked out.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0, "AP": 0 }
+          "text": "I introduce businesses but don't control their data.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I evaluate or acquire other businesses' data for buyers.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
+        },
+        {
+          "text": "Another relationship.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
       "next": {
         "default": "q4_shared",
-        "branch": { "AO": "q3_AO", "OS": "q3_OS", "MC": "q3_MC", "AP": "q3_AP" }
-      }
-    },
-    {
-      "id": "q4_shared",
-      "text": "What is already in place for the next step?",
-      "type": "choice",
-      "shared": true,
-      "options": [
-        {
-          "text": "One business archive; I still need a fit review before seeking an offer.",
-          "weights": { "AO": 1, "OS": 0.05, "MC": 0.05, "AP": 0 }
-        },
-        {
-          "text": "An offer or licensing terms from another provider that I want to compare.",
-          "weights": { "AO": 0.05, "OS": 1, "MC": 0.05, "AP": 0 }
-        },
-        {
-          "text": "Several company opportunities, data rooms, intake forms, or introductions to review.",
-          "weights": { "AO": 0.1, "OS": 0.05, "MC": 1, "AP": 0.05 }
-        },
-        {
-          "text": "Our buyers' requirements; we need qualified suppliers and an actionable inventory.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0.1, "AP": 1 }
-        },
-        {
-          "text": "None of these is clear yet.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0, "AP": 0 }
+        "branch": {
+          "AO": "q4_motivation",
+          "OS": "q4_motivation",
+          "MC": "q4_MC",
+          "AP": "q4_AP"
         }
-      ],
-      "next": {
-        "default": "q4_problem",
-        "branch": { "AO": "q3_AO", "OS": "q3_OS", "MC": "q3_MC", "AP": "q3_AP" }
       }
     },
     {
       "id": "q3_AO",
-      "text": "What would help you decide whether your archive has valuable stuff worth licensing?",
+      "text": "Can you describe your relationship to the business?",
       "type": "choice",
       "shared": false,
       "options": [
         {
-          "text": "Review the years of data and the systems our business used.",
-          "weights": { "AO": 1, "OS": 0.1, "MC": 0.15, "AP": 0 }
+          "text": "I founded or own the business and can decide how its data is used.",
+          "weights": {
+            "AO": 1,
+            "OS": 0.1,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Check the typical minimum against our staff history, not just today's team.",
-          "weights": { "AO": 1, "OS": 0.05, "MC": 0.1, "AP": 0 }
+          "text": "I'm a director or executive responsible for the decision.",
+          "weights": {
+            "AO": 0.8,
+            "OS": 0.2,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Get the introduction or missing invitation so I can take the next steps.",
-          "weights": { "AO": 0.85, "OS": 0.2, "MC": 0.2, "AP": 0 }
+          "text": "I'm an employee researching this for the owner or leadership team.",
+          "weights": {
+            "AO": 0.8,
+            "OS": 0.2,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Actually, I already have an offer and want another estimate.",
-          "weights": { "AO": 0.05, "OS": 1, "MC": 0.05, "AP": 0 }
+          "text": "I'm an advisor authorised to represent this business.",
+          "weights": {
+            "AO": 0.7,
+            "OS": 0.2,
+            "MC": 0.2,
+            "AP": 0
+          }
         },
         {
-          "text": "I'm still unsure.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0, "AP": 0 }
+          "text": "I represent or introduce several businesses, not just this one.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I'm actually evaluating data to acquire for buyers.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
+        },
+        {
+          "text": "Another relationship.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
       "next": {
-        "default": "q4_AO",
-        "branch": { "AO": "q4_AO", "OS": "q4_OS", "MC": "q4_MC", "AP": "q4_AP" }
-      }
-    },
-    {
-      "id": "q4_AO",
-      "text": "Where are you with the review or introduction?",
-      "type": "choice",
-      "shared": false,
-      "options": [
-        {
-          "text": "I haven't started; I need to know where to begin.",
-          "weights": { "AO": 1, "OS": 0.1, "MC": 0.1, "AP": 0 }
-        },
-        {
-          "text": "I've described the archive and am waiting for a fit review.",
-          "weights": { "AO": 1, "OS": 0.1, "MC": 0.15, "AP": 0 }
-        },
-        {
-          "text": "I'm waiting for the introduction or the actual inventory invitation.",
-          "weights": { "AO": 0.9, "OS": 0.15, "MC": 0.2, "AP": 0 }
-        },
-        {
-          "text": "I've submitted the inventory and am following up on next steps.",
-          "weights": { "AO": 0.8, "OS": 0.3, "MC": 0.2, "AP": 0 }
-        },
-        {
-          "text": "Actually, I'm comparing an offer rather than starting a review.",
-          "weights": { "AO": 0.1, "OS": 1, "MC": 0.05, "AP": 0 }
+        "default": "q4_motivation",
+        "branch": {
+          "AO": "q4_motivation",
+          "OS": "q4_motivation",
+          "MC": "q4_MC",
+          "AP": "q4_AP"
         }
-      ],
-      "next": { "default": "q4_problem", "branch": {} }
+      }
     },
     {
       "id": "q3_OS",
-      "text": "What do you need to compare before choosing an offer?",
+      "text": "Can you describe your relationship to the business?",
       "type": "choice",
       "shared": false,
       "options": [
         {
-          "text": "The license fee for our records.",
-          "weights": { "AO": 0.2, "OS": 1, "MC": 0.1, "AP": 0 }
+          "text": "I own the business and can decide whether to accept an offer.",
+          "weights": {
+            "AO": 0.2,
+            "OS": 1,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Exclusive versus non-exclusive rights in the supplier offer.",
-          "weights": { "AO": 0.2, "OS": 1, "MC": 0.1, "AP": 0.05 }
+          "text": "I'm a director or executive responsible for evaluating licensing terms.",
+          "weights": {
+            "AO": 0.2,
+            "OS": 0.9,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "When we would be paid and what our offer requires us to deliver.",
-          "weights": { "AO": 0.2, "OS": 0.95, "MC": 0.1, "AP": 0.05 }
+          "text": "I'm an employee gathering comparisons for the decision-maker.",
+          "weights": {
+            "AO": 0.3,
+            "OS": 0.8,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Another estimate and a comparable manifest or inventory.",
-          "weights": { "AO": 0.15, "OS": 1, "MC": 0.1, "AP": 0 }
+          "text": "I'm an advisor negotiating or reviewing an offer for the business.",
+          "weights": {
+            "AO": 0.1,
+            "OS": 1,
+            "MC": 0.2,
+            "AP": 0
+          }
         },
         {
-          "text": "Actually, I don't have an offer; I need to know whether our archive fits.",
-          "weights": { "AO": 1, "OS": 0.05, "MC": 0.1, "AP": 0 }
+          "text": "I'm representing several businesses with licensing opportunities.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I'm actually evaluating data to acquire for buyers.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
+        },
+        {
+          "text": "Another relationship.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
       "next": {
-        "default": "q4_OS",
-        "branch": { "AO": "q4_AO", "OS": "q4_OS", "MC": "q4_MC", "AP": "q4_AP" }
+        "default": "q4_motivation",
+        "branch": {
+          "AO": "q4_motivation",
+          "OS": "q4_motivation",
+          "MC": "q4_MC",
+          "AP": "q4_AP"
+        }
       }
     },
     {
-      "id": "q4_OS",
-      "text": "How much time do you have to compare the offer?",
-      "type": "choice",
-      "shared": false,
-      "options": [
-        {
-          "text": "The offer on the table expires tomorrow, or has another firm deadline.",
-          "weights": { "AO": 0.05, "OS": 1, "MC": 0.05, "AP": 0 }
-        },
-        {
-          "text": "I have an offer, but no firm decision date has been set.",
-          "weights": { "AO": 0.1, "OS": 1, "MC": 0.05, "AP": 0 }
-        },
-        {
-          "text": "We're shopping it around and still discussing a fair fee and terms.",
-          "weights": { "AO": 0.15, "OS": 1, "MC": 0.1, "AP": 0 }
-        },
-        {
-          "text": "Actually, I haven't received an offer yet.",
-          "weights": { "AO": 1, "OS": 0.05, "MC": 0.1, "AP": 0 }
-        }
-      ],
-      "next": { "default": "q4_problem", "branch": {} }
-    },
-    {
       "id": "q3_MC",
-      "text": "Which different opportunities are you bringing our way?",
+      "text": "Can you describe your relationship to the businesses?",
       "type": "choice",
       "shared": false,
       "options": [
         {
-          "text": "Several datasets from businesses I own or represent.",
-          "weights": { "AO": 0.15, "OS": 0.05, "MC": 1, "AP": 0 }
+          "text": "I own or co-own more than one of the businesses.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
         },
         {
-          "text": "Companies I can introduce through a referral or affiliate relationship.",
-          "weights": { "AO": 0.05, "OS": 0, "MC": 1, "AP": 0 }
+          "text": "I'm an investor, director, or advisor across several businesses.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
         },
         {
-          "text": "Several data rooms and intake forms I've already shared.",
-          "weights": { "AO": 0.15, "OS": 0.1, "MC": 1, "AP": 0 }
+          "text": "I'm authorised to represent several businesses in licensing discussions.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
         },
         {
-          "text": "Actually, this is one business archive, not several opportunities.",
-          "weights": { "AO": 1, "OS": 0.1, "MC": 0.05, "AP": 0 }
+          "text": "I introduce businesses through a referral or affiliate relationship.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
         },
         {
-          "text": "Actually, we're acquiring datasets for buyers, not supplying or referring them.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0.05, "AP": 1 }
+          "text": "Actually, I'm only representing one business and its data.",
+          "weights": {
+            "AO": 1,
+            "OS": 0.3,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Actually, I acquire datasets for buyers rather than represent suppliers.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
+        },
+        {
+          "text": "Another relationship.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
       "next": {
         "default": "q4_MC",
-        "branch": { "AO": "q4_AO", "OS": "q4_OS", "MC": "q4_MC", "AP": "q4_AP" }
+        "branch": {
+          "AO": "q4_motivation",
+          "OS": "q4_motivation",
+          "MC": "q4_MC",
+          "AP": "q4_AP"
+        }
       }
     },
     {
-      "id": "q4_MC",
-      "text": "What would help you avoid wasting time or opportunities?",
-      "type": "choice",
-      "shared": false,
-      "options": [
-        {
-          "text": "Review each company's inventory separately so we know which opportunities fit.",
-          "weights": { "AO": 0.1, "OS": 0.05, "MC": 1, "AP": 0.05 }
-        },
-        {
-          "text": "Confirm what is missing from the data rooms or intake forms I've already shared.",
-          "weights": { "AO": 0.15, "OS": 0.1, "MC": 0.95, "AP": 0 }
-        },
-        {
-          "text": "Explain how the affiliate or referral relationship works before I introduce more companies.",
-          "weights": { "AO": 0.05, "OS": 0, "MC": 1, "AP": 0 }
-        },
-        {
-          "text": "Check the coverage dates and team continuity of several datasets before we do more work.",
-          "weights": { "AO": 0.2, "OS": 0.05, "MC": 0.95, "AP": 0.05 }
-        },
-        {
-          "text": "Actually, I need an estimate against one existing supplier offer.",
-          "weights": { "AO": 0.1, "OS": 1, "MC": 0.05, "AP": 0 }
-        }
-      ],
-      "next": { "default": "q4_problem", "branch": {} }
-    },
-    {
       "id": "q3_AP",
-      "text": "What makes an opportunity actionable for your team?",
+      "text": "Can you describe your role in acquiring datasets?",
       "type": "choice",
       "shared": false,
       "options": [
         {
-          "text": "Company name, inventory, and the seller's asking price for our buyers to evaluate.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0.1, "AP": 1 }
+          "text": "I make acquisition decisions for our own organisation or project.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
         },
         {
-          "text": "A full corpus with the years of data and systems clearly described.",
-          "weights": { "AO": 0.1, "OS": 0.05, "MC": 0.1, "AP": 1 }
+          "text": "I evaluate datasets for downstream buyers.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
         },
         {
-          "text": "A seller with authority to sign, plus clear delivery and acceptance conditions.",
-          "weights": { "AO": 0.05, "OS": 0.05, "MC": 0.15, "AP": 1 }
+          "text": "I source datasets and pass them to our acquisition decision-maker.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
         },
         {
-          "text": "Actually, I introduce companies; I don't acquire their data for buyers.",
-          "weights": { "AO": 0.05, "OS": 0, "MC": 1, "AP": 0 }
+          "text": "I represent a buyer in acquisition or licensing negotiations.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
         },
         {
-          "text": "Actually, I want to license the records from my own business.",
-          "weights": { "AO": 1, "OS": 0.1, "MC": 0.05, "AP": 0 }
+          "text": "Actually, I introduce suppliers but don't evaluate or acquire their data.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 1,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Actually, I want to license data from my own business.",
+          "weights": {
+            "AO": 1,
+            "OS": 0.3,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Another relationship.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
       "next": {
         "default": "q4_AP",
-        "branch": { "AO": "q4_AO", "OS": "q4_OS", "MC": "q4_MC", "AP": "q4_AP" }
+        "branch": {
+          "AO": "q4_motivation",
+          "OS": "q4_motivation",
+          "MC": "q4_MC",
+          "AP": "q4_AP"
+        }
       }
     },
     {
-      "id": "q4_AP",
-      "text": "What has to be checked before you can accept a dataset?",
+      "id": "q4_shared",
+      "text": "What is your motivation for exploring a data transaction?",
+      "type": "choice",
+      "shared": true,
+      "options": [
+        {
+          "text": "Improve cash flow or cover the business's current expenses.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Fund expansion, new products, or further investment in the business.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Generate income as I prepare for retirement or step back from the business.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Preserve a useful legacy from the business's work and records.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Recover value from the data as I shut down the business.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Find useful datasets for our buyers, products, or research.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 1
+          }
+        },
+        {
+          "text": "Understand the opportunity before deciding what to do next.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Another reason.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        }
+      ],
+      "next": {
+        "default": "q5_shared",
+        "branch": {
+          "AO": "q5_transaction",
+          "OS": "q5_transaction",
+          "MC": "q5_transaction",
+          "AP": "q5_AP"
+        }
+      }
+    },
+    {
+      "id": "q4_motivation",
+      "text": "What is your motivation for seeking a licensing agreement?",
       "type": "choice",
       "shared": false,
       "options": [
         {
-          "text": "The seller's rights and authority, so the opportunity can move without more approval rounds.",
-          "weights": { "AO": 0.05, "OS": 0.05, "MC": 0.1, "AP": 1 }
+          "text": "Improve cash flow or cover the business's current expenses.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Years of operating data, team continuity, and systems used.",
-          "weights": { "AO": 0.1, "OS": 0.05, "MC": 0.1, "AP": 1 }
+          "text": "Fund expansion, new products, or further investment in the business.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "The full corpus against our buyers' requirements, not just a list of company names.",
-          "weights": { "AO": 0, "OS": 0, "MC": 0.05, "AP": 1 }
+          "text": "Generate income as I prepare for retirement or step back from the business.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "The agreed delivery and acceptance conditions before payment can be approved.",
-          "weights": { "AO": 0.05, "OS": 0.1, "MC": 0.1, "AP": 1 }
+          "text": "Preserve a useful legacy from the business's work and records.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         },
         {
-          "text": "Our acceptance requirements still need to be worked out.",
-          "weights": { "AO": 0.05, "OS": 0.05, "MC": 0.05, "AP": 0.7 }
+          "text": "Recover value from the data as I shut down the business.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Understand the opportunity before deciding what I would use the proceeds for.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Another reason.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
         }
       ],
-      "next": { "default": "q4_problem", "branch": {} }
+      "next": {
+        "default": "q5_transaction",
+        "branch": {
+          "AO": "q5_transaction",
+          "OS": "q5_transaction",
+          "MC": "q5_transaction",
+          "AP": "q5_AP"
+        }
+      }
     },
     {
-      "id": "q4_problem",
-      "text": "In your own words, what is holding up your next steps?",
-      "type": "open",
-      "shared": true,
-      "options": [],
-      "next": { "default": "q5_outcome", "branch": {} }
+      "id": "q4_MC",
+      "text": "What is your motivation for seeking a licensing agreement?",
+      "type": "choice",
+      "shared": false,
+      "options": [
+        {
+          "text": "Help the businesses improve cash flow or cover current expenses.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Help fund expansion, new products, or investment in the businesses.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Help an owner generate income as they prepare for retirement.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Preserve a useful legacy from the businesses' work and records.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Recover value from data as one or more businesses shut down.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Earn referral or advisory income by connecting businesses with licensing opportunities.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Understand the opportunity before deciding what to do next.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Another reason.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        }
+      ],
+      "next": {
+        "default": "q5_transaction",
+        "branch": {
+          "AO": "q5_transaction",
+          "OS": "q5_transaction",
+          "MC": "q5_transaction",
+          "AP": "q5_AP"
+        }
+      }
     },
     {
-      "id": "q5_outcome",
-      "text": "What would make this worth your time?",
-      "supporting_text": "Describe the result you want and any deadline, license terms, or data requirements that matter.",
+      "id": "q4_AP",
+      "text": "What is your motivation for acquiring a dataset?",
+      "type": "choice",
+      "shared": false,
+      "options": [
+        {
+          "text": "Build or improve a product or service.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Train, evaluate, or improve an AI model.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Support research or analysis.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Meet a downstream buyer's specific data requirements.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Expand our data coverage or acquire something difficult to source.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "Another reason.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        }
+      ],
+      "next": {
+        "default": "q5_AP",
+        "branch": {
+          "AO": "q5_transaction",
+          "OS": "q5_transaction",
+          "MC": "q5_transaction",
+          "AP": "q5_AP"
+        }
+      }
+    },
+    {
+      "id": "q5_shared",
+      "text": "What transaction value do you have in mind?",
+      "type": "choice",
+      "shared": true,
+      "supporting_text": "An approximate amount is fine. Amounts are in US dollars.",
+      "options": [
+        {
+          "text": "Less than $10,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$10,000 to less than $50,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$50,000 to less than $100,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$100,000 to less than $500,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$500,000 or more",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I don't have a target yet.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I'd prefer to discuss the amount.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        }
+      ],
+      "next": {
+        "default": "q6_timing",
+        "branch": {}
+      }
+    },
+    {
+      "id": "q5_transaction",
+      "text": "How much are you hoping to receive in a transaction?",
+      "type": "choice",
+      "shared": true,
+      "supporting_text": "An approximate target is fine. Amounts are in US dollars.",
+      "options": [
+        {
+          "text": "Less than $10,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$10,000 to less than $50,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$50,000 to less than $100,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$100,000 to less than $500,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$500,000 or more",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I don't have a target yet.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I'd prefer to discuss the amount.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        }
+      ],
+      "next": {
+        "default": "q6_timing",
+        "branch": {}
+      }
+    },
+    {
+      "id": "q5_AP",
+      "text": "What budget do you have in mind for a data acquisition?",
+      "type": "choice",
+      "shared": false,
+      "supporting_text": "An approximate budget is fine. Amounts are in US dollars.",
+      "options": [
+        {
+          "text": "Less than $10,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$10,000 to less than $50,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$50,000 to less than $100,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$100,000 to less than $500,000",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "$500,000 or more",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I don't have a target yet.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I'd prefer to discuss the amount.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        }
+      ],
+      "next": {
+        "default": "q6_timing",
+        "branch": {}
+      }
+    },
+    {
+      "id": "q6_timing",
+      "text": "How quickly are you hoping to make a decision?",
+      "type": "choice",
+      "shared": true,
+      "options": [
+        {
+          "text": "Within the next 2 weeks.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "In 2 to 4 weeks.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "In 1 to 3 months.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "More than 3 months from now.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        },
+        {
+          "text": "I'm exploring and don't have a deadline yet.",
+          "weights": {
+            "AO": 0,
+            "OS": 0,
+            "MC": 0,
+            "AP": 0
+          }
+        }
+      ],
+      "next": {
+        "default": "q7_dataset",
+        "branch": {}
+      }
+    },
+    {
+      "id": "q7_dataset",
+      "text": "Does your dataset contain any unique, sensitive, or hard-to-obtain data that may be useful?",
       "type": "open",
       "shared": true,
+      "supporting_text": "Describe the types or characteristics of the data, not the underlying records. If you're acquiring data, describe what you need.",
       "options": [],
-      "next": { "default": null, "branch": {} }
+      "next": {
+        "default": "q8_discussion",
+        "branch": {}
+      }
+    },
+    {
+      "id": "q8_discussion",
+      "text": "Is there anything in particular that you would like to discuss?",
+      "type": "open",
+      "shared": true,
+      "supporting_text": "If you have any existing open offers, describe their terms and any decision deadline. Otherwise, share any questions or topics you'd like to cover, or write 'Nothing specific'.",
+      "options": [],
+      "next": {
+        "default": null,
+        "branch": {}
+      }
     }
   ],
   "endings": {

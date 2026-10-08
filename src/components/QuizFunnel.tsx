@@ -16,7 +16,7 @@ function ChoiceInputs({ quiz }: { quiz: QuizController }) {
       disabled={!quiz.ready || quiz.busy}
     >
       <legend className="quiz-sr-only">Choose one answer</legend>
-      {quiz.question.options.map((option, index) => (
+      {quiz.options.map((option) => (
         <label
           className={`quiz-option${quiz.draft === option.id ? " is-selected" : ""}`}
           key={option.id}
@@ -29,9 +29,6 @@ function ChoiceInputs({ quiz }: { quiz: QuizController }) {
             checked={quiz.draft === option.id}
             onChange={() => quiz.setDraft(option.id)}
           />
-          <span className="quiz-option-number" aria-hidden="true">
-            {String(index + 1).padStart(2, "0")}
-          </span>
           <span>{option.label}</span>
         </label>
       ))}
@@ -97,7 +94,7 @@ function QuizQuestion({ quiz, heading }: ViewProps) {
           value={quiz.path.length - 1}
         />
       </div>
-      <form onSubmit={quiz.submit}>
+      <form onSubmit={quiz.submit} data-question-id={quiz.question.id}>
         <h1 ref={heading} tabIndex={-1} id="quiz-question-title">
           {quiz.question.text}
         </h1>

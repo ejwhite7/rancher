@@ -66,12 +66,14 @@ for (const route of paths) {
   assert.ok(route.length >= 6 && route.length <= 8, route.join(" → "));
   assert.equal(nodes.filter((question) => question.type === "open").length, 2);
   assert.ok(nodes.filter((question) => question.type === "choice").length >= 4);
-  assert.deepEqual(route.slice(-2), ["q4_problem", "q5_outcome"]);
+  assert.deepEqual(route.slice(-2), ["q7_dataset", "q8_discussion"]);
+  assert.equal(route.length, 8);
+  assert.equal(
+    nodes.filter((question) => question.type === "choice").length,
+    6,
+  );
 }
-assert.deepEqual(
-  [...new Set(paths.map((route) => route.length))].sort(),
-  [6, 7, 8],
-);
+assert.deepEqual([...new Set(paths.map((route) => route.length))].sort(), [8]);
 console.log(
   `PASS: ${questions.size} definitions; ${paths.length} structural paths; every path has 6–8 questions, 4–6 choices, and exactly 2 open answers.`,
 );

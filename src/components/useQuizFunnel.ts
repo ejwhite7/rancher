@@ -11,6 +11,9 @@ import {
   invalidateAfter,
   nextQuestion,
   questionById,
+  quiz,
+  shuffledOptions,
+  type Question,
   type Answers,
   type Classification,
 } from "../lib/quiz";
@@ -210,6 +213,20 @@ function useQuizAvailability(update: Update) {
 export function useQuizFunnel(token?: string, host?: string) {
   const [state, update] = useState(initialQuizState);
   const pending = useRef(false);
+  const [optionOrders, setOptionOrders] = useState<
+    Record<string, Question["options"]>
+  >({});
+  // Shuffle after hydration, once per question per visit. Back and retries keep the same IDs/order.
+  useEffect(() => {
+    setOptionOrders(
+      Object.fromEntries(
+        quiz.questions.map((question) => [
+          question.id,
+          shuffledOptions(question.options),
+        ]),
+      ),
+    );
+  }, []);
   const analytics = useQuizAnalytics(token, host);
   useQuizAvailability(update);
   const question = questionById(currentId(state));
@@ -222,6 +239,7 @@ export function useQuizFunnel(token?: string, host?: string) {
   return {
     ...state,
     question,
+    options: optionOrders[question.id] || question.options,
     selected,
     setDraft,
     submit,

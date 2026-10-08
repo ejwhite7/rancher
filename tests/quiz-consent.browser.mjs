@@ -19,7 +19,7 @@ export async function runQuizConsentBrowser({ browser, base }) {
     }
     await route.fulfill({ status: 200, json: { status: 1 } });
   });
-  await page.route("**/api/quiz/classify/", (route) =>
+  const mock = (route) =>
     route.fulfill({
       json:
         route.request().method() === "GET"
@@ -31,18 +31,23 @@ export async function runQuizConsentBrowser({ browser, base }) {
               confidence: 0.9,
               probabilities: { AO: 0.01, OS: 0.02, MC: 0.03, AP: 0.94 },
             },
-    }),
-  );
+    });
+  await page.route("**/api/quiz/classify/", mock);
+  async function choice(id, value = `${id}_0`) {
+    await page.locator(`form[data-question-id="${id}"]`).waitFor();
+    await page.locator(`input[value="${value}"]`).check();
+    await page.getByRole("button", { name: "Continue", exact: false }).click();
+    await page.waitForFunction(
+      (previous) =>
+        document.querySelector(".quiz-panel form")?.dataset.questionId !==
+        previous,
+      id,
+    );
+  }
   await page.goto(`${base}/quiz/`);
-  await page.locator('input[name="answer"]').first().check();
-  await page.getByRole("button", { name: "Continue", exact: false }).click();
-  await page.waitForFunction(
-    () =>
-      document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 2 of 6–8",
-  );
+  await choice("q1", "q1_3");
   if (events.length)
-    throw new Error("Shares quiz answers before a saved site privacy choice");
+    throw new Error("Shares answers before saved site consent");
   await page.getByRole("button", { name: "Allow all", exact: true }).click();
   await page.waitForFunction(() =>
     performance
@@ -56,55 +61,42 @@ export async function runQuizConsentBrowser({ browser, base }) {
     const factory = (await import(url)).default;
     const instance = factory.rancherQuiz;
     if (!instance || instance.config.persistence !== "memory")
-      throw new Error("Quiz SDK not memory-only");
-    // Automated user agents are filtered in production. Override only this isolated synthetic instance.
-    instance.set_config({ opt_out_useragent_filter: true });
+      throw new Error("SDK not memory-only");
+    instance.set_config({ opt_out_useragent_filter: true }); // Synthetic test instance only.
     instance.capture("quiz_session_started", {
       quiz_session_id: instance.get_distinct_id(),
-      quiz_version: "rancher-quiz-v3-jev",
+      quiz_version: "rancher-quiz-v4-jev",
     });
   });
-  await page.locator('input[name="answer"]').first().check();
-  await page.getByRole("button", { name: "Continue", exact: false }).click();
-  await page.waitForFunction(
-    () =>
-      document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 3 of 6",
-  );
+  await choice("q2", "q2_5");
   await page.waitForTimeout(200);
   const answered = events.find((event) => event.event === "quiz_answered");
   if (
     !answered ||
     answered.properties.scoring_source !== "jev" ||
     answered.properties.classifier_model !== "jev-1.13.0" ||
-    Object.keys(answered.properties.probabilities).length !== 4
+    Object.keys(answered.properties.probabilities).length !== 4 ||
+    answered.properties.quiz_version !== "rancher-quiz-v4-jev"
   )
-    throw new Error("Consented answer lacks Jev scores/model");
-  await page.locator('input[name="answer"]').first().check();
+    throw new Error("Consented answer lacks current Jev metadata");
+  await choice("q3_AP");
+  await choice("q4_AP");
+  await choice("q5_AP");
+  await choice("q6_timing");
+  await page
+    .locator("#quiz-written")
+    .fill("Synthetic dataset characteristics.");
   await page.getByRole("button", { name: "Continue", exact: false }).click();
-  await page.waitForFunction(
-    () =>
-      document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 4 of 6",
-  );
-  await page.locator('input[name="answer"]').first().check();
-  await page.getByRole("button", { name: "Continue", exact: false }).click();
-  await page.locator("#quiz-written").fill("Synthetic written obstacle.");
-  await page.getByRole("button", { name: "Continue", exact: false }).click();
-  await page.waitForFunction(
-    () =>
-      document.querySelector(".quiz-panel h1")?.textContent ===
-      "What would make this worth your time?",
-  );
+  await page.locator('form[data-question-id="q8_discussion"]').waitFor();
   await page.waitForTimeout(200);
   const written = events.find(
     (event) =>
       event.event === "quiz_answered" &&
-      event.properties.question_id === "q4_problem",
+      event.properties.question_id === "q7_dataset",
   );
   if (
-    written?.properties.answer !== "Synthetic written obstacle." ||
-    written.properties.answers.q4_problem !== written.properties.answer
+    written?.properties.answer !== "Synthetic dataset characteristics." ||
+    written.properties.answers.q7_dataset !== written.properties.answer
   )
     throw new Error("Consented written answer not captured");
   await page
@@ -118,12 +110,12 @@ export async function runQuizConsentBrowser({ browser, base }) {
   const before = events.length;
   await page
     .locator("#quiz-written")
-    .fill("Synthetic desired outcome after withdrawal.");
+    .fill("Nothing specific after withdrawal.");
   await page.getByRole("button", { name: "Continue", exact: false }).click();
   await page.locator("#landing_AP").waitFor();
   await page.waitForTimeout(200);
   if (events.length !== before)
-    throw new Error("Analytics continue after site privacy withdrawal");
+    throw new Error("Analytics continue after withdrawal");
   await context.close();
 
   const gpcContext = await browser.newContext({ ignoreHTTPSErrors: true });
@@ -134,36 +126,19 @@ export async function runQuizConsentBrowser({ browser, base }) {
     }),
   );
   const gpcPage = await gpcContext.newPage();
-  let analyticsRequests = 0;
+  let captured = 0;
   await gpcPage.route("https://posthog.test/**", (route) => {
-    analyticsRequests++;
+    captured++;
     return route.fulfill({ status: 200, json: { status: 1 } });
   });
-  await gpcPage.route("**/api/quiz/classify/", (route) =>
-    route.fulfill({
-      json:
-        route.request().method() === "GET"
-          ? { configured: true }
-          : {
-              top: "AO",
-              source: "jev",
-              model: "jev-1.13.0",
-              confidence: 0.9,
-              probabilities: { AO: 0.94, OS: 0.02, MC: 0.03, AP: 0.01 },
-            },
-    }),
-  );
+  await gpcPage.route("**/api/quiz/classify/", mock);
   await gpcPage.goto(`${base}/quiz/`);
-  await gpcPage.locator('input[name="answer"]').first().check();
+  await gpcPage.locator('input[value="q1_3"]').check();
   await gpcPage.getByRole("button", { name: "Continue", exact: false }).click();
-  await gpcPage.waitForFunction(
-    () =>
-      document.querySelector(".quiz-progress span")?.textContent ===
-      "Question 2 of 6–8",
-  );
-  if (analyticsRequests) throw new Error("GPC permits quiz analytics");
+  await gpcPage.locator('form[data-question-id="q2"]').waitFor();
+  if (captured) throw new Error("GPC permits quiz analytics");
   await gpcContext.close();
   console.log(
-    "Saved site privacy choice, actual SDK payloads, withdrawal and GPC checks passed.",
+    "New-prospect SDK saved-consent, written payload, withdrawal, GPC and v4-cohort checks passed.",
   );
 }

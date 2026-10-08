@@ -1,6 +1,6 @@
 import source from "../data/quiz_map.json" with { type: "json" };
 
-export const QUIZ_VERSION = "rancher-quiz-v3-jev";
+export const QUIZ_VERSION = "rancher-quiz-v4-jev";
 export type Classification = {
   probabilities: Scores;
   top: ArchetypeId;
@@ -68,6 +68,18 @@ export const quiz = {
 };
 export const questionById = (id: string) =>
   quiz.questions.find((question) => question.id === id)!;
+
+export function shuffledOptions<T>(
+  options: readonly T[],
+  random = Math.random,
+): T[] {
+  const shuffled = [...options];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const other = Math.floor(random() * (index + 1));
+    [shuffled[index], shuffled[other]] = [shuffled[other], shuffled[index]];
+  }
+  return shuffled;
+}
 
 export function nextQuestion(
   id: string,
