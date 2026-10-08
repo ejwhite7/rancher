@@ -135,7 +135,7 @@ test("Hookdeck Sheet-only transformation accepts parsed and encoded Meta payload
   runInNewContext(
     readFileSync("hookdeck/zapier-partnership-sheets.js", "utf8"),
     {
-      URLSearchParams,
+      // Hookdeck's runtime does not provide URLSearchParams.
       addHandler: (_: string, handler: typeof transform) => {
         transform = handler;
       },
