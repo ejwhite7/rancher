@@ -6,7 +6,7 @@
   display: flex;
   gap: 12px;
   margin-bottom: 32px;
-  font-size: 0.85rem;
+  font-size: max(14px, 0.85rem);
 }
 .referral-breadcrumb a {
   text-decoration: underline;
@@ -38,7 +38,7 @@
   gap: 16px;
 }
 .referral-form label {
-  font-size: 12px;
+  font-size: 14px;
 }
 .referral-form input,
 .referral-form select {

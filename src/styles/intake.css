@@ -32,7 +32,7 @@
 }
 .wizard-progress p {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 .wizard-progress progress {
   display: block;

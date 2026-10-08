@@ -6,7 +6,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  font-size: 0.85rem;
+  font-size: max(14px, 0.85rem);
   margin-bottom: 40px;
 }
 .glossary-breadcrumb a {
@@ -24,7 +24,7 @@
   margin: 15px 0 25px;
 }
 .glossary-heading .glossary-prose {
-  font-size: 1.2rem;
+  font-size: max(14px, 1.2rem);
   line-height: 1.7;
   max-width: 760px;
 }
@@ -48,7 +48,7 @@
   margin: 40px 0;
 }
 .glossary-featured h2 {
-  font-size: 1.1rem;
+  font-size: max(14px, 1.1rem);
 }
 .glossary-featured ul {
   display: flex;
@@ -82,7 +82,7 @@
 }
 .glossary-controls label {
   display: block;
-  font-size: 0.9rem;
+  font-size: max(14px, 0.9rem);
   font-weight: 600;
   margin-bottom: 9px;
 }
@@ -109,7 +109,7 @@
 }
 .glossary-count {
   margin: 24px 0 12px;
-  font-size: 0.9rem;
+  font-size: max(14px, 0.9rem);
 }
 .glossary-az {
   display: flex;
@@ -146,7 +146,7 @@
   padding: 32px 0;
 }
 .glossary-letter h2 {
-  font-size: 2.8rem;
+  font-size: max(14px, 2.8rem);
   margin: 0;
 }
 .glossary-letter dl {
@@ -156,7 +156,7 @@
   margin: 0;
 }
 .glossary-card dt {
-  font-size: 1.35rem;
+  font-size: max(14px, 1.35rem);
   font-weight: 600;
   margin-bottom: 12px;
 }
@@ -168,10 +168,10 @@
 .glossary-card dd {
   margin: 0;
   line-height: 1.65;
-  font-size: 0.97rem;
+  font-size: max(14px, 0.97rem);
 }
 .glossary-card .glossary-category-name {
-  font-size: 0.72rem;
+  font-size: max(14px, 0.72rem);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-top: 12px;
@@ -190,7 +190,7 @@
 }
 .glossary-section h2,
 .glossary-cta h2 {
-  font-size: 1.8rem;
+  font-size: max(14px, 1.8rem);
   line-height: 1.25;
   margin-bottom: 18px;
 }
@@ -202,7 +202,7 @@
 }
 .glossary-aliases,
 .glossary-byline {
-  font-size: 0.87rem;
+  font-size: max(14px, 0.87rem);
   line-height: 1.65;
   margin-top: 18px;
   color: #47614f;
@@ -229,17 +229,17 @@
   padding-top: 16px;
 }
 .glossary-related a {
-  font-size: 1.2rem;
+  font-size: max(14px, 1.2rem);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 .glossary-related p {
-  font-size: 0.9rem;
+  font-size: max(14px, 0.9rem);
   margin-top: 10px;
 }
 .glossary-sources {
-  font-size: 0.87rem;
+  font-size: max(14px, 0.87rem);
   overflow-wrap: anywhere;
 }
 .glossary-cta {
@@ -283,7 +283,7 @@
     padding: 24px;
   }
   .glossary-breadcrumb {
-    font-size: 0.78rem;
+    font-size: max(14px, 0.78rem);
   }
 }
 

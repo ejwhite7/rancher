@@ -6,7 +6,7 @@
   display: flex;
   gap: 12px;
   margin-bottom: 48px;
-  font-size: 0.85rem;
+  font-size: max(14px, 0.85rem);
 }
 .contact-breadcrumb a,
 .contact-privacy a {
@@ -27,7 +27,7 @@
   margin: 0 0 24px;
 }
 .contact-introduction {
-  font-size: 1.25rem;
+  font-size: max(14px, 1.25rem);
   line-height: 1.65;
   max-width: 32rem;
 }
@@ -38,7 +38,7 @@
   background: rgba(255, 255, 255, 0.4);
 }
 .contact-form-panel h2 {
-  font-size: 1.6rem;
+  font-size: max(14px, 1.6rem);
   margin: 0 0 12px;
 }
 .contact-form {
@@ -47,7 +47,7 @@
   margin-top: 28px;
 }
 .contact-form label {
-  font-size: 0.95rem;
+  font-size: max(14px, 0.95rem);
   display: grid;
   gap: 9px;
   font-weight: 600;
@@ -58,7 +58,7 @@
   box-sizing: border-box;
   padding: 13px 15px;
   font:
-    400 1rem/1.5 Arial,
+    400 max(14px, 1rem)/1.5 Arial,
     Helvetica,
     sans-serif;
   color: inherit;
@@ -82,7 +82,7 @@
   display: none;
 }
 .contact-privacy {
-  font-size: 0.85rem;
+  font-size: max(14px, 0.85rem);
   line-height: 1.6;
   margin: 0;
   font-weight: 400;

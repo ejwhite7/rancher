@@ -16,8 +16,5 @@ const { copy } = Astro.props;
       </div>
     </div>
     <DataTabs copy={copy} client:visible={{ rootMargin: "300px" }} />
-    <div class="under-note">
-      <RichText value={copy.note} />
-    </div>
   </div>
 </section>

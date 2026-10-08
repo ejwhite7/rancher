@@ -12,12 +12,8 @@ const { copy, form } = Astro.props;
 <section class="section" id="contact">
   <div class="wrap contact-grid">
     <div class="contact-copy">
-      <div class="eyebrow">{copy.eyebrow}</div>
       <RichText value={copy.heading} />
       <RichText value={copy.description} />
-      <div class="mini">
-        <RichText value={copy.note} />
-      </div>
     </div>
     <PartnershipForm copy={form} client:idle />
   </div>

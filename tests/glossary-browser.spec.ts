@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { expectReadableLayout } from "./fixtures/readable-text";
 test.skip(
   !process.env.GLOSSARY_FIXTURE_TESTS,
   "Run with npm run test:glossary (isolated local API).",
@@ -13,6 +14,13 @@ test.beforeEach(async ({ request, page }) => {
     }),
   );
 });
+test("glossary index and term text have a 14px minimum", async ({ page }) => {
+  for (const path of ["/glossary/", "/glossary/data-licensing/"]) {
+    await page.goto(path);
+    await expectReadableLayout(page);
+  }
+});
+
 test("all 60 terms are server-rendered across three API pages, with canonical SEO", async ({
   page,
   request,

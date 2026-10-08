@@ -1,4 +1,6 @@
 :root {
+  --consent-font-size: max(14px, 0.85rem);
+  --consent-button-font-size: max(14px, 0.875rem);
   --consent-color-body: var(--ink);
   --consent-color-primary: var(--ink);
   --consent-color-primary-hover: #285648;
@@ -20,6 +22,10 @@
   --consent-heading-font-family: Georgia, "Times New Roman", serif;
   --consent-heading-font-weight: 400;
   --consent-modal-backdrop-color: #102d29a8;
+}
+
+.simple-consent .consent-ui__footer {
+  font-size: max(14px, 0.85rem);
 }
 
 .simple-consent .consent-ui__content {
