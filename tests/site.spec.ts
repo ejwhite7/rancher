@@ -108,6 +108,36 @@ function expectPartnershipAnalytics(
   );
 }
 
+test("homepage phone links flank the navigation and hero CTAs", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const nav = page.getByRole("navigation", { name: "Main navigation" });
+  const phone = nav.getByRole("link", {
+    name: "Call Us: (888) 509-4826",
+    exact: true,
+  });
+  await expect(phone).toHaveAttribute("href", "tel:+18885094826");
+  await expect(nav.locator('a[href="tel:+18885094826"] + a')).toHaveClass(
+    "btn",
+  );
+  await expect(page.locator(".hero-actions .btn + a")).toHaveText(
+    "Or call: (888) 509-4826",
+  );
+  await expect(page.locator(".hero-actions .btn + a")).toHaveAttribute(
+    "href",
+    "tel:+18885094826",
+  );
+  await page.setViewportSize({ width: 768, height: 900 });
+  await page.getByRole("button", { name: "Toggle navigation" }).click();
+  await expect(phone).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBeTruthy();
+});
+
 test("provides an empty in-flow mount for the paid-campaign notification", async ({
   page,
 }) => {

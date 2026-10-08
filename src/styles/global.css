@@ -836,10 +836,7 @@ dialog .btn {
     gap: 20px;
   }
 }
-@media (max-width: 760px) {
-  .wrap {
-    padding-inline: 23px;
-  }
+@media (max-width: 1200px) {
   .nav {
     height: 72px;
   }
@@ -863,6 +860,11 @@ dialog .btn {
   }
   .navlinks.open {
     display: flex;
+  }
+}
+@media (max-width: 760px) {
+  .wrap {
+    padding-inline: 23px;
   }
   .hero {
     padding-top: 48px;
